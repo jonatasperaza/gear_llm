@@ -25,6 +25,12 @@ from gear_llm.guard_tuning import (
     run_guard_tuning,
     save_guard_tuning,
 )
+from gear_llm.hybrid_router import (
+    choose_mode,
+    classify_prompt,
+    generate_with_mode,
+    load_hybrid_models,
+)
 from gear_llm.model_loader import load_model_and_tokenizer
 from gear_llm.policy_replay import (
     print_policy_replay_report,
@@ -32,11 +38,24 @@ from gear_llm.policy_replay import (
     save_policy_replay,
 )
 from gear_llm.quality_benchmark import (
+    generate_greedy_with_model,
     print_quality_benchmark_report,
     run_quality_benchmark,
     save_quality_benchmark,
+    sequence_similarity,
 )
 from gear_llm.report import save_csv
+from gear_llm.speculative_generator import (
+    SpeculativeGenerationConfig,
+    load_speculative_models,
+    save_speculative_summary_rows,
+    speculative_generate_with_models,
+)
+from gear_llm.speculative_tuning import (
+    print_speculative_tuning_report,
+    run_speculative_tuning,
+    save_speculative_tuning,
+)
 from gear_llm.teacher_calibration import (
     TeacherCalibrationConfig,
     load_teacher_models,
@@ -64,6 +83,337 @@ PROMPTS = {
         "Nada urgente aconteceu, apenas uma sequência simples de eventos."
     ),
 }
+
+
+def _adaptive_benchmark_row(
+    prompt_name: str,
+    mode: str,
+    summary: dict,
+    reference_text: str,
+) -> dict:
+    total = summary["total_generated_tokens"]
+    cheap_accepted = summary["cheap_accepted_tokens"]
+
+    return {
+        "prompt_name": prompt_name,
+        "mode": mode,
+        "generated_text": summary["generated_text"],
+        "total_generated_tokens": total,
+        "cheap_generated_tokens": total,
+        "cheap_accepted_tokens": cheap_accepted,
+        "expensive_corrected_tokens": total - cheap_accepted,
+        "expensive_model_calls": summary["expensive_model_calls"],
+        "acceptance_rate": cheap_accepted / total if total else 0.0,
+        "estimated_saved_percent": summary["estimated_saved_percent"],
+        "similarity_to_expensive": sequence_similarity(
+            summary["generated_text"],
+            reference_text,
+        ),
+    }
+
+
+def _speculative_benchmark_row(
+    prompt_name: str,
+    summary: dict,
+    reference_text: str,
+) -> dict:
+    return {
+        "prompt_name": prompt_name,
+        "mode": "speculative_adaptive",
+        "generated_text": summary["generated_text"],
+        "total_generated_tokens": summary["total_generated_tokens"],
+        "cheap_generated_tokens": summary["cheap_generated_tokens"],
+        "cheap_accepted_tokens": summary["cheap_accepted_tokens"],
+        "expensive_corrected_tokens": summary["expensive_corrected_tokens"],
+        "expensive_model_calls": summary["expensive_model_calls"],
+        "acceptance_rate": summary["acceptance_rate"],
+        "estimated_saved_percent": summary["estimated_saved_percent"],
+        "similarity_to_expensive": sequence_similarity(
+            summary["generated_text"],
+            reference_text,
+        ),
+    }
+
+
+def print_speculative_benchmark_report(rows: list[dict]):
+    print()
+    print("Speculative Benchmark")
+    print("=" * 120)
+    header = (
+        f"{'prompt':<16} | {'mode':<22} | {'saved %':>8} | "
+        f"{'calls':>5} | {'total':>5} | {'cheap ok':>8} | "
+        f"{'corr':>5} | {'accept':>8} | {'sim':>7}"
+    )
+    print(header)
+    print("-" * len(header))
+
+    for row in rows:
+        print(
+            f"{row['prompt_name']:<16} | "
+            f"{row['mode']:<22} | "
+            f"{row['estimated_saved_percent']:>7.2f}% | "
+            f"{row['expensive_model_calls']:>5} | "
+            f"{row['total_generated_tokens']:>5} | "
+            f"{row['cheap_accepted_tokens']:>8} | "
+            f"{row['expensive_corrected_tokens']:>5} | "
+            f"{row['acceptance_rate']:>7.2%} | "
+            f"{row['similarity_to_expensive']:>7.4f}"
+        )
+
+    print("=" * 120)
+    print()
+
+
+def run_speculative_benchmark(
+    prompts: dict[str, str],
+    cheap_model_name: str,
+    expensive_model_name: str,
+    max_new_tokens: int,
+    temperature: float,
+    draft_length: int,
+    verify_top_k: int,
+    min_draft_length: int,
+    max_draft_length: int,
+    models=None,
+) -> list[dict]:
+    speculative_config = SpeculativeGenerationConfig(
+        cheap_model_name=cheap_model_name,
+        expensive_model_name=expensive_model_name,
+        max_new_tokens=max_new_tokens,
+        draft_length=draft_length,
+        verify_top_k=verify_top_k,
+        temperature=temperature,
+        min_draft_length=min_draft_length,
+        max_draft_length=max_draft_length,
+    )
+
+    if models is None:
+        cheap_model, expensive_model, tokenizer, device = load_speculative_models(
+            speculative_config
+        )
+    else:
+        cheap_model, expensive_model, tokenizer, device = models
+
+    rows = []
+
+    for prompt_name, prompt in prompts.items():
+        reference_text, _ = generate_greedy_with_model(
+            prompt=prompt,
+            model=expensive_model,
+            tokenizer=tokenizer,
+            device=device,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+        )
+        adaptive_modes = (
+            (
+                "adaptive_calibrated",
+                AdaptiveGenerationConfig(
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    entropy_threshold=0.35,
+                    margin_threshold=0.20,
+                    enable_periodic_teacher_check=False,
+                    enable_repetition_guard=False,
+                ),
+            ),
+            (
+                "adaptive_guarded_v3",
+                AdaptiveGenerationConfig(
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    entropy_threshold=0.35,
+                    margin_threshold=0.20,
+                    teacher_check_interval=16,
+                    enable_periodic_teacher_check=True,
+                    enable_repetition_guard=True,
+                    repetition_ngram_size=3,
+                    repetition_threshold=0.25,
+                    risk_gated_periodic_check=True,
+                    periodic_entropy_risk_threshold=0.25,
+                    periodic_margin_risk_threshold=0.35,
+                    periodic_repetition_risk_threshold=0.05,
+                    max_expensive_call_ratio=0.40,
+                    repetition_guard_requires_uncertainty=True,
+                    repetition_guard_entropy_threshold=0.25,
+                    repetition_guard_margin_threshold=0.35,
+                    repetition_guard_cooldown_tokens=8,
+                ),
+            ),
+        )
+
+        for mode, adaptive_config in adaptive_modes:
+            _, _, adaptive_summary = adaptive_generate_with_models(
+                prompt=prompt,
+                cheap_model=cheap_model,
+                expensive_model=expensive_model,
+                tokenizer=tokenizer,
+                device=device,
+                config=adaptive_config,
+            )
+            rows.append(
+                _adaptive_benchmark_row(
+                    prompt_name=prompt_name,
+                    mode=mode,
+                    summary=adaptive_summary,
+                    reference_text=reference_text,
+                )
+            )
+
+        _, _, _, speculative_summary = speculative_generate_with_models(
+            prompt=prompt,
+            cheap_model=cheap_model,
+            expensive_model=expensive_model,
+            tokenizer=tokenizer,
+            device=device,
+            config=speculative_config,
+        )
+        rows.append(
+            _speculative_benchmark_row(
+                prompt_name=prompt_name,
+                summary=speculative_summary,
+                reference_text=reference_text,
+            )
+        )
+
+    return rows
+
+
+def _hybrid_benchmark_row(
+    prompt_name: str,
+    prompt_type: str,
+    mode: str,
+    selected_mode: str,
+    summary: dict,
+    reference_text: str,
+) -> dict:
+    return {
+        "prompt_name": prompt_name,
+        "prompt_type": prompt_type,
+        "mode": mode,
+        "selected_mode": selected_mode,
+        "generated_text": summary["generated_text"],
+        "total_generated_tokens": summary["total_generated_tokens"],
+        "cheap_generated_tokens": summary["cheap_generated_tokens"],
+        "cheap_accepted_tokens": summary["cheap_accepted_tokens"],
+        "expensive_corrected_tokens": summary["expensive_corrected_tokens"],
+        "expensive_model_calls": summary["expensive_model_calls"],
+        "acceptance_rate": summary["acceptance_rate"],
+        "estimated_saved_percent": summary["estimated_saved_percent"],
+        "similarity_to_expensive": sequence_similarity(
+            summary["generated_text"],
+            reference_text,
+        ),
+    }
+
+
+def print_hybrid_benchmark_report(rows: list[dict]):
+    print()
+    print("Hybrid Mode Benchmark")
+    print("=" * 132)
+    header = (
+        f"{'prompt':<16} | {'type':<12} | {'mode':<22} | "
+        f"{'selected':<22} | {'saved %':>8} | {'calls':>5} | "
+        f"{'accept':>8} | {'sim':>7}"
+    )
+    print(header)
+    print("-" * len(header))
+
+    for row in rows:
+        print(
+            f"{row['prompt_name']:<16} | "
+            f"{row['prompt_type']:<12} | "
+            f"{row['mode']:<22} | "
+            f"{row['selected_mode']:<22} | "
+            f"{row['estimated_saved_percent']:>7.2f}% | "
+            f"{row['expensive_model_calls']:>5} | "
+            f"{row['acceptance_rate']:>7.2%} | "
+            f"{row['similarity_to_expensive']:>7.4f}"
+        )
+
+    print("=" * 132)
+    print()
+
+
+def run_hybrid_benchmark(
+    prompts: dict[str, str],
+    cheap_model_name: str,
+    expensive_model_name: str,
+    max_new_tokens: int,
+    temperature: float,
+    models=None,
+) -> list[dict]:
+    if models is None:
+        cheap_model, expensive_model, tokenizer, device = load_hybrid_models(
+            cheap_model_name=cheap_model_name,
+            expensive_model_name=expensive_model_name,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+        )
+    else:
+        cheap_model, expensive_model, tokenizer, device = models
+
+    rows = []
+    base_modes = (
+        "adaptive_calibrated",
+        "adaptive_guarded_v3",
+        "speculative_adaptive",
+    )
+
+    for prompt_name, prompt in prompts.items():
+        prompt_type = classify_prompt(prompt)
+        selected_mode = choose_mode(prompt_type)
+        reference_text, _ = generate_greedy_with_model(
+            prompt=prompt,
+            model=expensive_model,
+            tokenizer=tokenizer,
+            device=device,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+        )
+
+        mode_summaries = {}
+        for mode in base_modes:
+            summary = generate_with_mode(
+                prompt=prompt,
+                mode=mode,
+                cheap_model=cheap_model,
+                expensive_model=expensive_model,
+                tokenizer=tokenizer,
+                device=device,
+                cheap_model_name=cheap_model_name,
+                expensive_model_name=expensive_model_name,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+            )
+            mode_summaries[mode] = summary
+            rows.append(
+                _hybrid_benchmark_row(
+                    prompt_name=prompt_name,
+                    prompt_type=prompt_type,
+                    mode=mode,
+                    selected_mode=mode,
+                    summary=summary,
+                    reference_text=reference_text,
+                )
+            )
+
+        rows.append(
+            _hybrid_benchmark_row(
+                prompt_name=prompt_name,
+                prompt_type=prompt_type,
+                mode="hybrid",
+                selected_mode=selected_mode,
+                summary=mode_summaries[selected_mode],
+                reference_text=reference_text,
+            )
+        )
+
+    return rows
 
 
 def main():
@@ -128,6 +478,21 @@ def main():
         help="Roda busca de configurações para o adaptive_guarded.",
     )
     parser.add_argument(
+        "--speculative-generate",
+        action="store_true",
+        help="Roda benchmark de Adaptive Speculative Decoding.",
+    )
+    parser.add_argument(
+        "--speculative-tuning",
+        action="store_true",
+        help="Roda tuning de parâmetros do Adaptive Speculative Decoding.",
+    )
+    parser.add_argument(
+        "--hybrid-benchmark",
+        action="store_true",
+        help="Compara adaptive, guarded, speculative e o roteador híbrido.",
+    )
+    parser.add_argument(
         "--ablation-csv",
         type=str,
         default=None,
@@ -188,10 +553,40 @@ def main():
         help="Máximo de tokens novos na geração adaptativa.",
     )
     parser.add_argument(
+        "--max-new-tokens",
+        type=int,
+        default=None,
+        help="Override do máximo de tokens novos para rotinas speculative/tuning.",
+    )
+    parser.add_argument(
         "--adaptive-temperature",
         type=float,
         default=0.7,
         help="Temperatura da geração adaptativa.",
+    )
+    parser.add_argument(
+        "--speculative-draft-length",
+        type=int,
+        default=SpeculativeGenerationConfig.draft_length,
+        help="Tamanho inicial do draft speculative.",
+    )
+    parser.add_argument(
+        "--speculative-verify-top-k",
+        type=int,
+        default=SpeculativeGenerationConfig.verify_top_k,
+        help="Top-k do modelo caro para verificar tokens do draft.",
+    )
+    parser.add_argument(
+        "--speculative-min-draft-length",
+        type=int,
+        default=SpeculativeGenerationConfig.min_draft_length,
+        help="Menor tamanho permitido para o draft speculative adaptativo.",
+    )
+    parser.add_argument(
+        "--speculative-max-draft-length",
+        type=int,
+        default=SpeculativeGenerationConfig.max_draft_length,
+        help="Maior tamanho permitido para o draft speculative adaptativo.",
     )
     parser.add_argument(
         "--adaptive-entropy-threshold",
@@ -309,6 +704,18 @@ def main():
         default=None,
         help="Limita a quantidade de configs no guard tuning. Útil para smoke tests.",
     )
+    parser.add_argument(
+        "--max-configs",
+        type=int,
+        default=None,
+        help="Limita a quantidade de configs no speculative tuning.",
+    )
+    parser.add_argument(
+        "--config-filter",
+        type=str,
+        default=None,
+        help="Lista de configs speculative separadas por vírgula para tuning.",
+    )
 
     args = parser.parse_args()
 
@@ -355,6 +762,11 @@ def main():
         temperature=args.teacher_temperature,
     )
     output_dir = Path(args.output_dir)
+    speculative_max_new_tokens = (
+        args.max_new_tokens
+        if args.max_new_tokens is not None
+        else args.adaptive_max_new_tokens
+    )
     model_work_requested = any(
         (
             args.ablation,
@@ -367,7 +779,12 @@ def main():
     )
 
     if not model_work_requested and (
-        args.policy_replay or args.quality_benchmark or args.guard_tuning
+        args.policy_replay
+        or args.quality_benchmark
+        or args.guard_tuning
+        or args.speculative_generate
+        or args.speculative_tuning
+        or args.hybrid_benchmark
     ):
         if args.policy_replay:
             teacher_csv = output_dir / "teacher_calibration.csv"
@@ -412,6 +829,54 @@ def main():
             save_guard_tuning(guard_summary_rows, guard_summary_csv)
             print(f"{'guard_csv':<15} -> {guard_csv}")
             print(f"{'guard_summary':<15} -> {guard_summary_csv}")
+
+        if args.speculative_generate:
+            speculative_csv = output_dir / "speculative_benchmark.csv"
+            speculative_rows = run_speculative_benchmark(
+                prompts=PROMPTS,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=speculative_max_new_tokens,
+                temperature=args.adaptive_temperature,
+                draft_length=args.speculative_draft_length,
+                verify_top_k=args.speculative_verify_top_k,
+                min_draft_length=args.speculative_min_draft_length,
+                max_draft_length=args.speculative_max_draft_length,
+            )
+            print_speculative_benchmark_report(speculative_rows)
+            save_speculative_summary_rows(speculative_rows, speculative_csv)
+            print(f"{'speculative_csv':<15} -> {speculative_csv}")
+
+        if args.speculative_tuning:
+            tuning_csv = output_dir / "speculative_tuning.csv"
+            tuning_summary_csv = output_dir / "speculative_tuning_summary.csv"
+            tuning_rows, tuning_summary_rows = run_speculative_tuning(
+                prompts=PROMPTS,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=speculative_max_new_tokens,
+                temperature=args.adaptive_temperature,
+                max_configs=args.max_configs,
+                config_filter=args.config_filter,
+            )
+            print_speculative_tuning_report(tuning_summary_rows)
+            save_speculative_tuning(tuning_rows, tuning_csv)
+            save_speculative_tuning(tuning_summary_rows, tuning_summary_csv)
+            print(f"{'spec_tuning_csv':<15} -> {tuning_csv}")
+            print(f"{'spec_tuning_sum':<15} -> {tuning_summary_csv}")
+
+        if args.hybrid_benchmark:
+            hybrid_csv = output_dir / "hybrid_benchmark.csv"
+            hybrid_rows = run_hybrid_benchmark(
+                prompts=PROMPTS,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=speculative_max_new_tokens,
+                temperature=args.adaptive_temperature,
+            )
+            print_hybrid_benchmark_report(hybrid_rows)
+            save_csv(hybrid_rows, str(hybrid_csv))
+            print(f"{'hybrid_csv':<15} -> {hybrid_csv}")
 
         return
 
@@ -783,6 +1248,56 @@ def main():
         save_guard_tuning(guard_summary_rows, guard_summary_csv)
         print(f"{'guard_csv':<15} -> {guard_csv}")
         print(f"{'guard_summary':<15} -> {guard_summary_csv}")
+
+    if args.speculative_generate and model_work_requested:
+        speculative_csv = output_dir / "speculative_benchmark.csv"
+        speculative_rows = run_speculative_benchmark(
+            prompts=PROMPTS,
+            cheap_model_name=args.cheap_model,
+            expensive_model_name=args.expensive_model,
+            max_new_tokens=speculative_max_new_tokens,
+            temperature=args.adaptive_temperature,
+            draft_length=args.speculative_draft_length,
+            verify_top_k=args.speculative_verify_top_k,
+            min_draft_length=args.speculative_min_draft_length,
+            max_draft_length=args.speculative_max_draft_length,
+            models=adaptive_models,
+        )
+        print_speculative_benchmark_report(speculative_rows)
+        save_speculative_summary_rows(speculative_rows, speculative_csv)
+        print(f"{'speculative_csv':<15} -> {speculative_csv}")
+
+    if args.speculative_tuning and model_work_requested:
+        tuning_csv = output_dir / "speculative_tuning.csv"
+        tuning_summary_csv = output_dir / "speculative_tuning_summary.csv"
+        tuning_rows, tuning_summary_rows = run_speculative_tuning(
+            prompts=PROMPTS,
+            cheap_model_name=args.cheap_model,
+            expensive_model_name=args.expensive_model,
+            max_new_tokens=speculative_max_new_tokens,
+            temperature=args.adaptive_temperature,
+            max_configs=args.max_configs,
+            config_filter=args.config_filter,
+        )
+        print_speculative_tuning_report(tuning_summary_rows)
+        save_speculative_tuning(tuning_rows, tuning_csv)
+        save_speculative_tuning(tuning_summary_rows, tuning_summary_csv)
+        print(f"{'spec_tuning_csv':<15} -> {tuning_csv}")
+        print(f"{'spec_tuning_sum':<15} -> {tuning_summary_csv}")
+
+    if args.hybrid_benchmark and model_work_requested:
+        hybrid_csv = output_dir / "hybrid_benchmark.csv"
+        hybrid_rows = run_hybrid_benchmark(
+            prompts=PROMPTS,
+            cheap_model_name=args.cheap_model,
+            expensive_model_name=args.expensive_model,
+            max_new_tokens=speculative_max_new_tokens,
+            temperature=args.adaptive_temperature,
+            models=adaptive_models,
+        )
+        print_hybrid_benchmark_report(hybrid_rows)
+        save_csv(hybrid_rows, str(hybrid_csv))
+        print(f"{'hybrid_csv':<15} -> {hybrid_csv}")
 
 
 if __name__ == "__main__":

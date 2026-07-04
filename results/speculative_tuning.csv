@@ -1,0 +1,146 @@
+prompt_name,config_name,config_index,initial_draft_length,verify_top_k,min_draft_length,max_draft_length,max_new_tokens,temperature,generated_text,total_generated_tokens,cheap_generated_tokens,cheap_accepted_tokens,expensive_corrected_tokens,expensive_model_calls,acceptance_rate,estimated_saved_percent,similarity_to_expensive,jaccard_to_expensive,repeated_3gram_rate,repeated_4gram_rate,score
+easy,draft_4_topk_3_min_1_max_8,0,4,3,1,8,48,0.7,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a á",48,56,45,3,8,0.9375,42.50000000000001,0.4729064039408867,0.45454545454545453,0.5909090909090909,0.5714285714285714,0.3760882221227049
+math,draft_4_topk_3_min_1_max_8,0,4,3,1,8,48,0.7,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5.
+
+A inversa de f(x)=5x+1",48,72,40,8,14,0.8333333333333334,18.33333333333333,0.6086956521739131,0.6153846153846154,0.15384615384615385,0.08333333333333333,0.7222853957636566
+logic_negation,draft_4_topk_3_min_1_max_8,0,4,3,1,8,48,0.7,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario estiver usando o vento de 100 km/h,",48,88,36,12,17,0.75,0.41666666666667257,0.3598326359832636,0.1111111111111111,0.045454545454545456,0.0,0.36571647436710203
+code,draft_4_topk_3_min_1_max_8,0,4,3,1,8,48,0.7,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+```
+
+This function",48,49,47,1,7,0.9791666666666666,49.6875,0.8095238095238095,0.5625,0.0,0.0,1.0495238095238095
+long_simple,draft_4_topk_3_min_1_max_8,0,4,3,1,8,48,0.7,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um país de crescimento, como o que aconte",48,84,38,10,14,0.7916666666666666,9.583333333333336,0.3898305084745763,0.10344827586206896,0.047619047619047616,0.0,0.4110497202972364
+easy,draft_6_topk_3_min_1_max_8,18,6,3,1,8,48,0.7,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a á",48,59,45,3,8,0.9375,40.31250000000001,0.4729064039408867,0.45454545454545453,0.5909090909090909,0.5714285714285714,0.37171322212270486
+math,draft_6_topk_3_min_1_max_8,18,6,3,1,8,48,0.7,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5.
+
+A inversa de f(x)=5x+1",48,76,40,8,14,0.8333333333333334,15.416666666666679,0.6086956521739131,0.6153846153846154,0.15384615384615385,0.08333333333333333,0.7164520624303233
+logic_negation,draft_6_topk_3_min_1_max_8,18,6,3,1,8,48,0.7,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario estiver usando o vento de 100 km/h,",48,85,36,12,16,0.75,4.6875,0.3598326359832636,0.1111111111111111,0.045454545454545456,0.0,0.3742581410337687
+code,draft_6_topk_3_min_1_max_8,18,6,3,1,8,48,0.7,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+```
+
+This function",48,51,47,1,7,0.9791666666666666,48.229166666666664,0.8095238095238095,0.5625,0.0,0.0,1.0466071428571428
+long_simple,draft_6_topk_3_min_1_max_8,18,6,3,1,8,48,0.7,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um país de crescimento, como o que aconte",48,82,38,10,12,0.7916666666666666,15.208333333333329,0.3898305084745763,0.10344827586206896,0.047619047619047616,0.0,0.4222997202972364
+easy,draft_6_topk_3_min_1_max_12,19,6,3,1,12,48,0.7,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a á",48,63,45,3,7,0.9375,39.47916666666667,0.4729064039408867,0.45454545454545453,0.5909090909090909,0.5714285714285714,0.3700465554560382
+math,draft_6_topk_3_min_1_max_12,19,6,3,1,12,48,0.7,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5.
+
+A inversa de f(x)=5x+1",48,87,40,8,13,0.8333333333333334,9.47916666666666,0.6086956521739131,0.6153846153846154,0.15384615384615385,0.08333333333333333,0.7045770624303233
+logic_negation,draft_6_topk_3_min_1_max_12,19,6,3,1,12,48,0.7,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario estiver usando o vento de 100 km/h,",48,87,36,12,16,0.75,3.2291666666666607,0.3598326359832636,0.1111111111111111,0.045454545454545456,0.0,0.371341474367102
+code,draft_6_topk_3_min_1_max_12,19,6,3,1,12,48,0.7,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+```
+
+This function",48,53,47,1,6,0.9791666666666666,48.85416666666668,0.8095238095238095,0.5625,0.0,0.0,1.0478571428571428
+long_simple,draft_6_topk_3_min_1_max_12,19,6,3,1,12,48,0.7,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um país de crescimento, como o que aconte",48,85,38,10,12,0.7916666666666666,13.020833333333334,0.3898305084745763,0.10344827586206896,0.047619047619047616,0.0,0.41792472029723643
+easy,draft_6_topk_3_min_2_max_8,21,6,3,2,8,48,0.7,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a á",48,59,45,3,8,0.9375,40.31250000000001,0.4729064039408867,0.45454545454545453,0.5909090909090909,0.5714285714285714,0.37171322212270486
+math,draft_6_topk_3_min_2_max_8,21,6,3,2,8,48,0.7,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5.
+
+A inversa de f(x)=5x+1",48,72,40,8,13,0.8333333333333334,20.41666666666666,0.6086956521739131,0.6153846153846154,0.15384615384615385,0.08333333333333333,0.7264520624303232
+logic_negation,draft_6_topk_3_min_2_max_8,21,6,3,2,8,48,0.7,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario estiver usando o vento de 100 km/h,",48,87,36,12,16,0.75,3.2291666666666607,0.3598326359832636,0.1111111111111111,0.045454545454545456,0.0,0.371341474367102
+code,draft_6_topk_3_min_2_max_8,21,6,3,2,8,48,0.7,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+```
+
+This function",48,51,47,1,7,0.9791666666666666,48.229166666666664,0.8095238095238095,0.5625,0.0,0.0,1.0466071428571428
+long_simple,draft_6_topk_3_min_2_max_8,21,6,3,2,8,48,0.7,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um país de crescimento, como o que aconte",48,82,38,10,12,0.7916666666666666,15.208333333333329,0.3898305084745763,0.10344827586206896,0.047619047619047616,0.0,0.4222997202972364
+easy,draft_8_topk_3_min_1_max_8,36,8,3,1,8,48,0.7,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a á",48,61,45,3,8,0.9375,38.85416666666667,0.4729064039408867,0.45454545454545453,0.5909090909090909,0.5714285714285714,0.3687965554560382
+math,draft_8_topk_3_min_1_max_8,36,8,3,1,8,48,0.7,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5.
+
+A inversa de f(x)=5x+1",48,79,40,8,14,0.8333333333333334,13.22916666666667,0.6086956521739131,0.6153846153846154,0.15384615384615385,0.08333333333333333,0.7120770624303233
+logic_negation,draft_8_topk_3_min_1_max_8,36,8,3,1,8,48,0.7,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario estiver usando o vento de 100 km/h,",48,92,36,12,16,0.75,-0.4166666666666578,0.3598326359832636,0.1111111111111111,0.045454545454545456,0.0,0.36175814103376874
+code,draft_8_topk_3_min_1_max_8,36,8,3,1,8,48,0.7,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+```
+
+This function",48,53,47,1,7,0.9791666666666666,46.77083333333334,0.8095238095238095,0.5625,0.0,0.0,1.0436904761904762
+long_simple,draft_8_topk_3_min_1_max_8,36,8,3,1,8,48,0.7,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um país de crescimento, como o que aconte",48,84,38,10,12,0.7916666666666666,13.750000000000002,0.3898305084745763,0.10344827586206896,0.047619047619047616,0.0,0.41938305363056977

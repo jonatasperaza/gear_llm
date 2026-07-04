@@ -1,0 +1,92 @@
+prompt_name,mode,generated_text,total_generated_tokens,cheap_generated_tokens,cheap_accepted_tokens,expensive_corrected_tokens,expensive_model_calls,acceptance_rate,estimated_saved_percent,similarity_to_expensive
+easy,adaptive_calibrated,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr",80,80,74,6,6,0.925,57.5,0.08564231738035265
+easy,adaptive_guarded_v3,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr",80,80,71,9,9,0.8875,53.75,0.08564231738035265
+easy,speculative_adaptive,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a",80,91,77,3,12,0.9625,45.18750000000001,0.10495626822157435
+math,adaptive_calibrated,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,80,67,13,13,0.8375,48.75,0.44518272425249167
+math,adaptive_guarded_v3,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,80,65,15,15,0.8125,46.25,0.44518272425249167
+math,speculative_adaptive,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5.
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5.
+
+A inversa de f(x)=5x+",80,104,72,8,17,0.9,33.25,0.5939849624060151
+logic_negation,adaptive_calibrated,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento",80,80,67,13,13,0.8375,48.75,0.27860696517412936
+logic_negation,adaptive_guarded_v3,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"".
+
+Para saber mais sobre o vento, pode usar o botão ""Saber",80,80,62,18,18,0.775,42.5,0.45569620253164556
+logic_negation,speculative_adaptive,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario estiver usando o vento de 100 km/h, o vento de 100 km/h pode ser menor que o que o usuario estiver usando.
+
+Para",80,133,65,15,22,0.8125,14.312500000000004,0.055
+code,adaptive_calibrated,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Explica o resultado: 2
+```
+
+**É possí",80,80,68,12,12,0.85,50.0,0.6596858638743456
+code,adaptive_guarded_v3,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Expected output: 2
+print(divide(5, 2)) ",80,80,68,12,12,0.85,50.0,0.6354166666666666
+code,speculative_adaptive,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+```
+
+This function uses the modulus operator (`%`) to check if the remainder of the division of `x` by `y` is 0. If it is, it",80,85,78,2,11,0.975,49.0625,0.581986143187067
+long_simple,adaptive_calibrated,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento.",80,80,45,35,35,0.5625,21.25,0.11904761904761904
+long_simple,adaptive_guarded_v3,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento.",80,80,45,35,35,0.5625,21.25,0.11904761904761904
+long_simple,speculative_adaptive,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um país de crescimento, como o que aconteceu. Eles também também também também também também també",80,139,61,19,22,0.7625,11.687499999999993,0.03598971722365039
