@@ -18,6 +18,9 @@ A frase é: ""O que é a água?""
 easy,adaptive_guarded_v2,"
 
 A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr",80,26,54,-2.5,0.08564231738035265,0.5,0.7346938775510204,0.7291666666666666
+easy,adaptive_guarded_v3,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr",80,71,9,53.75,0.08564231738035265,0.5,0.7346938775510204,0.7291666666666666
 math,expensive_only,"
 
 A inversa de f(x) é f^(-1)(x) = (x-1)/5.
@@ -41,6 +44,9 @@ A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não sej
 math,adaptive_guarded_v2,"
 
 A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,49,31,26.25,0.44518272425249167,0.47368421052631576,0.42105263157894735,0.40540540540540543
+math,adaptive_guarded_v3,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,65,15,46.25,0.44518272425249167,0.47368421052631576,0.42105263157894735,0.40540540540540543
 logic_negation,expensive_only,"
 
 Para saber mais sobre o vento, pode usar o botão abaixonado no botão de navegador.
@@ -64,6 +70,11 @@ logic_negation,adaptive_guarded_v2,"
 Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"".
 
 Para saber mais sobre o tempo, pode usar o botão ""Saber tempo",80,31,49,3.75,0.4688279301745636,0.6875,0.3783783783783784,0.3055555555555556
+logic_negation,adaptive_guarded_v3,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"".
+
+Para saber mais sobre o vento, pode usar o botão ""Saber",80,62,18,42.5,0.45569620253164556,0.625,0.4722222222222222,0.42857142857142855
 code,expensive_only,"
 
 **Exemplo:**
@@ -133,6 +144,19 @@ def divide(x, y):
 
 print(divide(5, 3))  # Expected output: 2
 print(divide(5, 2)) ",80,68,12,50.0,0.6354166666666666,0.41379310344827586,0.0,0.0
+code,adaptive_guarded_v3,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Expected output: 2
+print(divide(5, 2)) ",80,68,12,50.0,0.6354166666666666,0.41379310344827586,0.0,0.0
 long_simple,expensive_only,"
 
 Então, como a vida é, não se preocupes com as consequências de outros eventos. Ainda, ainda, ainda, não se preocupes com as consequências de outros eventos. Não se preocupes com as consequências de outros eventos",80,0,80,0.0,1.0,1.0,0.36363636363636365,0.3125
@@ -146,5 +170,8 @@ long_simple,adaptive_guarded,"
 
 Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento.",80,42,38,17.5,0.11904761904761904,0.20588235294117646,0.0975609756097561,0.05
 long_simple,adaptive_guarded_v2,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento.",80,43,37,18.75,0.11904761904761904,0.20588235294117646,0.0975609756097561,0.05
+long_simple,adaptive_guarded_v3,"
 
 Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento.",80,45,35,21.25,0.11904761904761904,0.20588235294117646,0.0975609756097561,0.05

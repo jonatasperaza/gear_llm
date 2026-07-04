@@ -234,6 +234,29 @@ def main():
         help="Taxa parcial de n-gramas repetidos que aciona fallback.",
     )
     parser.add_argument(
+        "--disable-repetition-guard-requires-uncertainty",
+        action="store_true",
+        help="Permite repetition_guard mesmo sem sinal de incerteza.",
+    )
+    parser.add_argument(
+        "--repetition-guard-entropy-threshold",
+        type=float,
+        default=AdaptiveGenerationConfig.repetition_guard_entropy_threshold,
+        help="Entropia mínima para o repetition_guard passar pelo gate de incerteza.",
+    )
+    parser.add_argument(
+        "--repetition-guard-margin-threshold",
+        type=float,
+        default=AdaptiveGenerationConfig.repetition_guard_margin_threshold,
+        help="Margem abaixo da qual o repetition_guard passa pelo gate de incerteza.",
+    )
+    parser.add_argument(
+        "--repetition-guard-cooldown-tokens",
+        type=int,
+        default=AdaptiveGenerationConfig.repetition_guard_cooldown_tokens,
+        help="Número de tokens de espera após repetition_guard chamar o modelo caro.",
+    )
+    parser.add_argument(
         "--disable-risk-gated-periodic-check",
         action="store_true",
         help="Desliga o gating por risco das chamadas periódicas ao modelo caro.",
@@ -315,6 +338,14 @@ def main():
             args.periodic_repetition_risk_threshold
         ),
         max_expensive_call_ratio=args.max_expensive_call_ratio,
+        repetition_guard_requires_uncertainty=(
+            not args.disable_repetition_guard_requires_uncertainty
+        ),
+        repetition_guard_entropy_threshold=(
+            args.repetition_guard_entropy_threshold
+        ),
+        repetition_guard_margin_threshold=args.repetition_guard_margin_threshold,
+        repetition_guard_cooldown_tokens=args.repetition_guard_cooldown_tokens,
     )
     teacher_config = TeacherCalibrationConfig(
         cheap_model_name=args.cheap_model,
