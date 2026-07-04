@@ -21,6 +21,16 @@ from gear_llm.compute_simulator import (
 )
 from gear_llm.config import ModelConfig, RouterConfig
 from gear_llm.model_loader import load_model_and_tokenizer
+from gear_llm.policy_replay import (
+    print_policy_replay_report,
+    run_policy_replay,
+    save_policy_replay,
+)
+from gear_llm.quality_benchmark import (
+    print_quality_benchmark_report,
+    run_quality_benchmark,
+    save_quality_benchmark,
+)
 from gear_llm.report import save_csv
 from gear_llm.teacher_calibration import (
     TeacherCalibrationConfig,
@@ -96,6 +106,16 @@ def main():
         "--teacher-calibration",
         action="store_true",
         help="Também roda calibração offline cheap-vs-teacher.",
+    )
+    parser.add_argument(
+        "--policy-replay",
+        action="store_true",
+        help="Roda replay offline de políticas usando teacher_calibration.csv.",
+    )
+    parser.add_argument(
+        "--quality-benchmark",
+        action="store_true",
+        help="Roda benchmark Quality-vs-Cost dos modos de geração.",
     )
     parser.add_argument(
         "--ablation-csv",
@@ -219,6 +239,46 @@ def main():
         temperature=args.teacher_temperature,
     )
     output_dir = Path(args.output_dir)
+    model_work_requested = any(
+        (
+            args.ablation,
+            args.balanced_ablation,
+            args.compute_sim,
+            args.adaptive_generate,
+            args.adaptive_compare_thresholds,
+            args.teacher_calibration,
+        )
+    )
+
+    if not model_work_requested and (args.policy_replay or args.quality_benchmark):
+        if args.policy_replay:
+            teacher_csv = output_dir / "teacher_calibration.csv"
+            policy_csv = output_dir / "policy_replay.csv"
+
+            try:
+                policy_rows = run_policy_replay(teacher_csv=teacher_csv)
+            except FileNotFoundError as error:
+                print(error)
+                return
+
+            print_policy_replay_report(policy_rows)
+            save_policy_replay(policy_rows, policy_csv)
+            print(f"{'policy_csv':<15} -> {policy_csv}")
+
+        if args.quality_benchmark:
+            quality_csv = output_dir / "quality_benchmark.csv"
+            quality_rows = run_quality_benchmark(
+                prompts=PROMPTS,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=args.adaptive_max_new_tokens,
+                temperature=args.adaptive_temperature,
+            )
+            print_quality_benchmark_report(quality_rows)
+            save_quality_benchmark(quality_rows, quality_csv)
+            print(f"{'quality_csv':<15} -> {quality_csv}")
+
+        return
 
     model, tokenizer, device = load_model_and_tokenizer(model_config.model_name)
     adaptive_models = None
@@ -540,6 +600,33 @@ def main():
         save_teacher_grid(teacher_grid_rows, teacher_grid_csv)
         print(f"{'teacher_csv':<15} -> {teacher_csv}")
         print(f"{'teacher_grid':<15} -> {teacher_grid_csv}")
+
+    if args.policy_replay and model_work_requested:
+        teacher_csv = output_dir / "teacher_calibration.csv"
+        policy_csv = output_dir / "policy_replay.csv"
+
+        try:
+            policy_rows = run_policy_replay(teacher_csv=teacher_csv)
+        except FileNotFoundError as error:
+            print(error)
+            return
+
+        print_policy_replay_report(policy_rows)
+        save_policy_replay(policy_rows, policy_csv)
+        print(f"{'policy_csv':<15} -> {policy_csv}")
+
+    if args.quality_benchmark and model_work_requested:
+        quality_csv = output_dir / "quality_benchmark.csv"
+        quality_rows = run_quality_benchmark(
+            prompts=PROMPTS,
+            cheap_model_name=args.cheap_model,
+            expensive_model_name=args.expensive_model,
+            max_new_tokens=args.adaptive_max_new_tokens,
+            temperature=args.adaptive_temperature,
+        )
+        print_quality_benchmark_report(quality_rows)
+        save_quality_benchmark(quality_rows, quality_csv)
+        print(f"{'quality_csv':<15} -> {quality_csv}")
 
 
 if __name__ == "__main__":
