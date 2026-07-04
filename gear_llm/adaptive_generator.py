@@ -1,0 +1,274 @@
+import math
+from dataclasses import dataclass
+from pathlib import Path
+
+import torch
+import torch.nn.functional as F
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+from gear_llm.model_loader import get_device
+from gear_llm.report import save_csv
+
+
+@dataclass
+class AdaptiveGenerationConfig:
+    cheap_model_name: str = "HuggingFaceTB/SmolLM2-135M-Instruct"
+    expensive_model_name: str = "HuggingFaceTB/SmolLM2-360M-Instruct"
+    max_new_tokens: int = 80
+    temperature: float = 0.7
+    entropy_threshold: float = 0.35
+    margin_threshold: float = 0.20
+    cheap_call_cost: float = 0.35
+    expensive_call_cost: float = 1.00
+
+
+def _load_model(model_name: str, device: str):
+    dtype = torch.float16 if device == "cuda" else torch.float32
+
+    try:
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            dtype=dtype,
+        )
+    except TypeError:
+        model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=dtype,
+        )
+
+    model.to(device)
+    model.eval()
+    return model
+
+
+def load_adaptive_models(config: AdaptiveGenerationConfig):
+    """
+    Carrega tokenizer, modelo barato e modelo caro.
+
+    Os dois modelos SmolLM2 usam tokenizer compatível; para manter a geração
+    simples, usamos o tokenizer do modelo barato para codificar e decodificar.
+    """
+
+    device = get_device()
+    tokenizer = AutoTokenizer.from_pretrained(config.cheap_model_name)
+    cheap_model = _load_model(config.cheap_model_name, device)
+    expensive_model = _load_model(config.expensive_model_name, device)
+
+    return cheap_model, expensive_model, tokenizer, device
+
+
+def next_token_stats(logits: torch.Tensor, temperature: float) -> dict:
+    """
+    Calcula estatísticas de incerteza para o próximo token.
+    """
+
+    safe_temperature = max(temperature, 1e-6)
+    scaled_logits = logits.float() / safe_temperature
+    probs = F.softmax(scaled_logits, dim=-1)
+    log_probs = torch.log(probs.clamp_min(1e-12))
+
+    entropy = -(probs * log_probs).sum()
+    normalized_entropy = entropy / math.log(probs.numel())
+
+    top_probs, top_ids = torch.topk(probs, k=2)
+    top1_prob = float(top_probs[0].detach().cpu())
+    top2_prob = float(top_probs[1].detach().cpu())
+    margin = top1_prob - top2_prob
+
+    return {
+        "token_id": int(top_ids[0].detach().cpu()),
+        "entropy": float(normalized_entropy.detach().cpu()),
+        "top1_prob": top1_prob,
+        "top2_prob": top2_prob,
+        "margin": margin,
+    }
+
+
+@torch.no_grad()
+def choose_next_token(
+    input_ids: torch.Tensor,
+    cheap_model,
+    expensive_model,
+    config: AdaptiveGenerationConfig,
+) -> dict:
+    cheap_outputs = cheap_model(input_ids=input_ids, return_dict=True)
+    cheap_logits = cheap_outputs.logits[0, -1]
+    cheap_stats = next_token_stats(
+        logits=cheap_logits,
+        temperature=config.temperature,
+    )
+
+    cheap_is_confident = (
+        cheap_stats["entropy"] <= config.entropy_threshold
+        and cheap_stats["margin"] >= config.margin_threshold
+    )
+
+    if cheap_is_confident:
+        return {
+            **cheap_stats,
+            "route": "cheap",
+        }
+
+    expensive_outputs = expensive_model(input_ids=input_ids, return_dict=True)
+    expensive_logits = expensive_outputs.logits[0, -1]
+    expensive_stats = next_token_stats(
+        logits=expensive_logits,
+        temperature=config.temperature,
+    )
+
+    return {
+        **cheap_stats,
+        "token_id": expensive_stats["token_id"],
+        "route": "expensive",
+    }
+
+
+def summarize_adaptive_history(
+    prompt: str,
+    generated_text: str,
+    full_text: str,
+    history: list[dict],
+    config: AdaptiveGenerationConfig,
+) -> dict:
+    total_generated_tokens = len(history)
+    cheap_accepted_tokens = sum(1 for row in history if row["route"] == "cheap")
+    expensive_model_calls = sum(
+        1 for row in history if row["route"] == "expensive"
+    )
+    cheap_percent = (
+        100 * cheap_accepted_tokens / total_generated_tokens
+        if total_generated_tokens
+        else 0.0
+    )
+
+    baseline_cost = total_generated_tokens * config.expensive_call_cost
+    adaptive_cost = (
+        total_generated_tokens * config.cheap_call_cost
+        + expensive_model_calls * config.expensive_call_cost
+    )
+    estimated_saved_percent = (
+        100 * (baseline_cost - adaptive_cost) / baseline_cost
+        if baseline_cost
+        else 0.0
+    )
+
+    return {
+        "prompt": prompt,
+        "generated_text": generated_text,
+        "full_text": full_text,
+        "total_generated_tokens": total_generated_tokens,
+        "cheap_accepted_tokens": cheap_accepted_tokens,
+        "expensive_model_calls": expensive_model_calls,
+        "cheap_percent": cheap_percent,
+        "baseline_cost": baseline_cost,
+        "adaptive_cost": adaptive_cost,
+        "estimated_saved_percent": estimated_saved_percent,
+    }
+
+
+@torch.no_grad()
+def adaptive_generate_with_models(
+    prompt: str,
+    cheap_model,
+    expensive_model,
+    tokenizer,
+    device: str,
+    config: AdaptiveGenerationConfig,
+) -> tuple[str, list[dict], dict]:
+    encoded = tokenizer(prompt, return_tensors="pt")
+    input_ids = encoded["input_ids"].to(device)
+    prompt_length = input_ids.shape[-1]
+    history = []
+
+    for index in range(config.max_new_tokens):
+        decision = choose_next_token(
+            input_ids=input_ids,
+            cheap_model=cheap_model,
+            expensive_model=expensive_model,
+            config=config,
+        )
+        token_id = decision["token_id"]
+        token_tensor = torch.tensor([[token_id]], device=device)
+        input_ids = torch.cat([input_ids, token_tensor], dim=-1)
+
+        token_text = tokenizer.decode(
+            [token_id],
+            clean_up_tokenization_spaces=False,
+        )
+
+        history.append(
+            {
+                "index": index,
+                "token": token_text,
+                "route": decision["route"],
+                "entropy": decision["entropy"],
+                "top1_prob": decision["top1_prob"],
+                "top2_prob": decision["top2_prob"],
+                "margin": decision["margin"],
+            }
+        )
+
+        if tokenizer.eos_token_id is not None and token_id == tokenizer.eos_token_id:
+            break
+
+    generated_ids = input_ids[0, prompt_length:]
+    generated_text = tokenizer.decode(
+        generated_ids,
+        clean_up_tokenization_spaces=False,
+        skip_special_tokens=True,
+    )
+    full_text = tokenizer.decode(
+        input_ids[0],
+        clean_up_tokenization_spaces=False,
+        skip_special_tokens=True,
+    )
+    summary = summarize_adaptive_history(
+        prompt=prompt,
+        generated_text=generated_text,
+        full_text=full_text,
+        history=history,
+        config=config,
+    )
+
+    return full_text, history, summary
+
+
+def adaptive_generate(
+    prompt: str,
+    config: AdaptiveGenerationConfig,
+) -> tuple[str, list[dict], dict]:
+    cheap_model, expensive_model, tokenizer, device = load_adaptive_models(config)
+
+    return adaptive_generate_with_models(
+        prompt=prompt,
+        cheap_model=cheap_model,
+        expensive_model=expensive_model,
+        tokenizer=tokenizer,
+        device=device,
+        config=config,
+    )
+
+
+def print_adaptive_report(summary: dict):
+    print()
+    print("Adaptive Dual-Model Generation")
+    print("=" * 100)
+    print("Texto gerado")
+    print("-" * 100)
+    print(summary["full_text"])
+    print("-" * 100)
+    print(f"total_generated_tokens : {summary['total_generated_tokens']}")
+    print(f"cheap_accepted_tokens  : {summary['cheap_accepted_tokens']}")
+    print(f"expensive_model_calls  : {summary['expensive_model_calls']}")
+    print(f"cheap_percent          : {summary['cheap_percent']:.2f}%")
+    print(f"estimated_saved_percent: {summary['estimated_saved_percent']:.2f}%")
+    print("=" * 100)
+    print()
+
+
+def save_adaptive_history(history: list[dict], path: str | Path):
+    save_csv(history, str(path))
+
+
+def save_adaptive_summary_rows(summaries: list[dict], path: str | Path):
+    save_csv(summaries, str(path))

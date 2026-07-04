@@ -1,0 +1,57 @@
+prompt_name,config_name,entropy_threshold,margin_threshold,total_generated_tokens,cheap_accepted_tokens,expensive_model_calls,cheap_percent,estimated_saved_percent,generated_text
+easy,old_0.45_0.20,0.45,0.2,80,74,6,92.5,57.5,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr"
+easy,calibrated_0.35_0.20,0.35,0.2,80,74,6,92.5,57.5,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr"
+math,old_0.45_0.20,0.45,0.2,80,67,13,83.75,48.75,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f("
+math,calibrated_0.35_0.20,0.35,0.2,80,67,13,83.75,48.75,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f("
+logic_negation,old_0.45_0.20,0.45,0.2,80,67,13,83.75,48.75,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"
+logic_negation,calibrated_0.35_0.20,0.35,0.2,80,67,13,83.75,48.75,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"
+code,old_0.45_0.20,0.45,0.2,80,68,12,85.0,50.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Explica o resultado: 2
+```
+
+**É possí"
+code,calibrated_0.35_0.20,0.35,0.2,80,68,12,85.0,50.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Explica o resultado: 2
+```
+
+**É possí"
+long_simple,old_0.45_0.20,0.45,0.2,80,38,42,47.5,12.5,"
+
+Então, como a vista de uma nova vista, eu parece que o mundo está mais tranquilizado. Eu não sei se o que eu fossei, mas eu parece que eu fossei como um pessoal que não seja muito atenso.
+
+Ent"
+long_simple,calibrated_0.35_0.20,0.35,0.2,80,45,35,56.25,21.25,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento."

@@ -1,0 +1,54 @@
+prompt,generated_text,full_text,total_generated_tokens,cheap_accepted_tokens,expensive_model_calls,cheap_percent,baseline_cost,adaptive_cost,estimated_saved_percent,prompt_name
+Explique em uma frase o que é água.,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr","Explique em uma frase o que é água.
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr",80,74,6,92.5,80.0,34.0,57.5,easy
+Explique por que a inversa de f(x)=5x+1 é (x-1)/5.,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(","Explique por que a inversa de f(x)=5x+1 é (x-1)/5.
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,67,13,83.75,80.0,41.0,48.75,math
+"Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.","
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento","Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento",80,67,13,83.75,80.0,41.0,48.75,logic_negation
+"Escreva uma função Python: if x % 2 == 0, retorne x / 2; caso contrário, retorne 3 * x + 1.","
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Explica o resultado: 2
+```
+
+**É possí","Escreva uma função Python: if x % 2 == 0, retorne x / 2; caso contrário, retorne 3 * x + 1.
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Explica o resultado: 2
+```
+
+**É possí",80,68,12,85.0,80.0,40.0,50.0,code
+"O dia começou calmo. As pessoas caminharam pela praça, compraram pão, conversaram sobre o tempo e voltaram para casa. Nada urgente aconteceu, apenas uma sequência simples de eventos.","
+
+Então, como a vista de uma nova vista, eu parece que o mundo está mais tranquilizado. Eu não sei se o que eu fossei, mas eu parece que eu fossei como um pessoal que não seja muito atenso.
+
+Ent","O dia começou calmo. As pessoas caminharam pela praça, compraram pão, conversaram sobre o tempo e voltaram para casa. Nada urgente aconteceu, apenas uma sequência simples de eventos.
+
+Então, como a vista de uma nova vista, eu parece que o mundo está mais tranquilizado. Eu não sei se o que eu fossei, mas eu parece que eu fossei como um pessoal que não seja muito atenso.
+
+Ent",80,38,42,47.5,80.0,70.0,12.5,long_simple
