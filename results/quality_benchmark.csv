@@ -7,12 +7,14 @@ easy,cheap_only,"
 Aqui está o texto:
 
 ""Ao trabalho de uma empresa, o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que é o que",80,80,0,65.0,0.05,0.16666666666666666,0.8095238095238095,0.8064516129032258
-easy,adaptive_old,"
-
-A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr",80,74,6,57.5,0.08564231738035265,0.5,0.7346938775510204,0.7291666666666666
 easy,adaptive_calibrated,"
 
 A frase é: ""O que é a água é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma frase que é uma fr",80,74,6,57.5,0.08564231738035265,0.5,0.7346938775510204,0.7291666666666666
+easy,adaptive_guarded,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para aprender a expressir o que é uma frase. Este frase é uma frase que é útil para aprender a expressir o que é uma frase. Este frase é",80,48,32,25.0,0.09718670076726342,0.375,0.36585365853658536,0.35
 math,expensive_only,"
 
 A inversa de f(x) é f^(-1)(x) = (x-1)/5.
@@ -27,12 +29,12 @@ Averaging the results, we get:
 f(x) = (x-1)/5 + (5/5)x + (1/5)x^2 + (1/5)x^3 + (1/5)x^4 + (1/5)x^5 + ...
 
 This is a geometric series with first term ",80,80,0,65.0,0.34385964912280703,0.18518518518518517,0.0,0.0
-math,adaptive_old,"
-
-A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,67,13,48.75,0.44518272425249167,0.47368421052631576,0.42105263157894735,0.40540540540540543
 math,adaptive_calibrated,"
 
 A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,67,13,48.75,0.44518272425249167,0.47368421052631576,0.42105263157894735,0.40540540540540543
+math,adaptive_guarded,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que ainda não seja a função de f(x) é a função de f(x) é a função de f(x) é a função de f(x) é a função de f(",80,47,33,23.75,0.44518272425249167,0.47368421052631576,0.42105263157894735,0.40540540540540543
 logic_negation,expensive_only,"
 
 Para saber mais sobre o vento, pode usar o botão abaixonado no botão de navegador.
@@ -43,12 +45,14 @@ Para saber mais sobre o tempo, pode",80,0,80,0.0,1.0,1.0,0.4857142857142857,0.44
 logic_negation,cheap_only,"
 
 Ao verificar se o vento está entre 0 e 1, se o valor de cada vez mais 1 é igual ao valor de cada vez mais 1, se o valor de cada vez mais 1 é igual ao valor de cada vez mais 1, se o valor de cada vez",80,80,0,65.0,0.0691358024691358,0.15384615384615385,0.5208333333333334,0.48936170212765956
-logic_negation,adaptive_old,"
-
-Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento",80,67,13,48.75,0.27860696517412936,0.625,0.5641025641025641,0.5526315789473685
 logic_negation,adaptive_calibrated,"
 
 Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento",80,67,13,48.75,0.27860696517412936,0.625,0.5641025641025641,0.5526315789473685
+logic_negation,adaptive_guarded,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do botão ""Saber o vento"" no menu do botão ""Saber o vento"".
+
+Para saber mais sobre o tempo, pode usar o botão ""Saber tempo",80,31,49,3.75,0.4688279301745636,0.6875,0.3783783783783784,0.3055555555555556
 code,expensive_only,"
 
 **Exemplo:**
@@ -77,21 +81,6 @@ def divide_numbers(a, b):
     if a % b == 0:
         return a / b
    ",80,80,0,65.0,0.2803347280334728,0.15625,0.3333333333333333,0.23684210526315788
-code,adaptive_old,"
-
-**Exemplo de uso:**
-
-```python
-def divide(x, y):
-    if x % 2 == 0:
-        return x / 2
-    else:
-        return 3 * x + 1
-
-print(divide(5, 3))  # Explica o resultado: 2
-```
-
-**É possí",80,68,12,50.0,0.6596858638743456,0.375,0.0,0.0
 code,adaptive_calibrated,"
 
 **Exemplo de uso:**
@@ -107,17 +96,28 @@ print(divide(5, 3))  # Explica o resultado: 2
 ```
 
 **É possí",80,68,12,50.0,0.6596858638743456,0.375,0.0,0.0
+code,adaptive_guarded,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x + 1
+
+print(divide(5, 3))  # Expected output: 2
+print(divide(5, 2)) ",80,66,14,47.5,0.6354166666666666,0.41379310344827586,0.0,0.0
 long_simple,expensive_only,"
 
 Então, como a vida é, não se preocupes com as consequências de outros eventos. Ainda, ainda, ainda, não se preocupes com as consequências de outros eventos. Não se preocupes com as consequências de outros eventos",80,0,80,0.0,1.0,1.0,0.36363636363636365,0.3125
 long_simple,cheap_only,"
 
 Ao finalizar o tarefas, o que não pode ser ao terceiro, o que não pode ser ao terceiro, o que não pode ser ao terceiro, o que não pode ser ao terceiro, o que não pode ser ao terceiro, o que",80,80,0,65.0,0.0345679012345679,0.043478260869565216,0.717948717948718,0.7105263157894737
-long_simple,adaptive_old,"
-
-Então, como a vista de uma nova vista, eu parece que o mundo está mais tranquilizado. Eu não sei se o que eu fossei, mas eu parece que eu fossei como um pessoal que não seja muito atenso.
-
-Ent",80,38,42,12.5,0.12745098039215685,0.17142857142857143,0.02702702702702703,0.0
 long_simple,adaptive_calibrated,"
 
 Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento.",80,45,35,21.25,0.11904761904761904,0.20588235294117646,0.0975609756097561,0.05
+long_simple,adaptive_guarded,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lento. Eu não sei se o tempo está muito lento, mas eu percebe que a vista de uma semana como esteja no Brasil é muito mais lento.",80,42,38,17.5,0.11904761904761904,0.20588235294117646,0.0975609756097561,0.05

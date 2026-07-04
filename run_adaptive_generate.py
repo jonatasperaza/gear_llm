@@ -55,6 +55,34 @@ def main():
         help="Margem mínima top1-top2 para aceitar o token barato.",
     )
     parser.add_argument(
+        "--teacher-check-interval",
+        type=int,
+        default=8,
+        help="Intervalo de chamadas periódicas ao modelo caro.",
+    )
+    parser.add_argument(
+        "--disable-periodic-teacher-check",
+        action="store_true",
+        help="Desliga chamadas periódicas ao modelo caro.",
+    )
+    parser.add_argument(
+        "--disable-repetition-guard",
+        action="store_true",
+        help="Desliga o guard de repetição.",
+    )
+    parser.add_argument(
+        "--repetition-ngram-size",
+        type=int,
+        default=3,
+        help="Tamanho do n-grama usado pelo guard de repetição.",
+    )
+    parser.add_argument(
+        "--repetition-threshold",
+        type=float,
+        default=0.20,
+        help="Taxa parcial de n-gramas repetidos que aciona fallback.",
+    )
+    parser.add_argument(
         "--csv",
         type=str,
         default="results/adaptive_generation.csv",
@@ -70,6 +98,11 @@ def main():
         temperature=args.temperature,
         entropy_threshold=args.entropy_threshold,
         margin_threshold=args.margin_threshold,
+        teacher_check_interval=args.teacher_check_interval,
+        enable_periodic_teacher_check=not args.disable_periodic_teacher_check,
+        enable_repetition_guard=not args.disable_repetition_guard,
+        repetition_ngram_size=args.repetition_ngram_size,
+        repetition_threshold=args.repetition_threshold,
     )
 
     _, history, summary = adaptive_generate(

@@ -1,0 +1,1249 @@
+prompt_name,mode,generated_text,total_generated_tokens,cheap_accepted_tokens,expensive_model_calls,estimated_saved_percent,similarity_to_expensive,jaccard_to_expensive,repeated_3gram_rate,repeated_4gram_rate,config_name,teacher_check_interval,repetition_threshold,enable_periodic_teacher_check,enable_repetition_guard,config_index,entropy_threshold,margin_threshold,repetition_ngram_size,max_new_tokens,temperature,score
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_on,8,0.15,True,True,0,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_on,8,0.15,True,True,0,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_on,8,0.15,True,True,0,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_on,8,0.15,True,True,0,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_on,8,0.15,True,True,0,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_off,8,0.15,True,False,1,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_off,8,0.15,True,False,1,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_off,8,0.15,True,False,1,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_off,8,0.15,True,False,1,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.15_periodic_on_repetition_off,8,0.15,True,False,1,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,22,10,33.75,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.15_periodic_off_repetition_on,8,0.15,False,True,2,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_on,8,0.15,False,True,2,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_on,8,0.15,False,True,2,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_on,8,0.15,False,True,2,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_on,8,0.15,False,True,2,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.15_periodic_off_repetition_off,8,0.15,False,False,3,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_off,8,0.15,False,False,3,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_off,8,0.15,False,False,3,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_off,8,0.15,False,False,3,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.15_periodic_off_repetition_off,8,0.15,False,False,3,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_on,8,0.2,True,True,4,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_on,8,0.2,True,True,4,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_on,8,0.2,True,True,4,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_on,8,0.2,True,True,4,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_on,8,0.2,True,True,4,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_off,8,0.2,True,False,5,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_off,8,0.2,True,False,5,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_off,8,0.2,True,False,5,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_off,8,0.2,True,False,5,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.20_periodic_on_repetition_off,8,0.2,True,False,5,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,24,8,40.0,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.20_periodic_off_repetition_on,8,0.2,False,True,6,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_on,8,0.2,False,True,6,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_on,8,0.2,False,True,6,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_on,8,0.2,False,True,6,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_on,8,0.2,False,True,6,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.20_periodic_off_repetition_off,8,0.2,False,False,7,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_off,8,0.2,False,False,7,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_off,8,0.2,False,False,7,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_off,8,0.2,False,False,7,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.20_periodic_off_repetition_off,8,0.2,False,False,7,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_on,8,0.25,True,True,8,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_on,8,0.25,True,True,8,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_on,8,0.25,True,True,8,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_on,8,0.25,True,True,8,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_on,8,0.25,True,True,8,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_off,8,0.25,True,False,9,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_off,8,0.25,True,False,9,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_off,8,0.25,True,False,9,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_off,8,0.25,True,False,9,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.25_periodic_on_repetition_off,8,0.25,True,False,9,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.25_periodic_off_repetition_on,8,0.25,False,True,10,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_on,8,0.25,False,True,10,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_on,8,0.25,False,True,10,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_on,8,0.25,False,True,10,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_on,8,0.25,False,True,10,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.25_periodic_off_repetition_off,8,0.25,False,False,11,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_off,8,0.25,False,False,11,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_off,8,0.25,False,False,11,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_off,8,0.25,False,False,11,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.25_periodic_off_repetition_off,8,0.25,False,False,11,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_on,8,0.3,True,True,12,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_on,8,0.3,True,True,12,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_on,8,0.3,True,True,12,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_on,8,0.3,True,True,12,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_on,8,0.3,True,True,12,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,23,9,36.875,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_off,8,0.3,True,False,13,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,23,9,36.875,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_off,8,0.3,True,False,13,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_off,8,0.3,True,False,13,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_off,8,0.3,True,False,13,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.30_periodic_on_repetition_off,8,0.3,True,False,13,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.30_periodic_off_repetition_on,8,0.3,False,True,14,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_on,8,0.3,False,True,14,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_on,8,0.3,False,True,14,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_on,8,0.3,False,True,14,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_on,8,0.3,False,True,14,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_8_rt_0.30_periodic_off_repetition_off,8,0.3,False,False,15,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_off,8,0.3,False,False,15,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_off,8,0.3,False,False,15,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_off,8,0.3,False,False,15,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_8_rt_0.30_periodic_off_repetition_off,8,0.3,False,False,15,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,21,11,30.625000000000004,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.15_periodic_on_repetition_on,12,0.15,True,True,16,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_on,12,0.15,True,True,16,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_on,12,0.15,True,True,16,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_on,12,0.15,True,True,16,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_on,12,0.15,True,True,16,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.15_periodic_on_repetition_off,12,0.15,True,False,17,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_off,12,0.15,True,False,17,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_off,12,0.15,True,False,17,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_off,12,0.15,True,False,17,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.15_periodic_on_repetition_off,12,0.15,True,False,17,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,22,10,33.75,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.15_periodic_off_repetition_on,12,0.15,False,True,18,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_on,12,0.15,False,True,18,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_on,12,0.15,False,True,18,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_on,12,0.15,False,True,18,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_on,12,0.15,False,True,18,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.15_periodic_off_repetition_off,12,0.15,False,False,19,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_off,12,0.15,False,False,19,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_off,12,0.15,False,False,19,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_off,12,0.15,False,False,19,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.15_periodic_off_repetition_off,12,0.15,False,False,19,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,23,9,36.875,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.20_periodic_on_repetition_on,12,0.2,True,True,20,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_on,12,0.2,True,True,20,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_on,12,0.2,True,True,20,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_on,12,0.2,True,True,20,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_on,12,0.2,True,True,20,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.20_periodic_on_repetition_off,12,0.2,True,False,21,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_off,12,0.2,True,False,21,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_off,12,0.2,True,False,21,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_off,12,0.2,True,False,21,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.20_periodic_on_repetition_off,12,0.2,True,False,21,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,24,8,40.0,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.20_periodic_off_repetition_on,12,0.2,False,True,22,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_on,12,0.2,False,True,22,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_on,12,0.2,False,True,22,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_on,12,0.2,False,True,22,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_on,12,0.2,False,True,22,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.20_periodic_off_repetition_off,12,0.2,False,False,23,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_off,12,0.2,False,False,23,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_off,12,0.2,False,False,23,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_off,12,0.2,False,False,23,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.20_periodic_off_repetition_off,12,0.2,False,False,23,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.25_periodic_on_repetition_on,12,0.25,True,True,24,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_on,12,0.25,True,True,24,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_on,12,0.25,True,True,24,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_on,12,0.25,True,True,24,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_on,12,0.25,True,True,24,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.25_periodic_on_repetition_off,12,0.25,True,False,25,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_off,12,0.25,True,False,25,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_off,12,0.25,True,False,25,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_off,12,0.25,True,False,25,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.25_periodic_on_repetition_off,12,0.25,True,False,25,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.25_periodic_off_repetition_on,12,0.25,False,True,26,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_on,12,0.25,False,True,26,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_on,12,0.25,False,True,26,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_on,12,0.25,False,True,26,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_on,12,0.25,False,True,26,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.25_periodic_off_repetition_off,12,0.25,False,False,27,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_off,12,0.25,False,False,27,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_off,12,0.25,False,False,27,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_off,12,0.25,False,False,27,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.25_periodic_off_repetition_off,12,0.25,False,False,27,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.30_periodic_on_repetition_on,12,0.3,True,True,28,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_on,12,0.3,True,True,28,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_on,12,0.3,True,True,28,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_on,12,0.3,True,True,28,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_on,12,0.3,True,True,28,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.30_periodic_on_repetition_off,12,0.3,True,False,29,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_off,12,0.3,True,False,29,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,20,12,27.500000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_off,12,0.3,True,False,29,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,22,10,33.75,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_off,12,0.3,True,False,29,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.30_periodic_on_repetition_off,12,0.3,True,False,29,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.30_periodic_off_repetition_on,12,0.3,False,True,30,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_on,12,0.3,False,True,30,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_on,12,0.3,False,True,30,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_on,12,0.3,False,True,30,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_on,12,0.3,False,True,30,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_12_rt_0.30_periodic_off_repetition_off,12,0.3,False,False,31,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_off,12,0.3,False,False,31,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_off,12,0.3,False,False,31,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_off,12,0.3,False,False,31,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_12_rt_0.30_periodic_off_repetition_off,12,0.3,False,False,31,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_on,16,0.15,True,True,32,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_on,16,0.15,True,True,32,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_on,16,0.15,True,True,32,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_on,16,0.15,True,True,32,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_on,16,0.15,True,True,32,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_off,16,0.15,True,False,33,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_off,16,0.15,True,False,33,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_off,16,0.15,True,False,33,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_off,16,0.15,True,False,33,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.15_periodic_on_repetition_off,16,0.15,True,False,33,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,22,10,33.75,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.15_periodic_off_repetition_on,16,0.15,False,True,34,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_on,16,0.15,False,True,34,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_on,16,0.15,False,True,34,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_on,16,0.15,False,True,34,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_on,16,0.15,False,True,34,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.15_periodic_off_repetition_off,16,0.15,False,False,35,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_off,16,0.15,False,False,35,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_off,16,0.15,False,False,35,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_off,16,0.15,False,False,35,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.15_periodic_off_repetition_off,16,0.15,False,False,35,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_on,16,0.2,True,True,36,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_on,16,0.2,True,True,36,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_on,16,0.2,True,True,36,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_on,16,0.2,True,True,36,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_on,16,0.2,True,True,36,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_off,16,0.2,True,False,37,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_off,16,0.2,True,False,37,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_off,16,0.2,True,False,37,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_off,16,0.2,True,False,37,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.20_periodic_on_repetition_off,16,0.2,True,False,37,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,24,8,40.0,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.20_periodic_off_repetition_on,16,0.2,False,True,38,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_on,16,0.2,False,True,38,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_on,16,0.2,False,True,38,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_on,16,0.2,False,True,38,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_on,16,0.2,False,True,38,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.20_periodic_off_repetition_off,16,0.2,False,False,39,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_off,16,0.2,False,False,39,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_off,16,0.2,False,False,39,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_off,16,0.2,False,False,39,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.20_periodic_off_repetition_off,16,0.2,False,False,39,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_on,16,0.25,True,True,40,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_on,16,0.25,True,True,40,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_on,16,0.25,True,True,40,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_on,16,0.25,True,True,40,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_on,16,0.25,True,True,40,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_off,16,0.25,True,False,41,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_off,16,0.25,True,False,41,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_off,16,0.25,True,False,41,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_off,16,0.25,True,False,41,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.25_periodic_on_repetition_off,16,0.25,True,False,41,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.25_periodic_off_repetition_on,16,0.25,False,True,42,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_on,16,0.25,False,True,42,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_on,16,0.25,False,True,42,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_on,16,0.25,False,True,42,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_on,16,0.25,False,True,42,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.25_periodic_off_repetition_off,16,0.25,False,False,43,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_off,16,0.25,False,False,43,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_off,16,0.25,False,False,43,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_off,16,0.25,False,False,43,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.25_periodic_off_repetition_off,16,0.25,False,False,43,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_on,16,0.3,True,True,44,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_on,16,0.3,True,True,44,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_on,16,0.3,True,True,44,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_on,16,0.3,True,True,44,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_on,16,0.3,True,True,44,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água?""
+
+É uma frase que é útil para a",32,24,8,40.0,0.49635036496350365,0.46153846153846156,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_off,16,0.3,True,False,45,0.35,0.2,3,32,0.7,0.611734980348119
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,24,8,40.0,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_off,16,0.3,True,False,45,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_off,16,0.3,True,False,45,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_off,16,0.3,True,False,45,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,17,15,18.125000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.30_periodic_on_repetition_off,16,0.3,True,False,45,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.30_periodic_off_repetition_on,16,0.3,False,True,46,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_on,16,0.3,False,True,46,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_on,16,0.3,False,True,46,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_on,16,0.3,False,True,46,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_on,16,0.3,False,True,46,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_16_rt_0.30_periodic_off_repetition_off,16,0.3,False,False,47,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_off,16,0.3,False,False,47,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_off,16,0.3,False,False,47,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_off,16,0.3,False,False,47,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_16_rt_0.30_periodic_off_repetition_off,16,0.3,False,False,47,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,21,11,30.625000000000004,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.15_periodic_on_repetition_on,24,0.15,True,True,48,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_on,24,0.15,True,True,48,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_on,24,0.15,True,True,48,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_on,24,0.15,True,True,48,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_on,24,0.15,True,True,48,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.15_periodic_on_repetition_off,24,0.15,True,False,49,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_off,24,0.15,True,False,49,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_off,24,0.15,True,False,49,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_off,24,0.15,True,False,49,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.15_periodic_on_repetition_off,24,0.15,True,False,49,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,22,10,33.75,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.15_periodic_off_repetition_on,24,0.15,False,True,50,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_on,24,0.15,False,True,50,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_on,24,0.15,False,True,50,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_on,24,0.15,False,True,50,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_on,24,0.15,False,True,50,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.15_periodic_off_repetition_off,24,0.15,False,False,51,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_off,24,0.15,False,False,51,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_off,24,0.15,False,False,51,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_off,24,0.15,False,False,51,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.15_periodic_off_repetition_off,24,0.15,False,False,51,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,23,9,36.875,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.20_periodic_on_repetition_on,24,0.2,True,True,52,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_on,24,0.2,True,True,52,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_on,24,0.2,True,True,52,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_on,24,0.2,True,True,52,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_on,24,0.2,True,True,52,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.20_periodic_on_repetition_off,24,0.2,True,False,53,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_off,24,0.2,True,False,53,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_off,24,0.2,True,False,53,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_off,24,0.2,True,False,53,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.20_periodic_on_repetition_off,24,0.2,True,False,53,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,24,8,40.0,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.20_periodic_off_repetition_on,24,0.2,False,True,54,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_on,24,0.2,False,True,54,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_on,24,0.2,False,True,54,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_on,24,0.2,False,True,54,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_on,24,0.2,False,True,54,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.20_periodic_off_repetition_off,24,0.2,False,False,55,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_off,24,0.2,False,False,55,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_off,24,0.2,False,False,55,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_off,24,0.2,False,False,55,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.20_periodic_off_repetition_off,24,0.2,False,False,55,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.25_periodic_on_repetition_on,24,0.25,True,True,56,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_on,24,0.25,True,True,56,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_on,24,0.25,True,True,56,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_on,24,0.25,True,True,56,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_on,24,0.25,True,True,56,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.25_periodic_on_repetition_off,24,0.25,True,False,57,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_off,24,0.25,True,False,57,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_off,24,0.25,True,False,57,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_off,24,0.25,True,False,57,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.25_periodic_on_repetition_off,24,0.25,True,False,57,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.25_periodic_off_repetition_on,24,0.25,False,True,58,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_on,24,0.25,False,True,58,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_on,24,0.25,False,True,58,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_on,24,0.25,False,True,58,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_on,24,0.25,False,True,58,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.25_periodic_off_repetition_off,24,0.25,False,False,59,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_off,24,0.25,False,False,59,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_off,24,0.25,False,False,59,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_off,24,0.25,False,False,59,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.25_periodic_off_repetition_off,24,0.25,False,False,59,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.30_periodic_on_repetition_on,24,0.3,True,True,60,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_on,24,0.3,True,True,60,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_on,24,0.3,True,True,60,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_on,24,0.3,True,True,60,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_on,24,0.3,True,True,60,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,25,7,43.125,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.30_periodic_on_repetition_off,24,0.3,True,False,61,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_off,24,0.3,True,False,61,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,21,11,30.625000000000004,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_off,24,0.3,True,False,61,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,23,9,36.875,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_off,24,0.3,True,False,61,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.30_periodic_on_repetition_off,24,0.3,True,False,61,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.30_periodic_off_repetition_on,24,0.3,False,True,62,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_on,24,0.3,False,True,62,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_on,24,0.3,False,True,62,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_on,24,0.3,False,True,62,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_on,24,0.3,False,True,62,0.35,0.2,3,32,0.7,0.4455924510272336
+easy,adaptive_guarded_tuned,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr",32,26,6,46.25,0.45517241379310347,0.5,0.23529411764705882,0.1875,tci_24_rt_0.30_periodic_off_repetition_off,24,0.3,False,False,63,0.35,0.2,3,32,0.7,0.46252535496957403
+math,adaptive_guarded_tuned,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que",32,25,7,43.125,0.543859649122807,0.5333333333333333,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_off,24,0.3,False,False,63,0.35,0.2,3,32,0.7,0.6771929824561403
+logic_negation,adaptive_guarded_tuned,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do",32,22,10,33.75,0.7875,0.6666666666666666,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_off,24,0.3,False,False,63,0.35,0.2,3,32,0.7,0.9541666666666666
+code,adaptive_guarded_tuned,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:",32,24,8,40.0,0.8251748251748252,0.5833333333333334,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_off,24,0.3,False,False,63,0.35,0.2,3,32,0.7,0.9710081585081586
+long_simple,adaptive_guarded_tuned,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent",32,18,14,21.250000000000004,0.39751552795031053,0.19230769230769232,0.0,0.0,tci_24_rt_0.30_periodic_off_repetition_off,24,0.3,False,False,63,0.35,0.2,3,32,0.7,0.4455924510272336

@@ -20,6 +20,11 @@ class AdaptiveGenerationConfig:
     margin_threshold: float = 0.20
     cheap_call_cost: float = 0.35
     expensive_call_cost: float = 1.00
+    teacher_check_interval: int = 16
+    enable_periodic_teacher_check: bool = True
+    enable_repetition_guard: bool = True
+    repetition_ngram_size: int = 3
+    repetition_threshold: float = 0.25
 
 
 def _load_model(model_name: str, device: str):
@@ -84,12 +89,70 @@ def next_token_stats(logits: torch.Tensor, temperature: float) -> dict:
     }
 
 
+def repeated_ngram_rate_from_tokens(tokens: list[str], ngram_size: int) -> float:
+    if ngram_size <= 0 or len(tokens) < ngram_size:
+        return 0.0
+
+    ngrams = [
+        tuple(tokens[index : index + ngram_size])
+        for index in range(len(tokens) - ngram_size + 1)
+    ]
+    counts: dict[tuple[str, ...], int] = {}
+
+    for ngram in ngrams:
+        counts[ngram] = counts.get(ngram, 0) + 1
+
+    repeated = sum(count - 1 for count in counts.values() if count > 1)
+    return repeated / len(ngrams)
+
+
+def fallback_reasons(
+    cheap_stats: dict,
+    step: int,
+    generated_tokens: list[str],
+    config: AdaptiveGenerationConfig,
+) -> tuple[list[str], bool, bool]:
+    reasons = []
+
+    if cheap_stats["entropy"] > config.entropy_threshold:
+        reasons.append("entropy_high")
+
+    if cheap_stats["margin"] < config.margin_threshold:
+        reasons.append("margin_low")
+
+    periodic_triggered = (
+        config.enable_periodic_teacher_check
+        and config.teacher_check_interval > 0
+        and step > 0
+        and step % config.teacher_check_interval == 0
+    )
+
+    if periodic_triggered:
+        reasons.append("periodic_teacher_check")
+
+    repetition_rate = repeated_ngram_rate_from_tokens(
+        generated_tokens,
+        config.repetition_ngram_size,
+    )
+    repetition_triggered = (
+        config.enable_repetition_guard
+        and repetition_rate >= config.repetition_threshold
+    )
+
+    if repetition_triggered:
+        reasons.append("repetition_guard")
+
+    return reasons, periodic_triggered, repetition_triggered
+
+
 @torch.no_grad()
 def choose_next_token(
     input_ids: torch.Tensor,
     cheap_model,
     expensive_model,
     config: AdaptiveGenerationConfig,
+    step: int,
+    generated_tokens: list[str],
 ) -> dict:
     cheap_outputs = cheap_model(input_ids=input_ids, return_dict=True)
     cheap_logits = cheap_outputs.logits[0, -1]
@@ -98,15 +161,20 @@ def choose_next_token(
         temperature=config.temperature,
     )
 
-    cheap_is_confident = (
-        cheap_stats["entropy"] <= config.entropy_threshold
-        and cheap_stats["margin"] >= config.margin_threshold
+    reasons, periodic_triggered, repetition_triggered = fallback_reasons(
+        cheap_stats=cheap_stats,
+        step=step,
+        generated_tokens=generated_tokens,
+        config=config,
     )
 
-    if cheap_is_confident:
+    if not reasons:
         return {
             **cheap_stats,
             "route": "cheap",
+            "fallback_reason": "cheap_confident",
+            "periodic_teacher_check_triggered": False,
+            "repetition_guard_triggered": False,
         }
 
     expensive_outputs = expensive_model(input_ids=input_ids, return_dict=True)
@@ -120,6 +188,9 @@ def choose_next_token(
         **cheap_stats,
         "token_id": expensive_stats["token_id"],
         "route": "expensive",
+        "fallback_reason": "+".join(reasons),
+        "periodic_teacher_check_triggered": periodic_triggered,
+        "repetition_guard_triggered": repetition_triggered,
     }
 
 
@@ -179,6 +250,7 @@ def adaptive_generate_with_models(
     input_ids = encoded["input_ids"].to(device)
     prompt_length = input_ids.shape[-1]
     history = []
+    generated_tokens = []
 
     for index in range(config.max_new_tokens):
         decision = choose_next_token(
@@ -186,6 +258,8 @@ def adaptive_generate_with_models(
             cheap_model=cheap_model,
             expensive_model=expensive_model,
             config=config,
+            step=index,
+            generated_tokens=generated_tokens,
         )
         token_id = decision["token_id"]
         token_tensor = torch.tensor([[token_id]], device=device)
@@ -195,6 +269,7 @@ def adaptive_generate_with_models(
             [token_id],
             clean_up_tokenization_spaces=False,
         )
+        generated_tokens.append(token_text)
 
         history.append(
             {
@@ -205,6 +280,13 @@ def adaptive_generate_with_models(
                 "top1_prob": decision["top1_prob"],
                 "top2_prob": decision["top2_prob"],
                 "margin": decision["margin"],
+                "fallback_reason": decision["fallback_reason"],
+                "periodic_teacher_check_triggered": decision[
+                    "periodic_teacher_check_triggered"
+                ],
+                "repetition_guard_triggered": decision[
+                    "repetition_guard_triggered"
+                ],
             }
         )
 

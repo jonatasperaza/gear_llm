@@ -20,6 +20,11 @@ from gear_llm.compute_simulator import (
     simulate_compute_from_rows,
 )
 from gear_llm.config import ModelConfig, RouterConfig
+from gear_llm.guard_tuning import (
+    print_guard_tuning_report,
+    run_guard_tuning,
+    save_guard_tuning,
+)
 from gear_llm.model_loader import load_model_and_tokenizer
 from gear_llm.policy_replay import (
     print_policy_replay_report,
@@ -118,6 +123,11 @@ def main():
         help="Roda benchmark Quality-vs-Cost dos modos de geração.",
     )
     parser.add_argument(
+        "--guard-tuning",
+        action="store_true",
+        help="Roda busca de configurações para o adaptive_guarded.",
+    )
+    parser.add_argument(
         "--ablation-csv",
         type=str,
         default=None,
@@ -196,6 +206,34 @@ def main():
         help="Margem mínima top1-top2 para aceitar o modelo barato.",
     )
     parser.add_argument(
+        "--teacher-check-interval",
+        type=int,
+        default=8,
+        help="Intervalo de chamadas periódicas ao modelo caro.",
+    )
+    parser.add_argument(
+        "--disable-periodic-teacher-check",
+        action="store_true",
+        help="Desliga chamadas periódicas ao modelo caro.",
+    )
+    parser.add_argument(
+        "--disable-repetition-guard",
+        action="store_true",
+        help="Desliga o guard de repetição.",
+    )
+    parser.add_argument(
+        "--repetition-ngram-size",
+        type=int,
+        default=3,
+        help="Tamanho do n-grama usado pelo guard de repetição.",
+    )
+    parser.add_argument(
+        "--repetition-threshold",
+        type=float,
+        default=0.20,
+        help="Taxa parcial de n-gramas repetidos que aciona fallback.",
+    )
+    parser.add_argument(
         "--teacher-max-steps",
         type=int,
         default=40,
@@ -212,6 +250,12 @@ def main():
         type=float,
         default=0.7,
         help="Temperatura usada na calibração teacher.",
+    )
+    parser.add_argument(
+        "--guard-max-configs",
+        type=int,
+        default=None,
+        help="Limita a quantidade de configs no guard tuning. Útil para smoke tests.",
     )
 
     args = parser.parse_args()
@@ -230,6 +274,11 @@ def main():
         temperature=args.adaptive_temperature,
         entropy_threshold=args.adaptive_entropy_threshold,
         margin_threshold=args.adaptive_margin_threshold,
+        teacher_check_interval=args.teacher_check_interval,
+        enable_periodic_teacher_check=not args.disable_periodic_teacher_check,
+        enable_repetition_guard=not args.disable_repetition_guard,
+        repetition_ngram_size=args.repetition_ngram_size,
+        repetition_threshold=args.repetition_threshold,
     )
     teacher_config = TeacherCalibrationConfig(
         cheap_model_name=args.cheap_model,
@@ -250,7 +299,9 @@ def main():
         )
     )
 
-    if not model_work_requested and (args.policy_replay or args.quality_benchmark):
+    if not model_work_requested and (
+        args.policy_replay or args.quality_benchmark or args.guard_tuning
+    ):
         if args.policy_replay:
             teacher_csv = output_dir / "teacher_calibration.csv"
             policy_csv = output_dir / "policy_replay.csv"
@@ -277,6 +328,23 @@ def main():
             print_quality_benchmark_report(quality_rows)
             save_quality_benchmark(quality_rows, quality_csv)
             print(f"{'quality_csv':<15} -> {quality_csv}")
+
+        if args.guard_tuning:
+            guard_csv = output_dir / "guard_tuning.csv"
+            guard_summary_csv = output_dir / "guard_tuning_summary.csv"
+            guard_rows, guard_summary_rows = run_guard_tuning(
+                prompts=PROMPTS,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=args.adaptive_max_new_tokens,
+                temperature=args.adaptive_temperature,
+                max_configs=args.guard_max_configs,
+            )
+            print_guard_tuning_report(guard_summary_rows)
+            save_guard_tuning(guard_rows, guard_csv)
+            save_guard_tuning(guard_summary_rows, guard_summary_csv)
+            print(f"{'guard_csv':<15} -> {guard_csv}")
+            print(f"{'guard_summary':<15} -> {guard_summary_csv}")
 
         return
 
@@ -418,6 +486,8 @@ def main():
                         temperature=args.adaptive_temperature,
                         entropy_threshold=0.45,
                         margin_threshold=0.20,
+                        enable_periodic_teacher_check=False,
+                        enable_repetition_guard=False,
                     ),
                 ),
                 (
@@ -429,6 +499,8 @@ def main():
                         temperature=args.adaptive_temperature,
                         entropy_threshold=0.35,
                         margin_threshold=0.20,
+                        enable_periodic_teacher_check=False,
+                        enable_repetition_guard=False,
                     ),
                 ),
             ]
@@ -627,6 +699,23 @@ def main():
         print_quality_benchmark_report(quality_rows)
         save_quality_benchmark(quality_rows, quality_csv)
         print(f"{'quality_csv':<15} -> {quality_csv}")
+
+    if args.guard_tuning and model_work_requested:
+        guard_csv = output_dir / "guard_tuning.csv"
+        guard_summary_csv = output_dir / "guard_tuning_summary.csv"
+        guard_rows, guard_summary_rows = run_guard_tuning(
+            prompts=PROMPTS,
+            cheap_model_name=args.cheap_model,
+            expensive_model_name=args.expensive_model,
+            max_new_tokens=args.adaptive_max_new_tokens,
+            temperature=args.adaptive_temperature,
+            max_configs=args.guard_max_configs,
+        )
+        print_guard_tuning_report(guard_summary_rows)
+        save_guard_tuning(guard_rows, guard_csv)
+        save_guard_tuning(guard_summary_rows, guard_summary_csv)
+        print(f"{'guard_csv':<15} -> {guard_csv}")
+        print(f"{'guard_summary':<15} -> {guard_summary_csv}")
 
 
 if __name__ == "__main__":

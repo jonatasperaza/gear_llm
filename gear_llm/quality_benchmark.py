@@ -226,19 +226,38 @@ def run_quality_benchmark(
         )
 
         adaptive_modes = (
-            ("adaptive_old", 0.45, 0.20),
-            ("adaptive_calibrated", 0.35, 0.20),
+            (
+                "adaptive_calibrated",
+                AdaptiveGenerationConfig(
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    entropy_threshold=0.35,
+                    margin_threshold=0.20,
+                    enable_periodic_teacher_check=False,
+                    enable_repetition_guard=False,
+                ),
+            ),
+            (
+                "adaptive_guarded",
+                AdaptiveGenerationConfig(
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    entropy_threshold=0.35,
+                    margin_threshold=0.20,
+                    teacher_check_interval=16,
+                    enable_periodic_teacher_check=True,
+                    enable_repetition_guard=True,
+                    repetition_ngram_size=3,
+                    repetition_threshold=0.25,
+                ),
+            ),
         )
 
-        for mode, entropy_threshold, margin_threshold in adaptive_modes:
-            adaptive_config = AdaptiveGenerationConfig(
-                cheap_model_name=cheap_model_name,
-                expensive_model_name=expensive_model_name,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                entropy_threshold=entropy_threshold,
-                margin_threshold=margin_threshold,
-            )
+        for mode, adaptive_config in adaptive_modes:
             _, _, adaptive_summary = adaptive_generate_with_models(
                 prompt=prompt,
                 cheap_model=cheap_model,
@@ -276,7 +295,8 @@ def print_quality_benchmark_report(rows: list[dict]):
     print("=" * 120)
     header = (
         f"{'prompt':<16} | {'mode':<20} | {'saved %':>8} | "
-        f"{'seq sim':>8} | {'jaccard':>8} | {'rep3':>8} | {'rep4':>8}"
+        f"{'seq sim':>8} | {'jaccard':>8} | {'rep3':>8} | "
+        f"{'rep4':>8} | {'calls':>5}"
     )
     print(header)
     print("-" * len(header))
@@ -289,7 +309,8 @@ def print_quality_benchmark_report(rows: list[dict]):
             f"{row['similarity_to_expensive']:>8.4f} | "
             f"{row['jaccard_to_expensive']:>8.4f} | "
             f"{row['repeated_3gram_rate']:>8.4f} | "
-            f"{row['repeated_4gram_rate']:>8.4f}"
+            f"{row['repeated_4gram_rate']:>8.4f} | "
+            f"{row['expensive_model_calls']:>5}"
         )
 
     print("=" * 120)
