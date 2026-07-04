@@ -7,6 +7,12 @@ from gear_llm.ablation import (
     save_ablation_rows,
 )
 from gear_llm.analyzer import analyze_prompt_with_model
+from gear_llm.compute_simulator import (
+    ComputeCostConfig,
+    print_compute_sim_benchmark_report,
+    save_compute_sim_rows,
+    simulate_compute_from_rows,
+)
 from gear_llm.config import ModelConfig, RouterConfig
 from gear_llm.model_loader import load_model_and_tokenizer
 from gear_llm.report import save_csv
@@ -58,6 +64,11 @@ def main():
         help="Também roda ablation balanceada nos prompts principais.",
     )
     parser.add_argument(
+        "--compute-sim",
+        action="store_true",
+        help="Também roda simulação de economia computacional.",
+    )
+    parser.add_argument(
         "--ablation-csv",
         type=str,
         default=None,
@@ -81,16 +92,40 @@ def main():
         default=42,
         help="Seed do baseline aleatório.",
     )
+    parser.add_argument(
+        "--cheap-cost",
+        type=float,
+        default=0.35,
+        help="Custo teórico de tokens cheap na simulação.",
+    )
+    parser.add_argument(
+        "--medium-cost",
+        type=float,
+        default=0.70,
+        help="Custo teórico de tokens medium na simulação.",
+    )
+    parser.add_argument(
+        "--expensive-cost",
+        type=float,
+        default=1.00,
+        help="Custo teórico de tokens expensive na simulação.",
+    )
 
     args = parser.parse_args()
 
     model_config = ModelConfig(model_name=args.model)
     router_config = RouterConfig()
+    cost_config = ComputeCostConfig(
+        cheap_cost=args.cheap_cost,
+        medium_cost=args.medium_cost,
+        expensive_cost=args.expensive_cost,
+    )
     output_dir = Path(args.output_dir)
 
     model, tokenizer, device = load_model_and_tokenizer(model_config.model_name)
     ablation_rows = []
     balanced_ablation_rows = []
+    compute_sim_rows = []
 
     for name, prompt in PROMPTS.items():
         rows = analyze_prompt_with_model(
@@ -104,6 +139,20 @@ def main():
         csv_path = output_dir / f"{name}.csv"
         save_csv(rows, str(csv_path))
         print(f"{name:<15} -> {csv_path}")
+
+        if args.compute_sim:
+            compute_summary = simulate_compute_from_rows(
+                rows=rows,
+                cost_config=cost_config,
+                prompt=prompt,
+                prompt_name=name,
+            )
+            compute_sim_rows.append(compute_summary)
+            print(
+                f"{'compute_sim':<15} -> {name}: "
+                f"saved={compute_summary['saved_percent']:.2f}%, "
+                f"avg_cost/token={compute_summary['avg_cost_per_token']:.4f}"
+            )
 
         if args.ablation:
             summary = run_ablation_with_model(
@@ -170,6 +219,12 @@ def main():
         balanced_csv = output_dir / "balanced_ablation_benchmark.csv"
         save_ablation_rows(balanced_ablation_rows, balanced_csv)
         print(f"{'balanced_csv':<15} -> {balanced_csv}")
+
+    if args.compute_sim:
+        compute_csv = output_dir / "compute_sim_benchmark.csv"
+        save_compute_sim_rows(compute_sim_rows, compute_csv)
+        print_compute_sim_benchmark_report(compute_sim_rows)
+        print(f"{'compute_csv':<15} -> {compute_csv}")
 
 
 if __name__ == "__main__":

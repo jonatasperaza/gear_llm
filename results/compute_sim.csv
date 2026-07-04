@@ -1,0 +1,2 @@
+prompt_name,prompt,total_tokens,cheap_count,medium_count,expensive_count,cheap_cost,medium_cost,expensive_cost,baseline_cost,simulated_cost,saved_cost,saved_percent,avg_cost_per_token
+,Explique por que a inversa de f(x)=5x+1 é (x-1)/5.,25,5,17,3,0.35,0.7,1.0,25.0,16.65,8.350000000000001,33.400000000000006,0.6659999999999999
