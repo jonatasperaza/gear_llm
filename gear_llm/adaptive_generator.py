@@ -25,6 +25,11 @@ class AdaptiveGenerationConfig:
     enable_repetition_guard: bool = True
     repetition_ngram_size: int = 3
     repetition_threshold: float = 0.25
+    risk_gated_periodic_check: bool = True
+    periodic_entropy_risk_threshold: float = 0.25
+    periodic_margin_risk_threshold: float = 0.35
+    periodic_repetition_risk_threshold: float = 0.05
+    max_expensive_call_ratio: float = 0.40
 
 
 def _load_model(model_name: str, device: str):
@@ -111,7 +116,8 @@ def fallback_reasons(
     step: int,
     generated_tokens: list[str],
     config: AdaptiveGenerationConfig,
-) -> tuple[list[str], bool, bool]:
+    expensive_model_calls_so_far: int,
+) -> dict:
     reasons = []
 
     if cheap_stats["entropy"] > config.entropy_threshold:
@@ -119,16 +125,6 @@ def fallback_reasons(
 
     if cheap_stats["margin"] < config.margin_threshold:
         reasons.append("margin_low")
-
-    periodic_triggered = (
-        config.enable_periodic_teacher_check
-        and config.teacher_check_interval > 0
-        and step > 0
-        and step % config.teacher_check_interval == 0
-    )
-
-    if periodic_triggered:
-        reasons.append("periodic_teacher_check")
 
     repetition_rate = repeated_ngram_rate_from_tokens(
         generated_tokens,
@@ -142,7 +138,52 @@ def fallback_reasons(
     if repetition_triggered:
         reasons.append("repetition_guard")
 
-    return reasons, periodic_triggered, repetition_triggered
+    periodic_triggered = (
+        config.enable_periodic_teacher_check
+        and config.teacher_check_interval > 0
+        and step > 0
+        and step % config.teacher_check_interval == 0
+    )
+    periodic_risk_triggered = False
+    periodic_budget_blocked = False
+    budget_blocked_reason = None
+    expensive_call_ratio_so_far = expensive_model_calls_so_far / max(1, step)
+
+    if periodic_triggered:
+        periodic_reason = "periodic_teacher_check"
+        should_periodic_fallback = True
+
+        if config.risk_gated_periodic_check:
+            periodic_reason = "periodic_teacher_check_risk_gated"
+            periodic_risk_triggered = (
+                cheap_stats["entropy"] > config.periodic_entropy_risk_threshold
+                or cheap_stats["margin"] < config.periodic_margin_risk_threshold
+                or repetition_rate > config.periodic_repetition_risk_threshold
+            )
+            should_periodic_fallback = periodic_risk_triggered
+
+        if should_periodic_fallback:
+            periodic_only = not reasons
+            over_budget = (
+                config.max_expensive_call_ratio >= 0
+                and expensive_call_ratio_so_far >= config.max_expensive_call_ratio
+            )
+
+            if periodic_only and over_budget:
+                periodic_budget_blocked = True
+                budget_blocked_reason = "periodic_teacher_check_budget_blocked"
+            else:
+                reasons.append(periodic_reason)
+
+    return {
+        "reasons": reasons,
+        "budget_blocked_reason": budget_blocked_reason,
+        "periodic_teacher_check_triggered": periodic_triggered,
+        "periodic_risk_triggered": periodic_risk_triggered,
+        "periodic_budget_blocked": periodic_budget_blocked,
+        "repetition_guard_triggered": repetition_triggered,
+        "expensive_call_ratio_so_far": expensive_call_ratio_so_far,
+    }
 
 
 @torch.no_grad()
@@ -153,6 +194,7 @@ def choose_next_token(
     config: AdaptiveGenerationConfig,
     step: int,
     generated_tokens: list[str],
+    expensive_model_calls_so_far: int,
 ) -> dict:
     cheap_outputs = cheap_model(input_ids=input_ids, return_dict=True)
     cheap_logits = cheap_outputs.logits[0, -1]
@@ -161,20 +203,32 @@ def choose_next_token(
         temperature=config.temperature,
     )
 
-    reasons, periodic_triggered, repetition_triggered = fallback_reasons(
+    fallback = fallback_reasons(
         cheap_stats=cheap_stats,
         step=step,
         generated_tokens=generated_tokens,
         config=config,
+        expensive_model_calls_so_far=expensive_model_calls_so_far,
     )
+    reasons = fallback["reasons"]
 
     if not reasons:
         return {
             **cheap_stats,
             "route": "cheap",
-            "fallback_reason": "cheap_confident",
-            "periodic_teacher_check_triggered": False,
-            "repetition_guard_triggered": False,
+            "fallback_reason": fallback["budget_blocked_reason"]
+            or "cheap_confident",
+            "periodic_teacher_check_triggered": fallback[
+                "periodic_teacher_check_triggered"
+            ],
+            "repetition_guard_triggered": fallback[
+                "repetition_guard_triggered"
+            ],
+            "expensive_call_ratio_so_far": fallback[
+                "expensive_call_ratio_so_far"
+            ],
+            "periodic_risk_triggered": fallback["periodic_risk_triggered"],
+            "periodic_budget_blocked": fallback["periodic_budget_blocked"],
         }
 
     expensive_outputs = expensive_model(input_ids=input_ids, return_dict=True)
@@ -189,8 +243,13 @@ def choose_next_token(
         "token_id": expensive_stats["token_id"],
         "route": "expensive",
         "fallback_reason": "+".join(reasons),
-        "periodic_teacher_check_triggered": periodic_triggered,
-        "repetition_guard_triggered": repetition_triggered,
+        "periodic_teacher_check_triggered": fallback[
+            "periodic_teacher_check_triggered"
+        ],
+        "repetition_guard_triggered": fallback["repetition_guard_triggered"],
+        "expensive_call_ratio_so_far": fallback["expensive_call_ratio_so_far"],
+        "periodic_risk_triggered": fallback["periodic_risk_triggered"],
+        "periodic_budget_blocked": fallback["periodic_budget_blocked"],
     }
 
 
@@ -253,6 +312,9 @@ def adaptive_generate_with_models(
     generated_tokens = []
 
     for index in range(config.max_new_tokens):
+        expensive_model_calls_so_far = sum(
+            1 for row in history if row["route"] == "expensive"
+        )
         decision = choose_next_token(
             input_ids=input_ids,
             cheap_model=cheap_model,
@@ -260,6 +322,7 @@ def adaptive_generate_with_models(
             config=config,
             step=index,
             generated_tokens=generated_tokens,
+            expensive_model_calls_so_far=expensive_model_calls_so_far,
         )
         token_id = decision["token_id"]
         token_tensor = torch.tensor([[token_id]], device=device)
@@ -286,6 +349,13 @@ def adaptive_generate_with_models(
                 ],
                 "repetition_guard_triggered": decision[
                     "repetition_guard_triggered"
+                ],
+                "expensive_call_ratio_so_far": decision[
+                    "expensive_call_ratio_so_far"
+                ],
+                "periodic_risk_triggered": decision["periodic_risk_triggered"],
+                "periodic_budget_blocked": decision[
+                    "periodic_budget_blocked"
                 ],
             }
         )

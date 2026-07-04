@@ -57,7 +57,7 @@ def main():
     parser.add_argument(
         "--teacher-check-interval",
         type=int,
-        default=8,
+        default=AdaptiveGenerationConfig.teacher_check_interval,
         help="Intervalo de chamadas periódicas ao modelo caro.",
     )
     parser.add_argument(
@@ -79,8 +79,37 @@ def main():
     parser.add_argument(
         "--repetition-threshold",
         type=float,
-        default=0.20,
+        default=AdaptiveGenerationConfig.repetition_threshold,
         help="Taxa parcial de n-gramas repetidos que aciona fallback.",
+    )
+    parser.add_argument(
+        "--disable-risk-gated-periodic-check",
+        action="store_true",
+        help="Desliga o gating por risco das chamadas periódicas ao modelo caro.",
+    )
+    parser.add_argument(
+        "--periodic-entropy-risk-threshold",
+        type=float,
+        default=AdaptiveGenerationConfig.periodic_entropy_risk_threshold,
+        help="Entropia mínima para considerar uma chamada periódica arriscada.",
+    )
+    parser.add_argument(
+        "--periodic-margin-risk-threshold",
+        type=float,
+        default=AdaptiveGenerationConfig.periodic_margin_risk_threshold,
+        help="Margem abaixo da qual uma chamada periódica é considerada arriscada.",
+    )
+    parser.add_argument(
+        "--periodic-repetition-risk-threshold",
+        type=float,
+        default=AdaptiveGenerationConfig.periodic_repetition_risk_threshold,
+        help="Repetição parcial acima da qual uma chamada periódica é arriscada.",
+    )
+    parser.add_argument(
+        "--max-expensive-call-ratio",
+        type=float,
+        default=AdaptiveGenerationConfig.max_expensive_call_ratio,
+        help="Razão máxima de chamadas caras antes de bloquear fallback periódico puro.",
     )
     parser.add_argument(
         "--csv",
@@ -103,6 +132,13 @@ def main():
         enable_repetition_guard=not args.disable_repetition_guard,
         repetition_ngram_size=args.repetition_ngram_size,
         repetition_threshold=args.repetition_threshold,
+        risk_gated_periodic_check=not args.disable_risk_gated_periodic_check,
+        periodic_entropy_risk_threshold=args.periodic_entropy_risk_threshold,
+        periodic_margin_risk_threshold=args.periodic_margin_risk_threshold,
+        periodic_repetition_risk_threshold=(
+            args.periodic_repetition_risk_threshold
+        ),
+        max_expensive_call_ratio=args.max_expensive_call_ratio,
     )
 
     _, history, summary = adaptive_generate(
