@@ -113,3 +113,39 @@ Critério atingido:
 - comparar com speculative decoding mais fiel ao algoritmo clássico;
 - usar métricas de qualidade mais fortes que similaridade textual superficial;
 - investigar thresholds específicos por tipo de prompt.
+
+## CPU Latency Benchmark
+
+The latency benchmark measures real wall-clock generation time, not only estimated compute savings.
+
+Configuration:
+
+- Device: CPU
+- max_new_tokens: 32
+- warmup_runs: 1
+- measured_runs: 5
+- Cheap model: HuggingFaceTB/SmolLM2-135M-Instruct
+- Expensive model: HuggingFaceTB/SmolLM2-360M-Instruct
+
+Main findings:
+
+- `cheap_only` is always the fastest mode, but it is not a quality-equivalent baseline.
+- Among modes that use the expensive model, adaptive routing is the most stable strategy on CPU.
+- `adaptive_calibrated` and `adaptive_guarded_v3` consistently produce real speedups over `expensive_only`.
+- `speculative_adaptive` is competitive on `code`, but slower than `expensive_only` on `logic_negation`, `long_simple`, and `math`.
+- Hybrid routing has negligible routing overhead, but its latency depends entirely on the selected generation mode.
+- Quality-oriented routing and latency-oriented routing can disagree.
+
+Best non-cheap modes by prompt:
+
+| Prompt | Best mode excluding cheap_only | Real speedup vs expensive_only |
+|---|---:|---:|
+| code | speculative_adaptive | 33.19% |
+| easy | adaptive_guarded_v3 | 37.19% |
+| logic_negation | adaptive_calibrated | 22.79% |
+| long_simple | adaptive_calibrated | 11.56% |
+| math | hybrid | 36.56% |
+
+Interpretation:
+
+The CPU benchmark suggests that adaptive token-level routing is currently more robust than the speculative implementation. Speculative decoding remains experimental and may require GPU execution, optimized block verification, and KV-cache-aware implementation before becoming globally competitive.
