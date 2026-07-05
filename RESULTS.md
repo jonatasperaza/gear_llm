@@ -218,3 +218,35 @@ Interpretation:
 - Peak memory was close to 7 GB, above the RTX 3050 Laptop GPU's 6 GB dedicated VRAM, so the run likely involved Windows shared GPU/system memory.
 - This is a valid result for limited hardware, but it is not equivalent to fitting the full run inside dedicated VRAM.
 - `speculative_adaptive` became competitive again on `long_simple` and `math` once the expensive model became costly enough.
+
+## Quality-Latency Report
+
+### Qwen2.5 0.5B -> 3B
+
+This report combines real latency and quality metrics for the same model pair and runtime configuration:
+
+- Cheap model: `Qwen/Qwen2.5-0.5B-Instruct`
+- Expensive model: `Qwen/Qwen2.5-3B-Instruct`
+- Device: `cuda`
+- torch_dtype: `float16`
+- prompt_format: `auto` with effective chat template
+- max_new_tokens: 64
+- GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+
+| Prompt | Latency winner | Real speedup | Similarity | Jaccard | Rep3 | Quality-latency score |
+|---|---|---:|---:|---:|---:|---:|
+| code | adaptive_calibrated | 84.74% | 0.5517 | 0.5294 | 0.0000 | 0.8959 |
+| easy | adaptive_guarded_v3 | 56.41% | 0.2440 | 0.3023 | 0.0000 | 0.4606 |
+| logic_negation | adaptive_guarded_v3 | 76.20% | 0.0547 | 0.3556 | 0.0263 | 0.3209 |
+| long_simple | adaptive_guarded_v3 | 68.68% | 0.0467 | 0.2034 | 0.0000 | 0.2692 |
+| math | adaptive_guarded_v3 | 83.11% | 0.2011 | 0.2750 | 0.0000 | 0.4776 |
+
+Interpretation:
+
+- This is the first combined quality-latency report for the project.
+- Latency shows strong real speedups across all prompts.
+- `code` is the strongest case: high speedup with relatively good similarity and Jaccard overlap.
+- `easy` and `math` have strong speedups, but only moderate to low textual similarity.
+- `logic_negation` and `long_simple` show that textual similarity can be low even when latency speedup is high, so semantic and task-specific evaluation are needed.
+- The project has demonstrated real speedup, but it has not yet demonstrated quality equivalence to `expensive_only`.
+- The next step is task-specific evaluation: unit tests for code, symbolic or expected-answer checks for math, labels for logic, and LLM-judge or human review for open-ended text.
