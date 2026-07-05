@@ -238,6 +238,68 @@ Hybrid routing no longer selects `speculative_adaptive` automatically unless the
 - Add prompt-level and block-level risk features.
 - Compare against standard speculative decoding baselines.
 
+## 11. Budget Cap Limits Code Quality
+
+**Status:** Open
+
+### Problem
+
+The `adaptive_calibrated` mode uses a default `max_expensive_call_ratio=0.40` (40%). For code-heavy prompts, this cap is too restrictive because code tokens are structurally important (operators, delimiters, logic words) and often require the expensive model.
+
+### Example
+
+A 32-token code generation may need 20-25 expensive tokens (operators, syntax, logic), but the 40% cap limits expensive calls to only 13 tokens. After reaching the cap, the system is forced to use the cheap model for tokens that genuinely need the expensive model, resulting in broken code.
+
+### Impact
+
+- Broken syntax and logic in generated code
+- Cheap model "invents" operators or words when forced to fill expensive slots
+- Code quality degrades significantly for longer generations
+
+### Current Mitigation
+
+Hybrid router selects `adaptive_calibrated` for code, but the mode still applies the 40% budget cap.
+
+### Next Steps
+
+- Set `max_expensive_call_ratio=0.70` or higher for code prompts
+- Or remove budget cap entirely for `adaptive_calibrated` (hybrid router already handles mode selection)
+- Add dynamic budget based on prompt type detection
+
+## 12. Code Detection Is Python-Centric and Language-Blind
+
+**Status:** Open
+
+### Problem
+
+The `classify_prompt` function uses hardcoded `code_words` that are mostly Python/JavaScript-centric. Languages like Java, C#, C++, Rust, Go, SQL, and HTML/CSS are not detected as code.
+
+### Example
+
+```
+"Faça uma classe em Java com método público que retorna String"
+```
+
+No `code_words` match → classified as `general` instead of `code` → wrong mode selected.
+
+### Impact
+
+- Prompts for Java, C#, Rust, Go, SQL, HTML fall through to `general` mode
+- Wrong mode means wrong routing strategy and potentially worse quality
+- Users writing code in non-Python languages get suboptimal treatment
+
+### Current Mitigation
+
+None. The current word list covers Python and JavaScript well.
+
+### Next Steps
+
+- Add universal code keywords (`public`, `private`, `void`, `struct`, `func`, `fn`)
+- Add language-specific keywords (Java, C#, Rust, Go, SQL)
+- Detect code structure (braces `{}`, semicolons `;`, indentation patterns)
+- Consider regex patterns for common code structures
+- Add Portuguese equivalents (`classe`, `método`, `função`)
+
 ## Current Priority Order
 
 1. Validate the latest hybrid router changes.
@@ -247,6 +309,7 @@ Hybrid routing no longer selects `speculative_adaptive` automatically unless the
 5. Improve quality evaluation beyond text similarity.
 6. Revisit speculative decoding with better acceptance criteria.
 7. Investigate KV cache and production-serving concerns.
+8. Fix budget cap limiting code generation quality.
 
 ## Current Project Status
 

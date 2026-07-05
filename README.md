@@ -24,6 +24,7 @@ O projeto ainda não modifica os internals do modelo principal. Ele mede, simula
 - **adaptive_guarded_v3**: versão adaptativa com quality guards, budget cap e controle de repetição.
 - **speculative_adaptive**: speculative decoding em blocos com modelo barato gerando drafts e modelo caro verificando.
 - **hybrid_router**: escolhe automaticamente entre `adaptive_calibrated`, `adaptive_guarded_v3` e `speculative_adaptive` com heurísticas simples por tipo de prompt.
+- **Latency benchmark**: mede tempo real de execução, tokens por segundo e memória de pico para comparar economia teórica com wall-clock time.
 
 ## Instalação
 
@@ -105,6 +106,7 @@ python benchmark.py --policy-replay
 python benchmark.py --speculative-generate
 python benchmark.py --speculative-tuning
 python benchmark.py --hybrid-benchmark
+python benchmark.py --latency-benchmark --max-new-tokens 32
 ```
 
 ## Exemplo de Uso

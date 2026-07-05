@@ -1,0 +1,621 @@
+prompt_name,mode,selected_mode,prompt_type,run_index,device,total_time_seconds,route_time_seconds,generation_time_seconds,overhead_time_seconds,generated_tokens,tokens_per_second,estimated_saved_percent,expensive_model_calls,cheap_accepted_tokens,acceptance_rate,memory_peak_bytes,memory_peak_mb,generated_text
+easy,cheap_only,,,0,cpu,2.33496570000716,0.0,2.3349642999965,1.400010660290718e-06,32,13.70469810323204,65.0,0,32,1.0,0,0.0,"
+
+Aqui está o texto:
+
+""Ao trabalho de uma empresa, o que é o que é o que"
+easy,expensive_only,,,0,cpu,5.0354401999939,0.0,5.035438300008536,1.8999853637069464e-06,32,6.354955818964698,0.0,32,,,0,0.0,"
+
+A frase que você pode explicar em uma frase é ""água"". E você pode explicar"
+easy,adaptive_calibrated,,,0,cpu,3.3949500000016997,0.0,3.3949488999933237,1.100008375942707e-06,32,9.425764738798504,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,adaptive_guarded_v3,,,0,cpu,3.493169100009254,0.0,3.493168200002401,9.00006853044033e-07,32,9.160736020456389,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,speculative_adaptive,,,0,cpu,4.078290199991898,0.0,4.078289599987329,6.00004568696022e-07,32,7.8464254456594515,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,hybrid,speculative_adaptive,general,0,cpu,4.245303000003332,9.910001244861633e-05,4.245201700003236,2.1999876480549574e-06,32,7.537742300131435,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,hybrid,speculative_adaptive,general,1,cpu,4.743862799994531,0.00016070000128820539,4.743698999998742,3.0999945010989904e-06,32,6.7455576497779175,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,speculative_adaptive,,,1,cpu,4.997494099996402,0.0,4.997493000002578,1.0999938240274787e-06,32,6.403209160371603,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,adaptive_guarded_v3,,,1,cpu,3.659799999993993,0.0,3.6597990000009304,9.999930625781417e-07,32,8.74364719385008,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,adaptive_calibrated,,,1,cpu,3.8566798999963794,0.0,3.8566789999895263,9.00006853044033e-07,32,8.297292186481446,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,expensive_only,,,1,cpu,5.383205800011638,0.0,5.383204800004023,1.00000761449337e-06,32,5.944413271350469,0.0,32,,,0,0.0,"
+
+A frase que você pode explicar em uma frase é ""água"". E você pode explicar"
+easy,cheap_only,,,1,cpu,2.510267899997416,0.0,2.5102670999913244,8.00006091594696e-07,32,12.747643388991646,65.0,0,32,1.0,0,0.0,"
+
+Aqui está o texto:
+
+""Ao trabalho de uma empresa, o que é o que é o que"
+easy,cheap_only,,,2,cpu,2.37043709999125,0.0,2.370436500001233,5.999900167807937e-07,32,13.499619964654672,65.0,0,32,1.0,0,0.0,"
+
+Aqui está o texto:
+
+""Ao trabalho de uma empresa, o que é o que é o que"
+easy,expensive_only,,,2,cpu,4.9683422000089195,0.0,4.968340899999021,1.300009898841381e-06,32,6.4407801861841465,0.0,32,,,0,0.0,"
+
+A frase que você pode explicar em uma frase é ""água"". E você pode explicar"
+easy,adaptive_calibrated,,,2,cpu,3.0732156000012765,0.0,3.073214799995185,8.00006091594696e-07,32,10.4125463895168,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,adaptive_guarded_v3,,,2,cpu,3.120498600008432,0.0,3.1204973999992944,1.200009137392044e-06,32,10.254771465019575,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,speculative_adaptive,,,2,cpu,4.062905800004955,0.0,4.062904899998102,9.00006853044033e-07,32,7.876136335713461,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,hybrid,speculative_adaptive,general,2,cpu,4.457683699991321,8.859999070409685e-05,4.457594000006793,1.0999938240274787e-06,32,7.178616105055256,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,hybrid,speculative_adaptive,general,3,cpu,4.2226622000016505,0.00014420000661630183,4.222516799985897,1.200009137392044e-06,32,7.578157684502325,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,speculative_adaptive,,,3,cpu,4.313912999990862,0.0,4.313912400000845,5.999900167807937e-07,32,7.417859377337416,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,adaptive_guarded_v3,,,3,cpu,3.3061276999942493,0.0,3.3061267000011867,9.999930625781417e-07,32,9.678996972819792,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,adaptive_calibrated,,,3,cpu,3.5749032000021543,0.0,3.5749022999953013,9.00006853044033e-07,32,8.951291324470189,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,expensive_only,,,3,cpu,5.361427499999991,0.0,5.361426299990853,1.200009137392044e-06,32,5.968559679301838,0.0,32,,,0,0.0,"
+
+A frase que você pode explicar em uma frase é ""água"". E você pode explicar"
+easy,cheap_only,,,3,cpu,3.6699089000030654,0.0,3.6699077999946894,1.100008375942707e-06,32,8.719562493764702,65.0,0,32,1.0,0,0.0,"
+
+Aqui está o texto:
+
+""Ao trabalho de uma empresa, o que é o que é o que"
+easy,cheap_only,,,4,cpu,3.171787700004643,0.0,3.1717869999993127,7.00005330145359e-07,32,10.088947630370455,65.0,0,32,1.0,0,0.0,"
+
+Aqui está o texto:
+
+""Ao trabalho de uma empresa, o que é o que é o que"
+easy,expensive_only,,,4,cpu,6.381581800000276,0.0,6.381580599991139,1.200009137392044e-06,32,5.014430748188265,0.0,32,,,0,0.0,"
+
+A frase que você pode explicar em uma frase é ""água"". E você pode explicar"
+easy,adaptive_calibrated,,,4,cpu,4.058954799998901,0.0,4.058953800005838,9.999930625781417e-07,32,7.8838029928317175,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,adaptive_guarded_v3,,,4,cpu,3.4596569999994244,0.0,3.4596562000078848,7.999915396794677e-07,32,9.249471840707134,46.25,6,26,0.8125,0,0.0,"
+
+A frase é: ""O que é a água é uma frase que é uma frase que é uma fr"
+easy,speculative_adaptive,,,4,cpu,4.832123300002422,0.0,4.832122399995569,9.00006853044033e-07,32,6.622347571301411,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+easy,hybrid,speculative_adaptive,general,4,cpu,4.784643200007849,0.00010930000280495733,4.784533099998953,8.00006091594696e-07,32,6.688064012787307,34.21875000000001,6,29,0.90625,0,0.0,"
+
+A frase é: ""O que é a água?""
+
+A frase é: ""O que é a águ"
+math,cheap_only,,,0,cpu,3.004257200009306,0.0,3.0042562000016915,1.00000761449337e-06,32,10.651551405086382,65.0,0,32,1.0,0,0.0,"
+
+Averaging the results, we get:
+
+f(x) = (x-1)/5 + (5/5)x +"
+math,expensive_only,,,0,cpu,6.43565430000308,0.0,6.435652999993181,1.300009898841381e-06,32,4.972299397744949,0.0,32,,,0,0.0,"
+
+A inversa de f(x) é f^(-1)(x) = (x-1)/5.
+
+Ao contr"
+math,adaptive_calibrated,,,0,cpu,5.6833488999982364,0.0,5.6833476000028895,1.2999953469261527e-06,32,5.630483111816332,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,adaptive_guarded_v3,,,0,cpu,5.548021199996583,0.0,5.548020100002759,1.0999938240274787e-06,32,5.7678222282243095,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,speculative_adaptive,,,0,cpu,7.38760679999541,0.0,7.387605800002348,9.999930625781417e-07,32,4.331578664963582,11.875000000000002,10,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5"
+math,hybrid,adaptive_calibrated,math_symbolic_dense,0,cpu,4.382646799989743,0.00013269999180920422,4.382513300006394,7.999915396794677e-07,32,7.301523818911186,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,hybrid,adaptive_calibrated,math_symbolic_dense,1,cpu,4.203302699999767,0.00011110000195913017,4.203190799991717,8.00006091594696e-07,32,7.61306103412485,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,speculative_adaptive,,,1,cpu,7.0686879999993835,0.0,7.068687399994815,6.00004568696022e-07,32,4.527006991962694,11.875000000000002,10,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5"
+math,adaptive_guarded_v3,,,1,cpu,4.131926300004125,0.0,4.131925499998033,8.00006091594696e-07,32,7.74457182355069,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,adaptive_calibrated,,,1,cpu,4.283044900003006,0.0,4.28304379999463,1.100008375942707e-06,32,7.471320228274409,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,expensive_only,,,1,cpu,5.8195759000082035,0.0,5.819574699999066,1.200009137392044e-06,32,5.498682472713328,0.0,32,,,0,0.0,"
+
+A inversa de f(x) é f^(-1)(x) = (x-1)/5.
+
+Ao contr"
+math,cheap_only,,,1,cpu,2.697548900003312,0.0,2.6975476999941748,1.200009137392044e-06,32,11.86262091484633,65.0,0,32,1.0,0,0.0,"
+
+Averaging the results, we get:
+
+f(x) = (x-1)/5 + (5/5)x +"
+math,cheap_only,,,2,cpu,2.7712564999965252,0.0,2.771255799991195,7.00005330145359e-07,32,11.547108685190318,65.0,0,32,1.0,0,0.0,"
+
+Averaging the results, we get:
+
+f(x) = (x-1)/5 + (5/5)x +"
+math,expensive_only,,,2,cpu,5.8935084999975516,0.0,5.893507499989937,1.00000761449337e-06,32,5.429702867148371,0.0,32,,,0,0.0,"
+
+A inversa de f(x) é f^(-1)(x) = (x-1)/5.
+
+Ao contr"
+math,adaptive_calibrated,,,2,cpu,4.185318999996525,0.0,4.185318099989672,9.00006853044033e-07,32,7.645773237362927,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,adaptive_guarded_v3,,,2,cpu,4.126716500002658,0.0,4.126715599995805,9.00006853044033e-07,32,7.754349008462149,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,speculative_adaptive,,,2,cpu,7.01973060000455,0.0,7.01972989999922,7.00005330145359e-07,32,4.558579498760146,11.875000000000002,10,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5"
+math,hybrid,adaptive_calibrated,math_symbolic_dense,2,cpu,4.1096528000052786,0.00010720000136643648,4.109544699997059,9.00006853044033e-07,32,7.786545860993147,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,hybrid,adaptive_calibrated,math_symbolic_dense,3,cpu,4.3302341000089655,0.0001083999959519133,4.330125100008445,6.00004568696022e-07,32,7.389900698424999,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,speculative_adaptive,,,3,cpu,7.398087699999451,0.0,7.398087100009434,5.999900167807937e-07,32,4.325442100396076,11.875000000000002,10,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5"
+math,adaptive_guarded_v3,,,3,cpu,4.683975099993404,0.0,4.683974100000341,9.999930625781417e-07,32,6.831804037567378,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,adaptive_calibrated,,,3,cpu,4.603015400003642,0.0,4.6030141999945045,1.200009137392044e-06,32,6.951964575216212,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,expensive_only,,,3,cpu,9.854094199996325,0.0,9.854092800000217,1.3999961083754897e-06,32,3.2473811748229413,0.0,32,,,0,0.0,"
+
+A inversa de f(x) é f^(-1)(x) = (x-1)/5.
+
+Ao contr"
+math,cheap_only,,,3,cpu,3.668113399995491,0.0,3.668112299987115,1.100008375942707e-06,32,8.723830620950633,65.0,0,32,1.0,0,0.0,"
+
+Averaging the results, we get:
+
+f(x) = (x-1)/5 + (5/5)x +"
+math,cheap_only,,,4,cpu,2.844824300002074,0.0,2.844823199993698,1.100008375942707e-06,32,11.248497842195974,65.0,0,32,1.0,0,0.0,"
+
+Averaging the results, we get:
+
+f(x) = (x-1)/5 + (5/5)x +"
+math,expensive_only,,,4,cpu,5.84831960000156,0.0,5.848318799995468,8.00006091594696e-07,32,5.471657191920816,0.0,32,,,0,0.0,"
+
+A inversa de f(x) é f^(-1)(x) = (x-1)/5.
+
+Ao contr"
+math,adaptive_calibrated,,,4,cpu,4.221821400002227,0.0,4.221820399994613,1.00000761449337e-06,32,7.579666918165491,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,adaptive_guarded_v3,,,4,cpu,4.205216399990604,0.0,4.205215699999826,6.999907782301307e-07,32,7.60959650021138,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+math,speculative_adaptive,,,4,cpu,7.500072499999078,0.0,7.5000714999914635,1.00000761449337e-06,32,4.2666254226214395,11.875000000000002,10,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 pois ele é a f(x)/5"
+math,hybrid,adaptive_calibrated,math_symbolic_dense,4,cpu,4.447395499999402,0.000162799988174811,4.447231700003613,1.00000761449337e-06,32,7.19522246222633,43.125,7,25,0.78125,0,0.0,"
+
+A inversa de f(x)=5x+1 é (x-1)/5 é porque a é uma função que"
+logic_negation,cheap_only,,,0,cpu,3.3140734000044176,0.0,3.3140719999937573,1.400010660290718e-06,32,9.655790967079167,65.0,0,32,1.0,0,0.0,"
+
+Ao verificar se o vento está entre 0 e 1, se o valor de cada vez mais 1"
+logic_negation,expensive_only,,,0,cpu,6.799606200002017,0.0,6.79960499999288,1.200009137392044e-06,32,4.70615489467471,0.0,32,,,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão abaixonado no botão de navegador"
+logic_negation,adaptive_calibrated,,,0,cpu,5.202078999995138,0.0,5.202078000002075,9.999930625781417e-07,32,6.151386782098063,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,adaptive_guarded_v3,,,0,cpu,5.605204700012109,0.0,5.605203500002972,1.200009137392044e-06,32,5.708979727347133,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,speculative_adaptive,,,0,cpu,10.130949500002316,0.0,10.13094839999394,1.100008375942707e-06,32,3.1586377959926346,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,hybrid,speculative_adaptive,logic,0,cpu,9.506313300007605,0.00018200000340584666,9.506130000008852,1.2999953469261527e-06,32,3.3661840284576354,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,hybrid,speculative_adaptive,logic,1,cpu,9.16331530000025,0.00013420000323094428,9.163180299990927,8.00006091594696e-07,32,3.4921858467534266,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,speculative_adaptive,,,1,cpu,11.43964720000804,0.0,11.439646300001186,9.00006853044033e-07,32,2.7972890632481664,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,adaptive_guarded_v3,,,1,cpu,5.088806400002795,0.0,5.088805599996704,8.00006091594696e-07,32,6.288311538042088,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,adaptive_calibrated,,,1,cpu,5.079468600000837,0.0,5.079467700008536,8.999923011288047e-07,32,6.299871604678239,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,expensive_only,,,1,cpu,6.40484540000034,0.0,6.40484469999501,7.00005330145359e-07,32,4.996217395036311,0.0,32,,,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão abaixonado no botão de navegador"
+logic_negation,cheap_only,,,1,cpu,2.954866000000038,0.0,2.9548649999924237,1.00000761449337e-06,32,10.829594303091778,65.0,0,32,1.0,0,0.0,"
+
+Ao verificar se o vento está entre 0 e 1, se o valor de cada vez mais 1"
+logic_negation,cheap_only,,,2,cpu,3.0343923999898834,0.0,3.0343917999998666,5.999900167807937e-07,32,10.545768569716524,65.0,0,32,1.0,0,0.0,"
+
+Ao verificar se o vento está entre 0 e 1, se o valor de cada vez mais 1"
+logic_negation,expensive_only,,,2,cpu,6.524531000002753,0.0,6.524530199996661,8.00006091594696e-07,32,4.904567086888927,0.0,32,,,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão abaixonado no botão de navegador"
+logic_negation,adaptive_calibrated,,,2,cpu,4.94512940000277,0.0,4.945128299994394,1.100008375942707e-06,32,6.471013680649504,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,adaptive_guarded_v3,,,2,cpu,5.122435500001302,0.0,5.122434599994449,9.00006853044033e-07,32,6.247028391083083,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,speculative_adaptive,,,2,cpu,8.806322799995542,0.0,8.80632199998945,8.00006091594696e-07,32,3.6337527849894626,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,hybrid,speculative_adaptive,logic,2,cpu,8.83370119999745,0.00010959999053739011,8.833590499998536,1.100008375942707e-06,32,3.622490649786665,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,hybrid,speculative_adaptive,logic,3,cpu,8.82126789999893,0.00016229999891947955,8.821104600006947,9.999930625781417e-07,32,3.6275964365625812,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,speculative_adaptive,,,3,cpu,8.865545499997097,0.0,8.865544800006319,6.999907782301307e-07,32,3.609478965508719,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,adaptive_guarded_v3,,,3,cpu,4.948697299987543,0.0,4.948696400009794,8.999777492135763e-07,32,6.466348224628843,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,adaptive_calibrated,,,3,cpu,4.956269199989038,0.0,4.956268499998259,6.999907782301307e-07,32,6.456469313666574,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,expensive_only,,,3,cpu,6.399286400002893,0.0,6.3992855999968015,8.00006091594696e-07,32,5.000557562165921,0.0,32,,,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão abaixonado no botão de navegador"
+logic_negation,cheap_only,,,3,cpu,3.029154700008803,0.0,3.0291537000011886,1.00000761449337e-06,32,10.564003218424931,65.0,0,32,1.0,0,0.0,"
+
+Ao verificar se o vento está entre 0 e 1, se o valor de cada vez mais 1"
+logic_negation,cheap_only,,,4,cpu,2.965299200004665,0.0,2.965298299997812,9.00006853044033e-07,32,10.791491125060722,65.0,0,32,1.0,0,0.0,"
+
+Ao verificar se o vento está entre 0 e 1, se o valor de cada vez mais 1"
+logic_negation,expensive_only,,,4,cpu,6.484370499994839,0.0,6.484369700003299,7.999915396794677e-07,32,4.934943183771728,0.0,32,,,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão abaixonado no botão de navegador"
+logic_negation,adaptive_calibrated,,,4,cpu,4.997187699991628,0.0,4.9971867999993265,8.999923011288047e-07,32,6.403601769862199,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,adaptive_guarded_v3,,,4,cpu,5.008929799994803,0.0,5.008928999988711,8.00006091594696e-07,32,6.388590233393409,33.75,10,22,0.6875,0,0.0,"
+
+Para saber mais sobre o vento, pode usar o botão ""Saber o vento"" no menu do"
+logic_negation,speculative_adaptive,,,4,cpu,9.243919499989715,0.0,9.243918500011205,9.999785106629133e-07,32,3.4617350356670245,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+logic_negation,hybrid,speculative_adaptive,logic,4,cpu,9.33650600000692,0.0001230000052601099,9.336381899993285,1.100008375942707e-06,32,3.427406355222851,-8.59375,12,23,0.71875,0,0.0,"
+
+Ao sair, o vento deve ser menor que o que o usuario estiver usando. Se o usuario"
+code,cheap_only,,,0,cpu,3.491268800004036,0.0,3.491267899997183,9.00006853044033e-07,32,9.165722215362795,65.0,0,32,1.0,0,0.0,"
+
+```python
+def divide_numbers(a, b):
+    if b == 0:
+        raise ZeroDivisionError(""Cannot divide by zero"
+code,expensive_only,,,0,cpu,7.786282400003984,0.0,7.786281299995608,1.100008375942707e-06,32,4.10979185650698,0.0,32,,,0,0.0,"
+
+**Exemplo:**
+
+```python
+def divide_by_two(x):
+    if x % 2 == 0:
+       "
+code,adaptive_calibrated,,,0,cpu,5.264262400000007,0.0,5.264261400006944,9.999930625781417e-07,32,6.07872434322422,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,adaptive_guarded_v3,,,0,cpu,5.475508699993952,0.0,5.4755079000024125,7.999915396794677e-07,32,5.844205854341048,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,speculative_adaptive,,,0,cpu,5.1299720000097295,0.0,5.129971000002115,1.00000761449337e-06,32,6.237850810869788,46.09375,5,31,0.96875,0,0.0,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else"
+code,hybrid,adaptive_calibrated,code,0,cpu,5.687308399996255,0.00013849999231752008,5.687168899996323,1.00000761449337e-06,32,5.626563173542879,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,hybrid,adaptive_calibrated,code,1,cpu,5.397866500003147,0.00011110000195913017,5.397754599995096,8.00006091594696e-07,32,5.9282681407517845,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,speculative_adaptive,,,1,cpu,5.200340199997299,0.0,5.200339200004237,9.999930625781417e-07,32,6.153443576636893,46.09375,5,31,0.96875,0,0.0,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else"
+code,adaptive_guarded_v3,,,1,cpu,5.479745800010278,0.0,5.479745200005709,6.00004568696022e-07,32,5.8396869431315555,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,adaptive_calibrated,,,1,cpu,5.470725200008019,0.0,5.470724500002689,7.00005330145359e-07,32,5.849315918838895,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,expensive_only,,,1,cpu,8.003254600000218,0.0,8.003253300004872,1.2999953469261527e-06,32,3.998373361756994,0.0,32,,,0,0.0,"
+
+**Exemplo:**
+
+```python
+def divide_by_two(x):
+    if x % 2 == 0:
+       "
+code,cheap_only,,,1,cpu,3.542321000000811,0.0,3.542320099993958,9.00006853044033e-07,32,9.033625128832952,65.0,0,32,1.0,0,0.0,"
+
+```python
+def divide_numbers(a, b):
+    if b == 0:
+        raise ZeroDivisionError(""Cannot divide by zero"
+code,cheap_only,,,2,cpu,3.5891893999942113,0.0,3.5891884000011487,9.999930625781417e-07,32,8.915662126955912,65.0,0,32,1.0,0,0.0,"
+
+```python
+def divide_numbers(a, b):
+    if b == 0:
+        raise ZeroDivisionError(""Cannot divide by zero"
+code,expensive_only,,,2,cpu,7.747310600010678,0.0,7.747309600003064,1.00000761449337e-06,32,4.130465609569842,0.0,32,,,0,0.0,"
+
+**Exemplo:**
+
+```python
+def divide_by_two(x):
+    if x % 2 == 0:
+       "
+code,adaptive_calibrated,,,2,cpu,5.7157109999971,0.0,5.715710100004799,8.999923011288047e-07,32,5.598603568307817,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,adaptive_guarded_v3,,,2,cpu,5.753620399991632,0.0,5.753619000010076,1.3999815564602613e-06,32,5.561715541756376,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,speculative_adaptive,,,2,cpu,5.474141500002588,0.0,5.4741406999964966,8.00006091594696e-07,32,5.8456654801460415,46.09375,5,31,0.96875,0,0.0,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else"
+code,hybrid,adaptive_calibrated,code,2,cpu,6.399630400002934,0.00015389999316539615,6.399475400001393,1.100008375942707e-06,32,5.000288766673983,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,hybrid,adaptive_calibrated,code,3,cpu,5.761921899989829,0.0001647000026423484,5.761756499996409,6.999907782301307e-07,32,5.553702489451737,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,speculative_adaptive,,,3,cpu,5.263525500005926,0.0,5.263524699999834,8.00006091594696e-07,32,6.079575372051294,46.09375,5,31,0.96875,0,0.0,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else"
+code,adaptive_guarded_v3,,,3,cpu,5.64080069999909,0.0,5.640799799992237,9.00006853044033e-07,32,5.672953486905708,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,adaptive_calibrated,,,3,cpu,6.263097199989716,0.0,6.263096199996653,9.999930625781417e-07,32,5.109293210402761,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,expensive_only,,,3,cpu,8.109738800005289,0.0,8.109737699996913,1.100008375942707e-06,32,3.9458730779318234,0.0,32,,,0,0.0,"
+
+**Exemplo:**
+
+```python
+def divide_by_two(x):
+    if x % 2 == 0:
+       "
+code,cheap_only,,,3,cpu,3.4376904999953695,0.0,3.4376895999885164,9.00006853044033e-07,32,9.308575044799147,65.0,0,32,1.0,0,0.0,"
+
+```python
+def divide_numbers(a, b):
+    if b == 0:
+        raise ZeroDivisionError(""Cannot divide by zero"
+code,cheap_only,,,4,cpu,3.705481899989536,0.0,3.7054812999995193,5.999900167807937e-07,32,8.635853814342033,65.0,0,32,1.0,0,0.0,"
+
+```python
+def divide_numbers(a, b):
+    if b == 0:
+        raise ZeroDivisionError(""Cannot divide by zero"
+code,expensive_only,,,4,cpu,7.714046299995971,0.0,7.7140450999868335,1.200009137392044e-06,32,4.148276890691816,0.0,32,,,0,0.0,"
+
+**Exemplo:**
+
+```python
+def divide_by_two(x):
+    if x % 2 == 0:
+       "
+code,adaptive_calibrated,,,4,cpu,5.485358499994618,0.0,5.485357799989288,7.00005330145359e-07,32,5.833711689041181,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,adaptive_guarded_v3,,,4,cpu,5.712791500001913,0.0,5.71279059999506,9.00006853044033e-07,32,5.601464713002266,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+code,speculative_adaptive,,,4,cpu,5.227268999995431,0.0,5.227267599999323,1.3999961083754897e-06,32,6.121743495509409,46.09375,5,31,0.96875,0,0.0,"
+
+```python
+def divide_numbers(x, y):
+    if x % 2 == 0:
+        return x / 2
+    else"
+code,hybrid,adaptive_calibrated,code,4,cpu,5.619631399997161,0.00020280000171624124,5.619427600002382,9.999930625781417e-07,32,5.694323652618243,40.0,8,24,0.75,0,0.0,"
+
+**Exemplo de uso:**
+
+```python
+def divide(x, y):
+    if x % 2 == 0:"
+long_simple,cheap_only,,,0,cpu,4.712699200012139,0.0,4.712698300005286,9.00006853044033e-07,32,6.790163904353915,65.0,0,32,1.0,0,0.0,"
+
+Ao finalizar o tarefas, o que não pode ser ao terceiro, o que não pode"
+long_simple,expensive_only,,,0,cpu,10.678323300002376,0.0,10.678322399995523,9.00006853044033e-07,32,2.9967251506603927,0.0,32,,,0,0.0,"
+
+Então, como a vida é, não se preocupes com as consequências de outros eventos."
+long_simple,adaptive_calibrated,,,0,cpu,9.831493699995917,0.0,9.831492800003616,8.999923011288047e-07,32,3.254846209179109,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,adaptive_guarded_v3,,,0,cpu,10.190876500011655,0.0,10.190875300002517,1.200009137392044e-06,32,3.1400635656769467,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,speculative_adaptive,,,0,cpu,12.894922100007534,0.0,12.894920699996874,1.400010660290718e-06,32,2.4815970001076084,9.531250000000002,9,25,0.78125,0,0.0,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um"
+long_simple,hybrid,adaptive_calibrated,general,0,cpu,9.76518990000477,0.00044319999869912863,9.76474519999465,1.500011421740055e-06,32,3.276946001837032,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,hybrid,adaptive_calibrated,general,1,cpu,10.700492300005862,0.0002615999983390793,10.700229699999909,1.00000761449337e-06,32,2.990516613892846,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,speculative_adaptive,,,1,cpu,14.585347100000945,0.0,14.585346299994853,8.00006091594696e-07,32,2.1939827541024326,9.531250000000002,9,25,0.78125,0,0.0,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um"
+long_simple,adaptive_guarded_v3,,,1,cpu,9.875120900003822,0.0,9.875119999996969,9.00006853044033e-07,32,3.2404666559563453,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,adaptive_calibrated,,,1,cpu,9.409223299997393,0.0,9.409222599992063,7.00005330145359e-07,32,3.4009183308476554,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,expensive_only,,,1,cpu,11.451212700005271,0.0,11.451211499996134,1.200009137392044e-06,32,2.7944638562154442,0.0,32,,,0,0.0,"
+
+Então, como a vida é, não se preocupes com as consequências de outros eventos."
+long_simple,cheap_only,,,1,cpu,5.688486099999864,0.0,5.688484899990726,1.200009137392044e-06,32,5.625398293581269,65.0,0,32,1.0,0,0.0,"
+
+Ao finalizar o tarefas, o que não pode ser ao terceiro, o que não pode"
+long_simple,cheap_only,,,2,cpu,5.409721400006674,0.0,5.409720499999821,9.00006853044033e-07,32,5.915276893919255,65.0,0,32,1.0,0,0.0,"
+
+Ao finalizar o tarefas, o que não pode ser ao terceiro, o que não pode"
+long_simple,expensive_only,,,2,cpu,10.858703500009142,0.0,10.858702300000004,1.200009137392044e-06,32,2.946944817120484,0.0,32,,,0,0.0,"
+
+Então, como a vida é, não se preocupes com as consequências de outros eventos."
+long_simple,adaptive_calibrated,,,2,cpu,9.451853999999003,0.0,9.451853100006701,8.999923011288047e-07,32,3.3855791678546217,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,adaptive_guarded_v3,,,2,cpu,9.665306800001417,0.0,9.665306099996087,7.00005330145359e-07,32,3.3108105787180295,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,speculative_adaptive,,,2,cpu,12.00925260000804,0.0,12.009251499999664,1.100008375942707e-06,32,2.6646121174916892,9.531250000000002,9,25,0.78125,0,0.0,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um"
+long_simple,hybrid,adaptive_calibrated,general,2,cpu,9.402367600006983,0.0003856999974232167,9.401980900001945,1.00000761449337e-06,32,3.4033980973022406,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,hybrid,adaptive_calibrated,general,3,cpu,10.052992600001744,0.00026449999131727964,10.05272690000129,1.200009137392044e-06,32,3.1831317572037654,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,speculative_adaptive,,,3,cpu,13.606846399998176,0.0,13.606845599992084,8.00006091594696e-07,32,2.351757274191343,9.531250000000002,9,25,0.78125,0,0.0,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um"
+long_simple,adaptive_guarded_v3,,,3,cpu,9.130145999995875,0.0,9.13014480000129,1.1999945854768157e-06,32,3.5048727588818904,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,adaptive_calibrated,,,3,cpu,9.16254079999635,0.0,9.162539700002526,1.0999938240274787e-06,32,3.492481037575598,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,expensive_only,,,3,cpu,10.298557299989625,0.0,10.298556300011114,9.999785106629133e-07,32,3.1072313400666554,0.0,32,,,0,0.0,"
+
+Então, como a vida é, não se preocupes com as consequências de outros eventos."
+long_simple,cheap_only,,,3,cpu,4.534338500001468,0.0,4.534337599994615,9.00006853044033e-07,32,7.057258737959162,65.0,0,32,1.0,0,0.0,"
+
+Ao finalizar o tarefas, o que não pode ser ao terceiro, o que não pode"
+long_simple,cheap_only,,,4,cpu,4.524837899996783,0.0,4.524837400007527,4.999892553314567e-07,32,7.072076548868801,65.0,0,32,1.0,0,0.0,"
+
+Ao finalizar o tarefas, o que não pode ser ao terceiro, o que não pode"
+long_simple,expensive_only,,,4,cpu,10.446356500004185,0.0,10.44635549999657,1.00000761449337e-06,32,3.063268997184538,0.0,32,,,0,0.0,"
+
+Então, como a vida é, não se preocupes com as consequências de outros eventos."
+long_simple,adaptive_calibrated,,,4,cpu,9.664170699994429,0.0,9.664169499999844,1.1999945854768157e-06,32,3.311199790792028,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,adaptive_guarded_v3,,,4,cpu,9.058885999998893,0.0,9.058884999991278,1.00000761449337e-06,32,3.5324431723728407,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"
+long_simple,speculative_adaptive,,,4,cpu,11.816781900008209,0.0,11.816781200002879,7.00005330145359e-07,32,2.7080130843387886,9.531250000000002,9,25,0.78125,0,0.0,"
+
+Ao final, a cidade de São Paulo, como o que aconteceu, estava a ficar como um"
+long_simple,hybrid,adaptive_calibrated,general,4,cpu,9.511488199990708,0.00030089999199844897,9.511186300005647,9.999930625781417e-07,32,3.3643525941641035,21.250000000000004,14,18,0.5625,0,0.0,"
+
+Então, como a vista de uma nova semana, eu parece que o tempo é muito mais lent"

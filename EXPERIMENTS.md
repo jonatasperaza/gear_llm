@@ -178,3 +178,35 @@ O benchmark compara:
 - `hybrid`
 
 Objetivo: evitar casos ruins do speculative em lógica e prompts longos simples, mantendo ganhos em matemática.
+
+## 8. Latency Benchmark
+
+O latency benchmark mede tempo real de geração para comparar a economia teórica com desempenho observado.
+
+Modos medidos:
+
+- `cheap_only`
+- `expensive_only`
+- `adaptive_calibrated`
+- `adaptive_guarded_v3`
+- `speculative_adaptive`
+- `hybrid`
+
+Métricas:
+
+- tempo total por execução;
+- tokens gerados;
+- tokens por segundo;
+- economia estimada;
+- chamadas ao modelo caro;
+- tokens aceitos pelo caminho barato, quando aplicável;
+- taxa de aceitação, quando aplicável;
+- pico de memória CUDA, quando disponível.
+
+O benchmark usa `time.perf_counter()` e sincroniza CUDA antes/depois da geração quando `torch.cuda.is_available()`.
+
+Comando de smoke test:
+
+```powershell
+python run_latency_benchmark.py --max-new-tokens 8 --warmup-runs 0 --measured-runs 1
+```

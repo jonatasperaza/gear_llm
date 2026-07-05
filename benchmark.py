@@ -37,6 +37,11 @@ from gear_llm.hybrid_router import (
     generate_with_mode,
     load_hybrid_models,
 )
+from gear_llm.latency_benchmark import (
+    print_latency_benchmark_report,
+    run_latency_benchmark,
+    save_latency_benchmark_outputs,
+)
 from gear_llm.model_loader import load_model_and_tokenizer
 from gear_llm.mode_oracle import (
     print_mode_oracle_report,
@@ -514,6 +519,11 @@ def main():
         help="Calcula o melhor modo por prompt usando dataset_benchmark.csv.",
     )
     parser.add_argument(
+        "--latency-benchmark",
+        action="store_true",
+        help="Mede latencia real dos modos de geracao.",
+    )
+    parser.add_argument(
         "--dataset",
         type=str,
         default="data/prompts.jsonl",
@@ -595,7 +605,19 @@ def main():
         "--max-new-tokens",
         type=int,
         default=None,
-        help="Override do máximo de tokens novos para rotinas speculative/tuning.",
+        help="Override do máximo de tokens novos para rotinas speculative/tuning/latency.",
+    )
+    parser.add_argument(
+        "--latency-warmup-runs",
+        type=int,
+        default=1,
+        help="Execucoes de aquecimento por prompt/modo no latency benchmark.",
+    )
+    parser.add_argument(
+        "--latency-measured-runs",
+        type=int,
+        default=3,
+        help="Execucoes medidas por prompt/modo no latency benchmark.",
     )
     parser.add_argument(
         "--adaptive-temperature",
@@ -826,6 +848,7 @@ def main():
         or args.hybrid_benchmark
         or args.dataset_benchmark
         or args.mode_oracle
+        or args.latency_benchmark
     ):
         if args.policy_replay:
             teacher_csv = output_dir / "teacher_calibration.csv"
@@ -983,6 +1006,31 @@ def main():
             print(f"{'oracle_summary':<15} -> {oracle_summary_csv}")
             print(f"{'oracle_conf':<15} -> {oracle_confidence_csv}")
             print(f"{'oracle_compare':<15} -> {oracle_compare_csv}")
+
+        if args.latency_benchmark:
+            latency_rows, latency_summary_rows, latency_winner_rows = (
+                run_latency_benchmark(
+                    prompts=PROMPTS,
+                    cheap_model_name=args.cheap_model,
+                    expensive_model_name=args.expensive_model,
+                    max_new_tokens=speculative_max_new_tokens,
+                    temperature=args.adaptive_temperature,
+                    warmup_runs=args.latency_warmup_runs,
+                    measured_runs=args.latency_measured_runs,
+                )
+            )
+            print_latency_benchmark_report(latency_summary_rows)
+            latency_csv, latency_summary_csv, latency_winners_csv = (
+                save_latency_benchmark_outputs(
+                    rows=latency_rows,
+                    summary_rows=latency_summary_rows,
+                    winner_rows=latency_winner_rows,
+                    output_dir=output_dir,
+                )
+            )
+            print(f"{'latency_csv':<15} -> {latency_csv}")
+            print(f"{'latency_sum':<15} -> {latency_summary_csv}")
+            print(f"{'latency_win':<15} -> {latency_winners_csv}")
 
         return
 
@@ -1470,6 +1518,32 @@ def main():
         print(f"{'oracle_summary':<15} -> {oracle_summary_csv}")
         print(f"{'oracle_conf':<15} -> {oracle_confidence_csv}")
         print(f"{'oracle_compare':<15} -> {oracle_compare_csv}")
+
+    if args.latency_benchmark and model_work_requested:
+        latency_rows, latency_summary_rows, latency_winner_rows = (
+            run_latency_benchmark(
+                prompts=PROMPTS,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=speculative_max_new_tokens,
+                temperature=args.adaptive_temperature,
+                warmup_runs=args.latency_warmup_runs,
+                measured_runs=args.latency_measured_runs,
+                models=adaptive_models,
+            )
+        )
+        print_latency_benchmark_report(latency_summary_rows)
+        latency_csv, latency_summary_csv, latency_winners_csv = (
+            save_latency_benchmark_outputs(
+                rows=latency_rows,
+                summary_rows=latency_summary_rows,
+                winner_rows=latency_winner_rows,
+                output_dir=output_dir,
+            )
+        )
+        print(f"{'latency_csv':<15} -> {latency_csv}")
+        print(f"{'latency_sum':<15} -> {latency_summary_csv}")
+        print(f"{'latency_win':<15} -> {latency_winners_csv}")
 
 
 if __name__ == "__main__":

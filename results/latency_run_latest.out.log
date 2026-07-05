@@ -1,0 +1,40 @@
+
+Latency Benchmark Summary
+========================================================================================================================================
+prompt           | mode                   |   avg sec |     tok/s |  saved % |   calls | real speedup
+-----------------------------------------------------------------------------------------------------
+code             | adaptive_calibrated    |    5.7669 |      5.55 |   40.00% |    8.00 |       27.13%
+code             | adaptive_guarded_v3    |    6.0398 |      5.30 |   40.00% |    8.00 |       23.68%
+code             | cheap_only             |    3.5143 |      9.11 |   65.00% |    0.00 |       55.60%
+code             | expensive_only         |    7.9143 |      4.05 |    0.00% |   32.00 |        0.00%
+code             | hybrid                 |    6.4533 |      4.96 |   40.00% |    8.00 |       18.46%
+code             | speculative_adaptive   |    5.9694 |      5.37 |   46.09% |    5.00 |       24.57%
+easy             | adaptive_calibrated    |    3.6178 |      8.86 |   46.25% |    6.00 |       33.93%
+easy             | adaptive_guarded_v3    |    3.8488 |      8.35 |   46.25% |    6.00 |       29.71%
+easy             | cheap_only             |    2.5359 |     12.63 |   65.00% |    0.00 |       53.69%
+easy             | expensive_only         |    5.4756 |      5.84 |    0.00% |   32.00 |        0.00%
+easy             | hybrid                 |    4.5856 |      6.99 |   34.22% |    6.00 |       16.25%
+easy             | speculative_adaptive   |    4.9216 |      6.50 |   34.22% |    6.00 |       10.12%
+logic_negation   | adaptive_calibrated    |    5.3594 |      5.97 |   33.75% |   10.00 |       18.28%
+logic_negation   | adaptive_guarded_v3    |    5.3747 |      5.97 |   33.75% |   10.00 |       18.05%
+logic_negation   | cheap_only             |    3.1363 |     10.20 |   65.00% |    0.00 |       52.18%
+logic_negation   | expensive_only         |    6.5586 |      4.88 |    0.00% |   32.00 |        0.00%
+logic_negation   | hybrid                 |    8.9818 |      3.56 |   -8.59% |   12.00 |      -36.95%
+logic_negation   | speculative_adaptive   |   10.1517 |      3.20 |   -8.59% |   12.00 |      -54.78%
+long_simple      | adaptive_calibrated    |   11.2910 |      2.85 |   21.25% |   14.00 |        2.74%
+long_simple      | adaptive_guarded_v3    |   10.0111 |      3.21 |   21.25% |   14.00 |       13.76%
+long_simple      | cheap_only             |    5.6592 |      5.66 |   65.00% |    0.00 |       51.25%
+long_simple      | expensive_only         |   11.6088 |      2.77 |    0.00% |   32.00 |        0.00%
+long_simple      | hybrid                 |    9.3492 |      3.42 |   21.25% |   14.00 |       19.46%
+long_simple      | speculative_adaptive   |   12.2060 |      2.63 |    9.53% |    9.00 |       -5.14%
+math             | adaptive_calibrated    |    5.1366 |      6.26 |   43.12% |    7.00 |       15.94%
+math             | adaptive_guarded_v3    |    4.6245 |      6.97 |   43.12% |    7.00 |       24.32%
+math             | cheap_only             |    2.8592 |     11.20 |   65.00% |    0.00 |       53.21%
+math             | expensive_only         |    6.1104 |      5.25 |    0.00% |   32.00 |        0.00%
+math             | hybrid                 |    4.2693 |      7.50 |   43.12% |    7.00 |       30.13%
+math             | speculative_adaptive   |    7.4770 |      4.29 |   11.88% |   10.00 |      -22.37%
+========================================================================================================================================
+
+latency_csv     -> results\latency_benchmark.csv
+summary_csv     -> results\latency_benchmark_summary.csv
+winners_csv     -> results\latency_winners.csv
