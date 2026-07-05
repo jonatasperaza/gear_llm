@@ -143,6 +143,36 @@ Easy and math show strong speedups, but only moderate or low textual similarity.
 
 This report demonstrates a quality-latency trade-off. It does not demonstrate quality equivalent to expensive_only.
 
+## Task-Specific Quality-Latency Evaluation
+
+The next evaluation path moves beyond lexical similarity to `expensive_only`. It uses a small task-oriented dataset with expected answers for math, labels for logic, and local unit tests for code.
+
+Configuration:
+
+- Cheap model: `Qwen/Qwen2.5-0.5B-Instruct`.
+- Expensive model: `Qwen/Qwen2.5-3B-Instruct`.
+- Device: CUDA.
+- torch_dtype: float16.
+- Prompt format: auto/chat.
+- Max new tokens: 128.
+- Dataset: `data/eval_tasks.jsonl`.
+- Dataset size: 45 tasks, with 15 math, 15 logic, and 15 code tasks balanced across easy, medium, and hard.
+
+| Mode | Pass rate | Avg real speedup | Avg estimated saved | Avg expensive calls | Avg time |
+|---|---:|---:|---:|---:|---:|
+| expensive_only | 91.11% | 0.00% | 0.00% | 16.64 | 9.365s |
+| cheap_only | 73.33% | 60.00% | 65.00% | 0.00 | 2.292s |
+| adaptive_calibrated | 86.67% | 51.66% | 54.32% | 2.09 | 3.232s |
+| adaptive_guarded_v3 | 86.67% | 47.34% | 53.69% | 2.71 | 3.751s |
+| speculative_adaptive | 80.00% | 17.56% | 20.11% | 4.40 | 4.289s |
+| hybrid | 86.67% | 52.60% | 51.03% | 2.64 | 3.276s |
+
+This is the strongest preliminary evidence so far that routed modes can preserve much of task-level correctness while reducing real latency in this specific model and hardware setting. `hybrid` was the strongest quality-latency mode in this run, while `adaptive_calibrated` was very close and used fewer expensive calls on average.
+
+The routed adaptive/hybrid modes reached 86.67% pass rate, compared with 91.11% for `expensive_only` and 73.33% for `cheap_only`. In this run, `hybrid` preserved about 95.13% of the `expensive_only` pass rate while achieving 52.60% average real speedup. `cheap_only` was faster, but lost substantially more accuracy, and `speculative_adaptive` was weaker on this task benchmark.
+
+The result is encouraging, but it should not be overread. It is based on one measured run per task/mode, a small 45-task dataset, laptop CUDA timing, a local subprocess code evaluator, normalization-based math checks, and keyword-based logic labels. It improves the quality signal beyond lexical similarity, but it does not prove quality is solved.
+
 ## 8. Key Findings
 
 - Estimated savings and real latency are not the same.

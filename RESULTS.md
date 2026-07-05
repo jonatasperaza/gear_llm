@@ -250,3 +250,57 @@ Interpretation:
 - `logic_negation` and `long_simple` show that textual similarity can be low even when latency speedup is high, so semantic and task-specific evaluation are needed.
 - The project has demonstrated real speedup, but it has not yet demonstrated quality equivalence to `expensive_only`.
 - The next step is task-specific evaluation: unit tests for code, symbolic or expected-answer checks for math, labels for logic, and LLM-judge or human review for open-ended text.
+
+## Task Quality-Latency Benchmark
+
+### Qwen2.5 0.5B -> 3B
+
+This benchmark evaluates task-level correctness and real wall-clock latency on the same run. Unlike lexical similarity to `expensive_only`, the evaluator checks simple expected answers for math, labels for logic, and local unit tests for code.
+
+Configuration:
+
+- Cheap model: `Qwen/Qwen2.5-0.5B-Instruct`
+- Expensive model: `Qwen/Qwen2.5-3B-Instruct`
+- Device: `cuda`
+- torch_dtype: `float16`
+- prompt_format: `auto` with effective chat template
+- max_new_tokens: 128
+- Dataset: `data/eval_tasks.jsonl`
+- Dataset size: 45 tasks
+  - 15 math
+  - 15 logic
+  - 15 code
+  - balanced across easy, medium, and hard
+
+Overall results:
+
+| Mode | Pass rate | Avg real speedup | Avg estimated saved | Avg expensive calls | Avg time |
+|---|---:|---:|---:|---:|---:|
+| expensive_only | 91.11% | 0.00% | 0.00% | 16.64 | 9.365s |
+| cheap_only | 73.33% | 60.00% | 65.00% | 0.00 | 2.292s |
+| adaptive_calibrated | 86.67% | 51.66% | 54.32% | 2.09 | 3.232s |
+| adaptive_guarded_v3 | 86.67% | 47.34% | 53.69% | 2.71 | 3.751s |
+| speculative_adaptive | 80.00% | 17.56% | 20.11% | 4.40 | 4.289s |
+| hybrid | 86.67% | 52.60% | 51.03% | 2.64 | 3.276s |
+
+Interpretation:
+
+- This is the strongest preliminary evidence so far that routed modes can preserve much of task-level correctness while reducing real latency in this model/hardware setting.
+- `hybrid` was the strongest quality-latency mode in this run.
+- `adaptive_calibrated` was very close and used fewer expensive calls on average.
+- `hybrid` and the adaptive modes reached 86.67% pass rate, compared with 91.11% for `expensive_only` and 73.33% for `cheap_only`.
+- `hybrid` preserved about 95.13% of the `expensive_only` pass rate while achieving 52.60% average real speedup.
+- `cheap_only` was faster, but lost much more accuracy.
+- `speculative_adaptive` was weaker in this task benchmark.
+
+Limitations:
+
+- This is a single measured run per task/mode.
+- The dataset has only 45 tasks.
+- Laptop CUDA timing can vary.
+- The code evaluator is a local subprocess harness, not a production sandbox.
+- Math evaluation is still normalization/contains-based, not symbolic.
+- Logic evaluation is keyword-rule-based.
+- Results are specific to `Qwen2.5-0.5B -> Qwen2.5-3B` on this CUDA setup.
+
+This benchmark improves the quality signal beyond lexical similarity, but it does not prove quality is solved. It should be treated as preliminary evidence that task-aware routed generation can approach expensive-only correctness while reducing real latency in a favorable setting.
