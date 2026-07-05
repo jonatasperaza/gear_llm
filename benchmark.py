@@ -86,6 +86,11 @@ from gear_llm.teacher_calibration import (
     save_teacher_rows,
     threshold_grid_search,
 )
+from gear_llm.task_evaluation import (
+    print_task_evaluation_report,
+    run_task_evaluation,
+    save_task_evaluation_outputs,
+)
 
 
 PROMPTS = {
@@ -568,6 +573,11 @@ def main():
         help="Mede latencia real dos modos de geracao.",
     )
     parser.add_argument(
+        "--task-evaluation",
+        action="store_true",
+        help="Roda avaliacao task-specific de math, logic e code.",
+    )
+    parser.add_argument(
         "--dataset",
         type=str,
         default="data/prompts.jsonl",
@@ -900,6 +910,10 @@ def main():
         if args.max_new_tokens is not None
         else args.adaptive_max_new_tokens
     )
+    task_dataset = args.dataset
+    if args.task_evaluation and args.dataset == "data/prompts.jsonl":
+        task_dataset = "data/eval_tasks.jsonl"
+
     model_work_requested = any(
         (
             args.ablation,
@@ -921,6 +935,7 @@ def main():
         or args.dataset_benchmark
         or args.mode_oracle
         or args.latency_benchmark
+        or args.task_evaluation
     ):
         if args.policy_replay:
             teacher_csv = output_dir / "teacher_calibration.csv"
@@ -1114,6 +1129,26 @@ def main():
             print(f"{'latency_csv':<15} -> {latency_csv}")
             print(f"{'latency_sum':<15} -> {latency_summary_csv}")
             print(f"{'latency_win':<15} -> {latency_winners_csv}")
+
+        if args.task_evaluation:
+            task_rows, task_summary_rows = run_task_evaluation(
+                dataset_path=task_dataset,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=speculative_max_new_tokens,
+                temperature=args.adaptive_temperature,
+                device=args.device,
+                torch_dtype=args.torch_dtype,
+                prompt_format=args.prompt_format,
+            )
+            print_task_evaluation_report(task_summary_rows)
+            task_csv, task_summary_csv = save_task_evaluation_outputs(
+                rows=task_rows,
+                summary_rows=task_summary_rows,
+                output_dir=output_dir,
+            )
+            print(f"{'task_csv':<15} -> {task_csv}")
+            print(f"{'task_summary':<15} -> {task_summary_csv}")
 
         return
 
@@ -1642,6 +1677,26 @@ def main():
         print(f"{'latency_csv':<15} -> {latency_csv}")
         print(f"{'latency_sum':<15} -> {latency_summary_csv}")
         print(f"{'latency_win':<15} -> {latency_winners_csv}")
+
+    if args.task_evaluation and model_work_requested:
+        task_rows, task_summary_rows = run_task_evaluation(
+            dataset_path=task_dataset,
+            cheap_model_name=args.cheap_model,
+            expensive_model_name=args.expensive_model,
+            max_new_tokens=speculative_max_new_tokens,
+            temperature=args.adaptive_temperature,
+            device=args.device,
+            torch_dtype=args.torch_dtype,
+            prompt_format=args.prompt_format,
+        )
+        print_task_evaluation_report(task_summary_rows)
+        task_csv, task_summary_csv = save_task_evaluation_outputs(
+            rows=task_rows,
+            summary_rows=task_summary_rows,
+            output_dir=output_dir,
+        )
+        print(f"{'task_csv':<15} -> {task_csv}")
+        print(f"{'task_summary':<15} -> {task_summary_csv}")
 
 
 if __name__ == "__main__":

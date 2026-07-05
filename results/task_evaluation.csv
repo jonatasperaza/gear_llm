@@ -1,0 +1,581 @@
+task_id,category,mode,selected_mode,cheap_model_name,expensive_model_name,device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,max_new_tokens,generated_text,expected_answer,expected_label,function_name,inferred_answer,inferred_label,passed,score,error,estimated_saved_percent,expensive_model_calls
+math_001,math,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,f^(-1)(x) = (x-1)/5,(x-1)/5,,,(x-1)/5,,True,1.0,,0.0,15
+math_001,math,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) \). To find the inverse, we need to solve for \( x \) in terms of \( y \) where \( y = 5x + 1 \).
+
+Starting with the equation:
+\[ y = 5x + 1 \]
+
+We solve for \( x \):
+\[ y - 1 = 5x \]
+\[",(x-1)/5,,,,,False,0.0,,65.00000000000001,0
+math_001,math,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,(x-1)/5,,,(x-1)/5,,True,1.0,,62.43589743589744,1
+math_001,math,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,(x-1)/5,,,(x-1)/5,,True,1.0,,62.43589743589744,1
+math_001,math,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) \). To find the inverse, we solve for \( x \) in terms of \( y \) where \( y = 5x + 1 \).
+
+Starting with the equation:
+\[ y = 5x + 1 \]
+
+Subtract 1 from both sides:
+\[ y - 1 = 5x \]
+
+Divide",(x-1)/5,,,,,False,0.0,,50.364583333333336,13
+math_001,math,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,(x-1)/5,,,(x-1)/5,,True,1.0,,62.43589743589744,1
+math_002,math,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,56,56,,,56,,True,1.0,,0.0,3
+math_002,math,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,7 * 8 = 56,56,,,56,,True,1.0,,65.0,0
+math_002,math,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,7 * 8 = 56,56,,,56,,True,1.0,,65.0,0
+math_002,math,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,7 * 8 = 56,56,,,56,,True,1.0,,65.0,0
+math_002,math,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,7 * 8 = 56,56,,,56,,True,1.0,,42.77777777777777,2
+math_002,math,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,7 * 8 = 56,56,,,56,,True,1.0,,65.0,0
+math_003,math,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,42,42,,,42,,True,1.0,,0.0,3
+math_003,math,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,32,42,,,,,False,0.0,,65.00000000000001,0
+math_003,math,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,42,42,,,42,,True,1.0,,31.66666666666667,1
+math_003,math,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,42,42,,,42,,True,1.0,,31.66666666666667,1
+math_003,math,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,32,42,,,,,False,0.0,,31.66666666666667,1
+math_003,math,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,42,42,,,42,,True,1.0,,31.66666666666667,1
+math_004,math,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,9,9,,,9,,True,1.0,,0.0,2
+math_004,math,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"1. **Identify the number**: The number we need to find the square root of is \( 81 \).
+
+2. **Understand the square root concept**: The square root of a number \( x \) is a number \( y \) such that \( y^2 = x \).
+
+3. **Apply the square root concept**: For \( 81 \), we need to find a number \( y \) such that \( y^2 = ",9,,,,,False,0.0,,65.00000000000001,0
+math_004,math,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,9,9,,,9,,True,1.0,,15.000000000000002,1
+math_004,math,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,9,9,,,9,,True,1.0,,15.000000000000002,1
+math_004,math,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,9,9,,,9,,True,1.0,,-122.49999999999997,2
+math_004,math,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,9,9,,,9,,True,1.0,,15.000000000000002,1
+math_005,math,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,6,8,,,,,False,0.0,,0.0,2
+math_005,math,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,5,8,,,,,False,0.0,,65.0,0
+math_005,math,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,5,8,,,,,False,0.0,,65.0,0
+math_005,math,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,5,8,,,,,False,0.0,,65.0,0
+math_005,math,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,5,8,,,,,False,0.0,,15.000000000000002,1
+math_005,math,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,5,8,,,,,False,0.0,,65.0,0
+logic_001,logic,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,deny,,deny,,,deny,True,1.0,,0.0,2
+logic_001,logic,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,65.0,0
+logic_001,logic,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,40.0,1
+logic_001,logic,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,40.0,1
+logic_001,logic,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,40.0,1
+logic_001,logic,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,40.0,1
+logic_002,logic,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,allow,,allow,,,allow,True,1.0,,0.0,2
+logic_002,logic,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_002,logic,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_002,logic,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_002,logic,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow,,allow,,,allow,True,1.0,,-2.499999999999991,1
+logic_002,logic,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_003,logic,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,deny,,deny,,,deny,True,1.0,,0.0,2
+logic_003,logic,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Deny. Accessing a private file without permission is generally not allowed, as it violates the user's privacy and may lead to legal issues or security risks. It's important to respect the user's privacy and ensure that only authorized individuals have access to sensitive information.",,deny,,,deny,True,1.0,,65.0,0
+logic_003,logic,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,40.0,1
+logic_003,logic,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,40.0,1
+logic_003,logic,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,22.500000000000007,1
+logic_003,logic,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Deny.,,deny,,,deny,True,1.0,,40.0,1
+logic_004,logic,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,allow,,allow,,,allow,True,1.0,,0.0,2
+logic_004,logic,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_004,logic,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_004,logic,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_004,logic,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,31.66666666666667,1
+logic_004,logic,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,Allow.,,allow,,,allow,True,1.0,,65.00000000000001,0
+logic_005,logic,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"depends
+
+The safety and decision-making capabilities of a system depend on the specific context and the rules or guidelines it is designed to follow. Without a clear rule or set of rules, it is not possible to determine whether the system can make a safe decision. The absence of a rule means there is no established framework to ensure safety, which is crucial in many applications, especially those involving critical systems or human safety. Therefore, the answer is ""depends"" because the safety depends on the",,unknown,,,depends,True,1.0,,0.0,96
+logic_005,logic,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"I'm sorry, but I can't assist with that.",,unknown,,,unknown,True,1.0,,64.99999999999999,0
+logic_005,logic,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"I'm sorry, but I can't assist with that.",,unknown,,,unknown,True,1.0,,64.99999999999999,0
+logic_005,logic,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"I'm sorry, but I can't assist with that.",,unknown,,,unknown,True,1.0,,64.99999999999999,0
+logic_005,logic,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"depends. 
+
+The safety of the system depends on the specific rules and context in which it operates. If the rules are well-defined and comprehensive, the system can make decisions safely. However, if the rules are ambiguous or incomplete, the system may not be able to make safe decisions. Additionally, the system's ability to make decisions depends on the underlying algorithms and the data it processes. If the data is incomplete or biased, the system may not be able to make safe decisions.",,unknown,,,depends,True,1.0,,27.44791666666666,21
+logic_005,logic,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"I'm sorry, but I can't assist with that.",,unknown,,,unknown,True,1.0,,64.99999999999999,0
+code_001,code,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a simple Python function named `soma` that takes two parameters `a` and `b`, and returns their sum:
+
+```python
+def soma(a, b):
+    return a + b
+```
+
+You can use this function to add any two numbers. Here's an example of how you might use it:
+
+```python
+result = soma(3, 5)
+print(result)  # Output will be 8
+```
+
+If you want",,,soma,,,True,1.0,,0.0,96
+code_001,code,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `soma` that takes two arguments `a` and `b`, and returns their sum:
+
+```python
+def soma(a, b):
+    return a + b
+```
+
+You can use this function to add two numbers by calling it with two arguments. For example:
+
+```python
+result = soma(3, 5)
+print(result)  # Output: 8
+```
+
+This function works by simply adding the two",,,soma,,,True,1.0,,65.00000000000001,0
+code_001,code,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `soma` that takes two arguments `a` and `b`, and returns their sum:
+
+```python
+def soma(a, b):
+    return a + b
+```
+
+You can use this function to add two numbers by calling it with two arguments. For example:
+
+```python
+result = soma(3, 5)
+print(result)  # Output: 8
+```
+
+This function works by simply adding the two",,,soma,,,True,1.0,,61.87500000000001,3
+code_001,code,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `soma` that takes two arguments `a` and `b`, and returns their sum:
+
+```python
+def soma(a, b):
+    return a + b
+```
+
+You can use this function to add two numbers by calling it with two arguments. For example:
+
+```python
+result = soma(3, 5)
+print(result)  # Output: 8
+```
+
+This function works by simply adding the two",,,soma,,,True,1.0,,60.83333333333334,4
+code_001,code,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `soma` that takes two arguments `a` and `b`, and returns their sum:
+
+```python
+def soma(a, b):
+    return a + b
+```
+
+You can use this function to add two numbers like this:
+
+```python
+result = soma(3, 5)
+print(result)  # Output: 8
+```
+
+This function simply adds the two input numbers and returns the result.",,,soma,,,True,1.0,,45.8421052631579,14
+code_001,code,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `soma` that takes two arguments `a` and `b`, and returns their sum:
+
+```python
+def soma(a, b):
+    return a + b
+```
+
+You can use this function to add two numbers by calling it with two arguments. For example:
+
+```python
+result = soma(3, 5)
+print(result)  # Output: 8
+```
+
+This function works by simply adding the two",,,soma,,,True,1.0,,61.87500000000001,3
+code_002,code,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a simple Python function named `is_even` that checks if a given number `n` is even:
+
+```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Parameters:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+
+# Example usage:
+print(is_even(4)) ",,,is_even,,,True,1.0,,0.0,96
+code_002,code,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `is_even(n)` that checks if a given number `n` is even:
+
+```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Parameters:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+
+# Example usage:
+print(is_even(4)) ",,,is_even,,,True,1.0,,65.00000000000001,0
+code_002,code,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `is_even(n)` that checks if a given number `n` is even:
+
+```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Parameters:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+
+# Example usage:
+print(is_even(4)) ",,,is_even,,,True,1.0,,63.95833333333334,1
+code_002,code,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `is_even(n)` that checks if a given number `n` is even:
+
+```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Parameters:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+
+# Example usage:
+print(is_even(4)) ",,,is_even,,,True,1.0,,63.95833333333334,1
+code_002,code,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `is_even(n)` that checks if a given number `n` is even:
+
+```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Parameters:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+
+# Example usage:
+print(is_even(4)) ",,,is_even,,,True,1.0,,51.45833333333334,13
+code_002,code,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `is_even(n)` that checks if a given number `n` is even:
+
+```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Parameters:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+
+# Example usage:
+print(is_even(4)) ",,,is_even,,,True,1.0,,63.95833333333334,1
+code_003,code,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a simple Python function named `square` that takes an integer `n` as an argument and returns the square of `n` (i.e., `n * n`):
+
+```python
+def square(n):
+    """"""
+    Returns the square of the given number n.
+    
+    Parameters:
+    n (int): The number to be squared.
+    
+    Returns:
+    int: The square of n.
+    """"""
+    return n * n
+
+# Example",,,square,,,True,1.0,,0.0,96
+code_003,code,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `square` that takes an integer `n` as input and returns `n` multiplied by itself.
+
+```python
+def square(n):
+    """"""
+    Return the square of n.
+    
+    Parameters:
+    n (int): The number to be squared.
+    
+    Returns:
+    int: The square of n.
+    """"""
+    return n * n
+
+# Example usage:
+result = square(5)
+print(result)  # Output",,,square,,,True,1.0,,65.00000000000001,0
+code_003,code,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `square` that takes an integer `n` as input and returns the square of `n`:
+
+```python
+def square(n):
+    """"""
+    Return the square of n.
+
+    Parameters:
+    n (int): The number to be squared.
+
+    Returns:
+    int: The square of n.
+    """"""
+    return n * n
+```
+
+You can use this function to calculate the square of any integer. For example:
+
+",,,square,,,True,1.0,,60.83333333333334,4
+code_003,code,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `square` that takes an integer `n` as input and returns the square of `n`:
+
+```python
+def square(n):
+    """"""
+    Return the square of n.
+
+    Parameters:
+    n (int): The number to be squared.
+
+    Returns:
+    int: The square of n.
+    """"""
+    return n * n
+```
+
+You can use this function to calculate the square of any integer. For example:
+
+",,,square,,,True,1.0,,59.79166666666668,5
+code_003,code,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `square` that takes an integer `n` as input and returns `n` multiplied by itself:
+
+```python
+def square(n):
+    """"""
+    Return the square of n.
+    
+    Parameters:
+    n (int): The number to be squared.
+    
+    Returns:
+    int: The square of n.
+    """"""
+    return n * n
+
+# Example usage:
+result = square(5)
+print(result)  # Output",,,square,,,True,1.0,,51.09375,13
+code_003,code,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `square` that takes an integer `n` as input and returns the square of `n`:
+
+```python
+def square(n):
+    """"""
+    Return the square of n.
+
+    Parameters:
+    n (int): The number to be squared.
+
+    Returns:
+    int: The square of n.
+    """"""
+    return n * n
+```
+
+You can use this function to calculate the square of any integer. For example:
+
+",,,square,,,True,1.0,,60.83333333333334,4
+code_004,code,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a simple Python function named `max_of_two` that takes two arguments `a` and `b` and returns the larger of the two:
+
+```python
+def max_of_two(a, b):
+    if a > b:
+        return a
+    else:
+        return b
+
+# Example usage:
+print(max_of_two(10, 20))  # Output: 20
+print(max_of_two(30, 20",,,max_of_two,,,True,1.0,,0.0,96
+code_004,code,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `max_of_two` that takes two arguments, `a` and `b`, and returns the larger of the two:
+
+```python
+def max_of_two(a, b):
+    if a > b:
+        return a
+    else:
+        return b
+```
+
+You can use this function to find the maximum of two numbers by calling it with two arguments. For example:
+
+```python
+result = max_of_two(10",,,max_of_two,,,True,1.0,,65.00000000000001,0
+code_004,code,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `max_of_two` that takes two arguments `a` and `b`, and returns the larger of the two:
+
+```python
+def max_of_two(a, b):
+    if a > b:
+        return a
+    else:
+        return b
+```
+
+You can use this function to find the maximum of two numbers. For example:
+
+```python
+print(max_of_two(10, 20))  # Output",,,max_of_two,,,True,1.0,,59.79166666666668,5
+code_004,code,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `max_of_two` that takes two arguments `a` and `b`, and returns the larger of the two:
+
+```python
+def max_of_two(a, b):
+    if a > b:
+        return a
+    else:
+        return b
+```
+
+You can use this function to find the maximum of two numbers. For example:
+
+```python
+print(max_of_two(10, 20))  # Output",,,max_of_two,,,True,1.0,,59.79166666666668,5
+code_004,code,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `max_of_two` that takes two arguments `a` and `b`, and returns the larger of the two:
+
+```python
+def max_of_two(a, b):
+    if a > b:
+        return a
+    else:
+        return b
+```
+
+You can use this function to find the maximum of two numbers. For example:
+
+```python
+print(max_of_two(10, 20))  # Output",,,max_of_two,,,True,1.0,,50.364583333333336,13
+code_004,code,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `max_of_two` that takes two arguments `a` and `b`, and returns the larger of the two:
+
+```python
+def max_of_two(a, b):
+    if a > b:
+        return a
+    else:
+        return b
+```
+
+You can use this function to find the maximum of two numbers. For example:
+
+```python
+print(max_of_two(10, 20))  # Output",,,max_of_two,,,True,1.0,,59.79166666666668,5
+code_005,code,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `reverse_string` that takes a string `s` as input and returns the reversed string:
+
+```python
+def reverse_string(s):
+    """"""
+    Reverses the given string.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+",,,reverse_string,,,True,1.0,,0.0,96
+code_005,code,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `reverse_string` that takes a string `s` as input and returns the reversed string:
+
+```python
+def reverse_string(s):
+    """"""
+    Reverses the given string.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+",,,reverse_string,,,True,1.0,,65.00000000000001,0
+code_005,code,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `reverse_string` that takes a string `s` as input and returns the reversed string:
+
+```python
+def reverse_string(s):
+    """"""
+    Reverses the given string.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+",,,reverse_string,,,True,1.0,,63.95833333333334,1
+code_005,code,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `reverse_string` that takes a string `s` as input and returns the reversed string:
+
+```python
+def reverse_string(s):
+    """"""
+    Reverses the given string.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+",,,reverse_string,,,True,1.0,,63.95833333333334,1
+code_005,code,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `reverse_string` that takes a string `s` as input and returns the reversed string:
+
+```python
+def reverse_string(s):
+    """"""
+    Reverses the given string.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+",,,reverse_string,,,True,1.0,,51.45833333333334,13
+code_005,code,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,96,"Certainly! Below is a Python function named `reverse_string` that takes a string `s` as input and returns the reversed string:
+
+```python
+def reverse_string(s):
+    """"""
+    Reverses the given string.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+",,,reverse_string,,,True,1.0,,63.95833333333334,1

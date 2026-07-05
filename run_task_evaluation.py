@@ -1,0 +1,101 @@
+import argparse
+
+from gear_llm.adaptive_generator import AdaptiveGenerationConfig
+from gear_llm.config import (
+    DEVICE_CHOICES,
+    PROMPT_FORMAT_CHOICES,
+    TORCH_DTYPE_CHOICES,
+)
+from gear_llm.task_evaluation import (
+    print_task_evaluation_report,
+    run_task_evaluation,
+    save_task_evaluation_outputs,
+)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="GEAR-LLM: task-specific quality evaluation."
+    )
+    parser.add_argument(
+        "--cheap-model",
+        type=str,
+        default=AdaptiveGenerationConfig.cheap_model_name,
+        help="Cheap model.",
+    )
+    parser.add_argument(
+        "--expensive-model",
+        type=str,
+        default=AdaptiveGenerationConfig.expensive_model_name,
+        help="Expensive model.",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        choices=DEVICE_CHOICES,
+        default="auto",
+        help="Device used by both models.",
+    )
+    parser.add_argument(
+        "--torch-dtype",
+        type=str,
+        choices=TORCH_DTYPE_CHOICES,
+        default="auto",
+        help="Torch dtype used by both models.",
+    )
+    parser.add_argument(
+        "--prompt-format",
+        type=str,
+        choices=PROMPT_FORMAT_CHOICES,
+        default="auto",
+        help="Prompt format: raw, chat, or auto.",
+    )
+    parser.add_argument(
+        "--max-new-tokens",
+        type=int,
+        default=80,
+        help="Maximum number of new tokens.",
+    )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=0.7,
+        help="Temperature used by generation modes.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default="results",
+        help="Directory where CSV files are saved.",
+    )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="data/eval_tasks.jsonl",
+        help="Task evaluation JSONL dataset.",
+    )
+
+    args = parser.parse_args()
+
+    rows, summary_rows = run_task_evaluation(
+        dataset_path=args.dataset,
+        cheap_model_name=args.cheap_model,
+        expensive_model_name=args.expensive_model,
+        max_new_tokens=args.max_new_tokens,
+        temperature=args.temperature,
+        device=args.device,
+        torch_dtype=args.torch_dtype,
+        prompt_format=args.prompt_format,
+    )
+    print_task_evaluation_report(summary_rows)
+    detailed_csv, summary_csv = save_task_evaluation_outputs(
+        rows=rows,
+        summary_rows=summary_rows,
+        output_dir=args.output_dir,
+    )
+    print(f"task_csv       -> {detailed_csv}")
+    print(f"task_summary   -> {summary_csv}")
+
+
+if __name__ == "__main__":
+    main()

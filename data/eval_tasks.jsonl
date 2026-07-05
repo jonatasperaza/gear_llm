@@ -1,0 +1,15 @@
+{"id":"math_001","category":"math","prompt":"Answer only with the inverse function: What is the inverse of f(x)=5x+1?","expected_answer":"(x-1)/5","acceptable_answers":["(x-1)/5","x/5-1/5","0.2x-0.2"]}
+{"id":"math_002","category":"math","prompt":"Answer only with the final number: What is 7 * 8?","expected_answer":"56","acceptable_answers":["56"]}
+{"id":"math_003","category":"math","prompt":"Answer only with the final number: What is 15 + 27?","expected_answer":"42","acceptable_answers":["42"]}
+{"id":"math_004","category":"math","prompt":"Answer only with the final number: What is the square root of 81?","expected_answer":"9","acceptable_answers":["9"]}
+{"id":"math_005","category":"math","prompt":"Answer only with the final number: What is (12 / 3) + 4?","expected_answer":"8","acceptable_answers":["8"]}
+{"id":"logic_001","category":"logic","prompt":"A user is inactive. Should access be allowed? Answer allow or deny.","expected_label":"deny","acceptable_labels":["deny","no"]}
+{"id":"logic_002","category":"logic","prompt":"The email is verified and the account is active. Should login be allowed? Answer allow or deny.","expected_label":"allow","acceptable_labels":["allow","yes"]}
+{"id":"logic_003","category":"logic","prompt":"A file is private and the user has no permission. Should access be allowed? Answer allow or deny.","expected_label":"deny","acceptable_labels":["deny","no"]}
+{"id":"logic_004","category":"logic","prompt":"Only admins may delete records. The user is an admin. Should deletion be allowed? Answer allow or deny.","expected_label":"allow","acceptable_labels":["allow","yes"]}
+{"id":"logic_005","category":"logic","prompt":"The rule is missing. Can the system decide safely? Answer unknown or depends.","expected_label":"unknown","acceptable_labels":["unknown","depends"]}
+{"id":"code_001","category":"code","prompt":"Write a Python function soma(a, b) that returns a + b.","function_name":"soma","tests":[{"call":"soma(2, 3)","expected":5},{"call":"soma(-1, 1)","expected":0}]}
+{"id":"code_002","category":"code","prompt":"Write a Python function is_even(n) that returns True if n is even.","function_name":"is_even","tests":[{"call":"is_even(4)","expected":true},{"call":"is_even(5)","expected":false}]}
+{"id":"code_003","category":"code","prompt":"Write a Python function square(n) that returns n * n.","function_name":"square","tests":[{"call":"square(4)","expected":16},{"call":"square(-3)","expected":9}]}
+{"id":"code_004","category":"code","prompt":"Write a Python function max_of_two(a, b) that returns the larger value.","function_name":"max_of_two","tests":[{"call":"max_of_two(2, 5)","expected":5},{"call":"max_of_two(9, 3)","expected":9}]}
+{"id":"code_005","category":"code","prompt":"Write a Python function reverse_string(s) that returns the reversed string.","function_name":"reverse_string","tests":[{"call":"reverse_string(\"abc\")","expected":"cba"},{"call":"reverse_string(\"gear\")","expected":"raeg"}]}
