@@ -1,0 +1,2 @@
+{"passage":"Only active users can log in. Maria is active.","question":"Can Maria log in?","options":["Yes, she can log in.","No, she cannot log in.","Not enough information.","Only if she is an admin."],"answer":"A"}
+{"passage":"If a badge is expired, access is denied unless an admin override exists. The badge is expired and no override exists.","question":"What should happen?","options":["Allow access.","Deny access.","Wait for more information.","It depends on the weather."],"answer":"B"}

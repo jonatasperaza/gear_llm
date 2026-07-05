@@ -210,3 +210,67 @@ Comando de smoke test:
 ```powershell
 python run_latency_benchmark.py --max-new-tokens 8 --warmup-runs 0 --measured-runs 1
 ```
+
+## 9. External Dataset Evaluation
+
+External Dataset Evaluation builds larger task-specific JSONL files compatible with `run_task_evaluation.py`.
+
+The builder is local-file first: it does not require internet during benchmark execution. Place public benchmark files under:
+
+```text
+data/external_sources/gsm8k/test.jsonl or test.json
+data/external_sources/mbpp/mbpp.jsonl or sanitized-mbpp.json
+data/external_sources/logiqa/test.jsonl or test.json
+```
+
+Then build a normalized dataset:
+
+```powershell
+python scripts/build_external_eval_tasks.py `
+  --output data/external_eval_tasks.jsonl `
+  --math-source gsm8k `
+  --code-source mbpp `
+  --logic-source logiqa `
+  --math-limit 200 `
+  --code-limit 200 `
+  --logic-limit 200 `
+  --seed 42
+```
+
+Recommended local run modes:
+
+Correctness-only larger run:
+
+```powershell
+python run_task_evaluation.py `
+  --dataset data/external_eval_tasks.jsonl `
+  --modes expensive_only,cheap_only,adaptive_calibrated,hybrid `
+  --max-new-tokens 128
+```
+
+Latency subset:
+
+```powershell
+python run_task_evaluation.py `
+  --dataset data/external_eval_tasks.jsonl `
+  --limit 60 `
+  --modes expensive_only,cheap_only,adaptive_calibrated,hybrid `
+  --include-latency `
+  --warmup-runs 1 `
+  --measured-runs 3 `
+  --max-new-tokens 128
+```
+
+For smoke tests without external downloads, use the bundled sample fixtures:
+
+```powershell
+python scripts/build_external_eval_tasks.py `
+  --output data/external_eval_tasks_smoke.jsonl `
+  --math-source sample `
+  --code-source sample `
+  --logic-source sample `
+  --math-limit 2 `
+  --code-limit 2 `
+  --logic-limit 2 `
+  --seed 42
+```

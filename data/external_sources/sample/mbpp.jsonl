@@ -1,0 +1,2 @@
+{"text":"Write a function add_numbers(a, b) that returns the sum of a and b.","test_list":["assert add_numbers(2, 3) == 5","assert add_numbers(-1, 1) == 0"]}
+{"text":"Write a function reverse_string(s) that returns the reversed string.","test_list":["assert reverse_string('abc') == 'cba'","assert reverse_string('gear') == 'raeg'"]}

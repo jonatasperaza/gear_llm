@@ -40,6 +40,7 @@ TASK_MODES = (
 )
 DIFFICULTIES = {"easy", "medium", "hard"}
 MATH_ANSWER_TYPES = {"number", "expression", "boolean", "choice"}
+LOGIC_ANSWER_TYPES = {"label", "choice"}
 
 
 def load_eval_tasks(path: str | Path) -> list[dict]:
@@ -80,7 +81,15 @@ def load_eval_tasks(path: str | Path) -> list[dict]:
                         f"{item['answer_type']}"
                     )
             elif category == "logic":
-                missing_logic = {"expected_label", "acceptable_labels"} - set(item)
+                answer_type = item.get("answer_type", "label")
+                if answer_type not in LOGIC_ANSWER_TYPES:
+                    raise ValueError(
+                        f"Task {item['id']} has invalid answer_type: {answer_type}"
+                    )
+                if answer_type == "choice":
+                    missing_logic = {"expected_answer", "acceptable_answers"} - set(item)
+                else:
+                    missing_logic = {"expected_label", "acceptable_labels"} - set(item)
                 if missing_logic:
                     fields = ", ".join(sorted(missing_logic))
                     raise ValueError(f"Task {item['id']} missing fields: {fields}")
@@ -353,7 +362,52 @@ def infer_logic_label(text: str) -> str:
     return "unknown"
 
 
+def infer_logic_choice(text: str) -> str:
+    cleaned = re.sub(r"```(?:\w+)?\s*(.*?)```", r"\1", str(text), flags=re.DOTALL)
+    cleaned = re.sub(r"`([^`]*)`", r"\1", cleaned).strip()
+    compact = re.sub(r"\s+", " ", cleaned)
+
+    explicit_patterns = (
+        r"\b(?:answer|option|letter|resposta|opcao|opção|letra)\s*"
+        r"(?:is|é|:)?\s*[\(\[]?([A-Da-d])\b",
+        r"\b(?:the correct answer is|a resposta correta e|a resposta correta é)\s*"
+        r"[\(\[]?([A-Da-d])\b",
+    )
+    for pattern in explicit_patterns:
+        match = re.search(pattern, compact, flags=re.IGNORECASE)
+        if match:
+            return match.group(1).upper()
+
+    start_match = re.match(r"^\s*[\(\[]?([A-D])[\)\].,:;\s]", cleaned)
+    if start_match:
+        remainder = cleaned[start_match.end() :].lstrip().lower()
+        if not remainder.startswith(("resposta", "answer")):
+            return start_match.group(1).upper()
+
+    single = re.fullmatch(r"\s*[\(\[]?([A-Da-d])[\)\].]?\s*", cleaned)
+    if single:
+        return single.group(1).upper()
+
+    return ""
+
+
 def evaluate_logic(task: dict, generated_text: str) -> dict:
+    if task.get("answer_type") == "choice":
+        inferred_answer = infer_logic_choice(generated_text)
+        acceptable = {str(answer).upper() for answer in task.get("acceptable_answers", [])}
+        passed = inferred_answer in acceptable
+
+        return {
+            "inferred_answer": inferred_answer,
+            "inferred_label": "",
+            "passed": passed,
+            "score": 1.0 if passed else 0.0,
+            "error": "",
+            "failure_reason": "" if passed else f"inferred_{inferred_answer or 'none'}",
+            "test_count": 0,
+            "passed_tests": 0,
+        }
+
     inferred_label = infer_logic_label(generated_text)
     acceptable = set(task.get("acceptable_labels", []))
     passed = inferred_label in acceptable
@@ -510,6 +564,42 @@ def validate_code_safety(code: str) -> tuple[bool, str]:
     return True, ""
 
 
+def validate_tests_safety(tests: list[dict]) -> tuple[bool, str]:
+    for test in tests:
+        raw_assert = test.get("assert") or test.get("raw_assert")
+        if not raw_assert:
+            continue
+
+        try:
+            tree = ast.parse(raw_assert)
+        except SyntaxError as error:
+            return False, f"test_syntax_error: {error}"
+
+        if not tree.body or not isinstance(tree.body[0], ast.Assert):
+            return False, "raw_test_must_be_assert_statement"
+
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.Import, ast.ImportFrom)):
+                return False, "imports_not_allowed_in_tests"
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+                if node.func.id in UNSAFE_CALL_NAMES:
+                    return False, f"unsafe_test_call: {node.func.id}"
+            if isinstance(node, ast.Attribute) and node.attr in {
+                "system",
+                "popen",
+                "remove",
+                "unlink",
+                "rmdir",
+                "mkdir",
+                "write",
+                "connect",
+                "request",
+            }:
+                return False, f"unsafe_test_attribute: {node.attr}"
+
+    return True, ""
+
+
 def run_code_tests(
     code: str,
     tests: list[dict],
@@ -518,6 +608,9 @@ def run_code_tests(
     safe, reason = validate_code_safety(code)
     if not safe:
         return False, 0, reason
+    safe_tests, test_reason = validate_tests_safety(tests)
+    if not safe_tests:
+        return False, 0, test_reason
 
     runner = textwrap.dedent(
         """
@@ -575,17 +668,28 @@ def run_code_tests(
             failure = ""
             for test in tests:
                 try:
+                    assertion = test.get("assert") or test.get("raw_assert")
+                    if assertion:
+                        exec(assertion, {"__builtins__": safe_builtins}, namespace)
+                        passed += 1
+                        continue
+
                     result = eval(test["call"], {"__builtins__": safe_builtins}, namespace)
                     if same_value(result, test["expected"]):
                         passed += 1
-                    else:
-                        failure = (
-                            f"{test['call']} -> {result!r}, "
-                            f"expected {test['expected']!r}"
-                        )
-                        break
+                        continue
+
+                    failure = (
+                        f"{test['call']} -> {result!r}, "
+                        f"expected {test['expected']!r}"
+                    )
+                    break
+                except AssertionError:
+                    failure = assertion or "assertion_failed"
+                    break
                 except Exception as error:
-                    failure = f"{test['call']} raised {type(error).__name__}: {error}"
+                    label = test.get("call") or test.get("assert") or test.get("raw_assert")
+                    failure = f"{label} raised {type(error).__name__}: {error}"
                     break
             print(json.dumps({"passed_tests": passed, "failure": failure}))
         except Exception as error:
@@ -687,6 +791,7 @@ def evaluate_task(task: dict, generated_text: str) -> dict:
 
 def _task_fields(task: dict) -> dict:
     return {
+        "source": task.get("source", ""),
         "difficulty": task.get("difficulty", ""),
         "answer_type": task.get("answer_type", ""),
         "expected_answer": task.get("expected_answer", ""),
@@ -1158,9 +1263,26 @@ def run_task_evaluation(
     )
 
 
+def _wilson_interval(passed: int, count: int, z: float = 1.96) -> tuple[float, float]:
+    if count <= 0:
+        return 0.0, 0.0
+
+    phat = passed / count
+    denominator = 1 + z**2 / count
+    center = (phat + z**2 / (2 * count)) / denominator
+    margin = (
+        z
+        * ((phat * (1 - phat) + z**2 / (4 * count)) / count) ** 0.5
+        / denominator
+    )
+    return max(0.0, center - margin), min(1.0, center + margin)
+
+
 def _summary_from_group(group: list[dict], extra: dict) -> dict:
     count = len(group)
     passed = sum(1 for row in group if row["passed"])
+    pass_rate = passed / count if count else 0.0
+    ci_low, ci_high = _wilson_interval(passed, count)
     score_sum = sum(float(row["score"]) for row in group)
     saved_sum = sum(float(row["estimated_saved_percent"]) for row in group)
     calls_sum = sum(float(row["expensive_model_calls"]) for row in group)
@@ -1168,7 +1290,9 @@ def _summary_from_group(group: list[dict], extra: dict) -> dict:
     return {
         **extra,
         "count": count,
-        "pass_rate": passed / count if count else 0.0,
+        "pass_rate": pass_rate,
+        "pass_rate_ci95_low": ci_low,
+        "pass_rate_ci95_high": ci_high,
         "avg_score": score_sum / count if count else 0.0,
         "avg_estimated_saved_percent": saved_sum / count if count else 0.0,
         "avg_expensive_model_calls": calls_sum / count if count else 0.0,
@@ -1350,6 +1474,8 @@ def summarize_task_quality_latency(
     for key, group in sorted(grouped.items(), key=sort_key):
         count = len(group)
         passed = sum(1 for row in group if row["passed"] is True or row["passed"] == "True")
+        pass_rate = passed / count if count else 0.0
+        ci_low, ci_high = _wilson_interval(passed, count)
         score_sum = sum(_as_float(row["score"]) for row in group)
         time_values = [_as_float(row["total_time_seconds_avg"]) for row in group]
         speedup_values = [
@@ -1362,8 +1488,10 @@ def summarize_task_quality_latency(
         summary.update(
             {
                 "count": count,
-                "pass_rate": passed / count if count else 0.0,
-                "avg_pass_rate": passed / count if count else 0.0,
+                "pass_rate": pass_rate,
+                "avg_pass_rate": pass_rate,
+                "pass_rate_ci95_low": ci_low,
+                "pass_rate_ci95_high": ci_high,
                 "avg_score": score_sum / count if count else 0.0,
                 "avg_total_time_seconds": _mean(time_values),
                 "std_total_time_seconds": _std(time_values),
