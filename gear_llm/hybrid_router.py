@@ -28,6 +28,36 @@ def _word_set(text: str) -> set[str]:
     return set(re.findall(r"\b\w+\b", normalize_text(text)))
 
 
+def count_words(prompt: str) -> int:
+    return len(re.findall(r"\b\w+\b", normalize_text(prompt)))
+
+
+def is_short_direct_prompt(prompt: str, prompt_type: str) -> bool:
+    word_count = count_words(prompt)
+    normalized = normalize_text(prompt)
+    words = _word_set(prompt)
+
+    if word_count > 18:
+        return False
+    if prompt_type in {"math", "math_symbolic_dense", "long_simple"}:
+        return False
+
+    return any(
+        (
+            "em poucas palavras" in normalized,
+            "em uma frase" in normalized,
+            "resuma" in words,
+            "sugira um titulo" in normalized,
+            "explique o papel" in normalized,
+            "crie uma funcao" in normalized,
+            "mostre uma funcao" in normalized,
+            "avalie" in words,
+            prompt_type == "code" and "return" in words,
+            prompt_type == "logic" and word_count <= 18,
+        )
+    )
+
+
 def is_math_symbolic_dense(prompt: str, normalized: str, words: set[str]) -> bool:
     compact = re.sub(r"\s+", "", normalized)
     operator_types = set(re.findall(r"[+\-*/^%]", prompt))
@@ -144,23 +174,25 @@ def classify_prompt(prompt: str) -> str:
     if is_math:
         return "math"
 
-    word_count = len(re.findall(r"\b\w+\b", normalized))
-    if word_count > 40:
+    if count_words(prompt) > 40:
         return "long_simple"
 
     return "general"
 
 
-def choose_mode(prompt_type: str) -> str:
+def choose_mode(prompt_type: str, prompt: str | None = None) -> str:
     """
     Escolhe o modo padrao do hybrid router.
 
-    speculative_adaptive continua experimental. O oracle atual nao mostrou
-    evidencia high-confidence para usa-lo automaticamente em matematica,
-    nem mesmo em math_symbolic_dense; por isso o padrao conservador e
-    adaptive_calibrated, exceto para logica.
+    speculative_adaptive continua experimental. Ele nao e usado para
+    matematica por padrao, nem mesmo em math_symbolic_dense, porque o oracle
+    atual nao mostrou evidencia high-confidence nessa familia. A excecao
+    conservadora sao prompts curtos e diretos, onde o oracle indicou melhor
+    trade-off em alguns casos previsiveis.
     """
 
+    if prompt is not None and is_short_direct_prompt(prompt, prompt_type):
+        return "speculative_adaptive"
     if prompt_type == "logic":
         return "adaptive_guarded_v3"
     return "adaptive_calibrated"
@@ -328,7 +360,7 @@ def hybrid_generate_with_models(
     temperature: float = 0.7,
 ) -> dict:
     prompt_type = classify_prompt(prompt)
-    selected_mode = choose_mode(prompt_type)
+    selected_mode = choose_mode(prompt_type, prompt)
     summary = generate_with_mode(
         prompt=prompt,
         mode=selected_mode,

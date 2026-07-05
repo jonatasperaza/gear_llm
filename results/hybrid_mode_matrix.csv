@@ -1,6 +1,9 @@
 expected_category,selected_mode,count
-code,adaptive_calibrated,10
-easy,adaptive_calibrated,10
-general,adaptive_calibrated,10
-logic,adaptive_guarded_v3,10
+code,adaptive_calibrated,6
+code,speculative_adaptive,4
+easy,adaptive_calibrated,3
+easy,speculative_adaptive,7
+general,adaptive_calibrated,8
+general,speculative_adaptive,2
+logic,speculative_adaptive,10
 math,adaptive_calibrated,10

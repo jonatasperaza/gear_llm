@@ -377,7 +377,7 @@ def run_hybrid_benchmark(
 
     for prompt_name, prompt in prompts.items():
         prompt_type = classify_prompt(prompt)
-        selected_mode = choose_mode(prompt_type)
+        selected_mode = choose_mode(prompt_type, prompt)
         reference_text, _ = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,

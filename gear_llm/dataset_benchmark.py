@@ -158,7 +158,7 @@ def run_dataset_benchmark(
     for prompt_item in prompts:
         prompt = prompt_item["prompt"]
         prompt_type = classify_prompt(prompt)
-        selected_mode = choose_mode(prompt_type)
+        selected_mode = choose_mode(prompt_type, prompt)
         reference_text, _ = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,
