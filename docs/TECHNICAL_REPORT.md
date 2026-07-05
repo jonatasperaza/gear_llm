@@ -201,7 +201,100 @@ The known limitations are substantial:
 
 Quality preservation is not yet proven robustly; current similarity/Jaccard metrics are weak proxies for semantic correctness.
 
-## 10. Next Steps
+## 10. External Critique Response
+
+An external critique identified five concerns that are important for interpreting the current results. The project response is below.
+
+### 10.1 Routing overhead may exceed benefits
+
+**Critique summary:** Routing between a cheap and expensive model can add Python control-flow overhead, model-switching overhead, memory pressure, and scheduling cost. The overhead can exceed the saved computation.
+
+**Current status:** Confirmed and central.
+
+**Evidence from current experiments:**
+
+- The SmolLM2 small-gap GPU results showed `expensive_only` winning against routed non-cheap modes.
+- The `Qwen2.5-0.5B -> Qwen2.5-3B` CUDA results showed routed modes winning when the expensive model was sufficiently costly relative to the cheap model and hardware.
+
+**Planned mitigation:**
+
+- Document model-gap dependency explicitly.
+- Benchmark on more hardware and model pairs.
+- Optimize runtime later, after validating the algorithmic trade-off.
+
+### 10.2 Local token-level signals do not capture global reasoning difficulty
+
+**Critique summary:** Entropy, margin, top-k agreement, and related confidence signals are local token-level measures. They can miss cases where the next token is easy to predict but the reasoning needed to reach the answer is hard.
+
+**Current status:** Valid limitation.
+
+**Evidence from current experiments:**
+
+- Entropy and margin are local token-level signals in the adaptive generator.
+- Task-specific evaluation was added to measure final correctness on math, logic, and code tasks.
+
+**Planned mitigation:**
+
+- Add prompt-level and task-level risk features.
+- Train a learned router from oracle labels and task-evaluation data.
+- Include prompt features, cheap-model confidence, category, difficulty, pass/fail outcomes, and latency as router inputs.
+
+### 10.3 Lexical quality metrics are weak
+
+**Critique summary:** Similarity, Jaccard overlap, and repetition rates do not reliably measure semantic correctness.
+
+**Current status:** Partially mitigated.
+
+**Evidence from current experiments:**
+
+- The quality-latency report still uses lexical similarity and Jaccard as lightweight proxies.
+- Task evaluation now includes code tests, math expected-answer checks, and logic labels.
+
+**Planned mitigation:**
+
+- Add symbolic math checks.
+- Improve logic labels and task design.
+- Expand the dataset.
+- Add LLM-judge or human review for open-ended text.
+
+### 10.4 Manual heuristics and thresholds may not generalize
+
+**Critique summary:** Hand-written thresholds and prompt rules may not transfer across domains, model pairs, languages, or hardware.
+
+**Current status:** Open.
+
+**Evidence from current experiments:**
+
+- The hybrid router still uses hand-written rules.
+- Thresholds and guard settings are manually selected from small calibration and tuning runs.
+
+**Planned mitigation:**
+
+- Build a learned router using prompt features, cheap-model confidence, oracle labels, task pass/fail results, and latency measurements.
+- Start with interpretable models such as logistic regression or decision trees.
+
+### 10.5 Budget caps may trade away quality
+
+**Critique summary:** Budget caps keep latency and cost controlled, but they may block optional expensive-model calls that would improve output quality.
+
+**Current status:** Intentional trade-off, but too rigid.
+
+**Evidence from current experiments:**
+
+- The budget cap prevents optional expensive fallbacks after the configured call ratio is reached.
+- This helps latency/cost control, but can limit quality, especially in structured outputs such as code.
+
+**Planned mitigation:**
+
+- Expose policy modes: `latency`, `balanced`, and `quality`.
+- Make budget caps dynamic by category and difficulty.
+- Tune budget behavior using task-quality-latency data.
+
+The current value proposition should be stated as:
+
+> "On a constrained GPU setup with Qwen2.5-0.5B -> Qwen2.5-3B, GEAR-LLM showed preliminary evidence that routed modes can preserve most task-level correctness while reducing average wall-clock latency. This does not imply universal usefulness; the method is useful only under specific model-gap, hardware, and quality-tolerance conditions."
+
+## 11. Next Steps
 
 The next phase should focus on quality evaluation and broader validation:
 
@@ -217,7 +310,7 @@ The next phase should focus on quality evaluation and broader validation:
 - Test on hardware with enough dedicated VRAM to avoid shared-memory effects.
 - Compare against stronger baselines and optimized speculative decoding implementations.
 
-## 11. Reproducibility
+## 12. Reproducibility
 
 Latency benchmark:
 
@@ -251,7 +344,7 @@ Quality-latency report:
 .\.venv-cuda\Scripts\python.exe run_quality_latency_report.py
 ```
 
-## 12. Conclusion
+## 13. Conclusion
 
 GEAR-LLM demonstrated a real latency win in a specific, reproducible setting. The strongest evidence is Qwen2.5-0.5B -> Qwen2.5-3B on CUDA with chat formatting.
 

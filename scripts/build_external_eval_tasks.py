@@ -10,6 +10,9 @@ SOURCE_ROOT = Path("data/external_sources")
 
 
 def read_records(path: Path) -> list[dict]:
+    if path.suffix.lower() == ".txt":
+        return read_logiqa_original_txt(path)
+
     if path.suffix == ".jsonl":
         records = []
         with path.open("r", encoding="utf-8") as file:
@@ -33,6 +36,46 @@ def read_records(path: Path) -> list[dict]:
     raise ValueError(f"Unsupported JSON structure in {path}")
 
 
+def read_logiqa_original_txt(path: Path) -> list[dict]:
+    lines = path.read_text(encoding="utf-8-sig").splitlines()
+    records = []
+    index = 0
+
+    while index < len(lines):
+        if not lines[index].strip():
+            chunk = lines[index : index + 8]
+            index += 8
+            if len(chunk) < 8:
+                break
+            answer = chunk[1]
+            passage = chunk[2]
+            question = chunk[3]
+            options = chunk[4:8]
+        else:
+            chunk = lines[index : index + 7]
+            index += 7
+            if len(chunk) < 7:
+                break
+            answer = chunk[0]
+            passage = chunk[1]
+            question = chunk[2]
+            options = chunk[3:7]
+
+        if not str(answer).strip() or len(options) < 4:
+            continue
+
+        records.append(
+            {
+                "answer": answer.strip(),
+                "passage": passage.strip(),
+                "question": question.strip(),
+                "options": [strip_option_label(option) for option in options],
+            }
+        )
+
+    return records
+
+
 def source_missing_message(source: str, candidates: list[Path]) -> str:
     candidate_text = "\n".join(f"  - {path}" for path in candidates)
     return (
@@ -43,7 +86,7 @@ def source_missing_message(source: str, candidates: list[Path]) -> str:
         "Examples:\n"
         "  GSM8K: data/external_sources/gsm8k/test.jsonl or test.json\n"
         "  MBPP : data/external_sources/mbpp/mbpp.jsonl or sanitized-mbpp.json\n"
-        "  LogiQA: data/external_sources/logiqa/test.jsonl or test.json"
+        "  LogiQA: data/external_sources/logiqa/test.jsonl, test.json, or Test.txt"
     )
 
 
@@ -65,6 +108,7 @@ def find_source_file(source: str, kind: str) -> Path:
         candidates = [
             SOURCE_ROOT / source / "test.jsonl",
             SOURCE_ROOT / source / "test.json",
+            SOURCE_ROOT / source / "Test.txt",
         ]
     else:
         raise ValueError(f"Unsupported source kind: {kind}")
@@ -74,6 +118,10 @@ def find_source_file(source: str, kind: str) -> Path:
             return path
 
     raise FileNotFoundError(source_missing_message(source, candidates))
+
+
+def strip_option_label(option: str) -> str:
+    return re.sub(r"^\s*[A-Da-d][\.\)\]、:]\s*", "", str(option)).strip()
 
 
 def normalize_number_answer(answer: str) -> str:
@@ -229,12 +277,12 @@ def normalize_options(record: dict) -> list[str]:
         if len(result) >= 4:
             return result[:4]
     if isinstance(options, list):
-        return [str(option) for option in options[:4]]
+        return [strip_option_label(option) for option in options[:4]]
 
     result = []
     for key in ("option_0", "option_1", "option_2", "option_3"):
         if key in record:
-            result.append(str(record[key]))
+            result.append(strip_option_label(record[key]))
     return result
 
 
@@ -290,6 +338,9 @@ def convert_logiqa(record: dict, index: int) -> dict | None:
 
 
 def build_source_tasks(source: str, kind: str, limit: int | None, seed: int) -> list[dict]:
+    if limit is not None and limit <= 0:
+        return []
+
     path = find_source_file(source, kind)
     records = read_records(path)
     rng = random.Random(seed)
@@ -356,31 +407,38 @@ def main():
 
     args = parser.parse_args()
 
+    any_limit_set = any(
+        limit is not None
+        for limit in (args.math_limit, args.code_limit, args.logic_limit)
+    )
     tasks = []
-    tasks.extend(
-        build_source_tasks(
-            source=args.math_source,
-            kind="gsm8k",
-            limit=args.math_limit,
-            seed=args.seed,
+    if not any_limit_set or args.math_limit is not None:
+        tasks.extend(
+            build_source_tasks(
+                source=args.math_source,
+                kind="gsm8k",
+                limit=args.math_limit,
+                seed=args.seed,
+            )
         )
-    )
-    tasks.extend(
-        build_source_tasks(
-            source=args.code_source,
-            kind="mbpp",
-            limit=args.code_limit,
-            seed=args.seed,
+    if not any_limit_set or args.code_limit is not None:
+        tasks.extend(
+            build_source_tasks(
+                source=args.code_source,
+                kind="mbpp",
+                limit=args.code_limit,
+                seed=args.seed,
+            )
         )
-    )
-    tasks.extend(
-        build_source_tasks(
-            source=args.logic_source,
-            kind="logiqa",
-            limit=args.logic_limit,
-            seed=args.seed,
+    if not any_limit_set or args.logic_limit is not None:
+        tasks.extend(
+            build_source_tasks(
+                source=args.logic_source,
+                kind="logiqa",
+                limit=args.logic_limit,
+                seed=args.seed,
+            )
         )
-    )
 
     output_path = Path(args.output)
     write_jsonl(tasks, output_path)

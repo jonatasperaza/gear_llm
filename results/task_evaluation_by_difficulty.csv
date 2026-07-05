@@ -1,3 +1,9 @@
-category,difficulty,mode,count,pass_rate,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls
-math,easy,expensive_only,3,1.0,1.0,0.0,10.0
-math,easy,adaptive_calibrated,3,0.6666666666666666,0.6666666666666666,51.599326599326595,1.3333333333333333
+category,difficulty,mode,count,pass_rate,pass_rate_ci95_low,pass_rate_ci95_high,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls
+code,easy,expensive_only,1,1.0,0.20654329147389294,1.0,1.0,0.0,20.0
+code,easy,adaptive_calibrated,1,1.0,0.20654329147389294,1.0,1.0,58.10344827586208,4.0
+code,hard,expensive_only,1,1.0,0.20654329147389294,1.0,1.0,0.0,19.0
+code,hard,adaptive_calibrated,1,1.0,0.20654329147389294,1.0,1.0,63.4375,1.0
+logic,medium,expensive_only,2,0.5,0.09452865480086614,0.9054713451991339,0.5,0.0,2.0
+logic,medium,adaptive_calibrated,2,0.5,0.09452865480086614,0.9054713451991339,0.5,40.0,0.5
+math,medium,expensive_only,2,0.5,0.09452865480086614,0.9054713451991339,0.5,0.0,9.0
+math,medium,adaptive_calibrated,2,0.0,0.0,0.6576280471103807,0.0,27.5,2.0

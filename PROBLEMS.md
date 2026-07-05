@@ -308,6 +308,102 @@ None. The current word list covers Python and JavaScript well.
 - Consider regex patterns for common code structures
 - Add Portuguese equivalents (`classe`, `método`, `função`)
 
+## External Critique Response
+
+This section records five concerns raised by an external critique and the current project response.
+
+### 1. Routing Overhead May Exceed Benefits
+
+**Critique summary:** Cheap/expensive routing can add Python control-flow overhead, model-switching overhead, memory pressure, and scheduling cost. In some settings, this overhead may be larger than the saved model compute.
+
+**Current status:** Confirmed and central.
+
+**Evidence from current experiments:**
+
+- The SmolLM2 small-gap GPU benchmark showed `expensive_only` winning against routed non-cheap modes.
+- The `Qwen2.5-0.5B -> Qwen2.5-3B` CUDA benchmark showed routed modes winning when the expensive model was sufficiently costly relative to the cheap model and hardware.
+
+**Planned mitigation:**
+
+- Document model-gap dependency clearly in results and reports.
+- Benchmark on more hardware and model pairs.
+- Optimize runtime later, after the algorithmic trade-off is better validated.
+
+### 2. Local Token Signals Do Not Capture Global Reasoning Difficulty
+
+**Critique summary:** Entropy, margin, top-k agreement, and related token-level confidence signals are local. They can miss cases where a token is easy to predict but the underlying reasoning is hard.
+
+**Current status:** Valid limitation.
+
+**Evidence from current experiments:**
+
+- The online adaptive generator currently relies heavily on local cheap-model entropy and margin.
+- Task-specific evaluation was added to measure final correctness instead of relying only on local agreement or lexical similarity.
+
+**Planned mitigation:**
+
+- Add prompt-level and task-level risk features.
+- Train a learned router from oracle data and task-evaluation outcomes.
+- Use prompt features, cheap-model confidence, task category, difficulty, and final pass/fail signals as router inputs.
+
+### 3. Lexical Quality Metrics Are Weak
+
+**Critique summary:** Similarity, Jaccard overlap, and repeated n-gram rates are weak proxies for semantic correctness. A generated answer can be correct but textually different, or similar but wrong.
+
+**Current status:** Partially mitigated.
+
+**Evidence from current experiments:**
+
+- The quality-latency report still uses lexical similarity and Jaccard as lightweight proxies.
+- Task evaluation now includes code tests, math expected-answer checks, and logic labels.
+
+**Planned mitigation:**
+
+- Add symbolic math checks.
+- Use stronger logic labels and more carefully designed logical tasks.
+- Expand the task dataset.
+- Add LLM-judge or human review for open-ended text.
+
+### 4. Manual Heuristics and Thresholds May Not Generalize
+
+**Critique summary:** Hand-written thresholds and routing rules may work on the current prompts but fail across new domains, model families, languages, or hardware.
+
+**Current status:** Open.
+
+**Evidence from current experiments:**
+
+- The hybrid router still uses hand-written prompt rules.
+- Thresholds such as entropy, margin, budget caps, and guard parameters were selected through small calibration/tuning experiments, not learned globally.
+
+**Planned mitigation:**
+
+- Build a learned router using features from the prompt, cheap-model confidence, oracle labels, task pass/fail outcomes, and latency measurements.
+- Start with interpretable models before considering more complex routing policies.
+
+### 5. Budget Caps May Trade Away Quality
+
+**Critique summary:** Budget caps protect latency and cost, but they can block optional calls to the expensive model that would have improved quality.
+
+**Current status:** Intentional trade-off, but too rigid.
+
+**Evidence from current experiments:**
+
+- The budget cap prevents optional expensive fallbacks after the configured call ratio is reached.
+- This is useful for latency/cost control, but it can limit quality, especially in structured outputs such as code.
+
+**Planned mitigation:**
+
+- Expose policy modes:
+  - `latency`
+  - `balanced`
+  - `quality`
+- Make the budget dynamic by category and difficulty.
+- Revisit caps with task-quality-latency data rather than using one fixed policy everywhere.
+
+The current value proposition should be stated as:
+
+> "On a constrained GPU setup with Qwen2.5-0.5B -> Qwen2.5-3B, GEAR-LLM showed preliminary evidence that routed modes can preserve most task-level correctness while reducing average wall-clock latency. This does not imply universal usefulness; the method is useful only under specific model-gap, hardware, and quality-tolerance conditions."
+
 ## Current Priority Order
 
 1. Validate the latest hybrid router changes.

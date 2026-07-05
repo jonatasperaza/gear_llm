@@ -1,0 +1,3 @@
+category,mode,count,pass_rate,pass_rate_ci95_low,pass_rate_ci95_high,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls
+math,expensive_only,1,0.0,0.0,0.7934567085261071,0.0,0.0,3.0
+math,adaptive_calibrated,1,0.0,0.0,0.7934567085261071,0.0,15.000000000000002,2.0
