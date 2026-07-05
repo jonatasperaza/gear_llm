@@ -9,6 +9,11 @@ from gear_llm.hybrid_router import (
     generate_with_mode,
     load_hybrid_models,
 )
+from gear_llm.model_loader import get_model_runtime_metadata
+from gear_llm.model_loader import (
+    get_expensive_tokenizer,
+    prompt_format_metadata,
+)
 from gear_llm.quality_benchmark import (
     generate_greedy_with_model,
     jaccard_similarity,
@@ -40,6 +45,7 @@ def build_dataset_row(
     prompt_type: str,
     summary: dict,
     reference_text: str,
+    model_metadata: dict,
 ) -> dict:
     generated_text = summary["generated_text"]
 
@@ -50,6 +56,17 @@ def build_dataset_row(
         "prompt_type": prompt_type,
         "mode": mode,
         "selected_mode": selected_mode,
+        "cheap_model_name": model_metadata["cheap_model_name"],
+        "expensive_model_name": model_metadata["expensive_model_name"],
+        "device": model_metadata["device"],
+        "torch_dtype": model_metadata["torch_dtype"],
+        "prompt_format": model_metadata["prompt_format"],
+        "effective_prompt_format_cheap": model_metadata[
+            "effective_prompt_format_cheap"
+        ],
+        "effective_prompt_format_expensive": model_metadata[
+            "effective_prompt_format_expensive"
+        ],
         "generated_text": generated_text,
         "estimated_saved_percent": summary["estimated_saved_percent"],
         "expensive_model_calls": summary["expensive_model_calls"],
@@ -75,10 +92,27 @@ def summarize_dataset_rows(rows: list[dict]) -> list[dict]:
     summary_rows = []
     for (category, mode), group_rows in sorted(groups.items()):
         count = len(group_rows)
+        first_row = group_rows[0]
         summary_rows.append(
             {
                 "category": category,
                 "mode": mode,
+                "cheap_model_name": first_row.get("cheap_model_name", ""),
+                "expensive_model_name": first_row.get(
+                    "expensive_model_name",
+                    "",
+                ),
+                "device": first_row.get("device", ""),
+                "torch_dtype": first_row.get("torch_dtype", ""),
+                "prompt_format": first_row.get("prompt_format", ""),
+                "effective_prompt_format_cheap": first_row.get(
+                    "effective_prompt_format_cheap",
+                    "",
+                ),
+                "effective_prompt_format_expensive": first_row.get(
+                    "effective_prompt_format_expensive",
+                    "",
+                ),
                 "prompt_count": count,
                 "avg_saved_percent": _average(
                     row["estimated_saved_percent"] for row in group_rows
@@ -104,7 +138,10 @@ def summarize_dataset_rows(rows: list[dict]) -> list[dict]:
     return summary_rows
 
 
-def build_hybrid_mode_matrix(rows: list[dict]) -> list[dict]:
+def build_hybrid_mode_matrix(
+    rows: list[dict],
+    model_metadata: dict,
+) -> list[dict]:
     counts: dict[tuple[str, str], int] = defaultdict(int)
 
     for row in rows:
@@ -116,6 +153,17 @@ def build_hybrid_mode_matrix(rows: list[dict]) -> list[dict]:
         {
             "expected_category": expected_category,
             "selected_mode": selected_mode,
+            "cheap_model_name": model_metadata["cheap_model_name"],
+            "expensive_model_name": model_metadata["expensive_model_name"],
+            "device": model_metadata["device"],
+            "torch_dtype": model_metadata["torch_dtype"],
+            "prompt_format": model_metadata["prompt_format"],
+            "effective_prompt_format_cheap": model_metadata[
+                "effective_prompt_format_cheap"
+            ],
+            "effective_prompt_format_expensive": model_metadata[
+                "effective_prompt_format_expensive"
+            ],
             "count": count,
         }
         for (expected_category, selected_mode), count in sorted(counts.items())
@@ -135,6 +183,9 @@ def run_dataset_benchmark(
     expensive_model_name: str = AdaptiveGenerationConfig.expensive_model_name,
     max_new_tokens: int = 80,
     temperature: float = 0.7,
+    device: str = "auto",
+    torch_dtype: str = "auto",
+    prompt_format: str = "auto",
     models=None,
 ) -> tuple[list[dict], list[dict], list[dict]]:
     prompts = filter_prompts(
@@ -149,10 +200,35 @@ def run_dataset_benchmark(
             expensive_model_name=expensive_model_name,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            device=device,
+            torch_dtype=torch_dtype,
+            prompt_format=prompt_format,
         )
     else:
         cheap_model, expensive_model, tokenizer, device = models
 
+    runtime_metadata = get_model_runtime_metadata(
+        cheap_model,
+        fallback_device=device,
+    )
+    expensive_runtime_metadata = get_model_runtime_metadata(
+        expensive_model,
+        fallback_device=device,
+    )
+    if runtime_metadata != expensive_runtime_metadata:
+        raise ValueError(
+            "cheap_model e expensive_model precisam usar o mesmo device/dtype. "
+            f"cheap={runtime_metadata}, expensive={expensive_runtime_metadata}"
+        )
+
+    model_metadata = {
+        "cheap_model_name": cheap_model_name,
+        "expensive_model_name": expensive_model_name,
+        "device": runtime_metadata["device"],
+        "torch_dtype": runtime_metadata["torch_dtype"],
+        **prompt_format_metadata(tokenizer, prompt_format),
+    }
+    expensive_tokenizer = get_expensive_tokenizer(tokenizer)
     rows = []
 
     for prompt_item in prompts:
@@ -162,10 +238,11 @@ def run_dataset_benchmark(
         reference_text, _ = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,
-            tokenizer=tokenizer,
+            tokenizer=expensive_tokenizer,
             device=device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
 
         mode_summaries = {}
@@ -181,6 +258,7 @@ def run_dataset_benchmark(
                 expensive_model_name=expensive_model_name,
                 max_new_tokens=max_new_tokens,
                 temperature=temperature,
+                prompt_format=prompt_format,
             )
             mode_summaries[mode] = summary
             rows.append(
@@ -191,6 +269,7 @@ def run_dataset_benchmark(
                     prompt_type=prompt_type,
                     summary=summary,
                     reference_text=reference_text,
+                    model_metadata=model_metadata,
                 )
             )
 
@@ -202,11 +281,12 @@ def run_dataset_benchmark(
                 prompt_type=prompt_type,
                 summary=mode_summaries[selected_mode],
                 reference_text=reference_text,
+                model_metadata=model_metadata,
             )
         )
 
     summary_rows = summarize_dataset_rows(rows)
-    matrix_rows = build_hybrid_mode_matrix(rows)
+    matrix_rows = build_hybrid_mode_matrix(rows, model_metadata)
 
     return rows, summary_rows, matrix_rows
 

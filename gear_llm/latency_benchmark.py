@@ -11,7 +11,12 @@ from gear_llm.hybrid_router import (
     generate_with_mode,
     load_hybrid_models,
 )
-from gear_llm.model_loader import get_model_runtime_metadata
+from gear_llm.model_loader import (
+    get_cheap_tokenizer,
+    get_expensive_tokenizer,
+    get_model_runtime_metadata,
+    prompt_format_metadata,
+)
 from gear_llm.quality_benchmark import (
     PROMPTS,
     estimated_saved_percent,
@@ -40,6 +45,7 @@ def run_latency_benchmark(
     measured_runs: int = 3,
     device: str = "auto",
     torch_dtype: str = "auto",
+    prompt_format: str = "auto",
     models=None,
 ) -> tuple[list[dict], list[dict], list[dict]]:
     if prompts is None:
@@ -53,6 +59,7 @@ def run_latency_benchmark(
             temperature=temperature,
             device=device,
             torch_dtype=torch_dtype,
+            prompt_format=prompt_format,
         )
     else:
         cheap_model, expensive_model, tokenizer, device = models
@@ -72,6 +79,7 @@ def run_latency_benchmark(
         )
 
     runtime_torch_dtype = runtime_metadata["torch_dtype"]
+    runtime_prompt_metadata = prompt_format_metadata(tokenizer, prompt_format)
 
     rows = []
 
@@ -89,6 +97,7 @@ def run_latency_benchmark(
                     expensive_model_name=expensive_model_name,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
+                    prompt_format=prompt_format,
                 )
 
         mode_order = list(LATENCY_MODES)
@@ -110,8 +119,10 @@ def run_latency_benchmark(
                         cheap_model_name=cheap_model_name,
                         expensive_model_name=expensive_model_name,
                         runtime_torch_dtype=runtime_torch_dtype,
+                        runtime_prompt_metadata=runtime_prompt_metadata,
                         max_new_tokens=max_new_tokens,
                         temperature=temperature,
+                        prompt_format=prompt_format,
                     )
                 )
 
@@ -133,8 +144,10 @@ def _measure_generation(
     cheap_model_name: str,
     expensive_model_name: str,
     runtime_torch_dtype: str,
+    runtime_prompt_metadata: dict,
     max_new_tokens: int,
     temperature: float,
+    prompt_format: str,
 ) -> dict:
     device_is_cuda = str(device).startswith("cuda")
 
@@ -168,6 +181,7 @@ def _measure_generation(
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
+        prompt_format=prompt_format,
     )
 
     if device_is_cuda:
@@ -192,6 +206,13 @@ def _measure_generation(
         "run_index": run_index,
         "device": device,
         "torch_dtype": runtime_torch_dtype,
+        "prompt_format": runtime_prompt_metadata["prompt_format"],
+        "effective_prompt_format_cheap": runtime_prompt_metadata[
+            "effective_prompt_format_cheap"
+        ],
+        "effective_prompt_format_expensive": runtime_prompt_metadata[
+            "effective_prompt_format_expensive"
+        ],
         "total_time_seconds": total_time,
         "route_time_seconds": route_time,
         "generation_time_seconds": generation_time,
@@ -219,6 +240,7 @@ def _run_generation(
     expensive_model_name: str,
     max_new_tokens: int,
     temperature: float,
+    prompt_format: str,
 ) -> dict:
     if mode == "hybrid":
         prompt_type = classify_prompt(prompt)
@@ -234,6 +256,7 @@ def _run_generation(
             expensive_model_name=expensive_model_name,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
         return {
             **result,
@@ -252,6 +275,7 @@ def _run_generation(
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
+        prompt_format=prompt_format,
     )
 
 
@@ -266,15 +290,18 @@ def run_selected_generation_mode(
     expensive_model_name: str,
     max_new_tokens: int,
     temperature: float,
+    prompt_format: str,
 ) -> dict:
     if selected_mode == "cheap_only":
+        cheap_tokenizer = get_cheap_tokenizer(tokenizer)
         generated_text, generated_tokens = generate_greedy_with_model(
             prompt=prompt,
             model=cheap_model,
-            tokenizer=tokenizer,
+            tokenizer=cheap_tokenizer,
             device=device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
         return {
             "generated_text": generated_text,
@@ -290,13 +317,15 @@ def run_selected_generation_mode(
         }
 
     if selected_mode == "expensive_only":
+        expensive_tokenizer = get_expensive_tokenizer(tokenizer)
         generated_text, generated_tokens = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,
-            tokenizer=tokenizer,
+            tokenizer=expensive_tokenizer,
             device=device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
         return {
             "generated_text": generated_text,
@@ -318,6 +347,7 @@ def run_selected_generation_mode(
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
+        prompt_format=prompt_format,
     )
     return _summary_result(summary=summary)
 
@@ -372,6 +402,15 @@ def summarize_latency_rows(rows: list[dict]) -> list[dict]:
                 ),
                 "device": first_row.get("device", ""),
                 "torch_dtype": first_row.get("torch_dtype", ""),
+                "prompt_format": first_row.get("prompt_format", ""),
+                "effective_prompt_format_cheap": first_row.get(
+                    "effective_prompt_format_cheap",
+                    "",
+                ),
+                "effective_prompt_format_expensive": first_row.get(
+                    "effective_prompt_format_expensive",
+                    "",
+                ),
                 "selected_mode": "+".join(selected_modes),
                 "prompt_type": "+".join(prompt_types),
                 "run_count": len(group_rows),
@@ -470,6 +509,20 @@ def build_latency_winners(summary_rows: list[dict]) -> list[dict]:
                 "torch_dtype": fastest_excluding_cheap.get(
                     "torch_dtype",
                     "",
+                ),
+                "prompt_format": fastest_excluding_cheap.get(
+                    "prompt_format",
+                    "",
+                ),
+                "effective_prompt_format_cheap": fastest_excluding_cheap.get(
+                    "effective_prompt_format_cheap",
+                    "",
+                ),
+                "effective_prompt_format_expensive": (
+                    fastest_excluding_cheap.get(
+                        "effective_prompt_format_expensive",
+                        "",
+                    )
                 ),
                 "fastest_mode_including_cheap": fastest_including_cheap[
                     "mode"

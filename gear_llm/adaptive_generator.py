@@ -4,10 +4,14 @@ from pathlib import Path
 
 import torch
 import torch.nn.functional as F
-from transformers import AutoTokenizer
 
 from gear_llm.config import DEFAULT_CHEAP_MODEL, DEFAULT_EXPENSIVE_MODEL
-from gear_llm.model_loader import load_causal_lm_model, resolve_device
+from gear_llm.model_loader import (
+    ensure_shared_prompt_encoding,
+    load_causal_lm_model,
+    load_tokenizer_pair,
+    resolve_device,
+)
 from gear_llm.report import save_csv
 
 
@@ -17,6 +21,7 @@ class AdaptiveGenerationConfig:
     expensive_model_name: str = DEFAULT_EXPENSIVE_MODEL
     device: str = "auto"
     torch_dtype: str = "auto"
+    prompt_format: str = "auto"
     max_new_tokens: int = 80
     temperature: float = 0.7
     entropy_threshold: float = 0.35
@@ -48,7 +53,10 @@ def load_adaptive_models(config: AdaptiveGenerationConfig):
     """
 
     device = resolve_device(config.device)
-    tokenizer = AutoTokenizer.from_pretrained(config.cheap_model_name)
+    tokenizer, _ = load_tokenizer_pair(
+        cheap_model_name=config.cheap_model_name,
+        expensive_model_name=config.expensive_model_name,
+    )
     cheap_model = load_causal_lm_model(
         model_name=config.cheap_model_name,
         device=device,
@@ -379,7 +387,14 @@ def adaptive_generate_with_models(
     device: str,
     config: AdaptiveGenerationConfig,
 ) -> tuple[str, list[dict], dict]:
-    encoded = tokenizer(prompt, return_tensors="pt")
+    encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
+        ensure_shared_prompt_encoding(
+            prompt=prompt,
+            tokenizer=tokenizer,
+            device=device,
+            prompt_format=config.prompt_format,
+        )
+    )
     input_ids = encoded["input_ids"].to(device)
     prompt_length = input_ids.shape[-1]
     history = []
@@ -442,6 +457,11 @@ def adaptive_generate_with_models(
                 ],
                 "fallback_required": decision["fallback_required"],
                 "fallback_optional_only": decision["fallback_optional_only"],
+                "prompt_format": config.prompt_format,
+                "effective_prompt_format_cheap": effective_prompt_format_cheap,
+                "effective_prompt_format_expensive": (
+                    effective_prompt_format_expensive
+                ),
             }
         )
 
@@ -471,6 +491,15 @@ def adaptive_generate_with_models(
         full_text=full_text,
         history=history,
         config=config,
+    )
+    summary.update(
+        {
+            "prompt_format": config.prompt_format,
+            "effective_prompt_format_cheap": effective_prompt_format_cheap,
+            "effective_prompt_format_expensive": (
+                effective_prompt_format_expensive
+            ),
+        }
     )
 
     return full_text, history, summary

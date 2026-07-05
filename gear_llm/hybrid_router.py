@@ -205,12 +205,14 @@ def adaptive_calibrated_config(
     temperature: float,
     device: str = "auto",
     torch_dtype: str = "auto",
+    prompt_format: str = "auto",
 ) -> AdaptiveGenerationConfig:
     return AdaptiveGenerationConfig(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
         device=device,
         torch_dtype=torch_dtype,
+        prompt_format=prompt_format,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         entropy_threshold=0.35,
@@ -227,12 +229,14 @@ def adaptive_guarded_v3_config(
     temperature: float,
     device: str = "auto",
     torch_dtype: str = "auto",
+    prompt_format: str = "auto",
 ) -> AdaptiveGenerationConfig:
     return AdaptiveGenerationConfig(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
         device=device,
         torch_dtype=torch_dtype,
+        prompt_format=prompt_format,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         entropy_threshold=0.35,
@@ -261,12 +265,14 @@ def speculative_adaptive_config(
     temperature: float,
     device: str = "auto",
     torch_dtype: str = "auto",
+    prompt_format: str = "auto",
 ) -> SpeculativeGenerationConfig:
     return SpeculativeGenerationConfig(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
         device=device,
         torch_dtype=torch_dtype,
+        prompt_format=prompt_format,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         draft_length=6,
@@ -283,6 +289,7 @@ def load_hybrid_models(
     temperature: float = 0.7,
     device: str = "auto",
     torch_dtype: str = "auto",
+    prompt_format: str = "auto",
 ):
     config = speculative_adaptive_config(
         cheap_model_name=cheap_model_name,
@@ -291,6 +298,7 @@ def load_hybrid_models(
         temperature=temperature,
         device=device,
         torch_dtype=torch_dtype,
+        prompt_format=prompt_format,
     )
     return load_speculative_models(config)
 
@@ -306,6 +314,7 @@ def generate_with_mode(
     expensive_model_name: str = AdaptiveGenerationConfig.expensive_model_name,
     max_new_tokens: int = 80,
     temperature: float = 0.7,
+    prompt_format: str = "auto",
 ) -> dict:
     if mode not in HYBRID_MODES:
         raise ValueError(f"Modo desconhecido: {mode}")
@@ -316,6 +325,7 @@ def generate_with_mode(
             expensive_model_name=expensive_model_name,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
         _, _, _, summary = speculative_generate_with_models(
             prompt=prompt,
@@ -332,6 +342,7 @@ def generate_with_mode(
                 expensive_model_name=expensive_model_name,
                 max_new_tokens=max_new_tokens,
                 temperature=temperature,
+                prompt_format=prompt_format,
             )
         else:
             config = adaptive_calibrated_config(
@@ -339,6 +350,7 @@ def generate_with_mode(
                 expensive_model_name=expensive_model_name,
                 max_new_tokens=max_new_tokens,
                 temperature=temperature,
+                prompt_format=prompt_format,
             )
 
         _, _, summary = adaptive_generate_with_models(
@@ -374,6 +386,7 @@ def hybrid_generate_with_models(
     expensive_model_name: str = AdaptiveGenerationConfig.expensive_model_name,
     max_new_tokens: int = 80,
     temperature: float = 0.7,
+    prompt_format: str = "auto",
 ) -> dict:
     prompt_type = classify_prompt(prompt)
     selected_mode = choose_mode(prompt_type, prompt)
@@ -388,6 +401,7 @@ def hybrid_generate_with_models(
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
+        prompt_format=prompt_format,
     )
 
     return {

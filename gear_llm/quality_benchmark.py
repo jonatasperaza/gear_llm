@@ -11,6 +11,14 @@ from gear_llm.adaptive_generator import (
     adaptive_generate_with_models,
     load_adaptive_models,
 )
+from gear_llm.hybrid_router import classify_prompt, choose_mode, generate_with_mode
+from gear_llm.model_loader import get_model_runtime_metadata
+from gear_llm.model_loader import (
+    encode_prompt,
+    get_cheap_tokenizer,
+    get_expensive_tokenizer,
+    prompt_format_metadata,
+)
 from gear_llm.report import save_csv
 
 
@@ -83,8 +91,14 @@ def generate_greedy_with_model(
     device: str,
     max_new_tokens: int,
     temperature: float,
+    prompt_format: str = "auto",
 ) -> tuple[str, int]:
-    encoded = tokenizer(prompt, return_tensors="pt")
+    encoded, _ = encode_prompt(
+        prompt=prompt,
+        tokenizer=tokenizer,
+        device=device,
+        prompt_format=prompt_format,
+    )
     input_ids = encoded["input_ids"].to(device)
     prompt_length = input_ids.shape[-1]
     safe_temperature = max(temperature, 1e-6)
@@ -134,10 +148,24 @@ def build_quality_row(
     cheap_accepted_tokens: int,
     expensive_model_calls: int,
     saved_percent: float,
+    model_metadata: dict,
+    selected_mode: str = "",
 ) -> dict:
     return {
         "prompt_name": prompt_name,
         "mode": mode,
+        "selected_mode": selected_mode,
+        "cheap_model_name": model_metadata["cheap_model_name"],
+        "expensive_model_name": model_metadata["expensive_model_name"],
+        "device": model_metadata["device"],
+        "torch_dtype": model_metadata["torch_dtype"],
+        "prompt_format": model_metadata["prompt_format"],
+        "effective_prompt_format_cheap": model_metadata[
+            "effective_prompt_format_cheap"
+        ],
+        "effective_prompt_format_expensive": model_metadata[
+            "effective_prompt_format_expensive"
+        ],
         "generated_text": generated_text,
         "total_generated_tokens": total_generated_tokens,
         "cheap_accepted_tokens": cheap_accepted_tokens,
@@ -162,27 +190,64 @@ def run_quality_benchmark(
     expensive_model_name: str = AdaptiveGenerationConfig.expensive_model_name,
     max_new_tokens: int = 80,
     temperature: float = 0.7,
+    device: str = "auto",
+    torch_dtype: str = "auto",
+    prompt_format: str = "auto",
+    models=None,
 ) -> list[dict]:
     if prompts is None:
         prompts = PROMPTS
 
-    base_config = AdaptiveGenerationConfig(
-        cheap_model_name=cheap_model_name,
-        expensive_model_name=expensive_model_name,
-        max_new_tokens=max_new_tokens,
-        temperature=temperature,
+    if models is None:
+        base_config = AdaptiveGenerationConfig(
+            cheap_model_name=cheap_model_name,
+            expensive_model_name=expensive_model_name,
+            device=device,
+            torch_dtype=torch_dtype,
+            prompt_format=prompt_format,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+        )
+        cheap_model, expensive_model, tokenizer, device = load_adaptive_models(
+            base_config
+        )
+    else:
+        cheap_model, expensive_model, tokenizer, device = models
+
+    runtime_metadata = get_model_runtime_metadata(
+        cheap_model,
+        fallback_device=device,
     )
-    cheap_model, expensive_model, tokenizer, device = load_adaptive_models(base_config)
+    expensive_runtime_metadata = get_model_runtime_metadata(
+        expensive_model,
+        fallback_device=device,
+    )
+    if runtime_metadata != expensive_runtime_metadata:
+        raise ValueError(
+            "cheap_model e expensive_model precisam usar o mesmo device/dtype. "
+            f"cheap={runtime_metadata}, expensive={expensive_runtime_metadata}"
+        )
+
+    model_metadata = {
+        "cheap_model_name": cheap_model_name,
+        "expensive_model_name": expensive_model_name,
+        "device": runtime_metadata["device"],
+        "torch_dtype": runtime_metadata["torch_dtype"],
+        **prompt_format_metadata(tokenizer, prompt_format),
+    }
+    cheap_tokenizer = get_cheap_tokenizer(tokenizer)
+    expensive_tokenizer = get_expensive_tokenizer(tokenizer)
     rows = []
 
     for prompt_name, prompt in prompts.items():
         expensive_text, expensive_tokens = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,
-            tokenizer=tokenizer,
+            tokenizer=expensive_tokenizer,
             device=device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
 
         rows.append(
@@ -195,16 +260,18 @@ def run_quality_benchmark(
                 cheap_accepted_tokens=0,
                 expensive_model_calls=expensive_tokens,
                 saved_percent=0.0,
+                model_metadata=model_metadata,
             )
         )
 
         cheap_text, cheap_tokens = generate_greedy_with_model(
             prompt=prompt,
             model=cheap_model,
-            tokenizer=tokenizer,
+            tokenizer=cheap_tokenizer,
             device=device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
         cheap_saved = estimated_saved_percent(
             total_generated_tokens=cheap_tokens,
@@ -222,6 +289,7 @@ def run_quality_benchmark(
                 cheap_accepted_tokens=cheap_tokens,
                 expensive_model_calls=0,
                 saved_percent=cheap_saved,
+                model_metadata=model_metadata,
             )
         )
 
@@ -231,6 +299,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    device=device,
+                    torch_dtype=torch_dtype,
+                    prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     entropy_threshold=0.35,
@@ -244,6 +315,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    device=device,
+                    torch_dtype=torch_dtype,
+                    prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     entropy_threshold=0.35,
@@ -264,6 +338,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    device=device,
+                    torch_dtype=torch_dtype,
+                    prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     entropy_threshold=0.35,
@@ -287,6 +364,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    device=device,
+                    torch_dtype=torch_dtype,
+                    prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     entropy_threshold=0.35,
@@ -309,6 +389,7 @@ def run_quality_benchmark(
             ),
         )
 
+        mode_summaries = {}
         for mode, adaptive_config in adaptive_modes:
             _, _, adaptive_summary = adaptive_generate_with_models(
                 prompt=prompt,
@@ -335,8 +416,62 @@ def run_quality_benchmark(
                         "expensive_model_calls"
                     ],
                     saved_percent=adaptive_summary["estimated_saved_percent"],
+                    model_metadata=model_metadata,
                 )
             )
+            mode_summaries[mode] = adaptive_summary
+
+        speculative_summary = generate_with_mode(
+            prompt=prompt,
+            mode="speculative_adaptive",
+            cheap_model=cheap_model,
+            expensive_model=expensive_model,
+            tokenizer=tokenizer,
+            device=device,
+            cheap_model_name=cheap_model_name,
+            expensive_model_name=expensive_model_name,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+            prompt_format=prompt_format,
+        )
+        mode_summaries["speculative_adaptive"] = speculative_summary
+        rows.append(
+            build_quality_row(
+                prompt_name=prompt_name,
+                mode="speculative_adaptive",
+                generated_text=speculative_summary["generated_text"],
+                reference_text=expensive_text,
+                total_generated_tokens=speculative_summary[
+                    "total_generated_tokens"
+                ],
+                cheap_accepted_tokens=speculative_summary[
+                    "cheap_accepted_tokens"
+                ],
+                expensive_model_calls=speculative_summary[
+                    "expensive_model_calls"
+                ],
+                saved_percent=speculative_summary["estimated_saved_percent"],
+                model_metadata=model_metadata,
+            )
+        )
+
+        prompt_type = classify_prompt(prompt)
+        selected_mode = choose_mode(prompt_type, prompt)
+        hybrid_summary = mode_summaries[selected_mode]
+        rows.append(
+            build_quality_row(
+                prompt_name=prompt_name,
+                mode="hybrid",
+                generated_text=hybrid_summary["generated_text"],
+                reference_text=expensive_text,
+                total_generated_tokens=hybrid_summary["total_generated_tokens"],
+                cheap_accepted_tokens=hybrid_summary["cheap_accepted_tokens"],
+                expensive_model_calls=hybrid_summary["expensive_model_calls"],
+                saved_percent=hybrid_summary["estimated_saved_percent"],
+                model_metadata=model_metadata,
+                selected_mode=selected_mode,
+            )
+        )
 
     return rows
 

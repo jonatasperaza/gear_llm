@@ -1,115 +1,361 @@
-prompt_name,mode,cheap_model_name,expensive_model_name,selected_mode,prompt_type,run_index,device,torch_dtype,total_time_seconds,route_time_seconds,generation_time_seconds,overhead_time_seconds,generated_tokens,tokens_per_second,estimated_saved_percent,expensive_model_calls,cheap_accepted_tokens,acceptance_rate,memory_peak_bytes,memory_peak_mb,generated_text
-easy,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,1.3414666000026045,0.0,1.341464500001166,2.1000014385208488e-06,32,23.854488810931162,65.0,0,32,1.0,7317091840,6978.12255859375, A água é um elemento fundamental que é presente em todas as formas de vida e é responsável por muitas coisas importantes. Ela é um meio vital para
-easy,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,14.549145699988003,0.0,14.549144700009492,9.999785106629133e-07,32,2.1994418545156496,0.0,32,,,7319164416,6980.09912109375," A água é um líquido composto por hidrogênio e oxigênio, fundamental para a vida na Terra.Humanos, como"
-easy,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,5.0270068000099855,0.0,5.027005800002371,1.00000761449337e-06,32,6.36561701088935,43.125,7,25,0.78125,7319497216,6980.41650390625," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a maioria dos process"
-easy,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,5.092014599998947,0.0,5.09201409999514,5.00003807246685e-07,32,6.284349616752202,43.125,7,25,0.78125,7319497216,6980.41650390625," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a maioria dos process"
-easy,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,9.026172100013355,0.0,9.026171300007263,8.00006091594696e-07,32,3.5452459409623547,18.125000000000004,8,28,0.875,7355854336,7015.08935546875," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a existência de todos"
-easy,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,general,0,cuda,float16,6.020520999998553,7.439999899361283e-05,6.020445000001928,1.5999976312741637e-06,32,5.315154618679628,18.125000000000004,8,28,0.875,7355854336,7015.08935546875," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a existência de todos"
-easy,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,general,1,cuda,float16,5.59858720000193,7.170000753831118e-05,5.598513999997522,1.4999968698248267e-06,32,5.715727710731909,18.125000000000004,8,28,0.875,7355854336,7015.08935546875," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a existência de todos"
-easy,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,6.854320200000075,0.0,6.854319399993983,8.00006091594696e-07,32,4.668588432737597,18.125000000000004,8,28,0.875,7355854336,7015.08935546875," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a existência de todos"
-easy,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,4.625392700007069,0.0,4.625392000001739,7.00005330145359e-07,32,6.9183314964697145,43.125,7,25,0.78125,7319497216,6980.41650390625," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a maioria dos process"
-easy,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,4.336179299993091,0.0,4.33617840000079,8.999923011288047e-07,32,7.379768636424003,43.125,7,25,0.78125,7319497216,6980.41650390625," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a maioria dos process"
-easy,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,14.967840399986017,0.0,14.967839600009029,7.999769877642393e-07,32,2.1379169703085488,0.0,32,,,7319164416,6980.09912109375," A água é um líquido composto por hidrogênio e oxigênio, fundamental para a vida na Terra.Humanos, como"
-easy,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,1.2142580000072485,0.0,1.2142573000019183,7.00005330145359e-07,32,26.353542657169214,65.0,0,32,1.0,7317091840,6978.12255859375, A água é um elemento fundamental que é presente em todas as formas de vida e é responsável por muitas coisas importantes. Ela é um meio vital para
-easy,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,1.1553733000037028,0.0,1.1553723999968497,9.00006853044033e-07,32,27.696676043922295,65.0,0,32,1.0,7317091840,6978.12255859375, A água é um elemento fundamental que é presente em todas as formas de vida e é responsável por muitas coisas importantes. Ela é um meio vital para
-easy,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,14.961729399990872,0.0,14.961728800000856,5.999900167807937e-07,32,2.138790185579718,0.0,32,,,7319164416,6980.09912109375," A água é um líquido composto por hidrogênio e oxigênio, fundamental para a vida na Terra.Humanos, como"
-easy,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,4.505027200008044,0.0,4.505026099999668,1.100008375942707e-06,32,7.103175758837341,43.125,7,25,0.78125,7319497216,6980.41650390625," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a maioria dos process"
-easy,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,4.490995999993174,0.0,4.49099489999935,1.0999938240274787e-06,32,7.125368181144814,43.125,7,25,0.78125,7319497216,6980.41650390625," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a maioria dos process"
-easy,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,5.691034799994668,0.0,5.691033999988576,8.00006091594696e-07,32,5.62287898855055,18.125000000000004,8,28,0.875,7355854336,7015.08935546875," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a existência de todos"
-easy,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,general,2,cuda,float16,5.5978460000042105,6.36000040685758e-05,5.597781699994812,7.00005330145359e-07,32,5.716484519219701,18.125000000000004,8,28,0.875,7355854336,7015.08935546875," A água é um elemento fundamental composto por hidrogênio e oxigênio, que é essencial para a vida e a existência de todos"
-math,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,2.0910900000017136,0.0,2.0910889000078896,1.0999938240274787e-06,32,15.303023781842855,65.0,0,32,1.0,7325709824,6986.34130859375," A inversa de uma função é a função que, quando passada a sua inversa, resulta em o ponto de origem. Para encontrar a invers"
-math,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,20.575963199997204,0.0,20.575961900001857,1.2999953469261527e-06,32,1.5552127348285862,0.0,32,,,7328451584,6988.9560546875, - YouTube\n0:00 / 1:04\nExplique por que a inversa de f(x)=5x+1 é (x
-math,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,6.6807333000033395,0.0,6.6807323999964865,9.00006853044033e-07,32,4.789893348980718,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,5.8906455999967875,0.0,5.89064509999298,5.00003807246685e-07,32,5.432341745362758,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,4.9204667000012705,0.0,4.920465599992895,1.100008375942707e-06,32,6.503448138362919,26.718750000000004,7,29,0.90625,7376342528,7034.62841796875, - YouTube\n0:00 / 1:00\n#Matemática #Inversa #Função\nExplique por que a invers
-math,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,math_symbolic_dense,0,cuda,float16,6.186072700002114,9.560000034980476e-05,6.185976399996434,7.00005330145359e-07,32,5.172910431522905,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,math_symbolic_dense,1,cuda,float16,6.16394610000134,7.310000364668667e-05,6.1638721999916015,8.00006091594696e-07,32,5.1914795296462835,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,5.053126300001168,0.0,5.053125699996599,6.00004568696022e-07,32,6.3327132749467605,26.718750000000004,7,29,0.90625,7376342528,7034.62841796875, - YouTube\n0:00 / 1:00\n#Matemática #Inversa #Função\nExplique por que a invers
-math,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,5.567031200000201,0.0,5.567030599995633,6.00004568696022e-07,32,5.748126577770723,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,5.717775800003437,0.0,5.717775199998869,6.00004568696022e-07,32,5.59658180371129,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,16.936652299991692,0.0,16.936651600000914,6.999907782301307e-07,32,1.8893934546920879,0.0,32,,,7328451584,6988.9560546875, - YouTube\n0:00 / 1:04\nExplique por que a inversa de f(x)=5x+1 é (x
-math,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,1.3030070999957388,0.0,1.3030064000049606,6.999907782301307e-07,32,24.55857684897085,65.0,0,32,1.0,7325709824,6986.34130859375," A inversa de uma função é a função que, quando passada a sua inversa, resulta em o ponto de origem. Para encontrar a invers"
-math,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,1.2962476999964565,0.0,1.2962467999896035,9.00006853044033e-07,32,24.686639752639465,65.0,0,32,1.0,7325709824,6986.34130859375," A inversa de uma função é a função que, quando passada a sua inversa, resulta em o ponto de origem. Para encontrar a invers"
-math,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,14.17230260001088,0.0,14.172302000006312,6.00004568696022e-07,32,2.2579252576765776,0.0,32,,,7328451584,6988.9560546875, - YouTube\n0:00 / 1:04\nExplique por que a inversa de f(x)=5x+1 é (x
-math,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,5.547530600000755,0.0,5.547530099996948,5.00003807246685e-07,32,5.768332309874171,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,5.509462100002565,0.0,5.509461599998758,5.00003807246685e-07,32,5.808189514541737,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-math,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,4.799738999994588,0.0,4.799738100002287,8.999923011288047e-07,32,6.667029186386193,26.718750000000004,7,29,0.90625,7376342528,7034.62841796875, - YouTube\n0:00 / 1:00\n#Matemática #Inversa #Função\nExplique por que a invers
-math,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,math_symbolic_dense,2,cuda,float16,5.456605799990939,7.049999840091914e-05,5.456534500000998,7.999915396794677e-07,32,5.864451487416067,33.75,10,22,0.6875,7328058880,6988.58154296875, - YouTube\n0:00 / 1:04\n#matematica #equações #funções\n#Inversa de f(x
-logic_negation,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,0.976434899988817,0.0,0.9764339000103064,9.999785106629133e-07,32,32.77228210540866,65.0,0,32,1.0,7326940672,6987.51513671875," - 2010 - 1000 Palavras
-1. O que é um alerta?
-2. Como se comunicar com um"
-logic_negation,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,13.916738999992958,0.0,13.916738200001419,7.999915396794677e-07,32,2.299389246289392,0.0,32,,,7329836544,6990.27685546875," Não vamos sair se chover, se o vento estiver forte ou se houver alerta. Se chover, se o vento estiver"
-logic_negation,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,4.606673499991302,0.0,4.606673000002047,4.999892553314567e-07,32,6.946444109846382,40.0,8,24,0.75,7317242368,6978.26611328125, Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho
-logic_negation,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,4.608355899996241,0.0,4.608355499993195,4.00003045797348e-07,32,6.943908130017932,40.0,8,24,0.75,7317242368,6978.26611328125, Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho
-logic_negation,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,6.365476499995566,0.0,6.365475700004026,7.999915396794677e-07,32,5.027117765657024,9.687500000000004,10,24,0.75,7381558784,7039.60302734375," Não vamos sair se o vento estiver muito alto, se chover ou se houver alerta. Ainda não sei como será a situação no"
-logic_negation,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,logic,0,cuda,float16,6.585774000006495,6.350000330712646e-05,6.585709699997096,8.00006091594696e-07,32,4.858958111828381,9.687500000000004,10,24,0.75,7381558784,7039.60302734375," Não vamos sair se o vento estiver muito alto, se chover ou se houver alerta. Ainda não sei como será a situação no"
-logic_negation,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,logic,1,cuda,float16,6.715281299999333,6.690000009257346e-05,6.715213700008462,6.999907782301307e-07,32,4.765250861494541,9.687500000000004,10,24,0.75,7381558784,7039.60302734375," Não vamos sair se o vento estiver muito alto, se chover ou se houver alerta. Ainda não sei como será a situação no"
-logic_negation,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,6.5424555000063265,0.0,6.542455000002519,5.00003807246685e-07,32,4.891129943485142,9.687500000000004,10,24,0.75,7381558784,7039.60302734375," Não vamos sair se o vento estiver muito alto, se chover ou se houver alerta. Ainda não sei como será a situação no"
-logic_negation,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,4.832165500003612,0.0,4.832164999999804,5.00003807246685e-07,32,6.622289737380908,40.0,8,24,0.75,7317242368,6978.26611328125, Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho
-logic_negation,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,4.678255600010743,0.0,4.678255000006175,6.00004568696022e-07,32,6.840156403580538,40.0,8,24,0.75,7317242368,6978.26611328125, Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho
-logic_negation,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,13.890361600002507,0.0,13.890360799996415,8.00006091594696e-07,32,2.303755720800978,0.0,32,,,7329836544,6990.27685546875," Não vamos sair se chover, se o vento estiver forte ou se houver alerta. Se chover, se o vento estiver"
-logic_negation,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,1.078450300003169,0.0,1.0784500000008848,3.00002284348011e-07,32,29.672206498441298,65.0,0,32,1.0,7326940672,6987.51513671875," - 2010 - 1000 Palavras
-1. O que é um alerta?
-2. Como se comunicar com um"
-logic_negation,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,1.2156227999948896,0.0,1.2156223000056343,4.999892553314567e-07,32,26.323955095391863,65.0,0,32,1.0,7326940672,6987.51513671875," - 2010 - 1000 Palavras
-1. O que é um alerta?
-2. Como se comunicar com um"
-logic_negation,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,13.959360299995751,0.0,13.959359599990421,7.00005330145359e-07,32,2.2923686553179476,0.0,32,,,7329836544,6990.27685546875," Não vamos sair se chover, se o vento estiver forte ou se houver alerta. Se chover, se o vento estiver"
-logic_negation,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,4.812575399992056,0.0,4.812574700001278,6.999907782301307e-07,32,6.649246472076639,40.0,8,24,0.75,7317242368,6978.26611328125, Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho
-logic_negation,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,4.496975600006408,0.0,4.496975100002601,5.00003807246685e-07,32,7.115893624140278,40.0,8,24,0.75,7317242368,6978.26611328125, Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho. Não é um bom dia para ir para o trabalho
-logic_negation,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,6.526554399999441,0.0,6.526553999996395,4.00003045797348e-07,32,4.903046544743845,9.687500000000004,10,24,0.75,7381558784,7039.60302734375," Não vamos sair se o vento estiver muito alto, se chover ou se houver alerta. Ainda não sei como será a situação no"
-logic_negation,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,logic,2,cuda,float16,6.426503700000467,6.599999323952943e-05,6.4264371000026586,6.00004568696022e-07,32,4.979379378556597,9.687500000000004,10,24,0.75,7381558784,7039.60302734375," Não vamos sair se o vento estiver muito alto, se chover ou se houver alerta. Ainda não sei como será a situação no"
-code,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,1.3289554999937536,0.0,1.328954700002214,7.999915396794677e-07,32,24.079060585663257,65.0,0,32,1.0,7334836224,6995.044921875," 
+prompt_name,mode,cheap_model_name,expensive_model_name,selected_mode,prompt_type,run_index,device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,total_time_seconds,route_time_seconds,generation_time_seconds,overhead_time_seconds,generated_tokens,tokens_per_second,estimated_saved_percent,expensive_model_calls,cheap_accepted_tokens,acceptance_rate,memory_peak_bytes,memory_peak_mb,generated_text
+easy,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,2.608793399995193,0.0,2.608792299986817,1.100008375942707e-06,64,24.53241410382207,65.0,0,64,1.0,7356705280,7015.90087890625,"A água é um elemento fundamental e vital para o nosso cotidiano, sendo o meio em que vivemos, respiramos, alimentamos e transformamos o mundo. É uma substância que é colorida, líquida e sólida, com uma densidade relativamente baixa e um volume relativamente"
+easy,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,27.713447500020266,0.0,27.71344580000732,1.700012944638729e-06,49,1.7680947128632831,0.0,49,,,7351230976,7010.68017578125,"Água é um líquido composto principalmente por hidrogênio e oxigênio, que constitui cerca de 70% do peso corporal de seres humanos e é fundamental para a vida na Terra."
+easy,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,11.534431599982781,0.0,11.534431199979736,4.00003045797348e-07,64,5.548604579708595,40.0,16,48,0.75,7360817152,7019.822265625,"A água é um elemento fundamental composto por dois átomos de hidrogênio (H2O) e um átomo de oxigênio (O), presente em quase todas as formas de vida e na maioria das reações naturais. É um líquido incolor, color"
+easy,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,11.457317799999146,0.0,11.457316799991531,1.00000761449337e-06,64,5.585949619029051,40.0,16,48,0.75,7360817152,7019.822265625,"A água é um elemento fundamental composto por dois átomos de hidrogênio (H2O) e um átomo de oxigênio (O), presente em quase todas as formas de vida e na maioria das reações naturais. É um líquido incolor, color"
+easy,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,13.046070699987467,0.0,13.046070000011241,6.999762263149023e-07,51,3.909223027593204,-0.7843137254901933,15,39,0.7647058823529411,7435429888,7090.978515625,"A água é um elemento químico composto por dois átomos de hidrogênio e um átomo de oxigênio, existindo em diversas formas líquidas, sólidas e gaseosas no ambiente."
+easy,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,general,0,cuda,float16,auto,chat,chat,16.84476320000249,9.980000322684646e-05,16.84466119998251,2.200016751885414e-06,51,3.0276471918579695,-0.7843137254901933,15,39,0.7647058823529411,7435429888,7090.978515625,"A água é um elemento químico composto por dois átomos de hidrogênio e um átomo de oxigênio, existindo em diversas formas líquidas, sólidas e gaseosas no ambiente."
+easy,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,general,1,cuda,float16,auto,chat,chat,13.645284099999117,0.00012079998850822449,13.645158200000878,5.1000097300857306e-06,51,3.737555013603806,-0.7843137254901933,15,39,0.7647058823529411,7435429888,7090.978515625,"A água é um elemento químico composto por dois átomos de hidrogênio e um átomo de oxigênio, existindo em diversas formas líquidas, sólidas e gaseosas no ambiente."
+easy,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,13.529209200001787,0.0,13.529208399995696,8.00006091594696e-07,51,3.7696216568218386,-0.7843137254901933,15,39,0.7647058823529411,7435429888,7090.978515625,"A água é um elemento químico composto por dois átomos de hidrogênio e um átomo de oxigênio, existindo em diversas formas líquidas, sólidas e gaseosas no ambiente."
+easy,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,12.51260179997189,0.0,12.512600900023244,8.999486453831196e-07,64,5.1148435012248035,40.0,16,48,0.75,7360817152,7019.822265625,"A água é um elemento fundamental composto por dois átomos de hidrogênio (H2O) e um átomo de oxigênio (O), presente em quase todas as formas de vida e na maioria das reações naturais. É um líquido incolor, color"
+easy,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,14.28150059998734,0.0,14.281499200005783,1.3999815564602613e-06,64,4.481321801719964,40.0,16,48,0.75,7360817152,7019.822265625,"A água é um elemento fundamental composto por dois átomos de hidrogênio (H2O) e um átomo de oxigênio (O), presente em quase todas as formas de vida e na maioria das reações naturais. É um líquido incolor, color"
+easy,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,27.071925799973542,0.0,27.071924900024896,8.999486453831196e-07,49,1.80999314057103,0.0,49,,,7351230976,7010.68017578125,"Água é um líquido composto principalmente por hidrogênio e oxigênio, que constitui cerca de 70% do peso corporal de seres humanos e é fundamental para a vida na Terra."
+easy,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,3.1193070000153966,0.0,3.119306000007782,1.00000761449337e-06,64,20.517377737966832,65.0,0,64,1.0,7356705280,7015.90087890625,"A água é um elemento fundamental e vital para o nosso cotidiano, sendo o meio em que vivemos, respiramos, alimentamos e transformamos o mundo. É uma substância que é colorida, líquida e sólida, com uma densidade relativamente baixa e um volume relativamente"
+easy,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,2.731726300000446,0.0,2.731725000019651,1.2999807950109243e-06,64,23.428408622045904,65.0,0,64,1.0,7356705280,7015.90087890625,"A água é um elemento fundamental e vital para o nosso cotidiano, sendo o meio em que vivemos, respiramos, alimentamos e transformamos o mundo. É uma substância que é colorida, líquida e sólida, com uma densidade relativamente baixa e um volume relativamente"
+easy,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,28.831404399999883,0.0,28.83140339999227,1.00000761449337e-06,49,1.6995356632714083,0.0,49,,,7351230976,7010.68017578125,"Água é um líquido composto principalmente por hidrogênio e oxigênio, que constitui cerca de 70% do peso corporal de seres humanos e é fundamental para a vida na Terra."
+easy,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,12.5336959999986,0.0,12.533694999990985,1.00000761449337e-06,64,5.106235223832392,40.0,16,48,0.75,7360817152,7019.822265625,"A água é um elemento fundamental composto por dois átomos de hidrogênio (H2O) e um átomo de oxigênio (O), presente em quase todas as formas de vida e na maioria das reações naturais. É um líquido incolor, color"
+easy,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,12.47987050001393,0.0,12.47986970000784,8.00006091594696e-07,64,5.128258342098066,40.0,16,48,0.75,7360817152,7019.822265625,"A água é um elemento fundamental composto por dois átomos de hidrogênio (H2O) e um átomo de oxigênio (O), presente em quase todas as formas de vida e na maioria das reações naturais. É um líquido incolor, color"
+easy,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,13.305153799999971,0.0,13.305152899993118,9.00006853044033e-07,51,3.833101125069303,-0.7843137254901933,15,39,0.7647058823529411,7435429888,7090.978515625,"A água é um elemento químico composto por dois átomos de hidrogênio e um átomo de oxigênio, existindo em diversas formas líquidas, sólidas e gaseosas no ambiente."
+easy,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,general,2,cuda,float16,auto,chat,chat,13.285619100002805,0.00010400000610388815,13.285514199989848,9.00006853044033e-07,51,3.8387371801129864,-0.7843137254901933,15,39,0.7647058823529411,7435429888,7090.978515625,"A água é um elemento químico composto por dois átomos de hidrogênio e um átomo de oxigênio, existindo em diversas formas líquidas, sólidas e gaseosas no ambiente."
+math,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,2.780228599993279,0.0,2.7802275999856647,1.00000761449337e-06,64,23.01968981980644,65.0,0,64,1.0,7365436928,7024.22802734375,"A inversa de uma função é a função que, quando aplicada à sua variável inversa, resulta em a função original. Para entender isso de forma mais detalhada, vamos analisar a função f(x) = 5x + 1 e sua inversa.
 
-A função deve ser capaz de lidar com números inteiros e decimais, e deve ser capaz de retornar valores de forma seg"
-code,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,14.424352600006387,0.0,14.424351900001056,7.00005330145359e-07,32,2.218470449757713,0.0,32,,,7338298368,6998.3466796875," Use a função para calcular o valor de 10. def f(x):
+1. **Função"
+math,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,36.49037439998938,0.0,36.490373599983286,8.00006091594696e-07,64,1.7538871840136183,0.0,64,,,7371317248,7029.8359375,"Para encontrar a inversa de uma função, precisamos trocar as variáveis x e y e, em seguida, resolver para y. Vamos aplicar isso à função dada, f(x) = 5x + 1.
+
+1. Começamos com a função original:
+   f(x)"
+math,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,6.21923180000158,0.0,6.219230600021547,1.1999800335615873e-06,64,10.290660013666598,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,6.205006300006062,0.0,6.205005600000732,7.00005330145359e-07,64,10.314252219202015,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,11.000444300007075,0.0,11.000443800003268,5.00003807246685e-07,64,5.817946826016731,33.67187499999999,12,59,0.921875,7473029120,7126.8359375,"A inversa de uma função é a função que, quando aplicada à função original, resulta em 1. Em outras palavras, a inversa de f(x) é g(x) tal que f(g(x)) = 1 e g(f(x)) = 1.
+
+Para encontrar a inversa de"
+math,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,math_symbolic_dense,0,cuda,float16,auto,chat,chat,6.156038600020111,0.0001829999964684248,6.155854400014505,1.200009137392044e-06,64,10.39629608556888,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,math_symbolic_dense,1,cuda,float16,auto,chat,chat,6.228664500027662,0.00011980000999756157,6.228544000012334,7.00005330145359e-07,64,10.275075820782412,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,11.207380799984094,0.0,11.207380199979525,6.00004568696022e-07,64,5.710522479979518,33.67187499999999,12,59,0.921875,7473029120,7126.8359375,"A inversa de uma função é a função que, quando aplicada à função original, resulta em 1. Em outras palavras, a inversa de f(x) é g(x) tal que f(g(x)) = 1 e g(f(x)) = 1.
+
+Para encontrar a inversa de"
+math,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,6.244071299995994,0.0,6.244069999986095,1.300009898841381e-06,64,10.249722805061669,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,6.1091110999986995,0.0,6.109110399993369,7.00005330145359e-07,64,10.476155851874035,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,36.592522999999346,0.0,36.592521499987924,1.500011421740055e-06,64,1.7489911805207075,0.0,64,,,7371317248,7029.8359375,"Para encontrar a inversa de uma função, precisamos trocar as variáveis x e y e, em seguida, resolver para y. Vamos aplicar isso à função dada, f(x) = 5x + 1.
+
+1. Começamos com a função original:
+   f(x)"
+math,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,2.707831300009275,0.0,2.707829999999376,1.300009898841381e-06,64,23.63515038761122,65.0,0,64,1.0,7365436928,7024.22802734375,"A inversa de uma função é a função que, quando aplicada à sua variável inversa, resulta em a função original. Para entender isso de forma mais detalhada, vamos analisar a função f(x) = 5x + 1 e sua inversa.
+
+1. **Função"
+math,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,2.5621380000084173,0.0,2.5621372000023257,8.00006091594696e-07,64,24.979138516266392,65.0,0,64,1.0,7365436928,7024.22802734375,"A inversa de uma função é a função que, quando aplicada à sua variável inversa, resulta em a função original. Para entender isso de forma mais detalhada, vamos analisar a função f(x) = 5x + 1 e sua inversa.
+
+1. **Função"
+math,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,36.56590790001792,0.0,36.565907000011066,9.00006853044033e-07,64,1.7502642126374943,0.0,64,,,7371317248,7029.8359375,"Para encontrar a inversa de uma função, precisamos trocar as variáveis x e y e, em seguida, resolver para y. Vamos aplicar isso à função dada, f(x) = 5x + 1.
+
+1. Começamos com a função original:
+   f(x)"
+math,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,6.30072719999589,0.0,6.300726399989799,8.00006091594696e-07,64,10.157557686363845,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,6.073614099994302,0.0,6.0736135999904945,5.00003807246685e-07,64,10.537383334917516,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+math,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,11.096713899984024,0.0,11.096713100007037,7.999769877642393e-07,64,5.767473197636657,33.67187499999999,12,59,0.921875,7473029120,7126.8359375,"A inversa de uma função é a função que, quando aplicada à função original, resulta em 1. Em outras palavras, a inversa de f(x) é g(x) tal que f(g(x)) = 1 e g(f(x)) = 1.
+
+Para encontrar a inversa de"
+math,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,math_symbolic_dense,2,cuda,float16,auto,chat,chat,6.5078451999870595,0.00016459997277706861,6.507679600006668,1.00000761449337e-06,64,9.83428431889057,55.625,6,58,0.90625,7369893888,7028.478515625,"Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers"
+logic_negation,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,3.566277000005357,0.0,3.566276099998504,9.00006853044033e-07,64,17.94588586357814,65.0,0,64,1.0,7365721088,7024.4990234375,"Você está se referindo à situação de uma cidade ou região onde a chuva é limitada e o vento é controlado. No entanto, se o vento parar e não houver alerta, isso pode significar que a chuva está limitada ou que a situação está em um estado de"
+logic_negation,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,41.55320799999754,0.0,41.55320719999145,8.00006091594696e-07,64,1.5401939604760189,0.0,64,,,7371756032,7030.25439453125,"Entendi. Vamos analisar essa condição:
+
+1. A condição principal é: ""Se não chover e apenas se o vento parar, então podemos sair"".
+2. Há uma exceção: ""exceto se houver alerta"".
+
+Isso significa que, normalmente, se"
+logic_negation,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,9.694374499988044,0.0,9.694373500009533,9.999785106629133e-07,64,6.60176682880148,47.8125,11,53,0.828125,7369992192,7028.572265625,"Entendo que você está se referindo a um cenário condicionado. Vou tentar traduzir e explicar o que você está dizendo:
+
+""Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.""
+
+Esta frase pode ser"
+logic_negation,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,9.690737199998694,0.0,9.690736099990318,1.100008375942707e-06,64,6.604244721444786,47.8125,11,53,0.828125,7369992192,7028.572265625,"Entendo que você está se referindo a um cenário condicionado. Vou tentar traduzir e explicar o que você está dizendo:
+
+""Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.""
+
+Esta frase pode ser"
+logic_negation,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,16.36292639997555,0.0,16.362925800000085,5.999754648655653e-07,64,3.9112808085536357,19.375000000000007,18,51,0.796875,7475685888,7129.36962890625,"Entendo que você está tentando expressar uma condição para sair, mas há um pouco de confusão na sua frase. Vou tentar reformular para que seja mais claro:
+
+""Se não chover e o vento parar, podemos sair, mas se houver alerta, não"
+logic_negation,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,logic,0,cuda,float16,auto,chat,chat,15.46377269999357,0.00016909997793845832,15.46360220000497,1.400010660290718e-06,64,4.138705427300197,19.375000000000007,18,51,0.796875,7475685888,7129.36962890625,"Entendo que você está tentando expressar uma condição para sair, mas há um pouco de confusão na sua frase. Vou tentar reformular para que seja mais claro:
+
+""Se não chover e o vento parar, podemos sair, mas se houver alerta, não"
+logic_negation,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,logic,1,cuda,float16,auto,chat,chat,15.233997100003762,0.00011610001092776656,15.233880199986743,8.00006091594696e-07,64,4.201129853174528,19.375000000000007,18,51,0.796875,7475685888,7129.36962890625,"Entendo que você está tentando expressar uma condição para sair, mas há um pouco de confusão na sua frase. Vou tentar reformular para que seja mais claro:
+
+""Se não chover e o vento parar, podemos sair, mas se houver alerta, não"
+logic_negation,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,16.393496300006518,0.0,16.393495199998142,1.100008375942707e-06,64,3.9039872171731025,19.375000000000007,18,51,0.796875,7475685888,7129.36962890625,"Entendo que você está tentando expressar uma condição para sair, mas há um pouco de confusão na sua frase. Vou tentar reformular para que seja mais claro:
+
+""Se não chover e o vento parar, podemos sair, mas se houver alerta, não"
+logic_negation,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,10.122773999988567,0.0,10.122773299983237,7.00005330145359e-07,64,6.322377640760554,47.8125,11,53,0.828125,7369992192,7028.572265625,"Entendo que você está se referindo a um cenário condicionado. Vou tentar traduzir e explicar o que você está dizendo:
+
+""Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.""
+
+Esta frase pode ser"
+logic_negation,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,12.933761699998286,0.0,12.933760699990671,1.00000761449337e-06,64,4.948289715281246,47.8125,11,53,0.828125,7369992192,7028.572265625,"Entendo que você está se referindo a um cenário condicionado. Vou tentar traduzir e explicar o que você está dizendo:
+
+""Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.""
+
+Esta frase pode ser"
+logic_negation,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,42.378169999981765,0.0,42.378168699971866,1.300009898841381e-06,64,1.5102115074819782,0.0,64,,,7371756032,7030.25439453125,"Entendi. Vamos analisar essa condição:
+
+1. A condição principal é: ""Se não chover e apenas se o vento parar, então podemos sair"".
+2. Há uma exceção: ""exceto se houver alerta"".
+
+Isso significa que, normalmente, se"
+logic_negation,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,3.9150778999901377,0.0,3.915077099984046,8.00006091594696e-07,64,16.347056593729903,65.0,0,64,1.0,7365721088,7024.4990234375,"Você está se referindo à situação de uma cidade ou região onde a chuva é limitada e o vento é controlado. No entanto, se o vento parar e não houver alerta, isso pode significar que a chuva está limitada ou que a situação está em um estado de"
+logic_negation,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,3.8257315999944694,0.0,3.82573070001672,8.999777492135763e-07,64,16.728826455073985,65.0,0,64,1.0,7365721088,7024.4990234375,"Você está se referindo à situação de uma cidade ou região onde a chuva é limitada e o vento é controlado. No entanto, se o vento parar e não houver alerta, isso pode significar que a chuva está limitada ou que a situação está em um estado de"
+logic_negation,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,55.056891699990956,0.0,55.05689059998258,1.100008375942707e-06,64,1.1624339483009811,0.0,64,,,7371756032,7030.25439453125,"Entendi. Vamos analisar essa condição:
+
+1. A condição principal é: ""Se não chover e apenas se o vento parar, então podemos sair"".
+2. Há uma exceção: ""exceto se houver alerta"".
+
+Isso significa que, normalmente, se"
+logic_negation,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,13.179716599988751,0.0,13.179715599981137,1.00000761449337e-06,64,4.855946599037996,47.8125,11,53,0.828125,7369992192,7028.572265625,"Entendo que você está se referindo a um cenário condicionado. Vou tentar traduzir e explicar o que você está dizendo:
+
+""Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.""
+
+Esta frase pode ser"
+logic_negation,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,13.272406200005207,0.0,13.272405499999877,7.00005330145359e-07,64,4.822034455212416,47.8125,11,53,0.828125,7369992192,7028.572265625,"Entendo que você está se referindo a um cenário condicionado. Vou tentar traduzir e explicar o que você está dizendo:
+
+""Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.""
+
+Esta frase pode ser"
+logic_negation,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,22.46164240001235,0.0,22.461641200003214,1.200009137392044e-06,64,2.849301883639854,19.375000000000007,18,51,0.796875,7475685888,7129.36962890625,"Entendo que você está tentando expressar uma condição para sair, mas há um pouco de confusão na sua frase. Vou tentar reformular para que seja mais claro:
+
+""Se não chover e o vento parar, podemos sair, mas se houver alerta, não"
+logic_negation,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,speculative_adaptive,logic,2,cuda,float16,auto,chat,chat,22.338171199982753,0.00018259999342262745,22.33798729997943,1.300009898841381e-06,64,2.8650510118773473,19.375000000000007,18,51,0.796875,7475685888,7129.36962890625,"Entendo que você está tentando expressar uma condição para sair, mas há um pouco de confusão na sua frase. Vou tentar reformular para que seja mais claro:
+
+""Se não chover e o vento parar, podemos sair, mas se houver alerta, não"
+code,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,4.469478300015908,0.0,4.469477600010578,7.00005330145359e-07,64,14.319344608916037,65.0,0,64,1.0,7374196224,7032.58154296875,"Claro, aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
     if x % 2 == 0:
-        return x / 2"
-code,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,3.4011814999976195,0.0,3.4011809999938123,5.00003807246685e-07,32,9.40849525378825,49.375,5,27,0.84375,7324508672,6985.19580078125, Use a função para calcular o valor de 10000000000000000000000
-code,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,5.8859902000112925,0.0,5.885989600006724,6.00004568696022e-07,32,5.436638341657213,33.75,10,22,0.6875,7338210304,6998.2626953125," Use a função para calcular o valor de 1000000 usando a função criada. A função deve ser nomeada ""funcao_es"
-code,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,5.511602500002482,0.0,5.511601800011704,6.999907782301307e-07,32,5.805933936633781,20.3125,8,26,0.8125,7397891072,7055.1787109375," Use a função para calcular o valor de x = 10. A função deve ser nomeada ""funcao_especial"" e deve retornar o valor"
-code,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,code,0,cuda,float16,3.1925126999994973,7.340000593103468e-05,3.1924383000005037,9.999930625781417e-07,32,10.023452686658079,49.375,5,27,0.84375,7324508672,6985.19580078125, Use a função para calcular o valor de 10000000000000000000000
-code,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,code,1,cuda,float16,3.396855899991351,6.549998943228275e-05,3.3967896999965888,7.00005330145359e-07,32,9.420476152692105,49.375,5,27,0.84375,7324508672,6985.19580078125, Use a função para calcular o valor de 10000000000000000000000
-code,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,5.597944399996777,0.0,5.59794389999297,5.00003807246685e-07,32,5.716384035543194,20.3125,8,26,0.8125,7397891072,7055.1787109375," Use a função para calcular o valor de x = 10. A função deve ser nomeada ""funcao_especial"" e deve retornar o valor"
-code,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,5.7793258000019705,0.0,5.77932509999664,7.00005330145359e-07,32,5.536978032972131,33.75,10,22,0.6875,7338210304,6998.2626953125," Use a função para calcular o valor de 1000000 usando a função criada. A função deve ser nomeada ""funcao_es"
-code,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,3.3418798000056995,0.0,3.3418791000003694,7.00005330145359e-07,32,9.575449122959308,49.375,5,27,0.84375,7324508672,6985.19580078125, Use a função para calcular o valor de 10000000000000000000000
-code,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,14.430841499997769,0.0,14.430840700006229,7.999915396794677e-07,32,2.2174729034342833,0.0,32,,,7338298368,6998.3466796875," Use a função para calcular o valor de 10. def f(x):
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `x"
+code,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,56.83756710001035,0.0,56.837566300004255,8.00006091594696e-07,64,1.126015824839701,0.0,64,,,7380796928,7038.87646484375,"Claro! Você pode criar uma função Python que implementa essa lógica. Aqui está um exemplo de como você pode fazer isso:
+
+```python
+def process_x(x):
     if x % 2 == 0:
-        return x / 2"
-code,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,1.1746033000090392,0.0,1.1746027000044705,6.00004568696022e-07,32,27.243240334633608,65.0,0,32,1.0,7334836224,6995.044921875," 
+        return x / 2
+    else:
+        return 3 * x +"
+code,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,8.323567000014009,0.0,8.32356570000411,1.300009898841381e-06,64,7.689011213568929,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
 
-A função deve ser capaz de lidar com números inteiros e decimais, e deve ser capaz de retornar valores de forma seg"
-code,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,1.0262413000018569,0.0,1.0262409999995725,3.00002284348011e-07,32,31.18175033487943,65.0,0,32,1.0,7334836224,6995.044921875," 
-
-A função deve ser capaz de lidar com números inteiros e decimais, e deve ser capaz de retornar valores de forma seg"
-code,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,14.464059700010694,0.0,14.464059300007648,4.00003045797348e-07,32,2.2123802489543336,0.0,32,,,7338298368,6998.3466796875," Use a função para calcular o valor de 10. def f(x):
+```python
+def my_function(x):
     if x % 2 == 0:
-        return x / 2"
-code,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,3.2905955000023823,0.0,3.290594999998575,5.00003807246685e-07,32,9.724683571705132,49.375,5,27,0.84375,7324508672,6985.19580078125, Use a função para calcular o valor de 10000000000000000000000
-code,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,5.831034300004831,0.0,5.831033800001023,5.00003807246685e-07,32,5.487877167859138,33.75,10,22,0.6875,7338210304,6998.2626953125," Use a função para calcular o valor de 1000000 usando a função criada. A função deve ser nomeada ""funcao_es"
-code,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,5.9245399000064936,0.0,5.924539300001925,6.00004568696022e-07,32,5.4012633115974,20.3125,8,26,0.8125,7397891072,7055.1787109375," Use a função para calcular o valor de x = 10. A função deve ser nomeada ""funcao_especial"" e deve retornar o valor"
-code,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,code,2,cuda,float16,3.3920183000009274,7.9699995694682e-05,3.3919378999999026,7.00005330145359e-07,32,9.43391136775154,49.375,5,27,0.84375,7324508672,6985.19580078125, Use a função para calcular o valor de 10000000000000000000000
-long_simple,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,1.081633800000418,0.0,1.0816329000081168,8.999923011288047e-07,32,29.584874289235074,65.0,0,32,1.0,7339623424,6999.6103515625," 
+        return x // 2
+    else:
+        return 3 * x + 1
+```
 
-Mas, no dia seguinte, tudo mudou. A cidade estava cheia de pessoas, o clima estava quente e a temperatura estava acima"
-long_simple,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,15.731772700004512,0.0,15.731772099999944,6.00004568696022e-07,32,2.0341000731590038,0.0,32,,,7343548416,7003.353515625," Mas, de repente, um homem apareceu na praça. Ele era alto, magro, com um chapéu de feltro e uma mo"
-long_simple,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,9.428004000001238,0.0,9.428003399996669,6.00004568696022e-07,32,3.394143659675558,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,9.378100000001723,0.0,9.378099399997154,6.00004568696022e-07,32,3.4122050308691656,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,6.5146419999946374,0.0,6.51464149999083,5.00003807246685e-07,32,4.9120120491696,15.000000000000002,9,27,0.84375,7413540352,7070.10302734375," Mas, de repente, o mundo parou. O sol se escondeu, o vento se acalma, as pessoas se sentem in"
-long_simple,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,general,0,cuda,float16,9.362705300009111,0.0005534999945666641,9.36215080000693,1.00000761449337e-06,32,3.4178155751595494,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,general,1,cuda,float16,9.388641099998495,0.00017919999663718045,9.388460900008795,9.999930625781417e-07,32,3.408373976507115,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,6.684731899993494,0.0,6.684731200002716,6.999907782301307e-07,32,4.787028182840234,15.000000000000002,9,27,0.84375,7413540352,7070.10302734375," Mas, de repente, o mundo parou. O sol se escondeu, o vento se acalma, as pessoas se sentem in"
-long_simple,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,9.307850600001984,0.0,9.307850099998177,5.00003807246685e-07,32,3.43795806090755,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,9.329176300001564,0.0,9.329175599996233,7.00005330145359e-07,32,3.4300991824963836,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,15.73937169999408,0.0,15.739371299991035,4.00003045797348e-07,32,2.0331180055943423,0.0,32,,,7343548416,7003.353515625," Mas, de repente, um homem apareceu na praça. Ele era alto, magro, com um chapéu de feltro e uma mo"
-long_simple,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,1.063621699999203,0.0,1.0636209000076633,7.999915396794677e-07,32,30.085884859272785,65.0,0,32,1.0,7339623424,6999.6103515625," 
+Esta função recebe um número `"
+code,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,8.284139700001106,0.0,8.284138499991968,1.200009137392044e-06,64,7.725606075908094,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
 
-Mas, no dia seguinte, tudo mudou. A cidade estava cheia de pessoas, o clima estava quente e a temperatura estava acima"
-long_simple,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,1.3649470999953337,0.0,1.3649465999915265,5.00003807246685e-07,32,23.44413201076393,65.0,0,32,1.0,7339623424,6999.6103515625," 
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
 
-Mas, no dia seguinte, tudo mudou. A cidade estava cheia de pessoas, o clima estava quente e a temperatura estava acima"
-long_simple,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,15.808668199999374,0.0,15.808667299992521,9.00006853044033e-07,32,2.024205935323588,0.0,32,,,7343548416,7003.353515625," Mas, de repente, um homem apareceu na praça. Ele era alto, magro, com um chapéu de feltro e uma mo"
-long_simple,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,9.334100399995805,0.0,9.334099699990475,7.00005330145359e-07,32,3.4282896721374865,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,9.304349699988961,0.0,9.304349300000467,3.9998849388211966e-07,32,3.439251643780969,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
-long_simple,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,6.531325900010415,0.0,6.531324800002039,1.100008375942707e-06,32,4.89946459415675,15.000000000000002,9,27,0.84375,7413540352,7070.10302734375," Mas, de repente, o mundo parou. O sol se escondeu, o vento se acalma, as pessoas se sentem in"
-long_simple,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,general,2,cuda,float16,9.481653599999845,0.00012530000822152942,9.481527699987055,6.00004568696022e-07,32,3.374938734315344,15.000000000000002,16,16,0.5,7342849024,7002.6865234375," Mas, de repente, um homem apareceu na praça, com um rosto de terror. Ele gritou: ""Onde está o meu filho"
+Esta função recebe um número `"
+code,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,13.447373600007268,0.0,13.447372499998892,1.100008375942707e-06,64,4.759293666085504,50.9375,9,63,0.984375,7494175744,7147.0029296875,"Claro, aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def process_number(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `x"
+code,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,code,0,cuda,float16,auto,chat,chat,8.344431499979692,0.00015380000695586205,8.344276499992702,1.1999800335615873e-06,64,7.669785533041497,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `"
+code,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,code,1,cuda,float16,auto,chat,chat,8.628925900004106,0.0002010999887716025,8.62872320000315,1.600012183189392e-06,64,7.41691384787179,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `"
+code,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,13.521166300022742,0.0,13.521165600017412,7.00005330145359e-07,64,4.733319491817237,50.9375,9,63,0.984375,7494175744,7147.0029296875,"Claro, aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def process_number(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `x"
+code,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,8.431802000006428,0.0,8.431800899998052,1.100008375942707e-06,64,7.590311062801429,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `"
+code,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,8.245678499981295,0.0,8.245677500002785,9.999785106629133e-07,64,7.761641446503788,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `"
+code,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,52.00299409998115,0.0,52.00299280000036,1.2999807950109243e-06,64,1.2306983685776507,0.0,64,,,7380796928,7038.87646484375,"Claro! Você pode criar uma função Python que implementa essa lógica. Aqui está um exemplo de como você pode fazer isso:
+
+```python
+def process_x(x):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x +"
+code,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,3.321303099975921,0.0,3.3213022999989334,7.999769877642393e-07,64,19.26954513740826,65.0,0,64,1.0,7374196224,7032.58154296875,"Claro, aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `x"
+code,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,2.7165889000170864,0.0,2.716587700007949,1.200009137392044e-06,64,23.55895660164019,65.0,0,64,1.0,7374196224,7032.58154296875,"Claro, aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `x"
+code,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,38.12450870001339,0.0,38.12450800000806,7.00005330145359e-07,64,1.6787101573843368,0.0,64,,,7380796928,7038.87646484375,"Claro! Você pode criar uma função Python que implementa essa lógica. Aqui está um exemplo de como você pode fazer isso:
+
+```python
+def process_x(x):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x +"
+code,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,5.864171199995326,0.0,5.864170300017577,8.999777492135763e-07,64,10.913733214345962,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `"
+code,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,7.252833200007444,0.0,7.2528326000028756,6.00004568696022e-07,64,8.824137855525798,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `"
+code,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,13.423358500003815,0.0,13.423357299994677,1.200009137392044e-06,64,4.767808294770777,50.9375,9,63,0.984375,7494175744,7147.0029296875,"Claro, aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def process_number(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `x"
+code,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,code,2,cuda,float16,auto,chat,chat,8.341702099976828,0.0001314000110141933,8.341569400014123,1.2999516911804676e-06,64,7.6722950823403036,58.75,4,60,0.9375,7378910208,7037.0771484375,"Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `"
+long_simple,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,0.4400844000047073,0.0,0.4400835999986157,8.00006091594696e-07,12,27.267496870763072,65.00000000000001,0,12,1.0,7345332224,7005.0546875,Entendi. Como posso ajudar você hoje?
+long_simple,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,49.26965289999498,0.0,49.26965239999117,5.00003807246685e-07,64,1.2989740384391164,0.0,64,,,7385691648,7043.54443359375,"Sim, parece que o dia começou de forma tranquila e sem grandes acontecimentos. É comum que os primeiros momentos de um dia sejam calmos, com pessoas realizando suas atividades diárias de maneira natural. Às vezes, é assim que nos sentimos também, esperando que o"
+long_simple,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,18.60715669998899,0.0,18.607155499979854,1.200009137392044e-06,62,3.332051263911626,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,18.453099200007273,0.0,18.45309830000042,9.00006853044033e-07,62,3.359869219148595,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,0,cuda,float16,auto,chat,chat,19.547292100003688,0.0,19.54729099999531,1.100008375942707e-06,56,2.8648469421495695,21.16071428571429,13,46,0.8214285714285714,7499392512,7151.97802734375,Entendi. Isso parece ser uma descrição de um dia tranquilo e comum. Você gostaria de discutir mais sobre isso ou talvez tenha alguma pergunta relacionada? Estou aqui para ajudar com qualquer coisa que você deseje.
+long_simple,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,general,0,cuda,float16,auto,chat,chat,18.516904699994484,0.00027329998556524515,18.51663019999978,1.200009137392044e-06,62,3.348291790907066,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,general,1,cuda,float16,auto,chat,chat,18.4733247999975,0.00026339999749325216,18.473060400021495,9.999785106629133e-07,62,3.35619065172331,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,19.729238099971553,0.0,19.729236800019862,1.2999516911804676e-06,56,2.838426892931093,21.16071428571429,13,46,0.8214285714285714,7499392512,7151.97802734375,Entendi. Isso parece ser uma descrição de um dia tranquilo e comum. Você gostaria de discutir mais sobre isso ou talvez tenha alguma pergunta relacionada? Estou aqui para ajudar com qualquer coisa que você deseje.
+long_simple,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,18.420677799993427,0.0,18.42067649998353,1.300009898841381e-06,62,3.3657827726633447,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,18.46590309997555,0.0,18.46590229999856,7.999769877642393e-07,62,3.3575395508320467,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,63.387395099998685,0.0,63.38739409999107,1.00000761449337e-06,64,1.0096644592988067,0.0,64,,,7385691648,7043.54443359375,"Sim, parece que o dia começou de forma tranquila e sem grandes acontecimentos. É comum que os primeiros momentos de um dia sejam calmos, com pessoas realizando suas atividades diárias de maneira natural. Às vezes, é assim que nos sentimos também, esperando que o"
+long_simple,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,1,cuda,float16,auto,chat,chat,0.6988529999798629,0.0,0.6988522000028752,7.999769877642393e-07,12,17.170993041949842,65.00000000000001,0,12,1.0,7345332224,7005.0546875,Entendi. Como posso ajudar você hoje?
+long_simple,cheap_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,0.7485924999928102,0.0,0.74859179998748,7.00005330145359e-07,12,16.03008312281415,65.00000000000001,0,12,1.0,7345332224,7005.0546875,Entendi. Como posso ajudar você hoje?
+long_simple,expensive_only,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,63.474234599998454,0.0,63.47423359999084,1.00000761449337e-06,64,1.0082831309950377,0.0,64,,,7385691648,7043.54443359375,"Sim, parece que o dia começou de forma tranquila e sem grandes acontecimentos. É comum que os primeiros momentos de um dia sejam calmos, com pessoas realizando suas atividades diárias de maneira natural. Às vezes, é assim que nos sentimos também, esperando que o"
+long_simple,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,18.561027699994156,0.0,18.561026399984257,1.300009898841381e-06,62,3.340332281278774,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,adaptive_guarded_v3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,18.297985999990487,0.0,18.29798489998211,1.100008375942707e-06,62,3.3883510458491024,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"
+long_simple,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,,,2,cuda,float16,auto,chat,chat,19.559568199998466,0.0,19.559567199990852,1.00000761449337e-06,56,2.8630488887788634,21.16071428571429,13,46,0.8214285714285714,7499392512,7151.97802734375,Entendi. Isso parece ser uma descrição de um dia tranquilo e comum. Você gostaria de discutir mais sobre isso ou talvez tenha alguma pergunta relacionada? Estou aqui para ajudar com qualquer coisa que você deseje.
+long_simple,hybrid,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,adaptive_calibrated,general,2,cuda,float16,auto,chat,chat,18.35435320000397,0.00029170000925660133,18.3540604999871,1.00000761449337e-06,62,3.3779452386252755,39.19354838709677,16,46,0.7419354838709677,7378972160,7037.13623046875,"Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!"

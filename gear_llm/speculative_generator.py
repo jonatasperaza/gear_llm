@@ -9,6 +9,7 @@ from gear_llm.adaptive_generator import (
     next_token_stats,
 )
 from gear_llm.config import DEFAULT_CHEAP_MODEL, DEFAULT_EXPENSIVE_MODEL
+from gear_llm.model_loader import ensure_shared_prompt_encoding
 from gear_llm.report import save_csv
 
 
@@ -18,6 +19,7 @@ class SpeculativeGenerationConfig:
     expensive_model_name: str = DEFAULT_EXPENSIVE_MODEL
     device: str = "auto"
     torch_dtype: str = "auto"
+    prompt_format: str = "auto"
     max_new_tokens: int = 80
     draft_length: int = 6
     verify_top_k: int = 3
@@ -34,6 +36,7 @@ def load_speculative_models(config: SpeculativeGenerationConfig):
         expensive_model_name=config.expensive_model_name,
         device=config.device,
         torch_dtype=config.torch_dtype,
+        prompt_format=config.prompt_format,
         max_new_tokens=config.max_new_tokens,
         temperature=config.temperature,
     )
@@ -198,7 +201,14 @@ def speculative_generate_with_models(
     device: str,
     config: SpeculativeGenerationConfig,
 ) -> tuple[str, list[dict], list[dict], dict]:
-    encoded = tokenizer(prompt, return_tensors="pt")
+    encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
+        ensure_shared_prompt_encoding(
+            prompt=prompt,
+            tokenizer=tokenizer,
+            device=device,
+            prompt_format=config.prompt_format,
+        )
+    )
     input_ids = encoded["input_ids"].to(device)
     prompt_length = input_ids.shape[-1]
     current_draft_length = max(
@@ -249,6 +259,13 @@ def speculative_generate_with_models(
                     ),
                     "source": "cheap_accepted",
                     "block_index": block_index,
+                    "prompt_format": config.prompt_format,
+                    "effective_prompt_format_cheap": (
+                        effective_prompt_format_cheap
+                    ),
+                    "effective_prompt_format_expensive": (
+                        effective_prompt_format_expensive
+                    ),
                 }
             )
 
@@ -263,6 +280,13 @@ def speculative_generate_with_models(
                     ),
                     "source": "expensive_corrected",
                     "block_index": block_index,
+                    "prompt_format": config.prompt_format,
+                    "effective_prompt_format_cheap": (
+                        effective_prompt_format_cheap
+                    ),
+                    "effective_prompt_format_expensive": (
+                        effective_prompt_format_expensive
+                    ),
                 }
             )
 
@@ -295,6 +319,11 @@ def speculative_generate_with_models(
                 "expensive_calls": 1,
                 "generated_text_so_far": generated_text_so_far,
                 "next_draft_length": next_draft_length,
+                "prompt_format": config.prompt_format,
+                "effective_prompt_format_cheap": effective_prompt_format_cheap,
+                "effective_prompt_format_expensive": (
+                    effective_prompt_format_expensive
+                ),
             }
         )
 
@@ -327,6 +356,15 @@ def speculative_generate_with_models(
         block_rows=block_rows,
         cheap_generated_tokens=cheap_generated_tokens,
         config=config,
+    )
+    summary.update(
+        {
+            "prompt_format": config.prompt_format,
+            "effective_prompt_format_cheap": effective_prompt_format_cheap,
+            "effective_prompt_format_expensive": (
+                effective_prompt_format_expensive
+            ),
+        }
     )
 
     return full_text, block_rows, token_rows, summary

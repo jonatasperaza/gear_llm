@@ -1,0 +1,4 @@
+summary_group,prompt_count,avg_quality_latency_score,avg_real_speedup_vs_expensive_percent,avg_estimated_saved_percent,avg_similarity_to_expensive,avg_jaccard_to_expensive,avg_repeated_3gram_rate,avg_repeated_4gram_rate,avg_expensive_model_calls,prompts
+ALL,5,0.4848489877406982,73.82445362357815,48.27620967741935,0.21963529602085816,0.3331365464330523,0.005263157894736842,0.0,10.6,"code,easy,logic_negation,long_simple,math"
+mode:adaptive_calibrated,1,0.8959159420508317,84.73554517733068,58.75,0.5517241379310345,0.5294117647058824,0.0,0.0,4.0,code
+mode:adaptive_guarded_v3,4,0.3820822491631648,71.09668073514003,45.65776209677419,0.13661308554331406,0.28406774186484474,0.006578947368421052,0.0,12.25,"easy,logic_negation,long_simple,math"

@@ -1,6 +1,10 @@
 import argparse
 
-from gear_llm.config import DEVICE_CHOICES, TORCH_DTYPE_CHOICES
+from gear_llm.config import (
+    DEVICE_CHOICES,
+    PROMPT_FORMAT_CHOICES,
+    TORCH_DTYPE_CHOICES,
+)
 from gear_llm.speculative_generator import (
     SpeculativeGenerationConfig,
     print_speculative_report,
@@ -45,6 +49,13 @@ def main():
         choices=TORCH_DTYPE_CHOICES,
         default="auto",
         help="dtype dos pesos dos dois modelos.",
+    )
+    parser.add_argument(
+        "--prompt-format",
+        type=str,
+        choices=PROMPT_FORMAT_CHOICES,
+        default="auto",
+        help="Formato do prompt: raw, chat ou auto.",
     )
     parser.add_argument(
         "--max-new-tokens",
@@ -102,6 +113,7 @@ def main():
         expensive_model_name=args.expensive_model,
         device=args.device,
         torch_dtype=args.torch_dtype,
+        prompt_format=args.prompt_format,
         max_new_tokens=args.max_new_tokens,
         draft_length=args.draft_length,
         verify_top_k=args.verify_top_k,

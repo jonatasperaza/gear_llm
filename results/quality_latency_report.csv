@@ -1,0 +1,38 @@
+prompt_name,cheap_model_name,expensive_model_name,device,torch_dtype,prompt_format,latency_winner_excluding_cheap,fastest_seconds_excluding_cheap,real_speedup_vs_expensive_percent,quality_mode,estimated_saved_percent,similarity_to_expensive,jaccard_to_expensive,repeated_3gram_rate,repeated_4gram_rate,expensive_model_calls,selected_mode,cheap_only_similarity,cheap_only_jaccard,expensive_only_generated_text,latency_winner_generated_text,quality_latency_score
+code,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,adaptive_calibrated,7.477805566663544,84.73554517733068,adaptive_calibrated,58.75,0.5517241379310345,0.5294117647058824,0.0,0.0,4.0,,0.6513761467889908,0.5294117647058824,"Claro! Você pode criar uma função Python que implementa essa lógica. Aqui está um exemplo de como você pode fazer isso:
+
+```python
+def process_x(x):
+    if x % 2 == 0:
+        return x / 2
+    else:
+        return 3 * x +","Claro! Aqui está uma função Python que implementa o que você solicitou:
+
+```python
+def my_function(x):
+    if x % 2 == 0:
+        return x // 2
+    else:
+        return 3 * x + 1
+```
+
+Esta função recebe um número `",0.8959159420508317
+easy,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,adaptive_guarded_v3,12.149930033328323,56.408520989935596,adaptive_guarded_v3,40.0,0.2440318302387268,0.3023255813953488,0.0,0.0,16.0,,0.20754716981132076,0.14583333333333334,"Água é um líquido composto principalmente por hidrogênio e oxigênio, que constitui cerca de 70% do peso corporal de seres humanos e é fundamental para a vida na Terra.","A água é um elemento fundamental composto por dois átomos de hidrogênio (H2O) e um átomo de oxigênio (O), presente em quase todas as formas de vida e na maioria das reações naturais. É um líquido incolor, color",0.460634528062403
+logic_negation,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,adaptive_guarded_v3,11.028639133330822,76.19517282184027,adaptive_guarded_v3,47.8125,0.05466970387243736,0.35555555555555557,0.02631578947368421,0.0,11.0,,0.10596026490066225,0.24489795918367346,"Entendi. Vamos analisar essa condição:
+
+1. A condição principal é: ""Se não chover e apenas se o vento parar, então podemos sair"".
+2. Há uma exceção: ""exceto se houver alerta"".
+
+Isso significa que, normalmente, se","Entendo que você está se referindo a um cenário condicionado. Vou tentar traduzir e explicar o que você está dizendo:
+
+""Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta.""
+
+Esta frase pode ser",0.32088863007908486
+long_simple,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,adaptive_guarded_v3,18.39058766666373,68.67577287488983,adaptive_guarded_v3,39.19354838709677,0.04669260700389105,0.2033898305084746,0.0,0.0,16.0,,0.026755852842809364,0.0,"Sim, parece que o dia começou de forma tranquila e sem grandes acontecimentos. É comum que os primeiros momentos de um dia sejam calmos, com pessoas realizando suas atividades diárias de maneira natural. Às vezes, é assim que nos sentimos também, esperando que o","Sim, você está correto. O dia começou com uma sequência simples de eventos, sem nada urgente ou extraordinário. É uma maneira tranquila e natural de começar um dia. Se você quiser falar mais sobre isso ou sobre algo relacionado, estou aqui para ajudar!",0.26922949681823427
+math,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,adaptive_guarded_v3,6.174230566665453,83.1072562538944,adaptive_guarded_v3,55.625,0.20105820105820105,0.275,0.0,0.0,6.0,,0.30403800475059384,0.39473684210526316,"Para encontrar a inversa de uma função, precisamos trocar as variáveis x e y e, em seguida, resolver para y. Vamos aplicar isso à função dada, f(x) = 5x + 1.
+
+1. Começamos com a função original:
+   f(x)","Para entender por que a inversa de f(x) = 5x + 1 é (x - 1) / 5, vamos analisar o processo de inversão de funções passo a passo:
+
+1. **Definição da Função Inversa:**
+   A invers",0.47757634169293706

@@ -21,6 +21,7 @@ from gear_llm.compute_simulator import (
 )
 from gear_llm.config import (
     DEVICE_CHOICES,
+    PROMPT_FORMAT_CHOICES,
     TORCH_DTYPE_CHOICES,
     ModelConfig,
     RouterConfig,
@@ -47,7 +48,7 @@ from gear_llm.latency_benchmark import (
     run_latency_benchmark,
     save_latency_benchmark_outputs,
 )
-from gear_llm.model_loader import load_model_and_tokenizer
+from gear_llm.model_loader import get_expensive_tokenizer, load_model_and_tokenizer
 from gear_llm.mode_oracle import (
     print_mode_oracle_report,
     run_mode_oracle,
@@ -118,6 +119,15 @@ def _adaptive_benchmark_row(
     return {
         "prompt_name": prompt_name,
         "mode": mode,
+        "prompt_format": summary.get("prompt_format", ""),
+        "effective_prompt_format_cheap": summary.get(
+            "effective_prompt_format_cheap",
+            "",
+        ),
+        "effective_prompt_format_expensive": summary.get(
+            "effective_prompt_format_expensive",
+            "",
+        ),
         "generated_text": summary["generated_text"],
         "total_generated_tokens": total,
         "cheap_generated_tokens": total,
@@ -141,6 +151,15 @@ def _speculative_benchmark_row(
     return {
         "prompt_name": prompt_name,
         "mode": "speculative_adaptive",
+        "prompt_format": summary.get("prompt_format", ""),
+        "effective_prompt_format_cheap": summary.get(
+            "effective_prompt_format_cheap",
+            "",
+        ),
+        "effective_prompt_format_expensive": summary.get(
+            "effective_prompt_format_expensive",
+            "",
+        ),
         "generated_text": summary["generated_text"],
         "total_generated_tokens": summary["total_generated_tokens"],
         "cheap_generated_tokens": summary["cheap_generated_tokens"],
@@ -195,6 +214,7 @@ def run_speculative_benchmark(
     verify_top_k: int,
     min_draft_length: int,
     max_draft_length: int,
+    prompt_format: str = "auto",
     models=None,
 ) -> list[dict]:
     speculative_config = SpeculativeGenerationConfig(
@@ -204,6 +224,7 @@ def run_speculative_benchmark(
         draft_length=draft_length,
         verify_top_k=verify_top_k,
         temperature=temperature,
+        prompt_format=prompt_format,
         min_draft_length=min_draft_length,
         max_draft_length=max_draft_length,
     )
@@ -216,15 +237,17 @@ def run_speculative_benchmark(
         cheap_model, expensive_model, tokenizer, device = models
 
     rows = []
+    expensive_tokenizer = get_expensive_tokenizer(tokenizer)
 
     for prompt_name, prompt in prompts.items():
         reference_text, _ = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,
-            tokenizer=tokenizer,
+            tokenizer=expensive_tokenizer,
             device=device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
         adaptive_modes = (
             (
@@ -232,6 +255,7 @@ def run_speculative_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     entropy_threshold=0.35,
@@ -245,6 +269,7 @@ def run_speculative_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     entropy_threshold=0.35,
@@ -317,6 +342,15 @@ def _hybrid_benchmark_row(
         "prompt_type": prompt_type,
         "mode": mode,
         "selected_mode": selected_mode,
+        "prompt_format": summary.get("prompt_format", ""),
+        "effective_prompt_format_cheap": summary.get(
+            "effective_prompt_format_cheap",
+            "",
+        ),
+        "effective_prompt_format_expensive": summary.get(
+            "effective_prompt_format_expensive",
+            "",
+        ),
         "generated_text": summary["generated_text"],
         "total_generated_tokens": summary["total_generated_tokens"],
         "cheap_generated_tokens": summary["cheap_generated_tokens"],
@@ -366,6 +400,7 @@ def run_hybrid_benchmark(
     expensive_model_name: str,
     max_new_tokens: int,
     temperature: float,
+    prompt_format: str = "auto",
     models=None,
 ) -> list[dict]:
     if models is None:
@@ -374,6 +409,7 @@ def run_hybrid_benchmark(
             expensive_model_name=expensive_model_name,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
     else:
         cheap_model, expensive_model, tokenizer, device = models
@@ -384,6 +420,7 @@ def run_hybrid_benchmark(
         "adaptive_guarded_v3",
         "speculative_adaptive",
     )
+    expensive_tokenizer = get_expensive_tokenizer(tokenizer)
 
     for prompt_name, prompt in prompts.items():
         prompt_type = classify_prompt(prompt)
@@ -391,10 +428,11 @@ def run_hybrid_benchmark(
         reference_text, _ = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,
-            tokenizer=tokenizer,
+            tokenizer=expensive_tokenizer,
             device=device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            prompt_format=prompt_format,
         )
 
         mode_summaries = {}
@@ -410,6 +448,7 @@ def run_hybrid_benchmark(
                 expensive_model_name=expensive_model_name,
                 max_new_tokens=max_new_tokens,
                 temperature=temperature,
+                prompt_format=prompt_format,
             )
             mode_summaries[mode] = summary
             rows.append(
@@ -615,6 +654,13 @@ def main():
         help="dtype dos pesos: auto, float32, float16 ou bfloat16.",
     )
     parser.add_argument(
+        "--prompt-format",
+        type=str,
+        choices=PROMPT_FORMAT_CHOICES,
+        default="auto",
+        help="Formato do prompt para geracao: raw, chat ou auto.",
+    )
+    parser.add_argument(
         "--adaptive-max-new-tokens",
         type=int,
         default=80,
@@ -815,6 +861,7 @@ def main():
         expensive_model_name=args.expensive_model,
         device=args.device,
         torch_dtype=args.torch_dtype,
+        prompt_format=args.prompt_format,
         max_new_tokens=args.adaptive_max_new_tokens,
         temperature=args.adaptive_temperature,
         entropy_threshold=args.adaptive_entropy_threshold,
@@ -897,6 +944,9 @@ def main():
                 expensive_model_name=args.expensive_model,
                 max_new_tokens=args.adaptive_max_new_tokens,
                 temperature=args.adaptive_temperature,
+                device=args.device,
+                torch_dtype=args.torch_dtype,
+                prompt_format=args.prompt_format,
             )
             print_quality_benchmark_report(quality_rows)
             save_quality_benchmark(quality_rows, quality_csv)
@@ -931,6 +981,7 @@ def main():
                 verify_top_k=args.speculative_verify_top_k,
                 min_draft_length=args.speculative_min_draft_length,
                 max_draft_length=args.speculative_max_draft_length,
+                prompt_format=args.prompt_format,
             )
             print_speculative_benchmark_report(speculative_rows)
             save_speculative_summary_rows(speculative_rows, speculative_csv)
@@ -962,6 +1013,7 @@ def main():
                 expensive_model_name=args.expensive_model,
                 max_new_tokens=speculative_max_new_tokens,
                 temperature=args.adaptive_temperature,
+                prompt_format=args.prompt_format,
             )
             print_hybrid_benchmark_report(hybrid_rows)
             save_csv(hybrid_rows, str(hybrid_csv))
@@ -977,6 +1029,9 @@ def main():
                     expensive_model_name=args.expensive_model,
                     max_new_tokens=speculative_max_new_tokens,
                     temperature=args.adaptive_temperature,
+                    device=args.device,
+                    torch_dtype=args.torch_dtype,
+                    prompt_format=args.prompt_format,
                 )
             )
             print_dataset_benchmark_report(
@@ -1044,6 +1099,7 @@ def main():
                     measured_runs=args.latency_measured_runs,
                     device=args.device,
                     torch_dtype=args.torch_dtype,
+                    prompt_format=args.prompt_format,
                 )
             )
             print_latency_benchmark_report(latency_summary_rows)
@@ -1412,6 +1468,9 @@ def main():
             expensive_model_name=args.expensive_model,
             max_new_tokens=args.adaptive_max_new_tokens,
             temperature=args.adaptive_temperature,
+            device=args.device,
+            torch_dtype=args.torch_dtype,
+            prompt_format=args.prompt_format,
         )
         print_quality_benchmark_report(quality_rows)
         save_quality_benchmark(quality_rows, quality_csv)
@@ -1446,6 +1505,7 @@ def main():
             verify_top_k=args.speculative_verify_top_k,
             min_draft_length=args.speculative_min_draft_length,
             max_draft_length=args.speculative_max_draft_length,
+            prompt_format=args.prompt_format,
             models=adaptive_models,
         )
         print_speculative_benchmark_report(speculative_rows)
@@ -1478,6 +1538,7 @@ def main():
             expensive_model_name=args.expensive_model,
             max_new_tokens=speculative_max_new_tokens,
             temperature=args.adaptive_temperature,
+            prompt_format=args.prompt_format,
             models=adaptive_models,
         )
         print_hybrid_benchmark_report(hybrid_rows)
@@ -1494,6 +1555,9 @@ def main():
                 expensive_model_name=args.expensive_model,
                 max_new_tokens=speculative_max_new_tokens,
                 temperature=args.adaptive_temperature,
+                device=args.device,
+                torch_dtype=args.torch_dtype,
+                prompt_format=args.prompt_format,
                 models=adaptive_models,
             )
         )
@@ -1562,6 +1626,7 @@ def main():
                 measured_runs=args.latency_measured_runs,
                 device=args.device,
                 torch_dtype=args.torch_dtype,
+                prompt_format=args.prompt_format,
                 models=adaptive_models,
             )
         )

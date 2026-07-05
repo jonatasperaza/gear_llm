@@ -1,7 +1,11 @@
 import argparse
 
 from gear_llm.adaptive_generator import AdaptiveGenerationConfig
-from gear_llm.config import DEVICE_CHOICES, TORCH_DTYPE_CHOICES
+from gear_llm.config import (
+    DEVICE_CHOICES,
+    PROMPT_FORMAT_CHOICES,
+    TORCH_DTYPE_CHOICES,
+)
 from gear_llm.latency_benchmark import (
     print_latency_benchmark_report,
     run_latency_benchmark,
@@ -69,6 +73,13 @@ def main():
         default="auto",
         help="dtype dos pesos dos dois modelos.",
     )
+    parser.add_argument(
+        "--prompt-format",
+        type=str,
+        choices=PROMPT_FORMAT_CHOICES,
+        default="auto",
+        help="Formato do prompt: raw, chat ou auto.",
+    )
     args = parser.parse_args()
 
     rows, summary_rows, winner_rows = run_latency_benchmark(
@@ -80,6 +91,7 @@ def main():
         measured_runs=args.measured_runs,
         device=args.device,
         torch_dtype=args.torch_dtype,
+        prompt_format=args.prompt_format,
     )
     print_latency_benchmark_report(summary_rows)
     detailed_csv, summary_csv, winners_csv = save_latency_benchmark_outputs(

@@ -6,6 +6,7 @@ DEFAULT_EXPENSIVE_MODEL = "HuggingFaceTB/SmolLM2-360M-Instruct"
 
 DEVICE_CHOICES = ("auto", "cpu", "cuda")
 TORCH_DTYPE_CHOICES = ("auto", "float32", "float16", "bfloat16")
+PROMPT_FORMAT_CHOICES = ("raw", "chat", "auto")
 
 
 @dataclass

@@ -1,6 +1,6 @@
-prompt_name,cheap_model_name,expensive_model_name,device,torch_dtype,fastest_mode_including_cheap,fastest_mode_excluding_cheap,expensive_only_seconds,fastest_seconds_excluding_cheap,best_real_speedup_excluding_cheap_percent
-code,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,cheap_only,hybrid,14.439751266671616,3.3271289666639254,76.95854377808244
-easy,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,cheap_only,adaptive_calibrated,14.826238499988298,4.622737766670373,68.82056250023211
-logic_negation,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,cheap_only,adaptive_guarded_v3,13.922153633330405,4.64583233333542,66.62993057185463
-long_simple,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,cheap_only,speculative_adaptive,15.759937533332655,6.576899933332849,58.26823602934629
-math,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,cheap_only,speculative_adaptive,17.228306033333258,4.924443999999009,71.41655139819774
+prompt_name,cheap_model_name,expensive_model_name,device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,fastest_mode_including_cheap,fastest_mode_excluding_cheap,expensive_only_seconds,fastest_seconds_excluding_cheap,best_real_speedup_excluding_cheap_percent
+code,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,cheap_only,adaptive_calibrated,48.988356633334966,7.477805566663544,84.73554517733068
+easy,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,cheap_only,adaptive_guarded_v3,27.87225923333123,12.149930033328323,56.408520989935596
+logic_negation,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,cheap_only,adaptive_guarded_v3,46.32942323332342,11.028639133330822,76.19517282184027
+long_simple,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,cheap_only,adaptive_guarded_v3,58.71042753333071,18.39058766666373,68.67577287488983
+math,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,cheap_only,adaptive_guarded_v3,36.54960176666888,6.174230566665453,83.1072562538944

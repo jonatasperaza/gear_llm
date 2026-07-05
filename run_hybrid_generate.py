@@ -1,7 +1,11 @@
 import argparse
 
 from gear_llm.adaptive_generator import AdaptiveGenerationConfig
-from gear_llm.config import DEVICE_CHOICES, TORCH_DTYPE_CHOICES
+from gear_llm.config import (
+    DEVICE_CHOICES,
+    PROMPT_FORMAT_CHOICES,
+    TORCH_DTYPE_CHOICES,
+)
 from gear_llm.hybrid_router import (
     hybrid_generate_with_models,
     load_hybrid_models,
@@ -45,6 +49,13 @@ def main():
         help="dtype dos pesos dos dois modelos.",
     )
     parser.add_argument(
+        "--prompt-format",
+        type=str,
+        choices=PROMPT_FORMAT_CHOICES,
+        default="auto",
+        help="Formato do prompt: raw, chat ou auto.",
+    )
+    parser.add_argument(
         "--max-new-tokens",
         type=int,
         default=80,
@@ -65,6 +76,7 @@ def main():
         temperature=args.temperature,
         device=args.device,
         torch_dtype=args.torch_dtype,
+        prompt_format=args.prompt_format,
     )
     summary = hybrid_generate_with_models(
         prompt=args.prompt,
@@ -76,6 +88,7 @@ def main():
         expensive_model_name=args.expensive_model,
         max_new_tokens=args.max_new_tokens,
         temperature=args.temperature,
+        prompt_format=args.prompt_format,
     )
 
     print()
