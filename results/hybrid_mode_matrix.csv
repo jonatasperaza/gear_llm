@@ -1,0 +1,6 @@
+expected_category,selected_mode,count
+code,adaptive_calibrated,10
+easy,adaptive_calibrated,10
+general,adaptive_calibrated,10
+logic,adaptive_guarded_v3,10
+math,adaptive_calibrated,10

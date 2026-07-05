@@ -20,6 +20,12 @@ from gear_llm.compute_simulator import (
     simulate_compute_from_rows,
 )
 from gear_llm.config import ModelConfig, RouterConfig
+from gear_llm.dataset_benchmark import (
+    parse_categories,
+    print_dataset_benchmark_report,
+    run_dataset_benchmark,
+    save_dataset_benchmark_outputs,
+)
 from gear_llm.guard_tuning import (
     print_guard_tuning_report,
     run_guard_tuning,
@@ -32,6 +38,11 @@ from gear_llm.hybrid_router import (
     load_hybrid_models,
 )
 from gear_llm.model_loader import load_model_and_tokenizer
+from gear_llm.mode_oracle import (
+    print_mode_oracle_report,
+    run_mode_oracle,
+    save_mode_oracle_outputs,
+)
 from gear_llm.policy_replay import (
     print_policy_replay_report,
     run_policy_replay,
@@ -493,6 +504,34 @@ def main():
         help="Compara adaptive, guarded, speculative e o roteador híbrido.",
     )
     parser.add_argument(
+        "--dataset-benchmark",
+        action="store_true",
+        help="Roda benchmark do hybrid router em um dataset JSONL.",
+    )
+    parser.add_argument(
+        "--mode-oracle",
+        action="store_true",
+        help="Calcula o melhor modo por prompt usando dataset_benchmark.csv.",
+    )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="data/prompts.jsonl",
+        help="Caminho do dataset JSONL usado por --dataset-benchmark.",
+    )
+    parser.add_argument(
+        "--categories",
+        type=str,
+        default=None,
+        help="Categorias separadas por vírgula para filtrar o dataset.",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Limite total de prompts do dataset após filtro.",
+    )
+    parser.add_argument(
         "--ablation-csv",
         type=str,
         default=None,
@@ -785,6 +824,8 @@ def main():
         or args.speculative_generate
         or args.speculative_tuning
         or args.hybrid_benchmark
+        or args.dataset_benchmark
+        or args.mode_oracle
     ):
         if args.policy_replay:
             teacher_csv = output_dir / "teacher_calibration.csv"
@@ -877,6 +918,71 @@ def main():
             print_hybrid_benchmark_report(hybrid_rows)
             save_csv(hybrid_rows, str(hybrid_csv))
             print(f"{'hybrid_csv':<15} -> {hybrid_csv}")
+
+        if args.dataset_benchmark:
+            dataset_rows, dataset_summary_rows, dataset_matrix_rows = (
+                run_dataset_benchmark(
+                    dataset_path=args.dataset,
+                    categories=parse_categories(args.categories),
+                    limit=args.limit,
+                    cheap_model_name=args.cheap_model,
+                    expensive_model_name=args.expensive_model,
+                    max_new_tokens=speculative_max_new_tokens,
+                    temperature=args.adaptive_temperature,
+                )
+            )
+            print_dataset_benchmark_report(
+                dataset_summary_rows,
+                dataset_matrix_rows,
+            )
+            detailed_csv, summary_csv, matrix_csv = save_dataset_benchmark_outputs(
+                rows=dataset_rows,
+                summary_rows=dataset_summary_rows,
+                matrix_rows=dataset_matrix_rows,
+                output_dir=output_dir,
+            )
+            print(f"{'dataset_csv':<15} -> {detailed_csv}")
+            print(f"{'summary_csv':<15} -> {summary_csv}")
+            print(f"{'matrix_csv':<15} -> {matrix_csv}")
+
+        if args.mode_oracle:
+            dataset_csv = output_dir / "dataset_benchmark.csv"
+
+            try:
+                (
+                    oracle_rows,
+                    oracle_summary_rows,
+                    oracle_confidence_rows,
+                    oracle_compare_rows,
+                    oracle_metrics,
+                ) = run_mode_oracle(dataset_csv=dataset_csv)
+            except FileNotFoundError as error:
+                print(error)
+                return
+
+            print_mode_oracle_report(
+                oracle_summary_rows,
+                oracle_confidence_rows,
+                oracle_metrics,
+            )
+            (
+                oracle_csv,
+                oracle_summary_csv,
+                oracle_confidence_csv,
+                oracle_compare_csv,
+            ) = (
+                save_mode_oracle_outputs(
+                    oracle_rows=oracle_rows,
+                    summary_rows=oracle_summary_rows,
+                    confidence_summary_rows=oracle_confidence_rows,
+                    comparison_rows=oracle_compare_rows,
+                    output_dir=output_dir,
+                )
+            )
+            print(f"{'oracle_csv':<15} -> {oracle_csv}")
+            print(f"{'oracle_summary':<15} -> {oracle_summary_csv}")
+            print(f"{'oracle_conf':<15} -> {oracle_confidence_csv}")
+            print(f"{'oracle_compare':<15} -> {oracle_compare_csv}")
 
         return
 
@@ -1298,6 +1404,72 @@ def main():
         print_hybrid_benchmark_report(hybrid_rows)
         save_csv(hybrid_rows, str(hybrid_csv))
         print(f"{'hybrid_csv':<15} -> {hybrid_csv}")
+
+    if args.dataset_benchmark and model_work_requested:
+        dataset_rows, dataset_summary_rows, dataset_matrix_rows = (
+            run_dataset_benchmark(
+                dataset_path=args.dataset,
+                categories=parse_categories(args.categories),
+                limit=args.limit,
+                cheap_model_name=args.cheap_model,
+                expensive_model_name=args.expensive_model,
+                max_new_tokens=speculative_max_new_tokens,
+                temperature=args.adaptive_temperature,
+                models=adaptive_models,
+            )
+        )
+        print_dataset_benchmark_report(
+            dataset_summary_rows,
+            dataset_matrix_rows,
+        )
+        detailed_csv, summary_csv, matrix_csv = save_dataset_benchmark_outputs(
+            rows=dataset_rows,
+            summary_rows=dataset_summary_rows,
+            matrix_rows=dataset_matrix_rows,
+            output_dir=output_dir,
+        )
+        print(f"{'dataset_csv':<15} -> {detailed_csv}")
+        print(f"{'summary_csv':<15} -> {summary_csv}")
+        print(f"{'matrix_csv':<15} -> {matrix_csv}")
+
+    if args.mode_oracle and model_work_requested:
+        dataset_csv = output_dir / "dataset_benchmark.csv"
+
+        try:
+            (
+                oracle_rows,
+                oracle_summary_rows,
+                oracle_confidence_rows,
+                oracle_compare_rows,
+                oracle_metrics,
+            ) = run_mode_oracle(dataset_csv=dataset_csv)
+        except FileNotFoundError as error:
+            print(error)
+            return
+
+        print_mode_oracle_report(
+            oracle_summary_rows,
+            oracle_confidence_rows,
+            oracle_metrics,
+        )
+        (
+            oracle_csv,
+            oracle_summary_csv,
+            oracle_confidence_csv,
+            oracle_compare_csv,
+        ) = (
+            save_mode_oracle_outputs(
+                oracle_rows=oracle_rows,
+                summary_rows=oracle_summary_rows,
+                confidence_summary_rows=oracle_confidence_rows,
+                comparison_rows=oracle_compare_rows,
+                output_dir=output_dir,
+            )
+        )
+        print(f"{'oracle_csv':<15} -> {oracle_csv}")
+        print(f"{'oracle_summary':<15} -> {oracle_summary_csv}")
+        print(f"{'oracle_conf':<15} -> {oracle_confidence_csv}")
+        print(f"{'oracle_compare':<15} -> {oracle_compare_csv}")
 
 
 if __name__ == "__main__":

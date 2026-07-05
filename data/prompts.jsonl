@@ -1,0 +1,60 @@
+{"id":"easy_001","category":"easy","prompt":"Explique em uma frase o que é água."}
+{"id":"easy_002","category":"easy","prompt":"Resuma em uma frase para que serve uma chave."}
+{"id":"easy_003","category":"easy","prompt":"Diga de forma simples o que é uma árvore."}
+{"id":"easy_004","category":"easy","prompt":"Explique em poucas palavras o que é uma biblioteca."}
+{"id":"easy_005","category":"easy","prompt":"Descreva em uma frase o que é um caderno."}
+{"id":"easy_006","category":"easy","prompt":"Resuma o que faz uma lâmpada em uma frase."}
+{"id":"easy_007","category":"easy","prompt":"Explique de modo simples o que é uma janela."}
+{"id":"easy_008","category":"easy","prompt":"Diga em uma frase o que é uma cadeira."}
+{"id":"easy_009","category":"easy","prompt":"Explique brevemente o que é uma mochila."}
+{"id":"easy_010","category":"easy","prompt":"Resuma em uma frase o que é um relógio."}
+{"id":"math_001","category":"math","prompt":"Explique por que a inversa de f(x)=5x+1 é (x-1)/5."}
+{"id":"math_002","category":"math","prompt":"Calcule 12 + 7 * 3 e mostre o resultado final."}
+{"id":"math_003","category":"math","prompt":"Resolva a equação 2x + 4 = 10."}
+{"id":"math_004","category":"math","prompt":"Qual é a fórmula da área de um círculo?"}
+{"id":"math_005","category":"math","prompt":"Explique por que 3/4 é maior que 2/5."}
+{"id":"math_006","category":"math","prompt":"Calcule a média dos números 4, 8, 10 e 14."}
+{"id":"math_007","category":"math","prompt":"Se f(x)=x^2, qual é o valor de f(6)?"}
+{"id":"math_008","category":"math","prompt":"Resolva 5x - 3 = 2x + 9."}
+{"id":"math_009","category":"math","prompt":"Explique a diferença entre soma (+), produto (*) e divisão (/)."}
+{"id":"math_010","category":"math","prompt":"Calcule 20% de 150 e explique o raciocínio."}
+{"id":"logic_001","category":"logic","prompt":"Se não chover e apenas se o vento parar, então podemos sair; exceto se houver alerta."}
+{"id":"logic_002","category":"logic","prompt":"Determine se a regra é válida: se o cartão está bloqueado, então a compra é proibida."}
+{"id":"logic_003","category":"logic","prompt":"Se o usuário não confirmou o email, então o acesso deve ser negado."}
+{"id":"logic_004","category":"logic","prompt":"Explique a condição: permitido apenas se o documento for válido."}
+{"id":"logic_005","category":"logic","prompt":"Se a porta está fechada, mas a janela está aberta, então o alarme deve tocar?"}
+{"id":"logic_006","category":"logic","prompt":"Classifique como válido ou inválido: entrar é permitido exceto quando o crachá está vencido."}
+{"id":"logic_007","category":"logic","prompt":"Se o pagamento não foi aprovado, então o pedido fica bloqueado."}
+{"id":"logic_008","category":"logic","prompt":"A regra diz que apenas alunos ativos podem entrar, porém visitantes autorizados também podem passar."}
+{"id":"logic_009","category":"logic","prompt":"Se o sensor falhar ou a bateria acabar, então o sistema deve avisar."}
+{"id":"logic_010","category":"logic","prompt":"Avalie: a ação é proibida se o perfil está inválido, mas permitida com autorização manual."}
+{"id":"code_001","category":"code","prompt":"Escreva uma função Python: if x % 2 == 0, retorne x / 2; caso contrário, retorne 3 * x + 1."}
+{"id":"code_002","category":"code","prompt":"Crie uma função def soma(a, b) que return a + b."}
+{"id":"code_003","category":"code","prompt":"Mostre um loop for em Python que imprima os números de 1 a 5."}
+{"id":"code_004","category":"code","prompt":"Explique este código: import math; return math.sqrt(x)."}
+{"id":"code_005","category":"code","prompt":"Escreva um exemplo com if, else e return para verificar idade."}
+{"id":"code_006","category":"code","prompt":"Crie uma class Pessoa com nome e idade."}
+{"id":"code_007","category":"code","prompt":"Mostre uma função JavaScript com const, let e return."}
+{"id":"code_008","category":"code","prompt":"Escreva um while que conte até dez em Python."}
+{"id":"code_009","category":"code","prompt":"Explique como usar var em um pequeno trecho de código."}
+{"id":"code_010","category":"code","prompt":"Crie uma function que receba uma lista e retorne o primeiro item."}
+{"id":"long_simple_001","category":"long_simple","prompt":"O mercado abriu cedo naquela manhã tranquila. As pessoas compraram frutas, escolheram pães, conversaram sobre o clima, pagaram suas compras e caminharam de volta para casa com sacolas leves e planos comuns para o resto do dia."}
+{"id":"long_simple_002","category":"long_simple","prompt":"A praça ficou movimentada durante a tarde. Crianças brincaram perto do chafariz, adultos descansaram nos bancos, vendedores organizaram pequenas barracas coloridas e muitos moradores aproveitaram a luz suave antes do começo da noite."}
+{"id":"long_simple_003","category":"long_simple","prompt":"No escritório pequeno, a equipe revisou mensagens, organizou documentos, marcou reuniões, separou tarefas simples e preparou uma lista de prioridades para manter a semana estável, clara e sem grandes mudanças de direção."}
+{"id":"long_simple_004","category":"long_simple","prompt":"Durante a viagem de ônibus, os passageiros observaram ruas conhecidas, prédios antigos, lojas abertas, árvores na calçada e pessoas seguindo suas rotinas, enquanto a cidade parecia avançar em ritmo constante e sereno."}
+{"id":"long_simple_005","category":"long_simple","prompt":"A biblioteca recebeu poucos visitantes naquela tarde. Alguns leram jornais, outros procuraram livros nas estantes, uma funcionária organizou cartões de empréstimo e o silêncio ajudou todos a manter atenção nas pequenas atividades."}
+{"id":"long_simple_006","category":"long_simple","prompt":"A cozinha ficou cheia de cheiros agradáveis. Alguém cortou legumes, outra pessoa lavou pratos, uma panela aqueceu lentamente e a mesa foi arrumada com cuidado para uma refeição simples entre amigos."}
+{"id":"long_simple_007","category":"long_simple","prompt":"Na escola, os estudantes guardaram materiais, ouviram orientações, copiaram anotações, fizeram perguntas curtas e saíram para o intervalo com conversas leves, enquanto os professores preparavam a próxima atividade da manhã."}
+{"id":"long_simple_008","category":"long_simple","prompt":"O jardim recebeu água no fim da tarde. As folhas ficaram brilhantes, a terra escureceu um pouco, pequenas flores apareceram entre os vasos e o caminho de pedra continuou limpo depois da manutenção."}
+{"id":"long_simple_009","category":"long_simple","prompt":"A loja de bairro encerrou o expediente devagar. Produtos foram alinhados nas prateleiras, o caixa foi conferido, luzes foram apagadas aos poucos e a porta principal recebeu a placa de fechado."}
+{"id":"long_simple_010","category":"long_simple","prompt":"O grupo caminhou pela avenida larga, observando vitrines, placas, bancos, árvores e bicicletas estacionadas. A conversa permaneceu leve durante todo o percurso, com comentários sobre lugares conhecidos e lembranças recentes."}
+{"id":"general_001","category":"general","prompt":"Quais são três vantagens de manter uma rotina de leitura?"}
+{"id":"general_002","category":"general","prompt":"Dê ideias para organizar uma mesa de trabalho."}
+{"id":"general_003","category":"general","prompt":"Sugira um título para um texto sobre colaboração."}
+{"id":"general_004","category":"general","prompt":"Explique o papel da curiosidade no aprendizado."}
+{"id":"general_005","category":"general","prompt":"Liste cuidados básicos para uma apresentação clara."}
+{"id":"general_006","category":"general","prompt":"Crie uma frase motivadora sobre persistência."}
+{"id":"general_007","category":"general","prompt":"Descreva uma rotina matinal produtiva."}
+{"id":"general_008","category":"general","prompt":"Sugira temas para uma conversa em grupo."}
+{"id":"general_009","category":"general","prompt":"Explique como planejar uma semana equilibrada."}
+{"id":"general_010","category":"general","prompt":"Dê exemplos de hábitos que melhoram a concentração."}

@@ -1,0 +1,11 @@
+category,best_mode,count,percentage
+code,adaptive_calibrated,8,80.0
+code,speculative_adaptive,2,20.0
+easy,adaptive_calibrated,8,80.0
+easy,speculative_adaptive,2,20.0
+general,adaptive_calibrated,7,70.0
+general,speculative_adaptive,3,30.0
+logic,adaptive_calibrated,5,50.0
+logic,speculative_adaptive,5,50.0
+math,adaptive_calibrated,9,90.0
+math,speculative_adaptive,1,10.0

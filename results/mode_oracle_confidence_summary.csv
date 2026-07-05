@@ -1,0 +1,12 @@
+category,oracle_confidence,count,percentage
+code,high,2,20.0
+code,tie,8,80.0
+easy,high,2,20.0
+easy,tie,8,80.0
+general,high,3,30.0
+general,low,2,20.0
+general,tie,5,50.0
+logic,high,4,40.0
+logic,tie,6,60.0
+math,low,1,10.0
+math,tie,9,90.0

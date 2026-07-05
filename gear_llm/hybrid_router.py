@@ -28,12 +28,46 @@ def _word_set(text: str) -> set[str]:
     return set(re.findall(r"\b\w+\b", normalize_text(text)))
 
 
+def is_math_symbolic_dense(prompt: str, normalized: str, words: set[str]) -> bool:
+    compact = re.sub(r"\s+", "", normalized)
+    operator_types = set(re.findall(r"[+\-*/^%]", prompt))
+    dense_math_words = {
+        "inversa",
+        "derivada",
+        "integral",
+        "equacao",
+        "funcao",
+    }
+    has_math_parentheses = bool(
+        re.search(r"\([a-z0-9][a-z0-9+\-*/^%]*\)", compact)
+    )
+    compact_expression_patterns = (
+        r"\d+[a-z][+\-*/^%]\d+",
+        r"\([a-z0-9+\-*/^%]+\)[+\-*/^%]\d+",
+        r"\b[a-z]\^\d+\b",
+        r"\d+[a-z][+\-*/^%]\d+[a-z]?",
+    )
+
+    conditions = [
+        any(name in normalized for name in ("f(x)", "g(x)", "h(x)")),
+        "=" in prompt,
+        len(operator_types) >= 2,
+        has_math_parentheses,
+        any(re.search(pattern, compact) for pattern in compact_expression_patterns),
+        bool(words & dense_math_words),
+    ]
+
+    return sum(1 for condition in conditions if condition) >= 2
+
+
 def classify_prompt(prompt: str) -> str:
     """
     Classifica o prompt com heuristicas simples e transparentes.
 
     A ordem evita falsos positivos comuns: codigo vem antes de matematica,
     e logica exige sinal forte ou mais de um marcador logico.
+    A subcategoria math_symbolic_dense e mantida para analise futura, mesmo
+    que a politica hibrida padrao ainda nao use speculative automaticamente.
     """
 
     normalized = normalize_text(prompt)
@@ -45,7 +79,6 @@ def classify_prompt(prompt: str) -> str:
         "return",
         "if",
         "else",
-        "for",
         "while",
         "class",
         "import",
@@ -55,6 +88,8 @@ def classify_prompt(prompt: str) -> str:
         "codigo",
     }
     if words & code_words:
+        return "code"
+    if "for" in words and words & {"loop", "python", "codigo", "programa"}:
         return "code"
 
     logic_words = {
@@ -87,16 +122,26 @@ def classify_prompt(prompt: str) -> str:
 
     math_phrases = (
         "f(x)",
+        "g(x)",
+        "h(x)",
         "inversa",
+        "derivada",
+        "integral",
         "equacao",
+        "funcao",
         "formula",
         "calcule",
         "explique por que",
     )
-    math_symbols = set("=+-*/^")
-    if any(phrase in normalized for phrase in math_phrases):
-        return "math"
-    if any(symbol in prompt for symbol in math_symbols):
+    math_symbols = set("=+-*/^%")
+    is_math = any(phrase in normalized for phrase in math_phrases) or any(
+        symbol in prompt for symbol in math_symbols
+    )
+
+    if is_math and is_math_symbolic_dense(prompt, normalized, words):
+        return "math_symbolic_dense"
+
+    if is_math:
         return "math"
 
     word_count = len(re.findall(r"\b\w+\b", normalized))
@@ -107,10 +152,17 @@ def classify_prompt(prompt: str) -> str:
 
 
 def choose_mode(prompt_type: str) -> str:
+    """
+    Escolhe o modo padrao do hybrid router.
+
+    speculative_adaptive continua experimental. O oracle atual nao mostrou
+    evidencia high-confidence para usa-lo automaticamente em matematica,
+    nem mesmo em math_symbolic_dense; por isso o padrao conservador e
+    adaptive_calibrated, exceto para logica.
+    """
+
     if prompt_type == "logic":
         return "adaptive_guarded_v3"
-    if prompt_type == "math":
-        return "speculative_adaptive"
     return "adaptive_calibrated"
 
 
