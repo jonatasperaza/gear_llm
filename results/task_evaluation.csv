@@ -1,35 +1,35 @@
-task_id,category,difficulty,mode,selected_mode,cheap_model_name,expensive_model_name,device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,max_new_tokens,generated_text,answer_type,expected_answer,expected_label,function_name,inferred_answer,inferred_label,test_count,passed_tests,passed,score,failure_reason,error,estimated_saved_percent,expensive_model_calls,total_time_seconds,generated_tokens,tokens_per_second
-math_001,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,56,number,56,,,56,,0,0,True,1.0,,,0.0,3,1.8866692000010516,3,1.5901038719444447
-math_001,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.36056939998525195,9,24.960520777326415
-math_001,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.6184752999979537,9,14.551915007809976
-math_001,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.5483221999893431,9,16.413707123612575
-math_001,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,42.77777777777777,2,1.4829345000034664,9,6.069047554007923
-math_001,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.5067746999848168,9,17.759371176717472
-math_002,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,0.0,3,1.409091499983333,3,2.129031365270094
-math_002,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,32,number,42,,,,,0,0,False,0.0,expected_answer_not_found,,65.00000000000001,0,0.09637660000589676,3,31.127887887894428
-math_002,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,31.66666666666667,1,0.7330710999958683,3,4.092372486129801
-math_002,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,31.66666666666667,1,0.7151083000062499,3,4.195168759716228
-math_002,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,32,number,42,,,,,0,0,False,0.0,expected_answer_not_found,,31.66666666666667,1,0.7612721000041347,3,3.940772294142536
-math_002,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,31.66666666666667,1,0.7094910999876447,3,4.228382850823982
-math_003,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,0.0,2,0.9433286999992561,2,2.120151756224079
-math_003,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,17,number,7,,,,,0,0,False,0.0,expected_answer_not_found,,65.00000000000001,0,0.14118730000336654,3,21.248370072439
-math_003,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,15.000000000000002,1,0.7177758000034373,2,2.786385386621313
-math_003,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,15.000000000000002,1,0.6792551999969874,2,2.944401456196243
-math_003,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,-70.0,2,1.344986100011738,2,1.487004215123521
-math_003,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,15.000000000000002,1,0.6822435999929439,2,2.9315042310703756
-math_004,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,0.75,expression,3/4,,,0.75,,0,0,True,1.0,,,0.0,5,2.429187300003832,5,2.0583015562415103
-math_004,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.5233368999906816,14,26.751410038637218
-math_004,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.657676500006346,14,21.287061343783627
-math_004,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.6938909000018612,14,20.17608243595996
-math_004,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,50.714285714285715,2,1.6933736999926623,14,8.267519449522965
-math_004,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.6647166000038851,14,21.06160730741217
-math_005,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-2,choice,-2,,,-2,,0,0,True,1.0,,,0.0,3,1.4042582999973092,3,2.136359101460001
-math_005,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.3175258999981452,9,28.344144525068895
-math_005,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.4632011999783572,9,19.430001477587968
-math_005,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.5456661999924108,9,16.493599933668555
-math_005,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-2 is larger than -5.,choice,-2,,,-2,,0,0,True,1.0,,,16.111111111111114,3,2.1686186000006273,9,4.150107354053588
-math_005,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.4961730999930296,9,18.138830984844674
-math_006,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,f^(-1)(x) = (x-1)/5,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,0.0,15,7.111365199991269,15,2.1092996320901105
+task_id,category,difficulty,mode,selected_mode,cheap_model_name,expensive_model_name,device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,max_new_tokens,generated_text,answer_type,expected_answer,expected_label,function_name,inferred_answer,inferred_label,test_count,passed_tests,passed,score,failure_reason,error,estimated_saved_percent,expensive_model_calls,total_time_seconds,total_time_seconds_avg,total_time_seconds_std,total_time_seconds_min,total_time_seconds_max,generated_tokens,tokens_per_second,tokens_per_second_avg,tokens_per_second_std
+math_001,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,56,number,56,,,56,,0,0,True,1.0,,,0.0,3,1.5664139666575163,1.5664139666575163,0.007479524104315338,1.5568618999968749,1.5751249000022653,3,1.9152462381145006,1.9152462381145006,0.00915263292797314
+math_001,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.38578946666287567,0.38578946666287567,0.009043476436587107,0.3744582000072114,0.39659109999774955,9,23.341642424399613,23.341642424399613,0.5485114128023478
+math_001,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.576430533323825,0.576430533323825,0.014946703696555973,0.555563899979461,0.5897868000029121,9,15.62400893340272,15.62400893340272,0.4118645010179808
+math_001,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.5693831000050219,0.5693831000050219,0.022565636572209523,0.537833500013221,0.5893146999878809,9,15.832094538764423,15.832094538764423,0.6438155341844132
+math_001,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,42.77777777777777,2,1.5947405666714378,1.5947405666714378,0.020449144189389017,1.5691743000061251,1.61922950000735,9,5.644480289504277,5.644480289504277,0.07246051290622836
+math_001,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7 * 8 = 56,number,56,,,56,,0,0,True,1.0,,,65.0,0,0.5662209666722143,0.5662209666722143,0.0013434731162303578,0.5646411000052467,0.5679249000095297,9,15.894944166690678,15.894944166690678,0.03770178389596941
+math_002,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,0.0,3,1.5388242666764806,1.5388242666764806,0.0026280812171022025,1.5351353000150993,1.5410609999962617,3,1.949546043122355,1.949546043122355,0.0033332914347524935
+math_002,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,32,number,42,,,,,0,0,False,0.0,expected_answer_not_found,,65.00000000000001,0,0.11166679998859763,0.11166679998859763,0.006090173136322044,0.105626399978064,0.12000399999669753,3,26.943660826070808,26.943660826070808,1.431099644999348
+math_002,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,31.66666666666667,1,0.8083880666720992,0.8083880666720992,0.0088270226787411,0.8002640999911819,0.8206583000137471,3,3.7115285744999356,3.7115285744999356,0.040264054189187944
+math_002,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,31.66666666666667,1,0.7741277666646056,0.7741277666646056,0.016412256409877705,0.7557088999892585,0.795568400004413,3,3.87706236138548,3.87706236138548,0.08175337229008418
+math_002,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,32,number,42,,,,,0,0,False,0.0,expected_answer_not_found,,31.66666666666667,1,0.7973559333283143,0.7973559333283143,0.034050840327597795,0.7606623999890871,0.8427096999948844,3,3.769208049325167,3.769208049325167,0.15865292334784856
+math_002,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,42,number,42,,,42,,0,0,True,1.0,,,31.66666666666667,1,0.7377024000064315,0.7377024000064315,0.007519793689493451,0.7272656999994069,0.744689200015273,3,4.067105723469473,4.067105723469473,0.0417106787076182
+math_003,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,0.0,2,1.00799546665318,1.00799546665318,0.0043272401208100135,1.002818799985107,1.0134102999872994,2,1.984172461491422,1.984172461491422,0.008514990613075864
+math_003,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,17,number,7,,,,,0,0,False,0.0,expected_answer_not_found,,65.00000000000001,0,0.10563269999693148,0.10563269999693148,0.004936381593747777,0.0992887000029441,0.11132799999904819,3,28.463089873327647,28.463089873327647,1.3443691310829358
+math_003,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,15.000000000000002,1,0.7099205666551521,0.7099205666551521,0.0017613090338134915,0.7080574999854434,0.7122838999785017,2,2.8172339165936844,2.8172339165936844,0.006982579925292317
+math_003,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,15.000000000000002,1,0.719214400004906,0.719214400004906,0.0013128296194057836,0.7177154000091832,0.7209125999943353,2,2.7808212143927307,2.7808212143927307,0.005073952688540453
+math_003,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,-70.0,2,1.3318799333355855,1.3318799333355855,0.010889025546533255,1.3165474999987055,1.340788600005908,2,1.5017377991433112,1.5017377991433112,0.012346373833721705
+math_003,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,7,number,7,,,7,,0,0,True,1.0,,,15.000000000000002,1,0.7123354999833585,0.7123354999833585,0.014866890381991026,0.6923590999795124,0.7280020999896806,2,2.808900030034728,2.808900030034728,0.05914281184872916
+math_004,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,0.75,expression,3/4,,,0.75,,0,0,True,1.0,,,0.0,5,2.5685177333361935,2.5685177333361935,0.019125191093292384,2.546656600025017,2.5932405999919865,5,1.94675579480449,1.94675579480449,0.014472268627299814
+math_004,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.5836636000118839,0.5836636000118839,0.010428220045619321,0.5703810999984853,0.5958549000206403,14,23.994101609718,23.994101609718,0.4299931447760676
+math_004,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.7198287000064738,0.7198287000064738,0.012544153639766782,0.7026182000117842,0.7321598999842536,14,19.45503483819144,19.45503483819144,0.3421976601106113
+math_004,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.8146113999925243,0.8146113999925243,0.10030828265283617,0.6766066999989562,0.9120505999890156,14,17.470798754508078,17.470798754508078,2.315191929692609
+math_004,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,50.714285714285715,2,1.9880483999925975,1.9880483999925975,0.1814098151496848,1.7806803999992553,2.222549700003583,14,7.10025292450337,7.10025292450337,0.6387333399597984
+math_004,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,1/2 + 1/4 = 3/4,expression,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.8336492333522377,0.8336492333522377,0.10507971818604113,0.718783300020732,0.9727338000084274,14,17.05529813416137,17.05529813416137,2.082886622296767
+math_005,math,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-2,choice,-2,,,-2,,0,0,True,1.0,,,0.0,3,1.5408861666704372,1.5408861666704372,0.014512829801786488,1.5215719999978319,1.5565561999974307,3,1.9471049381041057,1.9471049381041057,0.018402236839872965
+math_005,math,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.45439443333695334,0.45439443333695334,0.03209245462084496,0.41335700001218356,0.4917010999924969,9,19.907344822938224,19.907344822938224,1.4283432498658664
+math_005,math,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.5387239333358593,0.5387239333358593,0.01517886541875414,0.5178135000169277,0.5533817999821622,9,16.719628129145587,16.719628129145587,0.4785857075118688
+math_005,math,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.5325590333377477,0.5325590333377477,0.021125435401641312,0.5164599000127055,0.5624039999966044,9,16.925448007701487,16.925448007701487,0.6532568842932472
+math_005,math,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-2 is larger than -5.,choice,-2,,,-2,,0,0,True,1.0,,,16.111111111111114,3,2.4801361333423606,2.4801361333423606,0.06406963655453916,2.430525400006445,2.570603200001642,9,3.6312134993924303,3.6312134993924303,0.09214717625931264
+math_005,math,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-5 is larger than -2.,choice,-2,,,-2,,0,0,True,1.0,,,65.0,0,0.5566558333327217,0.5566558333327217,0.016508841758978623,0.534360799996648,0.5738042999873869,9,16.182403466253476,16.182403466253476,0.48642717393124535
+math_006,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,f^(-1)(x) = (x-1)/5,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,0.0,15,7.6014545000022435,7.6014545000022435,0.033668527259625984,7.5605022000090685,7.642967199994018,15,1.9733452651978378,1.9733452651978378,0.008739545855439604
 math_006,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) \). To find the inverse, we need to solve for \( x \) in terms of \( y \) where \( y = 5x + 1 \).
 
 Starting with the equation:
@@ -40,9 +40,9 @@ We solve for \( x \):
 \[ x = \frac{y - 1}{5} \]
 
 Thus, the inverse function is:
-\[ f^{-1}(x) = \frac{x",expression,(x-1)/5,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,6.629404299979797,128,19.307918812613387
-math_006,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,62.43589743589744,1,2.2901478999992833,39,17.02946783481198
-math_006,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,62.43589743589744,1,2.3254411999951117,39,16.771011023663803
+\[ f^{-1}(x) = \frac{x",expression,(x-1)/5,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,7.534139400008523,7.534139400008523,0.04355670447422067,7.495182700018631,7.594940399983898,128,16.9898983876484,16.9898983876484,0.09786902662355648
+math_006,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,62.43589743589744,1,2.5891675333453654,2.5891675333453654,0.04754470091077012,2.5332432000141125,2.6494576999975834,39,15.067825368478475,15.067825368478475,0.27606257098869474
+math_006,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,62.43589743589744,1,2.3658203999996963,2.3658203999996963,0.03446375887883607,2.3254095999873243,2.409623500017915,39,16.488259654963617,16.488259654963617,0.23971480954531232
 math_006,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) \). To find the inverse, we solve for \( x \) in terms of \( y \) where \( y = 5x + 1 \).
 
 Starting with the equation:
@@ -55,65 +55,65 @@ Divide both sides by 5:
 \[ x = \frac{y - 1}{5} \]
 
 Thus, the inverse function is:
-\[ f^{-1",expression,(x-1)/5,,,,,0,0,False,0.0,expected_answer_not_found,,50.89843750000001,17,21.401943600008963,128,5.980765223582142
-math_006,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,62.43589743589744,1,2.215283500001533,39,17.60497019906166
-math_007,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,0.0,5,2.450338599999668,5,2.0405343163596563
-math_007,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.1990976000088267,5,25.113311259293592
-math_007,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.30877269999473356,5,16.193141427610925
-math_007,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.3403380000090692,5,14.691277494334344
-math_007,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,45.0,1,0.8235022999870125,5,6.0716284582069235
-math_007,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.3255630000203382,5,15.358010583781466
-math_008,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,0.0,3,1.4483813999977428,3,2.0712776344716075
-math_008,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,20% of 150 is 30.,number,30,,,,,0,0,False,0.0,expected_answer_not_found,,65.00000000000001,0,0.5233312999771442,14,26.751696297567968
-math_008,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,31.66666666666667,1,0.7189769999822602,3,4.172595229157569
-math_008,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,31.66666666666667,1,0.751028899976518,3,3.994520051217469
-math_008,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,20% of 150 is 30.,number,30,,,,,0,0,False,0.0,expected_answer_not_found,,50.714285714285715,2,1.7208286999957636,14,8.135615125453489
-math_008,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,31.66666666666667,1,0.7163179000199307,3,4.188084647775141
-math_009,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,19,number,19,,,19,,0,0,True,1.0,,,0.0,3,1.4232352999970317,3,2.10787351888072
-math_009,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,0.8343157999916002,20,23.971738279679418
-math_009,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,0.999880999996094,20,20.002380283331846
-math_009,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,1.074472100008279,20,18.61379183307402
-math_009,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,19,number,19,,,19,,0,0,True,1.0,,,-59.99999999999999,2,1.4609669000201393,3,2.0534346123506597
-math_009,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,0.9990552999952342,20,20.018911866135344
-math_010,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-24,number,-24,,,-24,,0,0,True,1.0,,,0.0,4,1.8869554999982938,4,2.1198168160317596
-math_010,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.34684079998987727,10,28.831671476630937
-math_010,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.49160009998013265,10,20.341737116009813
-math_010,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.5151752000092529,10,19.410872262136053
-math_010,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,45.0,2,1.5663293999969028,10,6.384353125223707
-math_010,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.5128600999887567,10,19.498494814120317
-math_011,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,g^(-1)(x) = (x + 6) / 3,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,0.0,18,8.858286400005454,18,2.0319957142036995
-math_011,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,65.0,0,1.523335199977737,39,25.6017191755104
-math_011,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,62.43589743589744,1,2.299532699980773,39,16.959967562246923
-math_011,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,62.43589743589744,1,2.374477899982594,39,16.42466329136434
-math_011,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,g^(-1)(x) = (x + 6) / 3,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,21.66666666666667,5,3.8678888000140432,18,4.6537015231499534
-math_011,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,62.43589743589744,1,2.287617900001351,39,17.048301641623354
-math_012,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 16,number,16,,,16,,0,0,True,1.0,,,0.0,6,2.908257799979765,6,2.0630908305452653
+\[ f^{-1",expression,(x-1)/5,,,,,0,0,False,0.0,expected_answer_not_found,,50.89843750000001,17,21.686161933330975,21.686161933330975,0.22160027132975402,21.444147299975157,21.979598100006115,128,5.902995751034482,5.902995751034482,0.060117345111206005
+math_006,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).,expression,(x-1)/5,,,(x-1)/5,,0,0,True,1.0,,,62.43589743589744,1,2.5931835333273434,2.5931835333273434,0.012482037965939812,2.5786081999831367,2.609095099993283,39,15.039777332466675,15.039777332466675,0.0723382220767123
+math_007,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,0.0,5,2.5768465000049523,2.5768465000049523,0.052347036065678705,2.538727500010282,2.6508653000055347,5,1.9411458999935578,1.9411458999935578,0.038875533983190214
+math_007,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.2283545000148782,0.2283545000148782,0.0017600338849420541,0.2259996000211686,0.23023010001634248,5,21.897085190487886,21.897085190487886,0.16928283694556967
+math_007,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.37541933333462413,0.37541933333462413,0.0021573031640450247,0.37309050001204014,0.37829059999785386,5,13.318879253118695,13.318879253118695,0.07637822178742716
+math_007,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.3744081666712494,0.3744081666712494,0.023619597213693916,0.3517095999850426,0.4069803000020329,5,13.40599998432765,13.40599998432765,0.8181275846371745
+math_007,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,45.0,1,0.9274786000120608,0.9274786000120608,0.03211426928592911,0.8860904000175651,0.9643669000070076,5,5.397481471240073,5.397481471240073,0.18839574488630612
+math_007,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 4,number,4,,,4,,0,0,True,1.0,,,65.0,0,0.37086226666967076,0.37086226666967076,0.019231925327612434,0.35262350001721643,0.3974547999969218,5,13.517418734560778,13.517418734560778,0.6813584347635202
+math_008,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,0.0,3,1.5067495999974199,1.5067495999974199,0.0033623751873087765,1.5023086000001058,1.510441999998875,3,1.991050769300392,1.991050769300392,0.004446330881444634
+math_008,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,20% of 150 is 30.,number,30,,,,,0,0,False,0.0,expected_answer_not_found,,65.00000000000001,0,0.5360267999931239,0.5360267999931239,0.05749184672954045,0.46367229998577386,0.6043224000022747,14,26.427330814460408,26.427330814460408,2.8910648124894918
+math_008,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,31.66666666666667,1,0.7536726666730829,0.7536726666730829,0.005117980539606354,0.749134400015464,0.76082480000332,3,3.9806906755214695,3.9806906755214695,0.026916268746140865
+math_008,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,31.66666666666667,1,0.7436846333245436,0.7436846333245436,0.0094803074292262,0.7313839000125881,0.7544537999783643,3,4.034625673809658,4.034625673809658,0.05159456520346153
+math_008,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,20% of 150 is 30.,number,30,,,,,0,0,False,0.0,expected_answer_not_found,,50.714285714285715,2,1.73446690000128,1.73446690000128,0.0037430989242089796,1.729388800013112,1.7383005000010598,14,8.07168200621348,8.07168200621348,0.01743666357752159
+math_008,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,30,number,30,,,30,,0,0,True,1.0,,,31.66666666666667,1,0.7675668333443658,0.7675668333443658,0.011737225411518237,0.7552576000161935,0.783365400013281,3,3.9093628056454293,3.9093628056454293,0.059405510484269515
+math_009,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,19,number,19,,,19,,0,0,True,1.0,,,0.0,3,1.482362566680725,1.482362566680725,0.008380065882630322,1.470524900010787,1.4887718000099994,3,2.023861318945134,2.023861318945134,0.01148670837166785
+math_009,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,0.8381172666656008,0.8381172666656008,0.011133368914489917,0.8224640999978874,0.8474140999896917,20,23.867258611913595,23.867258611913595,0.31990013981014365
+math_009,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,0.918097766659533,0.918097766659533,0.0184904663930383,0.8919591999729164,0.9318209000048228,20,21.793139304971856,21.793139304971856,0.44523108803760886
+math_009,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,0.9849401333388718,0.9849401333388718,0.03740952340862706,0.9576569000200834,1.0378364000061993,20,20.334370913573935,20.334370913573935,0.7521622416541797
+math_009,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,19,number,19,,,19,,0,0,True,1.0,,,-59.99999999999999,2,1.562450133341675,1.562450133341675,0.018287659034213637,1.547080400021514,1.5881485000136308,3,1.9203223161896945,1.9203223161896945,0.022302502028680938
+math_009,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"The maximum of 12, 7, and 19 is 19.",number,19,,,19,,0,0,True,1.0,,,65.0,0,0.9681376666606715,0.9681376666606715,0.043617284273323,0.9086713999859057,1.0120667000010144,20,20.701206943142324,20.701206943142324,0.9544090188615447
+math_010,math,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-24,number,-24,,,-24,,0,0,True,1.0,,,0.0,4,1.9759829666581936,1.9759829666581936,0.017813654958064706,1.9602879000012763,2.000896199984709,4,2.0244725410438575,2.0244725410438575,0.018146686454473007
+math_010,math,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.3518217666714918,0.3518217666714918,0.019052633766398756,0.3260219000221696,0.37145069998223335,10,28.50926320104472,28.50926320104472,1.5846531785224678
+math_010,math,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.5359466333369104,0.5359466333369104,0.025557165494087028,0.5029687999922317,0.5652457000105642,10,18.701581455032358,18.701581455032358,0.9023415706069389
+math_010,math,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.5803517333309477,0.5803517333309477,0.016879293880645713,0.562343099998543,0.6029255999892484,10,17.245360290559997,17.245360290559997,0.49622978613898666
+math_010,math,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,45.0,2,1.6034526999865193,1.6034526999865193,0.025294337484836126,1.5690246999729425,1.6290773999935482,10,6.238106219488376,6.238106219488376,0.09916620080604105
+math_010,math,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,-4 * 6 = -24,number,-24,,,-24,,0,0,True,1.0,,,65.0,0,0.5285004333321316,0.5285004333321316,0.014978323159037603,0.5090817000018433,0.5455385000095703,10,18.936777996717534,18.936777996717534,0.5405681867192736
+math_011,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,g^(-1)(x) = (x + 6) / 3,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,0.0,18,9.21347943333482,9.21347943333482,0.012051642092020384,9.202503400010755,9.230259400006616,18,1.953662663858025,1.953662663858025,0.002553439037315229
+math_011,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,65.0,0,1.5760450666712131,1.5760450666712131,0.11891900321105307,1.4083034000068437,1.6703870000201277,39,24.89503291219152,24.89503291219152,1.9820861554774427
+math_011,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,62.43589743589744,1,2.5213406999925305,2.5213406999925305,0.04823817583163482,2.4812164999893866,2.589182699972298,39,15.473553148604092,15.473553148604092,0.2922883041715442
+math_011,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,62.43589743589744,1,2.422960633334393,2.422960633334393,0.06899856488754066,2.3358379999990575,2.504580300010275,39,16.109123709942143,16.109123709942143,0.4605719333388242
+math_011,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,g^(-1)(x) = (x + 6) / 3,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,21.66666666666667,5,3.984046400000807,3.984046400000807,0.013423861544498691,3.969491800002288,4.001879399991594,18,4.518070902274755,4.518070902274755,0.015205281464242453
+math_011,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).,expression,(x+6)/3,,,(x+6)/3,,0,0,True,1.0,,,62.43589743589744,1,2.426331766657919,2.426331766657919,0.08617495997834458,2.351454299991019,2.5470423999940977,39,16.09349339590263,16.09349339590263,0.5588263522098993
+math_012,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,x = 16,number,16,,,16,,0,0,True,1.0,,,0.0,6,3.041320366668515,3.041320366668515,0.007830992470219534,3.0329724999901373,3.05179679999128,6,1.9728404169643514,1.9728404169643514,0.005074752249275591
 math_012,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"x/2 - 3 = 5
 x/2 = 5 + 3
 x/2 = 8
 x = 8 * 2
-x = 16",number,16,,,16,,0,0,True,1.0,,,65.0,0,1.6775018999760505,41,24.441104955282228
+x = 16",number,16,,,16,,0,0,True,1.0,,,65.0,0,1.6593394333225053,1.6593394333225053,0.026756201590839034,1.6215794000017922,1.6803351999842562,41,24.715126277063366,24.715126277063366,0.40303390873829953
 math_012,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"x/2 - 3 = 5
 x/2 = 5 + 3
 x/2 = 8
 x = 8 * 2
-x = 16",number,16,,,16,,0,0,True,1.0,,,62.5609756097561,1,2.315052900026785,41,17.710178458352132
+x = 16",number,16,,,16,,0,0,True,1.0,,,62.5609756097561,1,2.4893981000059284,2.4893981000059284,0.09815072238341269,2.362464200006798,2.601508500025375,41,16.49573340552985,16.49573340552985,0.6568423955711677
 math_012,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"x/2 - 3 = 5
 x/2 = 5 + 3
 x/2 = 8
 x = 8 * 2
-x = 16",number,16,,,16,,0,0,True,1.0,,,57.68292682926829,3,3.533091899997089,41,11.60456652713556
+x = 16",number,16,,,16,,0,0,True,1.0,,,57.68292682926829,3,3.5098469333412745,3.5098469333412745,0.08346592285118222,3.3924756000051275,3.5793870000052266,41,11.688138311439575,11.688138311439575,0.2824712884772887
 math_012,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"x/2 - 3 = 5
 x/2 = 5 + 3
 x/2 = 8
 x = 8 * 2
-x = 16",number,16,,,16,,0,0,True,1.0,,,50.36585365853659,6,5.3332344999944326,41,7.687642461632392
+x = 16",number,16,,,16,,0,0,True,1.0,,,50.36585365853659,6,5.431271300001147,5.431271300001147,0.055972910042830434,5.363467599992873,5.500548899988644,41,7.549678728992487,7.549678728992487,0.07777905999682279
 math_012,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"x/2 - 3 = 5
 x/2 = 5 + 3
 x/2 = 8
 x = 8 * 2
-x = 16",number,16,,,16,,0,0,True,1.0,,,62.5609756097561,1,2.406025399977807,41,17.04055160863147
-math_013,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,0.0,4,1.8884284000087064,4,2.1181634421413906
+x = 16",number,16,,,16,,0,0,True,1.0,,,62.5609756097561,1,2.3709010999979605,2.3709010999979605,0.07563058564457,2.3083840000035707,2.4773173999856226,41,17.31024704541352,17.31024704541352,0.5405844990741249
+math_013,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,0.0,4,1.9762522999953944,1.9762522999953944,0.008511504986302999,1.9643657999986317,1.9838392999954522,4,2.024070712174653,2.024070712174653,0.008741152167084647
 math_013,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"To find the original price before the discount, we can set up an equation based on the information given. Let's denote the original price by \( P \).
 
 The discount is 20%, which means the customer pays 80% of the original price. Therefore, the equation representing this situation is:
@@ -122,83 +122,83 @@ The discount is 20%, which means the customer pays 80% of the original price. Th
 To find \( P \), we need to solve for \( P \) by dividing both sides of the equation by 0.80:
 \[ P = \frac{80}{0.80} \]
 
-Now, we perform the division",number,100,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,7.492320599994855,128,17.08415947925238
-math_013,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,15.000000000000002,2,1.2054649000056088,4,3.3182218743833927
-math_013,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,15.000000000000002,2,1.2192668999778107,4,3.2806598785489833
-math_013,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,-53.75000000000001,3,1.9931576999952085,4,2.006865788898498
-math_013,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,15.000000000000002,2,1.2648997000069357,4,3.162306070574661
-math_014,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4,choice,3/4,,,3/4,,0,0,True,1.0,,,0.0,4,1.990387500001816,4,2.0096589231977946
-math_014,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.45945129997562617,12,26.118110887131234
-math_014,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.6347186000202782,12,18.906015988213706
-math_014,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.6338862999982666,12,18.930839805234495
-math_014,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,48.33333333333334,2,1.6598783000081312,12,7.22944567679523
-math_014,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.6614850999903865,12,18.140998187524403
-math_015,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,15,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,0.0,3,1.4807144000078551,3,2.0260490476651576
-math_015,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,0.29438579999259673,9,30.57212678134045
-math_015,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,53.888888888888886,1,1.0013165000127628,9,8.988167077927194
-math_015,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,53.888888888888886,1,0.9861373000021558,9,9.126518183604174
-math_015,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,15,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,-105.00000000000001,3,1.961006500001531,3,1.5298266476922222
-math_015,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,53.888888888888886,1,0.9773537000000942,9,9.20853934455779
-logic_001,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9494305000116583,2,2.1065259647498595
-logic_001,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.15809840001747943,4,25.300698802503746
-logic_001,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7241632000077516,4,5.523616775827857
-logic_001,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7400220000126865,4,5.4052447088484215
-logic_001,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7807186999998521,4,5.123484297226079
-logic_001,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7288722000084817,4,5.487930531516297
-logic_002,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,allow,,,allow,,,allow,0,0,True,1.0,,,0.0,2,0.9766539999982342,2,2.047808128573288
-logic_002,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.15767409998807125,3,19.026587120059435
-logic_002,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.2515768999874126,3,11.924783237849349
-logic_002,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.2467338000133168,3,12.158852981788806
-logic_002,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow,,,allow,,,allow,0,0,True,1.0,,,-2.499999999999991,1,0.7323047000099905,2,2.731103596594034
-logic_002,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.24579449999146163,3,12.205317857414277
-logic_003,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9886687999824062,2,2.0229221353355045
-logic_003,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.18587630000547506,4,21.5196880930069
-logic_003,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,15.000000000000002,1,0.7537620999792125,2,2.6533570738767
-logic_003,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,15.000000000000002,1,0.7302726999914739,2,2.7387029530521274
-logic_003,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny,,,deny,,,deny,0,0,True,1.0,,,20.000000000000004,1,0.7766336999775376,3,3.8628249071431853
-logic_003,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,15.000000000000002,1,0.7077748999872711,2,2.8257571722817083
-logic_004,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,allow,,,allow,,,allow,0,0,True,1.0,,,0.0,2,0.9958424999786075,2,2.0083497139788307
-logic_004,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.14132429999881424,3,21.227771869559383
-logic_004,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.24505779999890365,3,12.242009844262952
-logic_004,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.2517947999876924,3,11.914463682914176
-logic_004,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,31.66666666666667,1,0.7447729999839794,3,4.02807298339834
-logic_004,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.25688869997975416,3,11.67820927988049
-logic_005,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9308154000027571,2,2.148653750243148
-logic_005,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.1831841999955941,4,21.835944366906137
-logic_005,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7510585999989416,4,5.325816121412679
-logic_005,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7940807000268251,4,5.037271400582932
-logic_005,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7864444000006188,4,5.086182824872112
-logic_005,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7505302999925334,4,5.32956497564428
-logic_006,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9337874999910127,2,2.1418149204388035
-logic_006,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless explicitly authorized by the account owner or administrator. Suspended accounts are typically not allowed access to certain resources or features unless they have been reinstated.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,1.6031682000029832,39,24.32682983602558
-logic_006,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless the account is suspended.,,,deny,,,deny,0,0,True,1.0,,,58.333333333333336,1,1.2131563999864738,15,12.364440397105636
-logic_006,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless the account is suspended.,,,deny,,,deny,0,0,True,1.0,,,58.333333333333336,1,1.1739073999924585,15,12.777839206138715
-logic_006,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,22.500000000000007,1,0.8500989000021946,4,4.70533487337729
-logic_006,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless the account is suspended.,,,deny,,,deny,0,0,True,1.0,,,58.333333333333336,1,1.238626900012605,15,12.110184269247949
-logic_007,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,allow,,,allow,,,allow,0,0,True,1.0,,,0.0,2,0.9330771999957506,2,2.143445365516496
-logic_007,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.10526509999181144,3,28.499474186918263
-logic_007,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.23614359999191947,3,12.70413426450116
-logic_007,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.26933089998783544,3,11.138714496314748
-logic_007,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,31.66666666666667,1,0.7328276000043843,3,4.09373227752619
-logic_007,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.27940250001847744,3,10.737198127438388
-logic_008,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9402195999864489,2,2.127162633100635
-logic_008,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.11185220000334084,3,26.821108569258314
-logic_008,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.22823369997786358,3,13.144421705869775
-logic_008,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.23444090000703,3,12.79640199261324
-logic_008,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,-70.0,2,1.4282502999994904,2,1.4003147767591673
-logic_008,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.2422769000113476,3,12.38252594390752
-logic_009,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny,,,deny,,,deny,0,0,True,1.0,,,0.0,3,1.4113257999997586,3,2.125660850244864
-logic_009,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.20163419999880716,4,19.837904482591064
-logic_009,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.31955919999745674,4,12.5172425016455
-logic_009,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.2990091000101529,4,13.37751927905933
-logic_009,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.8255222000007052,4,4.84541784581515
-logic_009,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.31313279998721555,4,12.774132892380837
-logic_010,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,0.0,2,0.9381222999945749,2,2.1319181944737546
-logic_010,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow,,,unknown,,,allow,0,0,False,0.0,inferred_allow,,65.0,0,0.07961810001870617,2,25.119916194057666
-logic_010,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.6718089999922086,2,2.977036628004679
-logic_010,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.6902350999880582,2,2.897563453430001
-logic_010,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,-52.49999999999999,2,1.2674475000239909,2,1.5779746300830158
-logic_010,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.664819700003136,2,3.0083344401355223
+Now, we perform the division",number,100,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,7.318653100005274,7.318653100005274,0.10892810526806207,7.168215100013185,7.42258280000533,128,17.493465000269428,17.493465000269428,0.26258076914978945
+math_013,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,15.000000000000002,2,1.2990111666634523,1.2990111666634523,0.025065967419959458,1.2709102999942843,1.33177550000255,4,3.0804064386933088,3.0804064386933088,0.05914315673530442
+math_013,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,15.000000000000002,2,1.289233999986512,1.289233999986512,0.0281240498881126,1.2660183999978472,1.3288099999772385,4,3.1040732440367336,3.1040732440367336,0.06673237419548801
+math_013,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,-53.75000000000001,3,2.09689776666346,2.09689776666346,0.011010882659146468,2.0813264999887906,2.1047885000007227,4,1.9076326805495931,1.9076326805495931,0.010054367348426806
+math_013,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,400,number,100,,,,,0,0,False,0.0,expected_answer_not_found,,15.000000000000002,2,1.3078608666740668,1.3078608666740668,0.02350622370999234,1.2749110000149813,1.3281494000111707,4,3.0594293278276563,3.0594293278276563,0.055640913644686346
+math_014,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4,choice,3/4,,,3/4,,0,0,True,1.0,,,0.0,4,2.0735612333422373,2.0735612333422373,0.03517130752115137,2.0427478000056,2.122782599995844,4,1.9295975960412128,1.9295975960412128,0.03237826378473972
+math_014,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.4955595666542649,0.4955595666542649,0.01800981146426281,0.4794448000029661,0.5206980999791995,12,24.24636684667394,24.24636684667394,0.8617641921077999
+math_014,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.757432266662363,0.757432266662363,0.07698447754696165,0.690954799996689,0.8653400999901351,12,15.998128045855607,15.998128045855607,1.526945016720545
+math_014,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.6327603000002758,0.6327603000002758,0.020904271998595823,0.6034408000123221,0.6506999999983236,12,18.98570880942851,18.98570880942851,0.6411750238129952
+math_014,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,48.33333333333334,2,1.7193293333305821,1.7193293333305821,0.005413135919760392,1.7138080000004265,1.7266823000099976,12,6.979534718921623,6.979534718921623,0.02194206987781974
+math_014,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,3/4 is larger than 2/3.,choice,3/4,,,3/4,,0,0,True,1.0,,,65.00000000000001,0,0.6589110666730752,0.6589110666730752,0.01963665751722743,0.6344776000187267,0.682558100001188,12,18.228091178909253,18.228091178909253,0.5445606063908042
+math_015,math,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,15,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,0.0,3,1.5327532333127845,1.5327532333127845,0.0026032358031385663,1.529664799978491,1.5360327999806032,3,1.9572678673653945,1.9572678673653945,0.0033236211669869756
+math_015,math,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,0.31924770000235486,0.31924770000235486,0.016968406921718724,0.30693029999383725,0.3432418000011239,9,28.268245749453655,28.268245749453655,1.4481311514936919
+math_015,math,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,53.888888888888886,1,1.025596466672141,1.025596466672141,0.020375856392983113,1.0044537000067066,1.053123699995922,9,8.778816777650722,8.778816777650722,0.17293437635176898
+math_015,math,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,53.888888888888886,1,1.0327905333251692,1.0327905333251692,0.0019142477255863772,1.0300910999940243,1.0343171999847982,9,8.71428490816504,8.71428490816504,0.0161723334813475
+math_015,math,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,15,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,-105.00000000000001,3,2.0782186666619964,2.0782186666619964,0.024075169841853285,2.048348000011174,2.1073041999770794,3,1.4437378321668302,1.4437378321668302,0.016736164922607173
+math_015,math,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,The final answer is 27.,number,17,,,,,0,0,False,0.0,expected_answer_not_found,,53.888888888888886,1,1.0106437333355036,1.0106437333355036,0.0053794163548116615,1.006127300002845,1.0182036999904085,9,8.905466678377268,8.905466678377268,0.047233958195905784
+logic_001,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9876322333390514,0.9876322333390514,0.011301396237571794,0.9775927999871783,1.0034218000073452,2,2.0253085832701516,2.0253085832701516,0.023009638719599938
+logic_001,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.1372554333259662,0.1372554333259662,0.004150211110326541,0.13157420000061393,0.14137239998672158,4,29.169838973426362,29.169838973426362,0.8961666437868928
+logic_001,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.8172790666673487,0.8172790666673487,0.03321488582714965,0.7838133999903221,0.8625580000225455,4,4.902231773575693,4.902231773575693,0.1954806299082854
+logic_001,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7745666666596662,0.7745666666596662,0.005993444347039309,0.768191899987869,0.7825918000016827,4,5.164486107177317,5.164486107177317,0.03984212126304944
+logic_001,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.8228673666696219,0.8228673666696219,0.002579135004958756,0.8193190000019968,0.8253727999981493,4,4.861098550237366,4.861098550237366,0.015262169421244283
+logic_001,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7919342666670369,0.7919342666670369,0.005343556959156211,0.7867957999987993,0.799302200000966,4,5.051153378050537,5.051153378050537,0.03395623509360291
+logic_002,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,allow,,,allow,,,allow,0,0,True,1.0,,,0.0,2,1.0089643333340064,1.0089643333340064,0.00320538291141288,1.0045977999980096,1.0122020000126213,2,1.9822506611426745,1.9822506611426745,0.006307155257627085
+logic_002,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.1137681333348155,0.1137681333348155,0.0029971540259763805,0.11017890000948682,0.11751529999310151,3,26.38770480046134,26.38770480046134,0.6940837753387675
+logic_002,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.27516343333991244,0.27516343333991244,0.009479343154039577,0.264005700009875,0.28717779999715276,3,10.91551340191444,10.91551340191444,0.3746218130415446
+logic_002,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.25977063334236544,0.25977063334236544,0.004850229669810263,0.25432000000728294,0.26610219999565743,3,11.552657597504092,11.552657597504092,0.21468251969083607
+logic_002,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow,,,allow,,,allow,0,0,True,1.0,,,-2.499999999999991,1,0.7800391666726986,0.7800391666726986,0.006354862890778773,0.7713882999960333,0.7864737000199966,2,2.5641446750239942,2.5641446750239942,0.020972398037256923
+logic_002,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.2836265333268481,0.2836265333268481,0.01755704542380226,0.26898379999329336,0.3083135999913793,3,10.616355396825476,10.616355396825476,0.6311557751731293
+logic_003,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,1.012884199997643,1.012884199997643,0.007659816583333543,1.0021745999983978,1.019648799992865,2,1.974672859131684,1.974672859131684,0.015005514635707165
+logic_003,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.1550911999947857,0.1550911999947857,0.008071958204352109,0.14420599999721162,0.16351189999841154,4,25.862998389814646,25.862998389814646,1.3786001446449305
+logic_003,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,15.000000000000002,1,0.7415859666652977,0.7415859666652977,0.0018695321619028344,0.7394383999926504,0.7439952999993693,2,2.696939794144282,2.696939794144282,0.0067954418357668005
+logic_003,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,15.000000000000002,1,0.7318680666697522,0.7318680666697522,0.009095947202535712,0.7192688999930397,0.7404149000067264,2,2.7331582288947427,2.7331582288947427,0.03421664149246077
+logic_003,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny,,,deny,,,deny,0,0,True,1.0,,,20.000000000000004,1,0.8321555333192615,0.8321555333192615,0.011860580542174733,0.8159481999755371,0.8440010999911465,3,3.6058331138586044,3.6058331138586044,0.05176754832892689
+logic_003,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,15.000000000000002,1,0.7425643666744387,0.7425643666744387,0.011962095779138442,0.7257744000235107,0.7527510999934748,2,2.694075857642931,2.694075857642931,0.043866670420908534
+logic_004,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,allow,,,allow,,,allow,0,0,True,1.0,,,0.0,2,1.01865950000744,1.01865950000744,0.012629003500994999,1.0028313000220805,1.033738700003596,2,1.9636667734951325,1.9636667734951325,0.02437447147145719
+logic_004,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.13135826666257344,0.13135826666257344,0.004244650091357325,0.12551199999870732,0.13546099999803118,3,22.86261064237266,22.86261064237266,0.7522949492491589
+logic_004,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.25002770000719465,0.25002770000719465,0.006755305427999253,0.24113150002085604,0.2574915000004694,3,12.007512139973263,12.007512139973263,0.32729303165713397
+logic_004,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.26152973332985613,0.26152973332985613,0.006132357208665301,0.2532483999966644,0.26790050001000054,3,11.477347840664722,11.477347840664722,0.2719767985662164
+logic_004,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,31.66666666666667,1,0.7776807666620394,0.7776807666620394,0.007458609511283715,0.767324299988104,0.7845922000124119,3,3.8579809253192257,3.8579809253192257,0.03721412448311931
+logic_004,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.2911902000002253,0.2911902000002253,0.0073653348670406115,0.2858979000011459,0.3016058999928646,3,10.30902419769623,10.30902419769623,0.25617547811814134
+logic_005,logic,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9964565999883538,0.9964565999883538,0.005551070708375941,0.9920517999853473,1.0042865999857895,2,2.0071740524901895,2.0071740524901895,0.011138743269435508
+logic_005,logic,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.1525716333417222,0.1525716333417222,0.0003564810359991426,0.15207370001007803,0.15288890001829714,4,26.21733661313955,26.21733661313955,0.06134672075554966
+logic_005,logic,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.8181460999961322,0.8181460999961322,0.02383452570590448,0.7848669000086375,0.8394222999922931,4,4.893333004336728,4.893333004336728,0.14522897158178344
+logic_005,logic,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7982379999981882,0.7982379999981882,0.01193096788019993,0.7884851999988314,0.815038500004448,4,5.01214527482881,5.01214527482881,0.0741619363530853
+logic_005,logic,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.8165593333348321,0.8165593333348321,0.013299097268880036,0.7980910000042059,0.8288739999989048,4,4.899915512275515,4.899915512275515,0.0805892634508264
+logic_005,logic,easy,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7913746999984141,0.7913746999984141,0.018346931604032463,0.7678773000079673,0.8126533000031486,4,5.057225890039093,5.057225890039093,0.1177794152134777
+logic_006,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9867722666531336,0.9867722666531336,0.006624733083124723,0.9774059999908786,0.991643599991221,2,2.0269018939919916,2.0269018939919916,0.013672433554508596
+logic_006,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless explicitly authorized by the account owner or administrator. Suspended accounts are typically not allowed access to certain resources or features unless they have been reinstated.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,1.6013138333316117,1.6013138333316117,0.011760449518424042,1.5858827000192832,1.6144026999827474,39,24.35631756548823,24.35631756548823,0.17926782041812084
+logic_006,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless the account is suspended.,,,deny,,,deny,0,0,True,1.0,,,58.333333333333336,1,1.229917433326288,1.229917433326288,0.011610513488420423,1.2165923999855295,1.2448888999933843,15,12.197025466015889,12.197025466015889,0.11492020518711643
+logic_006,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless the account is suspended.,,,deny,,,deny,0,0,True,1.0,,,58.333333333333336,1,1.2103714666639764,1.2103714666639764,0.011652118491774457,1.1983646999869961,1.226149100024486,15,12.394033334929864,12.394033334929864,0.11880454554526518
+logic_006,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,22.500000000000007,1,0.8994270333399376,0.8994270333399376,0.004156742533032073,0.89355050001177,0.902497700008098,4,4.447371012361855,4.447371012361855,0.02062090994094102
+logic_006,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny. Access should not be allowed unless the account is suspended.,,,deny,,,deny,0,0,True,1.0,,,58.333333333333336,1,1.2188188999910683,1.2188188999910683,0.011751188534173866,1.2040509000071324,1.232803299993975,15,12.308141841766085,12.308141841766085,0.11879072866181617
+logic_007,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,allow,,,allow,,,allow,0,0,True,1.0,,,0.0,2,0.9865441333289103,0.9865441333289103,0.003480617915306917,0.9819658999913372,0.9903991000028327,2,2.0273040549783867,2.0273040549783867,0.00716021598707152
+logic_007,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.11036553334755202,0.11036553334755202,0.012944124318296361,0.09729060000972822,0.1279985000146553,3,27.54220269580277,27.54220269580277,3.0740771231605555
+logic_007,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.24607969999973042,0.24607969999973042,0.0011041915565948397,0.2452628999890294,0.24764070002129301,3,12.191416901879427,12.191416901879427,0.05453201280715558
+logic_007,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.27068249999623123,0.27068249999623123,0.010143984784269627,0.26023039998835884,0.2844182999979239,3,11.09842930920823,11.09842930920823,0.40925574873784354
+logic_007,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,31.66666666666667,1,0.7749417666733885,0.7749417666733885,0.01852610059251311,0.7517923000268638,0.7971419999958016,3,3.873477083555978,3.873477083555978,0.09281047186206051
+logic_007,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,allow,,,allow,0,0,True,1.0,,,65.00000000000001,0,0.2682384000120995,0.2682384000120995,0.004998578348330103,0.2639142000116408,0.27524350001476705,3,11.187919702079514,11.187919702079514,0.20599747021066633
+logic_008,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,0.0,2,0.9967422666571414,0.9967422666571414,0.007153632764662806,0.9885926999850199,1.0060083999997005,2,2.006639954578945,2.006639954578945,0.014378412073652858
+logic_008,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.11895720000029542,0.11895720000029542,0.011598960997593529,0.10982650000369176,0.13532410000334494,3,25.445806001108227,25.445806001108227,2.32475548211722
+logic_008,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.26045756666765857,0.26045756666765857,0.005124364651024707,0.2538823999930173,0.26638409998849966,3,11.522668598678576,11.522668598678576,0.22760457664069597
+logic_008,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.29370229999767616,0.29370229999767616,0.008732075922319006,0.28425620001507923,0.30531389999669045,3,10.22336950711995,10.22336950711995,0.3009112691074283
+logic_008,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,deny,,,deny,,,deny,0,0,True,1.0,,,-70.0,2,1.4968585999934778,1.4968585999934778,0.019963411636185313,1.471785000001546,1.5206333999813069,2,1.3363695817169852,1.3363695817169852,0.017848485648474795
+logic_008,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.26090453334230307,0.26090453334230307,0.016860737995400863,0.24487460000091232,0.28420700001879595,3,11.54500518831828,11.54500518831828,0.7205541954199624
+logic_009,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny,,,deny,,,deny,0,0,True,1.0,,,0.0,3,1.486501033330569,1.486501033330569,0.007360666808771128,1.4764777999953367,1.4939458000008017,3,2.018211671818708,2.018211671818708,0.010017554204141466
+logic_009,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.14567940000173016,0.14567940000173016,0.0037464913269255285,0.1406499000149779,0.14963719999650493,4,27.47592182864499,27.47592182864499,0.7142942432922579
+logic_009,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.32132003333147924,0.32132003333147924,0.029020063048844903,0.2995335999876261,0.3623340000049211,4,12.544870040041296,12.544870040041296,1.0654316927050196
+logic_009,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.31404870000551455,0.31404870000551455,0.0055319976234516725,0.30805220000911504,0.32139850000385195,4,12.740807510413553,12.740807510413553,0.22308551332038018
+logic_009,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.8098998333249862,0.8098998333249862,0.0013968747100460957,0.8085928999935277,0.811836199980462,4,4.938897037041264,4.938897037041264,0.00850979097085261
+logic_009,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.29845500001101755,0.29845500001101755,0.007509884729946443,0.29097910001291893,0.3087260000174865,4,13.410740906562774,13.410740906562774,0.3332774356680107
+logic_010,logic,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,0.0,2,0.9947802666574717,0.9947802666574717,0.003581383717682668,0.9899102000053972,0.9984199999889825,2,2.010520347435899,2.010520347435899,0.007250658029657337
+logic_010,logic,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow,,,unknown,,,allow,0,0,False,0.0,inferred_allow,,65.0,0,0.08571883331751451,0.08571883331751451,0.007842756084359003,0.0777061999833677,0.09636679998948239,2,23.52139199962131,23.52139199962131,2.0716211724016778
+logic_010,logic,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7146697666709466,0.7146697666709466,0.01017338716107021,0.7032050999987405,0.7279299000219908,2,2.799060483149754,2.799060483149754,0.03970361360821576
+logic_010,logic,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7150157333332269,0.7150157333332269,0.02123468994459278,0.6899177999875974,0.7418453999853227,2,2.799602606221851,2.799602606221851,0.08289689059899256
+logic_010,logic,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,-52.49999999999999,2,1.31919733332082,1.31919733332082,0.019844434688589273,1.3016503999824636,1.3469386999786366,2,1.5164133142824223,1.5164133142824223,0.022596028822926783
+logic_010,logic,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.709778333325327,0.709778333325327,0.014982678382596747,0.6895865999977104,0.7254366999841295,2,2.819048854833852,2.819048854833852,0.060060051713535456
 logic_011,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Based on the policy you've described, the user is both active and flagged. According to the policy:
 
 - Allow if active
@@ -207,74 +207,74 @@ logic_011,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-
 
 Since the user is flagged, the policy dictates to deny access. Therefore, the answer is:
 
-deny",,,deny,,,deny,0,0,True,1.0,,,0.0,59,32.817385800008196,59,1.7978275405466715
-logic_011,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.14327649999177083,4,27.918046575884688
+deny",,,deny,,,deny,0,0,True,1.0,,,0.0,59,34.61709156667348,34.61709156667348,0.05556202680111553,34.54214380000485,34.67500640000799,59,1.704364792931975,1.704364792931975,0.0027374811700944346
+logic_011,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,65.0,0,0.15740606666076928,0.15740606666076928,0.0065193419137715945,0.150341100001242,0.16606859999592416,4,25.455045444545913,25.455045444545913,1.0401092837962378
 logic_011,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Deny
 
-Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action.",,,deny,,,deny,0,0,True,1.0,,,44.06976744186047,9,6.820195900014369,43,6.304804235888504
+Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action.",,,deny,,,deny,0,0,True,1.0,,,44.06976744186047,9,7.15489903332976,7.15489903332976,0.1167759689191802,7.07060839998303,7.320033199997852,43,6.0114512422030275,6.0114512422030275,0.0969949798825723
 logic_011,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Deny
 
-Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action.",,,deny,,,deny,0,0,True,1.0,,,44.06976744186047,9,6.78043380001327,43,6.341777129350609
-logic_011,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.7668825000000652,4,5.215922908658967
+Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action.",,,deny,,,deny,0,0,True,1.0,,,44.06976744186047,9,7.157535399999081,7.157535399999081,0.11168935597749438,7.028614899987588,7.301029800000833,43,6.009113504672261,6.009113504672261,0.0935024098621747
+logic_011,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Deny.,,,deny,,,deny,0,0,True,1.0,,,40.0,1,0.8156009666563477,0.8156009666563477,0.010167284240993241,0.8036877999838907,0.8285302000003867,4,4.905119977941797,4.905119977941797,0.06104075449129857
 logic_011,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Deny
 
-Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action.",,,deny,,,deny,0,0,True,1.0,,,44.06976744186047,9,6.663098599994555,43,6.453453953095507
-logic_012,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Based on the information provided, the user is an admin and a legal hold exists. According to the rule that admin override permits access unless a legal hold exists, the access should be **denied**.",,,deny,,,deny,0,0,True,1.0,,,0.0,42,23.399398400011705,42,1.794917941137281
-logic_012,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.1127363000123296,3,26.610772215088662
-logic_012,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.2337106000049971,3,12.8363882508361
-logic_012,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.23968559998320416,3,12.516396480265078
+Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action.",,,deny,,,deny,0,0,True,1.0,,,44.06976744186047,9,7.1030056999976905,7.1030056999976905,0.07778547472411937,6.993456900003366,7.166449899988947,43,6.054506784163801,6.054506784163801,0.06680180069825299
+logic_012,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Based on the information provided, the user is an admin and a legal hold exists. According to the rule that admin override permits access unless a legal hold exists, the access should be **denied**.",,,deny,,,deny,0,0,True,1.0,,,0.0,42,24.523556533327792,24.523556533327792,1.2904735436578498,22.86733499998809,26.01550509998924,42,1.7174486613142734,1.7174486613142734,0.09145763331934585
+logic_012,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.09105533333301234,0.09105533333301234,0.010847829518234417,0.08091339998645708,0.10609470002236776,3,33.39103059427131,33.39103059427131,3.7319562715119416
+logic_012,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.23419476667186245,0.23419476667186245,0.020937267661160972,0.209541900025215,0.26072439999552444,3,12.912227639176187,12.912227639176187,1.147399539186138
+logic_012,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.23385823333713537,0.23385823333713537,0.01879605474155774,0.2188816000125371,0.26036529999691993,3,12.90730070026188,12.90730070026188,0.9831957010572037
 logic_012,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Based on the information provided, the user is an admin and a legal hold exists. According to the rule that admin overrides permits access unless a legal hold exists, the user should be allowed access in this scenario. Therefore, the answer is:
 
-Allow",,,deny,,,allow,0,0,False,0.0,inferred_allow,,25.599999999999994,12,10.12879340001382,50,4.936422140857546
-logic_012,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.24311320000560954,3,12.339930534132982
-logic_013,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,0.0,2,1.0588159000035375,2,1.888902499474477
+Allow",,,deny,,,allow,0,0,False,0.0,inferred_allow,,25.599999999999994,12,13.194652066663062,13.194652066663062,1.3637721560125788,11.759639500000048,15.028117999987444,50,3.828779336114882,3.828779336114882,0.38159365825948366
+logic_012,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,Allow.,,,deny,,,allow,0,0,False,0.0,inferred_allow,,65.00000000000001,0,0.24385706667089835,0.24385706667089835,0.007168528131867409,0.23782239999854937,0.2539290999993682,3,12.312724746653826,12.312724746653826,0.3550245913474553
+logic_013,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,0.0,2,1.4849592999962624,1.4849592999962624,0.33063775359788056,1.198158599989256,1.9481892999901902,2,1.408085016717383,1.408085016717383,0.2758105900694408
 logic_013,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Based on the information provided, the manager approved the data export, but the user's active status is unknown. Therefore, the correct answer is:
 
-unknown",,,unknown,,,unknown,0,0,True,1.0,,,64.99999999999999,0,1.2140276999853086,31,25.53483746736186
-logic_013,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.719620500021847,2,2.77924267018419
-logic_013,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7107065000163857,2,2.8141011795359816
-logic_013,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,-122.49999999999997,2,1.6429631999926642,2,1.2173127188782622
-logic_013,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7287613000080455,2,2.7443828314949217
-logic_014,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,depends,,,unknown,,,depends,0,0,False,0.0,inferred_depends,,0.0,2,0.9786084999796003,2,2.0437181978714585
-logic_014,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.07946419998188503,2,25.168566479696867
-logic_014,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.2050271000189241,2,9.754808022039033
-logic_014,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.21393430000171065,2,9.348664519826917
-logic_014,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7947020999854431,2,2.516666308087817
-logic_014,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.2128155000100378,2,9.397811719097842
-logic_015,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,0.0,2,1.0760930000105873,2,1.8585754205076352
-logic_015,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.08551480001187883,2,23.387764453897812
-logic_015,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.20238179998705164,2,9.882311552362712
-logic_015,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.24361440000939183,2,8.209695321470717
-logic_015,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7847962999949232,2,2.548431994407897
-logic_015,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.22601419998682104,2,8.84900152342915
+unknown",,,unknown,,,unknown,0,0,True,1.0,,,64.99999999999999,0,1.8015076000107608,1.8015076000107608,0.41379485066269905,1.4108520000008866,2.3741687000147067,31,18.05714201240462,18.05714201240462,3.7195862860620106
+logic_013,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,1.0841297333245166,1.0841297333245166,0.23167284839517993,0.7597070999909192,1.2859759999846574,2,1.9484123044759707,1.9484123044759707,0.4855837796729285
+logic_013,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7056174666601388,0.7056174666601388,0.013826252997246992,0.6927168999973219,0.724792900000466,2,2.835473304507945,2.835473304507945,0.05493267430756691
+logic_013,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,-122.49999999999997,2,1.7392207666610677,1.7392207666610677,0.1430556394537498,1.5766660000081174,1.9248021999956109,2,1.157645544738774,1.157645544738774,0.09382418298397383
+logic_013,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.698139566675915,0.698139566675915,0.03959993026714868,0.6599374000215903,0.7527043999871239,2,2.873728998367738,2.873728998367738,0.15823377203449332
+logic_014,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,depends,,,unknown,,,depends,0,0,False,0.0,inferred_depends,,0.0,2,0.9622453000047244,0.9622453000047244,0.01907074933370606,0.939438200002769,0.9861155000107829,2,2.079287629650982,2.079287629650982,0.041153350191377044
+logic_014,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.11418470000110877,0.11418470000110877,0.06602137718874064,0.06630310000036843,0.20754269999451935,2,22.969879346799157,22.969879346799157,9.43792283157989
+logic_014,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.22379333332840665,0.22379333332840665,0.02607569236972598,0.19453959999373183,0.2578643999877386,2,9.056706209723291,9.056706209723291,1.0321182177328707
+logic_014,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.23195699999147715,0.23195699999147715,0.006391466146026226,0.2237052999844309,0.23927789999288507,2,8.628880628075457,8.628880628075457,0.23930722101454044
+logic_014,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,15.000000000000002,1,0.7482771999978771,0.7482771999978771,0.020749077704538006,0.7276969999948051,0.7766815999930259,2,2.674834553663562,2.674834553663562,0.07315279714236964
+logic_014,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,unknown,,,unknown,0,0,True,1.0,,,65.0,0,0.2071046000055503,0.2071046000055503,0.007008126640377081,0.1973162000067532,0.2133445999934338,2,9.668268969624853,9.668268969624853,0.33434195996502863
+logic_015,logic,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,0.0,2,1.0544753666811932,1.0544753666811932,0.02407214036801284,1.0206681000126991,1.0748436000139918,2,1.8976819845486321,1.8976819845486321,0.04398954628701783
+logic_015,logic,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.07791879999179703,0.07791879999179703,0.007760142136167972,0.0684313999954611,0.08743970000068657,2,25.926013832895894,25.926013832895894,2.5996670103282664
+logic_015,logic,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.22356306666430706,0.22356306666430706,0.029713517539641354,0.20214690000284463,0.26558169999043457,2,9.092854576082713,9.092854576082713,1.1047716678836472
+logic_015,logic,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.2069831333355978,0.2069831333355978,0.023075029281333974,0.17957860001479276,0.2360290999931749,2,9.783526270337504,9.783526270337504,1.0878700192319568
+logic_015,logic,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,15.000000000000002,1,1.0298947333358228,1.0298947333358228,0.39998126022746816,0.7426348000008147,1.595530399994459,2,2.2026307043593856,2.2026307043593856,0.6712614300918532
+logic_015,logic,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,unknown,,,depends,,,unknown,0,0,True,1.0,,,65.0,0,0.4320088666669714,0.4320088666669714,0.18361436366959974,0.26752829999895766,0.688263400021242,2,5.420000194148766,5.420000194148766,1.8936214874403094
 code_001,code,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def soma(a, b):
     return a + b
-```",,,,soma,,,3,3,True,1.0,,,0.0,17,8.159418600000208,17,2.083481781410206
+```",,,,soma,,,3,3,True,1.0,,,0.0,17,14.244249400003659,14.244249400003659,0.6663836519175093,13.321748599992134,14.872367900010431,17,1.1961555472860708,1.1961555472860708,0.05754133991013955
 code_001,code,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def soma(a, b):
     return a + b
-```",,,,soma,,,3,3,True,1.0,,,65.0,0,0.6134006999782287,17,27.714347245778132
+```",,,,soma,,,3,3,True,1.0,,,65.0,0,0.667119533328029,0.667119533328029,0.03932219561573946,0.6297998999943957,0.7214835000049789,17,25.568694500153303,25.568694500153303,1.4595923643206632
 code_001,code,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def soma(a, b):
     return a + b
-```",,,,soma,,,3,3,True,1.0,,,59.117647058823536,1,1.2797449999779928,17,13.28389640146462
+```",,,,soma,,,3,3,True,1.0,,,59.117647058823536,1,1.9406626666605007,1.9406626666605007,0.746324765979877,1.3565923999994993,2.9940435999887995,17,9.921112622345538,9.921112622345538,3.0267928634130383
 code_001,code,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def soma(a, b):
     return a + b
-```",,,,soma,,,3,3,True,1.0,,,59.117647058823536,1,1.2109623000142165,17,14.038422170368493
+```",,,,soma,,,3,3,True,1.0,,,59.117647058823536,1,1.8767000000031355,1.8767000000031355,0.3380678994239263,1.4598492000077385,2.2878848999971524,17,9.368889985578376,9.368889985578376,1.7370922332161782
 code_001,code,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def soma(a, b):
     return a + b
-```",,,,soma,,,3,3,True,1.0,,,47.352941176470594,3,2.359336900000926,17,7.2054143687547665
+```",,,,soma,,,3,3,True,1.0,,,47.352941176470594,3,2.830023233332516,2.830023233332516,0.08358503415147141,2.729698199982522,2.934323099994799,17,6.01225369713596,6.01225369713596,0.1773147494981155
 code_001,code,easy,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def soma(a, b):
     return a + b
-```",,,,soma,,,3,3,True,1.0,,,47.352941176470594,3,2.382262599974638,17,7.136073076150793
+```",,,,soma,,,3,3,True,1.0,,,47.352941176470594,3,2.8527249333371096,2.8527249333371096,0.15558743144112022,2.644113300018944,3.0176283000037074,17,5.977409200839628,5.977409200839628,0.3337637502312938
 code_002,code,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def is_even(n):
     return n % 2 == 0
-```",,,,is_even,,,3,3,True,1.0,,,0.0,20,9.894271500001196,20,2.021371659348299
+```",,,,is_even,,,3,3,True,1.0,,,0.0,20,16.026888533330446,16.026888533330446,0.5509023633545281,15.613161099987337,16.80547099999967,20,1.2493441999050143,1.2493441999050143,0.0419317786088416
 code_002,code,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def is_even(n):
     """"""
@@ -287,7 +287,7 @@ def is_even(n):
     bool: True if n is even, False otherwise.
     """"""
     return n % 2 == 0
-```",,,,is_even,,,3,3,True,1.0,,,64.99999999999999,0,2.591425899998285,62,23.925052227054238
+```",,,,is_even,,,3,3,True,1.0,,,64.99999999999999,0,6.318527766678017,6.318527766678017,4.374406412157445,3.1844135000137612,12.504691200010711,62,14.469552370290012,14.469552370290012,6.7285487072283905
 code_002,code,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def is_even(n):
     """"""
@@ -300,7 +300,7 @@ def is_even(n):
     bool: True if n is even, False otherwise.
     """"""
     return n % 2 == 0
-```",,,,is_even,,,3,3,True,1.0,,,61.77419354838709,2,4.100102500000503,62,15.121573180180835
+```",,,,is_even,,,3,3,True,1.0,,,61.77419354838709,2,7.959852533327648,7.959852533327648,1.2592392286144785,6.1964599000057206,9.056862500001444,62,8.012909117138511,8.012909117138511,1.4160148598126787
 code_002,code,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def is_even(n):
     """"""
@@ -313,19 +313,19 @@ def is_even(n):
     bool: True if n is even, False otherwise.
     """"""
     return n % 2 == 0
-```",,,,is_even,,,3,3,True,1.0,,,61.77419354838709,2,3.6771069999958854,62,16.86108127940508
+```",,,,is_even,,,3,3,True,1.0,,,61.77419354838709,2,7.13714536667491,7.13714536667491,1.154160748880666,5.9311714000068605,8.692681899992749,62,8.90667008178911,8.90667008178911,1.3652391059438116
 code_002,code,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def is_even(n):
     return n % 2 == 0
-```",,,,is_even,,,3,3,True,1.0,,,38.00000000000001,4,3.311185500002466,20,6.040132756073347
+```",,,,is_even,,,3,3,True,1.0,,,38.00000000000001,4,4.4671850999972476,4.4671850999972476,0.037038016985536264,4.422436599998036,4.513136900000973,20,4.477399972447504,4.477399972447504,0.037109631805308047
 code_002,code,easy,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def is_even(n):
     return n % 2 == 0
-```",,,,is_even,,,3,3,True,1.0,,,38.00000000000001,4,3.306246899999678,20,6.049155010172394
+```",,,,is_even,,,3,3,True,1.0,,,38.00000000000001,4,4.552791233329724,4.552791233329724,0.07444658924553231,4.450127899996005,4.624337299988838,20,4.394095238865449,4.394095238865449,0.07251398453916987
 code_003,code,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def reverse_string(s):
     return s[::-1]
-```",,,,reverse_string,,,3,3,True,1.0,,,0.0,16,7.569468500005314,16,2.113754750414612
+```",,,,reverse_string,,,3,3,True,1.0,,,0.0,16,8.86341699998593,8.86341699998593,0.5438630189233723,8.40412959997775,9.627356299984967,16,1.811728440621377,1.811728440621377,0.10684971926851496
 code_003,code,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def reverse_string(s):
     """"""
@@ -344,7 +344,7 @@ original_string = ""hello""
 reversed_string = reverse_string(original_string)
 print(f""Original: {original_string}"")
 print(f""Reversed: {reversed_string}"")
-```",,,,reverse_string,,,3,3,True,1.0,,,65.00000000000001,0,4.235205299977679,91,21.486561702328718
+```",,,,reverse_string,,,3,3,True,1.0,,,65.00000000000001,0,8.547498500013413,8.547498500013413,2.3673952124883297,5.6893213000148535,11.486539900011849,91,11.55508888954933,11.55508888954933,3.344649490435923
 code_003,code,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def reverse_string(s):
     """"""
@@ -362,7 +362,7 @@ def reverse_string(s):
 original_string = ""hello""
 reversed_string = reverse_string(original_string)
 print(reversed_string)  # Output: ""olleh""
-```",,,,reverse_string,,,3,3,True,1.0,,,61.470588235294116,3,5.2955337000021245,85,16.0512622174354
+```",,,,reverse_string,,,3,3,True,1.0,,,61.470588235294116,3,9.388615099994544,9.388615099994544,1.3779733172541133,7.9811044999805745,11.259589799999958,85,9.240974626620249,9.240974626620249,1.2816739348452209
 code_003,code,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def reverse_string(s):
     """"""
@@ -380,7 +380,7 @@ def reverse_string(s):
 original_string = ""hello""
 reversed_string = reverse_string(original_string)
 print(reversed_string)  # Output: ""olleh""
-```",,,,reverse_string,,,3,3,True,1.0,,,61.470588235294116,3,5.259043300000485,85,16.162635512050674
+```",,,,reverse_string,,,3,3,True,1.0,,,61.470588235294116,3,9.091108833342636,9.091108833342636,1.298038154362183,8.161881100008031,10.92676480000955,85,9.52619508228964,9.52619508228964,1.2354651780170527
 code_003,code,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def reverse_string(s):
     """"""
@@ -397,7 +397,7 @@ def reverse_string(s):
 # Example usage:
 reversed_string = reverse_string(""hello"")
 print(reversed_string)  # Output: ""olleh""
-```",,,,reverse_string,,,3,3,True,1.0,,,48.41772151898734,11,10.541059600014705,79,7.4945027348
+```",,,,reverse_string,,,3,3,True,1.0,,,48.41772151898734,11,15.846674066667523,15.846674066667523,2.0922661153402435,13.294672599993646,18.41952970001148,79,5.074332769113261,5.074332769113261,0.6774741624379971
 code_003,code,easy,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def reverse_string(s):
     """"""
@@ -414,11 +414,11 @@ def reverse_string(s):
 # Example usage:
 reversed_string = reverse_string(""hello"")
 print(reversed_string)  # Output: ""olleh""
-```",,,,reverse_string,,,3,3,True,1.0,,,48.41772151898734,11,10.37916270000278,79,7.611403952650134
+```",,,,reverse_string,,,3,3,True,1.0,,,48.41772151898734,11,26.23387859999396,26.23387859999396,14.496677151363095,13.280444100004388,46.472386199980974,79,3.9392195714922758,3.9392195714922758,1.7421109305577593
 code_004,code,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def sum_list(values):
     return sum(values)
-```",,,,sum_list,,,3,3,True,1.0,,,0.0,15,7.122238399984781,15,2.1060794595182397
+```",,,,sum_list,,,3,3,True,1.0,,,0.0,15,13.133680299991587,13.133680299991587,1.1631322708265697,11.988198700011708,14.728780599980382,15,1.1507437526337478,1.1507437526337478,0.09767744106216211
 code_004,code,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def sum_list(values):
     """"""
@@ -435,7 +435,7 @@ def sum_list(values):
 # Example usage:
 numbers = [1, 2, 3, 4, 5]
 print(sum_list(numbers))  # Output: 15
-```",,,,sum_list,,,3,3,True,1.0,,,65.0,0,4.074637799989432,90,22.087852814852262
+```",,,,sum_list,,,3,3,True,1.0,,,65.0,0,7.820486033335328,7.820486033335328,0.09389829006082381,7.6934628000017256,7.917526100005489,90,11.509904433476228,11.509904433476228,0.13894978071541683
 code_004,code,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def sum_list(values):
     """"""
@@ -452,7 +452,7 @@ def sum_list(values):
 # Example usage:
 numbers = [1, 2, 3, 4, 5]
 print(sum_list(numbers))  # Output: 15
-```",,,,sum_list,,,3,3,True,1.0,,,61.62921348314607,3,5.6734182999935,89,15.687191617812134
+```",,,,sum_list,,,3,3,True,1.0,,,61.62921348314607,3,12.863287099996038,12.863287099996038,1.1043924616807552,11.591948999994202,14.28463969999575,89,6.969589677371688,6.969589677371688,0.5912527331532904
 code_004,code,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def sum_list(values):
     """"""
@@ -469,19 +469,19 @@ def sum_list(values):
 # Example usage:
 numbers = [1, 2, 3, 4, 5]
 print(sum_list(numbers))  # Output: 15
-```",,,,sum_list,,,3,3,True,1.0,,,58.258426966292134,6,7.5973765999951866,89,11.714570000394135
+```",,,,sum_list,,,3,3,True,1.0,,,58.258426966292134,6,16.113643766662182,16.113643766662182,0.3336391113406687,15.725363799982006,16.539950899983523,89,5.525630778226902,5.525630778226902,0.11404483320866443
 code_004,code,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def sum_list(values):
     return sum(values)
-```",,,,sum_list,,,3,3,True,1.0,,,35.66666666666667,3,2.499293000000762,15,6.001697279988952
+```",,,,sum_list,,,3,3,True,1.0,,,35.66666666666667,3,4.00571746667265,4.00571746667265,0.3942151382255627,3.7049121000163723,4.562624099984532,15,3.778890096276454,3.778890096276454,0.34796586299424215
 code_004,code,easy,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def sum_list(values):
     return sum(values)
-```",,,,sum_list,,,3,3,True,1.0,,,35.66666666666667,3,2.53680189998704,15,5.9129567823473455
+```",,,,sum_list,,,3,3,True,1.0,,,35.66666666666667,3,3.976017866671706,3.976017866671706,0.4897698830111999,3.5963684000016656,4.667551199992886,15,3.8260958277253656,3.8260958277253656,0.4341893147840509
 code_005,code,easy,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def max_of_three(a, b, c):
     return max(a, b, c)
-```",,,,max_of_three,,,3,3,True,1.0,,,0.0,24,12.33261750001111,24,1.9460588962544552
+```",,,,max_of_three,,,3,3,True,1.0,,,0.0,24,17.09534786665851,17.09534786665851,0.0508529250766872,17.025251099985326,17.144319699989865,24,1.4039031498788381,1.4039031498788381,0.004183013264718298
 code_005,code,easy,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def max_of_three(a, b, c):
     """"""
@@ -500,7 +500,7 @@ def max_of_three(a, b, c):
 # Example usage:
 result = max_of_three(10, 20, 30)
 print(result)  # Output: 30
-```",,,,max_of_three,,,3,3,True,1.0,,,65.0,0,6.739105500018923,128,18.993618663432496
+```",,,,max_of_three,,,3,3,True,1.0,,,65.0,0,15.757741233333945,15.757741233333945,0.149033273898651,15.638830199983204,15.967900100018596,128,8.123713581802406,8.123713581802406,0.07633522758280717
 code_005,code,easy,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def max_of_three(a, b, c):
     """"""
@@ -515,7 +515,7 @@ def max_of_three(a, b, c):
     int/float: The largest number among a, b, and c.
     """"""
     return max(a, b, c)
-```",,,,max_of_three,,,3,3,True,1.0,,,60.65217391304348,4,6.943453899992164,92,13.249889943116612
+```",,,,max_of_three,,,3,3,True,1.0,,,60.65217391304348,4,13.448587133326024,13.448587133326024,0.6577235037069138,12.635415999975521,14.246279900020454,92,6.8573169344945155,6.8573169344945155,0.336548342955615
 code_005,code,easy,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def max_of_three(a, b, c):
     """"""
@@ -530,15 +530,15 @@ def max_of_three(a, b, c):
     int/float: The largest number among a, b, and c.
     """"""
     return max(a, b, c)
-```",,,,max_of_three,,,3,3,True,1.0,,,57.391304347826086,7,9.256146400002763,92,9.939341495287126
+```",,,,max_of_three,,,3,3,True,1.0,,,57.391304347826086,7,17.232776333335398,17.232776333335398,0.5280379192444822,16.84868609998375,17.979431300016586,92,5.343574670609095,5.343574670609095,0.16026722265589122
 code_005,code,easy,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def max_of_three(a, b, c):
     return max(a, b, c)
-```",,,,max_of_three,,,3,3,True,1.0,,,33.958333333333336,5,4.211921400012216,24,5.698112030279196
+```",,,,max_of_three,,,3,3,True,1.0,,,33.958333333333336,5,8.003334833328458,8.003334833328458,0.7908359984965012,7.350828299997374,9.11623210000107,24,3.026462103450948,3.026462103450948,0.28051728089400113
 code_005,code,easy,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def max_of_three(a, b, c):
     return max(a, b, c)
-```",,,,max_of_three,,,3,3,True,1.0,,,33.958333333333336,5,4.222588500007987,24,5.683717463815052
+```",,,,max_of_three,,,3,3,True,1.0,,,33.958333333333336,5,7.4649428666743916,7.4649428666743916,0.1336774397732238,7.308129400014877,7.63479159999406,24,3.216056740562116,3.216056740562116,0.05745484816732881
 code_006,code,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def factorial(n):
     if n < 0:
@@ -550,7 +550,7 @@ def factorial(n):
         for i in range(1, n + 1):
             result *= i
         return result
-```",,,,factorial,,,3,3,True,1.0,,,0.0,63,34.42036459999508,63,1.830311814884407
+```",,,,factorial,,,3,3,True,1.0,,,0.0,63,61.10254710000785,61.10254710000785,4.72853660020316,55.78125490000821,67.2705390000192,63,1.037156765559783,1.037156765559783,0.07897182172059536
 code_006,code,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def factorial(n):
     """"""
@@ -566,7 +566,7 @@ def factorial(n):
         return 1
     else:
         return n * factorial(n - 1)
-```",,,,factorial,,,3,3,True,1.0,,,65.0,0,3.3386534999881405,78,23.3627119436854
+```",,,,factorial,,,3,3,True,1.0,,,65.0,0,8.629630566661945,8.629630566661945,3.3742188081109106,6.155823999986751,13.400404199986951,78,10.269579892429144,10.269579892429144,3.1491338486062266
 code_006,code,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def factorial(n):
     """"""
@@ -591,7 +591,7 @@ def factorial(n):
     else:
         return n * factorial(n - 1)
 
-# Check function to verify the correctness of the",,,,factorial,,,3,3,True,1.0,,,61.09375,5,9.420237900019856,128,13.587767247335675
+# Check function to verify the correctness of the",,,,factorial,,,3,3,True,1.0,,,61.09375,5,20.555116766665986,20.555116766665986,0.11263726042728087,20.45716160000302,20.712880000006407,128,6.227346288912017,6.227346288912017,0.03400402111520661
 code_006,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def factorial(n):
     """"""
@@ -616,7 +616,7 @@ def factorial(n):
     else:
         return n * factorial(n - 1)
 
-# Check function to verify the correctness of the",,,,factorial,,,3,3,True,1.0,,,58.75,8,12.2307932000258,128,10.465388295481112
+# Check function to verify the correctness of the",,,,factorial,,,3,3,True,1.0,,,58.75,8,24.62856220000928,24.62856220000928,0.08832137450564975,24.5279766000167,24.742986900004325,128,5.197284508735153,5.197284508735153,0.018622890193041777
 code_006,code,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def factorial(n):
     """"""
@@ -632,7 +632,7 @@ def factorial(n):
         return 1
     else:
         return n * factorial(n - 1)
-```",,,,factorial,,,3,3,True,1.0,,,52.17948717948718,10,10.216941699996823,78,7.634378495085692
+```",,,,factorial,,,3,3,True,1.0,,,52.17948717948718,10,19.444095599998644,19.444095599998644,0.6500687529081913,18.525682400009828,19.93896689999383,78,4.016097249423093,4.016097249423093,0.13749204928169373
 code_006,code,medium,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def factorial(n):
     """"""
@@ -648,13 +648,13 @@ def factorial(n):
         return 1
     else:
         return n * factorial(n - 1)
-```",,,,factorial,,,3,3,True,1.0,,,52.17948717948718,10,10.251060000009602,78,7.608969218785856
+```",,,,factorial,,,3,3,True,1.0,,,52.17948717948718,10,19.31760606667376,19.31760606667376,0.7945171718289809,18.204684800002724,20.008010700024897,78,4.044797719259976,4.044797719259976,0.17094380536559636
 code_007,code,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def count_vowels(s):
     vowels = ""aeiou""
     count = sum(1 for char in s if char.lower() in vowels)
     return count
-```",,,,count_vowels,,,3,3,True,1.0,,,0.0,40,22.185135100007756,40,1.8030090788126873
+```",,,,count_vowels,,,3,3,True,1.0,,,0.0,40,35.50470946666125,35.50470946666125,2.795675156493499,32.165342899999814,39.00747009998304,40,1.1336129631121157,1.1336129631121157,0.08906017821629421
 code_007,code,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def count_vowels(s):
     """"""
@@ -677,7 +677,7 @@ def count_vowels(s):
 def check_function():
     test_cases = [
         (""Hello World"", 3),
-        (""AEIOUae",,,,count_vowels,,,3,3,True,1.0,,,65.0,0,7.782138699985808,128,16.447920672530987
+        (""AEIOUae",,,,count_vowels,,,3,3,True,1.0,,,65.0,0,13.893552799990479,13.893552799990479,0.22854072228419406,13.577977999986615,14.111802600004012,128,9.215423202291014,9.215423202291014,0.15301296255207086
 code_007,code,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def count_vowels(s):
     """"""
@@ -698,7 +698,7 @@ def check_function():
         (""Hello World"", 3),
         (""AEIOUaeiou"", 10),
         (""Python Programming"", 4),
-        (""1",,,,count_vowels,,,3,3,True,1.0,,,56.40625,11,14.777238899987424,128,8.6619699976637
+        (""1",,,,count_vowels,,,3,3,True,1.0,,,56.40625,11,29.833923266667018,29.833923266667018,0.6014781915413476,29.171155499992892,30.627062699990347,128,4.292151821179039,4.292151821179039,0.08600868679683414
 code_007,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def count_vowels(s):
     """"""
@@ -719,12 +719,12 @@ def check_function():
         (""Hello World"", 3),
         (""AEIOUaeiou"", 10),
         (""Python Programming"", 4),
-        (""1",,,,count_vowels,,,3,3,True,1.0,,,56.40625,11,15.392483600007836,128,8.31574704422195
+        (""1",,,,count_vowels,,,3,3,True,1.0,,,56.40625,11,29.470768700004555,29.470768700004555,0.34156975872678375,28.993468500004383,29.773786800011294,128,4.343874610693659,4.343874610693659,0.050718858174777795
 code_007,code,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def count_vowels(s):
     vowels = 'aeiouAEIOU'
     return sum(1 for char in s if char in vowels)
-```",,,,count_vowels,,,3,3,True,1.0,,,40.555555555555564,6,5.626133199984906,36,6.398710929932584
+```",,,,count_vowels,,,3,3,True,1.0,,,40.555555555555564,6,11.017633666672433,11.017633666672433,0.5139552434247358,10.360227700002724,11.614828799996758,36,3.2746809469241103,3.2746809469241103,0.15424471534365342
 code_007,code,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def count_vowels(s):
     """"""
@@ -745,11 +745,11 @@ def check_function():
         (""Hello World"", 3),
         (""AEIOUaeiou"", 10),
         (""Python Programming"", 4),
-        (""1",,,,count_vowels,,,3,3,True,1.0,,,56.40625,11,15.027509800012922,128,8.517711963155062
+        (""1",,,,count_vowels,,,3,3,True,1.0,,,56.40625,11,30.00554730000052,30.00554730000052,0.7281282313293694,29.1279914000188,30.910884799988708,128,4.2683886016972385,4.2683886016972385,0.10348057896663125
 code_008,code,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def clamp(x, low, high):
     return max(low, min(x, high))
-```",,,,clamp,,,3,3,True,1.0,,,0.0,23,12.122984399989946,23,1.8972226013933562
+```",,,,clamp,,,3,3,True,1.0,,,0.0,23,19.862898733331047,19.862898733331047,2.503221584016506,16.942646600014996,23.0560201999906,23,1.1763859942300494,1.1763859942300494,0.146958461746869
 code_008,code,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def clamp(x, low, high):
     """"""
@@ -764,7 +764,7 @@ def clamp(x, low, high):
     float: The clamped value.
     """"""
     return max(low, min(x, high))
-```",,,,clamp,,,3,3,True,1.0,,,65.0,0,4.515958700008923,92,20.37219693789897
+```",,,,clamp,,,3,3,True,1.0,,,65.0,0,12.075589333331058,12.075589333331058,4.19785067215869,8.782075399998575,17.999903999996604,92,8.442614508216549,8.442614508216549,2.374746165185005
 code_008,code,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def clamp(x, low, high):
     """"""
@@ -779,7 +779,7 @@ def clamp(x, low, high):
     float: The clamped value.
     """"""
     return max(low, min(x, high))
-```",,,,clamp,,,3,3,True,1.0,,,62.80219780219781,2,5.598589599976549,91,16.254093709669515
+```",,,,clamp,,,3,3,True,1.0,,,62.80219780219781,2,11.165726900003696,11.165726900003696,0.4591257745900355,10.66533290001098,11.77425210000365,91,8.163560897575499,8.163560897575499,0.33137395559991734
 code_008,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def clamp(x, low, high):
     """"""
@@ -794,11 +794,11 @@ def clamp(x, low, high):
     float: The clamped value.
     """"""
     return max(low, min(x, high))
-```",,,,clamp,,,3,3,True,1.0,,,60.60439560439561,4,6.756454699992901,91,13.46860210579013
+```",,,,clamp,,,3,3,True,1.0,,,60.60439560439561,4,15.158904366660863,15.158904366660863,0.44578598118780394,14.810710999998264,15.788147999992361,91,6.00816424355003,6.00816424355003,0.17314984382561596
 code_008,code,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def clamp(x, low, high):
     return max(low, min(x, high))
-```",,,,clamp,,,3,3,True,1.0,,,46.08695652173914,4,3.3556871000037063,23,6.854035943927727
+```",,,,clamp,,,3,3,True,1.0,,,46.08695652173914,4,5.875881599999654,5.875881599999654,0.5424957758871806,5.356430999992881,6.624565800011624,23,3.946347520701772,3.946347520701772,0.34735495294595353
 code_008,code,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def clamp(x, low, high):
     """"""
@@ -813,11 +813,11 @@ def clamp(x, low, high):
     float: The clamped value.
     """"""
     return max(low, min(x, high))
-```",,,,clamp,,,3,3,True,1.0,,,62.80219780219781,2,5.366959000006318,91,16.95559813292646
+```",,,,clamp,,,3,3,True,1.0,,,62.80219780219781,2,11.902916266670218,11.902916266670218,0.9840740042962197,10.636271700001089,13.03554919999442,91,7.698869459039362,7.698869459039362,0.6503252498183071
 code_009,code,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fahrenheit_to_celsius(f):
     return (f - 32) * 5/9
-```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,0.0,28,14.44120319999638,28,1.9388966149307434
+```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,0.0,28,24.890556500002276,24.890556500002276,4.019545415078181,19.762369600008242,29.578653800010215,28,1.156281055539089,1.156281055539089,0.19530568694403447
 code_009,code,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fahrenheit_to_celsius(fahrenheit):
     """"""
@@ -831,7 +831,7 @@ def fahrenheit_to_celsius(fahrenheit):
     """"""
     celsius = (fahrenheit - 32) * 5.0 / 9.0
     return celsius
-```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,65.0,0,3.4105570999963675,80,23.456578398902984
+```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,65.0,0,7.000882433329632,7.000882433329632,1.0765511534901773,6.237469899991993,8.523353600001428,80,11.676152295605464,11.676152295605464,1.6194026710629652
 code_009,code,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fahrenheit_to_celsius(fahrenheit):
     """"""
@@ -845,7 +845,7 @@ def fahrenheit_to_celsius(fahrenheit):
     """"""
     celsius = (fahrenheit - 32) * 5/9
     return celsius
-```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,63.666666666666664,1,3.680991000001086,75,20.374947942002
+```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,63.666666666666664,1,8.53130110000105,8.53130110000105,0.5488538066137303,7.932961799990153,9.258668499998748,75,8.826965718207312,8.826965718207312,0.55708168297243
 code_009,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fahrenheit_to_celsius(fahrenheit):
     """"""
@@ -859,22 +859,22 @@ def fahrenheit_to_celsius(fahrenheit):
     """"""
     celsius = (fahrenheit - 32) * 5/9
     return celsius
-```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,63.666666666666664,1,4.299773900012951,75,17.442777630650323
+```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,63.666666666666664,1,8.242886066659898,8.242886066659898,0.6370359173400607,7.598162999987835,9.110198300011689,75,9.151537933619226,9.151537933619226,0.6835725764799863
 code_009,code,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fahrenheit_to_celsius(fahrenheit):
     return (fahrenheit - 32) * 5.0/9.0
-```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,50.29411764705883,5,4.5453943999891635,34,7.480098976687493
+```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,50.29411764705883,5,7.977739000004173,7.977739000004173,0.2851650328762018,7.5759864000137895,8.209025499993004,34,4.2674484256004765,4.2674484256004765,0.15636784924208832
 code_009,code,medium,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fahrenheit_to_celsius(fahrenheit):
     return (fahrenheit - 32) * 5.0/9.0
-```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,50.29411764705883,5,4.483294199977536,34,7.583709318065801
+```",,,,fahrenheit_to_celsius,,,3,3,True,1.0,,,50.29411764705883,5,7.482908533333102,7.482908533333102,0.43626138405710146,7.043219099985436,8.077574399998412,34,4.558767825544771,4.558767825544771,0.2587802901675161
 code_010,code,medium,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def safe_divide(a, b):
     if b == 0:
         return None
     else:
         return a / b
-```",,,,safe_divide,,,3,3,True,1.0,,,0.0,33,17.900706700020237,33,1.8435026366843212
+```",,,,safe_divide,,,3,3,True,1.0,,,0.0,33,28.75951856665779,28.75951856665779,2.809104659754593,24.969440599990776,31.685617799987085,33,1.1590260161541528,1.1590260161541528,0.11871680235925128
 code_010,code,medium,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def safe_divide(a, b):
     """"""
@@ -891,7 +891,7 @@ def safe_divide(a, b):
         return None
     else:
         return a / b
-```",,,,safe_divide,,,3,3,True,1.0,,,65.0,0,4.293170699995244,88,20.497670870645205
+```",,,,safe_divide,,,3,3,True,1.0,,,65.0,0,8.133943799999543,8.133943799999543,0.11180642963186845,7.980691900011152,8.244280399987474,88,10.820919420818909,10.820919420818909,0.14981958376723917
 code_010,code,medium,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def safe_divide(a, b):
     """"""
@@ -908,7 +908,7 @@ def safe_divide(a, b):
         return None
     else:
         return a / b
-```",,,,safe_divide,,,3,3,True,1.0,,,61.703296703296715,3,5.942399199993815,91,15.313680036860315
+```",,,,safe_divide,,,3,3,True,1.0,,,61.703296703296715,3,12.916688700002851,12.916688700002851,0.6395722612725675,12.079971500003012,13.632549000001745,91,7.062724122846141,7.062724122846141,0.3551178279398543
 code_010,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def safe_divide(a, b):
     """"""
@@ -925,14 +925,14 @@ def safe_divide(a, b):
         return None
     else:
         return a / b
-```",,,,safe_divide,,,3,3,True,1.0,,,60.60439560439561,4,6.866936499980511,91,13.251906436044408
+```",,,,safe_divide,,,3,3,True,1.0,,,60.60439560439561,4,14.725050099989554,14.725050099989554,0.09405283164114447,14.592428299976746,14.800164200016297,91,6.180198266402546,6.180198266402546,0.03964901993950191
 code_010,code,medium,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def safe_divide(a, b):
     if b == 0:
         return None
     else:
         return a / b
-```",,,,safe_divide,,,3,3,True,1.0,,,48.787878787878796,5,4.524400299997069,33,7.293784327620476
+```",,,,safe_divide,,,3,3,True,1.0,,,48.787878787878796,5,8.714493700002398,8.714493700002398,0.976421742205913,7.341802700015251,9.530795700004091,33,3.8389335363291024,3.8389335363291024,0.4654639779975192
 code_010,code,medium,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def safe_divide(a, b):
     """"""
@@ -949,7 +949,7 @@ def safe_divide(a, b):
         return None
     else:
         return a / b
-```",,,,safe_divide,,,3,3,True,1.0,,,61.703296703296715,3,5.978583699994488,91,15.220996236965606
+```",,,,safe_divide,,,3,3,True,1.0,,,61.703296703296715,3,12.358941000003446,12.358941000003446,0.7557209345614254,11.630812599993078,13.400532300001942,91,7.389840709265694,7.389840709265694,0.4376422787528353
 code_011,code,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Certainly! Below is a Python function `remove_duplicates` that removes duplicates from a list while preserving the order of elements:
 
 ```python
@@ -967,7 +967,7 @@ You can use this function to remove duplicates from any list. For example:
 
 ```python
 my_list = [1, 2, 3, 2, 4, 3, 5]
-print(remove_duplicates(my_list))  # Output: [1, 2,",,,,remove_duplicates,,,3,3,True,1.0,,,0.0,128,94.2874822000158,128,1.357550302684597
+print(remove_duplicates(my_list))  # Output: [1, 2,",,,,remove_duplicates,,,3,3,True,1.0,,,0.0,128,139.55357553332578,139.55357553332578,1.0436134905426337,138.13242270000046,140.60902459998033,128,0.9172619490975117,0.9172619490975117,0.00688449369810073
 code_011,code,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Certainly! Below is a Python function named `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
 
 ```python
@@ -990,7 +990,7 @@ def remove_duplicates(values):
     return result
 
 # Example usage:
-",,,,remove_duplicates,,,3,3,True,1.0,,,65.0,0,7.015344900020864,128,18.2457173274003
+",,,,remove_duplicates,,,3,3,True,1.0,,,65.0,0,19.435187133329844,19.435187133329844,5.1421597181839,12.20556430000579,23.72979640000267,128,7.200993416208271,7.200993416208271,2.327423222870263
 code_011,code,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Certainly! Below is a Python function `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
 
 ```python
@@ -1009,7 +1009,7 @@ print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
 ```
 
 ### Explanation:
-1. **",,,,remove_duplicates,,,3,3,True,1.0,,,60.3125,6,9.586406600021292,128,13.352239826726702
+1. **",,,,remove_duplicates,,,3,3,True,1.0,,,60.3125,6,18.707909999987653,18.707909999987653,1.2305733702608965,17.529250499996124,20.406084899994312,128,6.870724645338709,6.870724645338709,0.43649111739415813
 code_011,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Certainly! Below is a Python function `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
 
 ```python
@@ -1028,7 +1028,7 @@ print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
 ```
 
 ### Explanation:
-1. **",,,,remove_duplicates,,,3,3,True,1.0,,,58.75,8,11.667804700002307,128,10.970358459974454
+1. **",,,,remove_duplicates,,,3,3,True,1.0,,,58.75,8,23.226362599991262,23.226362599991262,0.6812114041127175,22.37788279997767,24.04574169998523,128,5.515734757371594,5.515734757371594,0.16218012161500264
 code_011,code,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Certainly! Below is a Python function named `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
 
 ```python
@@ -1047,7 +1047,7 @@ print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
 ```
 
 ### Explanation:
-1.",,,,remove_duplicates,,,3,3,True,1.0,,,50.89843750000001,17,20.793820099992445,128,6.155675070019794
+1.",,,,remove_duplicates,,,3,3,True,1.0,,,50.89843750000001,17,40.26453436665664,40.26453436665664,1.026394588733,38.815724099986255,41.06601340000634,128,3.181080685292944,3.181080685292944,0.08255404124967602
 code_011,code,hard,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"Certainly! Below is a Python function named `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
 
 ```python
@@ -1066,12 +1066,12 @@ print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
 ```
 
 ### Explanation:
-1.",,,,remove_duplicates,,,3,3,True,1.0,,,50.89843750000001,17,20.692683000001125,128,6.185761411412577
+1.",,,,remove_duplicates,,,3,3,True,1.0,,,50.89843750000001,17,40.873288333318975,40.873288333318975,1.6354930216610533,38.64944679997279,42.535802200000035,128,3.1367512937971704,3.1367512937971704,0.12802526891235913
 code_012,code,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def palindrome(s):
     s = s.lower()
     return s == s[::-1]
-```",,,,palindrome,,,3,3,True,1.0,,,0.0,23,12.07233890000498,23,1.9051817705341683
+```",,,,palindrome,,,3,3,True,1.0,,,0.0,23,16.53811539999636,16.53811539999636,0.18184955503611014,16.407020799990278,16.795273099996848,23,1.390893653818808,1.390893653818808,0.015176039747535904
 code_012,code,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def palindrome(s):
     """"""
@@ -1091,7 +1091,7 @@ def palindrome(s):
 
 # Check function to verify the correctness of the solution
 def check_palindrome():
-",,,,palindrome,,,3,3,True,1.0,,,65.0,0,7.087280400010059,128,18.060524316184573
+",,,,palindrome,,,3,3,True,1.0,,,65.0,0,16.98967356666496,16.98967356666496,4.739232721806825,12.977689400024246,23.645233099989127,128,8.066240252503059,8.066240252503059,1.914789883511835
 code_012,code,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def palindrome(s):
     """"""
@@ -1110,7 +1110,7 @@ def palindrome(s):
     return cleaned_s == cleaned_s[::-1]
 
 # Example usage
-print(palindrome(""A man, a plan, a",,,,palindrome,,,3,3,True,1.0,,,62.65625,3,8.484949999983655,128,15.085533798106832
+print(palindrome(""A man, a plan, a",,,,palindrome,,,3,3,True,1.0,,,62.65625,3,20.68188716666191,20.68188716666191,1.934619417243728,17.996408799983328,22.47770789999049,128,6.246934601697781,6.246934601697781,0.6198103631097218
 code_012,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def palindrome(s):
     """"""
@@ -1129,12 +1129,12 @@ def palindrome(s):
     return cleaned_s == cleaned_s[::-1]
 
 # Example usage
-print(palindrome(""A man, a plan, a",,,,palindrome,,,3,3,True,1.0,,,58.75,8,12.163547000003746,128,10.523246220856514
+print(palindrome(""A man, a plan, a",,,,palindrome,,,3,3,True,1.0,,,58.75,8,27.272877633338794,27.272877633338794,4.010194718735843,23.550831800006563,32.83960880001541,128,4.788855762913724,4.788855762913724,0.6510658890437044
 code_012,code,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def palindrome(s):
     s = s.lower()  # Convert the string to lowercase to ignore case sensitivity
     return s == s[::-1]  # Check if the string is equal to its reverse
-```",,,,palindrome,,,3,3,True,1.0,,,42.02127659574468,8,7.3231083000137005,47,6.41803972773584
+```",,,,palindrome,,,3,3,True,1.0,,,42.02127659574468,8,12.224471766656885,12.224471766656885,0.7367147836833852,11.418879099976039,13.199446699989494,47,3.8585047445973366,3.8585047445973366,0.22845486801303774
 code_012,code,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def palindrome(s):
     """"""
@@ -1153,11 +1153,11 @@ def palindrome(s):
     return cleaned_s == cleaned_s[::-1]
 
 # Example usage
-print(palindrome(""A man, a plan, a",,,,palindrome,,,3,3,True,1.0,,,62.65625,3,8.357655500003602,128,15.315299846942104
+print(palindrome(""A man, a plan, a",,,,palindrome,,,3,3,True,1.0,,,62.65625,3,17.081731266671948,17.081731266671948,0.7985654343842624,15.972695200005546,17.82088240000303,128,7.510274941784522,7.510274941784522,0.3613250655373363
 code_013,code,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def get_initials(name):
     return ''.join(word[0].upper() for word in name.split())
-```",,,,get_initials,,,3,3,True,1.0,,,0.0,27,13.87668479999411,27,1.9457096842043613
+```",,,,get_initials,,,3,3,True,1.0,,,0.0,27,20.008148700008558,20.008148700008558,0.9400093874474826,18.85569490000489,21.158234600006836,27,1.3524391802115006,1.3524391802115006,0.0636559645960975
 code_013,code,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def get_initials(name):
     """"""
@@ -1175,7 +1175,7 @@ def get_initials(name):
 print(get_initials(""Alice""))  # Output: ""ALICE""
 print(get_initials(""Bob""))    # Output: ""BOB""
 print(get_initials(""Charlie""))  # Output: ""CHARLIE""
-```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",65.0,0,6.891141800006153,125,18.139229118734487
+```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",65.0,0,18.236593833338702,18.236593833338702,4.184984761583171,14.475961500022095,24.074735100002727,125,7.187585564030766,7.187585564030766,1.4579701477979128
 code_013,code,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def get_initials(name):
     """"""
@@ -1193,7 +1193,7 @@ def get_initials(name):
 print(get_initials(""Alice""))  # Output: ""AL""
 print(get_initials(""Bob""))    # Output: ""BOB""
 print(get_initials(""Charlie""))  # Output: ""CH""
-```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",54.83050847457627,12,12.89472450001631,118,9.151029166993894
+```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",54.83050847457627,12,24.665237233333755,24.665237233333755,1.2110749164664807,23.251937399996677,26.20973640002194,118,4.795544710576299,4.795544710576299,0.234017180242471
 code_013,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def get_initials(name):
     """"""
@@ -1211,15 +1211,15 @@ def get_initials(name):
 print(get_initials(""Alice""))  # Output: ""AL""
 print(get_initials(""Bob""))    # Output: ""BOB""
 print(get_initials(""Charlie""))  # Output: ""CH""
-```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",53.13559322033898,14,15.079019099997822,118,7.825442704029538
+```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",53.13559322033898,14,28.153353799997905,28.153353799997905,0.5414133993320743,27.41313880000962,28.693031399976462,118,4.192896113665533,4.192896113665533,0.08143443694074029
 code_013,code,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def get_initials(name):
     return name.title().replace("" "", """")
-```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",39.75000000000001,4,3.3032852000033017,20,6.054578635831992
+```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",39.75000000000001,4,5.05972236666518,5.05972236666518,0.025847144448686955,5.025719800003571,5.088341800001217,20,3.952889367698423,3.952889367698423,0.020224650802943122
 code_013,code,hard,hybrid,speculative_adaptive,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def get_initials(name):
     return name.title().replace("" "", """")
-```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",39.75000000000001,4,3.265788999997312,20,6.124094361275778
+```",,,,get_initials,,,3,0,False,0.0,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'",39.75000000000001,4,4.9963294666667935,4.9963294666667935,0.09288415704063012,4.879790700011654,5.107089199998882,20,4.004325136781639,4.004325136781639,0.07459034318107546
 code_014,code,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fizzbuzz_value(n):
     if n % 15 == 0:
@@ -1230,7 +1230,7 @@ def fizzbuzz_value(n):
         return ""Buzz""
     else:
         return str(n)
-```",,,,fizzbuzz_value,,,4,4,True,1.0,,,0.0,66,37.60759770000004,66,1.7549645294147551
+```",,,,fizzbuzz_value,,,4,4,True,1.0,,,0.0,66,67.47324623333407,67.47324623333407,0.05274111233681918,67.43495759999496,67.54782450001221,66,0.9781660730386332,0.9781660730386332,0.0007641710112835148
 code_014,code,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fizzbuzz_value(n):
     """"""
@@ -1240,7 +1240,7 @@ def fizzbuzz_value(n):
     """"""
     if n % 3 == 0 and n % 5 == 0:
         return ""FizzBuzz""
-    elif n % 3 == ",,,,fizzbuzz_value,,,4,0,False,0.0,"syntax_error: invalid syntax (<unknown>, line 9)","syntax_error: invalid syntax (<unknown>, line 9)",65.0,0,7.2918920000083745,128,17.55374325344547
+    elif n % 3 == ",,,,fizzbuzz_value,,,4,0,False,0.0,"syntax_error: invalid syntax (<unknown>, line 9)","syntax_error: invalid syntax (<unknown>, line 9)",65.0,0,17.347871700001026,17.347871700001026,4.847563932300119,13.307700400007889,24.164422300003935,128,7.899936723407421,7.899936723407421,1.871767133795462
 code_014,code,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fizzbuzz_value(n):
     """"""
@@ -1261,7 +1261,7 @@ def fizzbuzz_value(n):
     else:
         return str(n)
 
-# Example usage",,,,fizzbuzz_value,,,4,4,True,1.0,,,60.3125,6,10.217861799988896,128,12.527082720979756
+# Example usage",,,,fizzbuzz_value,,,4,4,True,1.0,,,60.3125,6,20.53392026666552,20.53392026666552,1.1556601699214257,19.564140700007556,22.158095499995397,128,6.252679260401905,6.252679260401905,0.33924643815181393
 code_014,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fizzbuzz_value(n):
     """"""
@@ -1282,7 +1282,7 @@ def fizzbuzz_value(n):
     else:
         return str(n)
 
-# Example usage",,,,fizzbuzz_value,,,4,4,True,1.0,,,57.1875,10,13.679152500000782,128,9.357304847649932
+# Example usage",,,,fizzbuzz_value,,,4,4,True,1.0,,,57.1875,10,27.118833099996362,27.118833099996362,0.29937621213172616,26.898899799998617,27.542106599983526,128,4.7205379399457925,4.7205379399457925,0.051709311454508126
 code_014,code,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fizzbuzz_value(n):
     """"""
@@ -1299,7 +1299,7 @@ def fizzbuzz_value(n):
     str: The result of the FizzBuzz logic for n
     """"""
     if n % 3 == 0 and n % 5 == 0:
-",,,,fizzbuzz_value,,,4,0,False,0.0,"syntax_error: expected an indented block after 'if' statement on line 15 (<unknown>, line 15)","syntax_error: expected an indented block after 'if' statement on line 15 (<unknown>, line 15)",50.3515625,17,22.561902299989015,128,5.673280483980392
+",,,,fizzbuzz_value,,,4,0,False,0.0,"syntax_error: expected an indented block after 'if' statement on line 15 (<unknown>, line 15)","syntax_error: expected an indented block after 'if' statement on line 15 (<unknown>, line 15)",50.3515625,17,41.164053000005275,41.164053000005275,1.2412732955235635,40.2274907999963,42.91813249999541,128,3.1122804387087855,3.1122804387087855,0.09190345284954941
 code_014,code,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def fizzbuzz_value(n):
     """"""
@@ -1320,11 +1320,11 @@ def fizzbuzz_value(n):
     else:
         return str(n)
 
-# Example usage",,,,fizzbuzz_value,,,4,4,True,1.0,,,60.3125,6,9.8865718000161,128,12.946853832568289
+# Example usage",,,,fizzbuzz_value,,,4,4,True,1.0,,,60.3125,6,19.839010866659617,19.839010866659617,0.5730439169032681,19.35774079998373,20.644316899997648,128,6.457220344355573,6.457220344355573,0.1830000457277173
 code_015,code,hard,expensive_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def normalize_name(name):
     return name.strip().title()
-```",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",0.0,17,8.595128000015393,17,1.9778646693765998
+```",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",0.0,17,14.348925566659696,14.348925566659696,3.9249759711536902,11.57128209999064,19.89967919999617,17,1.2640061929662554,1.2640061929662554,0.289716638382233
 code_015,code,hard,cheap_only,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 import re
 
@@ -1349,7 +1349,7 @@ def normalize_name(name):
 # Check function with provided data points
 def check_function():
     test_cases = [
-        (""  Hello World  "", ""Hello World",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",65.0,0,7.276920300006168,128,17.589858720850838
+        (""  Hello World  "", ""Hello World",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",65.0,0,14.514839133344745,14.514839133344745,0.7400447317466391,13.479827000002842,15.166739100008272,128,8.842325443202661,8.842325443202661,0.46614827293228916
 code_015,code,hard,adaptive_calibrated,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def normalize_name(name):
     """"""
@@ -1371,7 +1371,7 @@ def normalize_name(name):
 
 # Example usage
 print(normalize_name(""  Hello World!  ""))  # Output: ""Hello World!""
-print(normalize_name(""  ALIEN  CLOUD",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",58.75,8,12.497226000006776,128,10.242272965210887
+print(normalize_name(""  ALIEN  CLOUD",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",58.75,8,23.744848166670028,23.744848166670028,0.5862284609553378,23.049722900002962,24.483686099993065,128,5.393922730204299,5.393922730204299,0.13286268402971718
 code_015,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def normalize_name(name):
     """"""
@@ -1393,7 +1393,7 @@ def normalize_name(name):
 
 # Example usage
 print(normalize_name(""  Hello World!  ""))  # Output: ""Hello World!""
-print(normalize_name(""  ALIEN  CLOUD",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",57.96875,9,13.104119800002081,128,9.767920467270123
+print(normalize_name(""  ALIEN  CLOUD",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",57.96875,9,30.280438466657262,30.280438466657262,5.615500755025315,24.6248726999911,37.93644099999801,128,4.366075858488352,4.366075858488352,0.7531726984374433
 code_015,code,hard,speculative_adaptive,,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 import re
 
@@ -1409,7 +1409,7 @@ def normalize_name(name):
 # Example usage
 print(normalize_name(""  john doe  ""))  # Output: John Doe
 print(normalize_name(""anna  birnberg""))  # Output: Anna Birnberg
-```",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",42.35294117647059,14,15.570834999991348,85,5.458923686497688
+```",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",42.35294117647059,14,29.485625200002687,29.485625200002687,0.30920566101857183,29.04857089999132,29.7163943000196,85,2.8830800575236992,2.8830800575236992,0.030458692469920223
 code_015,code,hard,hybrid,adaptive_calibrated,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,chat,chat,128,"```python
 def normalize_name(name):
     """"""
@@ -1431,4 +1431,4 @@ def normalize_name(name):
 
 # Example usage
 print(normalize_name(""  Hello World!  ""))  # Output: ""Hello World!""
-print(normalize_name(""  ALIEN  CLOUD",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",58.75,8,12.33849470000132,128,10.374036956062907
+print(normalize_name(""  ALIEN  CLOUD",,,,normalize_name,,,3,0,False,0.0,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'",58.75,8,24.96611653333336,24.96611653333336,0.2214863479793388,24.653608699998586,25.1407673000067,128,5.127354785810604,5.127354785810604,0.045768501944450014

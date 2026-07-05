@@ -1,0 +1,57 @@
+
+Task-Specific Quality Evaluation
+========================================================================================
+category   | mode                   | pass_rate |  avg_saved |   calls
+----------------------------------------------------------------------
+code       | expensive_only         |   93.33% |      0.00% |   36.00
+code       | cheap_only             |   80.00% |     65.00% |    0.00
+code       | adaptive_calibrated    |   86.67% |     60.48% |    4.67
+code       | adaptive_guarded_v3    |   86.67% |     58.92% |    6.40
+code       | speculative_adaptive   |   80.00% |     44.44% |    7.73
+code       | hybrid                 |   86.67% |     50.61% |    6.33
+logic      | expensive_only         |   93.33% |      0.00% |    8.53
+logic      | cheap_only             |   80.00% |     65.00% |    0.00
+logic      | adaptive_calibrated    |   86.67% |     49.83% |    1.00
+logic      | adaptive_guarded_v3    |   86.67% |     49.83% |    1.00
+logic      | speculative_adaptive   |   93.33% |      4.93% |    1.93
+logic      | hybrid                 |   86.67% |     49.83% |    1.00
+math       | expensive_only         |   86.67% |      0.00% |    5.40
+math       | cheap_only             |   60.00% |     65.00% |    0.00
+math       | adaptive_calibrated    |   86.67% |     52.64% |    0.60
+math       | adaptive_guarded_v3    |   86.67% |     52.32% |    0.73
+math       | speculative_adaptive   |   66.67% |     10.97% |    3.53
+math       | hybrid                 |   86.67% |     52.64% |    0.60
+========================================================================================
+
+Overall by mode
+========================================================================
+mode                   | pass_rate | avg_score |  avg_saved |   calls
+---------------------------------------------------------------------
+expensive_only         |   91.11% |     0.911 |      0.00% |   16.64
+cheap_only             |   73.33% |     0.733 |     65.00% |    0.00
+adaptive_calibrated    |   86.67% |     0.867 |     54.32% |    2.09
+adaptive_guarded_v3    |   86.67% |     0.867 |     53.69% |    2.71
+speculative_adaptive   |   80.00% |     0.800 |     20.11% |    4.40
+hybrid                 |   86.67% |     0.867 |     51.03% |    2.64
+========================================================================
+
+task_csv        -> results\task_evaluation.csv
+task_summary    -> results\task_evaluation_summary.csv
+task_difficulty -> results\task_evaluation_by_difficulty.csv
+task_overall    -> results\task_evaluation_overall.csv
+Task Quality-Latency Report
+====================================================================================================================
+mode                   | pass_rate | avg_speedup |  avg_saved | avg_calls |  avg_time |  std_time
+-------------------------------------------------------------------------------------------------
+expensive_only         |   91.11% |       0.00% |      0.00% |     16.64 |    13.594 |    24.238
+cheap_only             |   73.33% |      55.32% |     65.00% |      0.00 |     4.508 |     6.094
+adaptive_calibrated    |   86.67% |      45.70% |     54.32% |      2.09 |     5.959 |     8.213
+adaptive_guarded_v3    |   86.67% |      41.58% |     53.69% |      2.71 |     6.916 |     9.828
+speculative_adaptive   |   80.00% |      15.48% |     20.11% |      4.40 |     6.539 |     9.671
+hybrid                 |   86.67% |      46.66% |     51.03% |      2.64 |     5.881 |     9.359
+====================================================================================================================
+
+task_ql_report  -> results\task_quality_latency_report.csv
+task_ql_summary -> results\task_quality_latency_summary.csv
+task_ql_category-> results\task_quality_latency_by_category.csv
+task_ql_diff    -> results\task_quality_latency_by_difficulty.csv
