@@ -5,9 +5,12 @@ import subprocess
 import sys
 import tempfile
 import textwrap
+import time
 import unicodedata
 from collections import defaultdict
 from pathlib import Path
+
+import torch
 
 from gear_llm.adaptive_generator import (
     AdaptiveGenerationConfig,
@@ -35,6 +38,8 @@ TASK_MODES = (
     "speculative_adaptive",
     "hybrid",
 )
+DIFFICULTIES = {"easy", "medium", "hard"}
+MATH_ANSWER_TYPES = {"number", "expression", "boolean", "choice"}
 
 
 def load_eval_tasks(path: str | Path) -> list[dict]:
@@ -48,23 +53,44 @@ def load_eval_tasks(path: str | Path) -> list[dict]:
                 continue
 
             item = json.loads(stripped)
-            missing = {"id", "category", "prompt"} - set(item)
+            missing = {"id", "category", "prompt", "difficulty"} - set(item)
             if missing:
                 fields = ", ".join(sorted(missing))
                 raise ValueError(
                     f"Line {line_number} of {dataset_path} missing fields: {fields}"
                 )
+            if item["difficulty"] not in DIFFICULTIES:
+                raise ValueError(
+                    f"Task {item['id']} has invalid difficulty: {item['difficulty']}"
+                )
 
             category = item["category"]
-            if category == "math" and "expected_answer" not in item:
-                raise ValueError(f"Task {item['id']} missing expected_answer.")
-            if category == "logic" and "acceptable_labels" not in item:
-                raise ValueError(f"Task {item['id']} missing acceptable_labels.")
-            if category == "code":
+            if category == "math":
+                missing_math = {
+                    "expected_answer",
+                    "acceptable_answers",
+                    "answer_type",
+                } - set(item)
+                if missing_math:
+                    fields = ", ".join(sorted(missing_math))
+                    raise ValueError(f"Task {item['id']} missing fields: {fields}")
+                if item["answer_type"] not in MATH_ANSWER_TYPES:
+                    raise ValueError(
+                        f"Task {item['id']} has invalid answer_type: "
+                        f"{item['answer_type']}"
+                    )
+            elif category == "logic":
+                missing_logic = {"expected_label", "acceptable_labels"} - set(item)
+                if missing_logic:
+                    fields = ", ".join(sorted(missing_logic))
+                    raise ValueError(f"Task {item['id']} missing fields: {fields}")
+            elif category == "code":
                 missing_code = {"function_name", "tests"} - set(item)
                 if missing_code:
                     fields = ", ".join(sorted(missing_code))
                     raise ValueError(f"Task {item['id']} missing fields: {fields}")
+            else:
+                raise ValueError(f"Unsupported category in task {item['id']}: {category}")
 
             tasks.append(item)
 
@@ -76,8 +102,8 @@ def _strip_accents(text: str) -> str:
     return "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
 
 
-def normalize_answer(text: str) -> str:
-    text = _strip_accents(text.lower())
+def normalize_math_text(text: str) -> str:
+    text = _strip_accents(str(text).lower())
     text = re.sub(
         r"```(?:\w+)?\s*(.*?)```",
         r"\1",
@@ -88,26 +114,98 @@ def normalize_answer(text: str) -> str:
     text = re.sub(r"[*_#$]", "", text)
     text = text.replace("\\left", "").replace("\\right", "")
     text = re.sub(r"\\frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}", r"(\1)/\2", text)
+    text = text.replace("\\cdot", "*").replace("\\times", "*")
+    text = text.replace("−", "-").replace("–", "-")
     text = text.replace("\\", "")
     text = re.sub(r"(?<=\d),(?=\d)", ".", text)
-    text = re.sub(r"\s+", "", text)
+    text = re.sub(r"\s+", " ", text).strip()
     return text
+
+
+def _compact_math(text: str) -> str:
+    return re.sub(r"\s+", "", normalize_math_text(text))
+
+
+def _strip_assignment(text: str) -> str:
+    return re.sub(
+        r"^(?:[a-z]|[a-z]\([a-z]\)|f\^-?1\([a-z]\)|g\^-?1\([a-z]\)|"
+        r"h\^-?1\([a-z]\)|answer|result|resposta)=",
+        "",
+        text,
+    )
+
+
+def _number_match(generated: str, answer: str) -> bool:
+    answer_core = _strip_assignment(_compact_math(answer))
+    if not answer_core:
+        return False
+
+    normalized_generated = normalize_math_text(generated)
+    compact_generated = _compact_math(generated)
+    escaped = re.escape(answer_core)
+    patterns = (
+        rf"(?<![a-z0-9.])(?:[a-z]|answer|result|resposta)?\s*=\s*{escaped}(?![a-z0-9.])",
+        rf"(?<![a-z0-9.]){escaped}(?![a-z0-9.])",
+    )
+
+    for pattern in patterns:
+        if re.search(pattern, normalized_generated):
+            return True
+        if re.search(pattern.replace(r"\s*", ""), compact_generated):
+            return True
+
+    return False
+
+
+def _expression_match(generated: str, answer: str) -> bool:
+    generated_compact = _compact_math(generated)
+    answer_compact = _compact_math(answer)
+    answer_core = _strip_assignment(answer_compact)
+
+    candidates = {answer_compact, answer_core}
+    candidates.update(
+        {
+            f"x={answer_core}",
+            f"y={answer_core}",
+            f"answer={answer_core}",
+            f"result={answer_core}",
+            f"f^-1(x)={answer_core}",
+            f"g^-1(x)={answer_core}",
+            f"h^-1(x)={answer_core}",
+        }
+    )
+
+    return any(candidate and candidate in generated_compact for candidate in candidates)
 
 
 def evaluate_math(task: dict, generated_text: str) -> dict:
     expected_answers = [task["expected_answer"]]
     expected_answers.extend(task.get("acceptable_answers", []))
+    answer_type = task.get("answer_type", "number")
 
-    normalized_generated = normalize_answer(generated_text)
     for answer in expected_answers:
-        normalized_answer = normalize_answer(str(answer))
-        if normalized_answer and normalized_answer in normalized_generated:
+        if answer_type == "number":
+            matched = _number_match(generated_text, str(answer))
+        elif answer_type in {"expression", "choice"}:
+            matched = _expression_match(generated_text, str(answer)) or _number_match(
+                generated_text,
+                str(answer),
+            )
+        elif answer_type == "boolean":
+            matched = _expression_match(generated_text, str(answer))
+        else:
+            matched = False
+
+        if matched:
             return {
-                "inferred_answer": answer,
+                "inferred_answer": str(answer),
                 "inferred_label": "",
                 "passed": True,
                 "score": 1.0,
                 "error": "",
+                "failure_reason": "",
+                "test_count": 0,
+                "passed_tests": 0,
             }
 
     return {
@@ -116,79 +214,90 @@ def evaluate_math(task: dict, generated_text: str) -> dict:
         "passed": False,
         "score": 0.0,
         "error": "",
+        "failure_reason": "expected_answer_not_found",
+        "test_count": 0,
+        "passed_tests": 0,
     }
 
 
-LOGIC_PATTERNS = {
+LOGIC_LABEL_PATTERNS = {
     "unknown": (
-        "unknown",
-        "unclear",
-        "not enough",
-        "insufficient",
-        "cannot determine",
-        "can't determine",
-        "indeterminate",
-        "desconhecido",
-        "incerto",
-        "indeterminado",
-        "nao e possivel determinar",
+        r"\bunknown\b",
+        r"\bunclear\b",
+        r"\bnot enough\b",
+        r"\binsufficient information\b",
+        r"\binsufficient\b",
+        r"\bcannot determine\b",
+        r"\bcan't determine\b",
+        r"\bindeterminate\b",
+        r"\bnao e possivel determinar\b",
+        r"\binformacao insuficiente\b",
+        r"\bindeterminado\b",
+        r"\bincerto\b",
     ),
     "depends": (
-        "depends",
-        "it depends",
-        "depending",
-        "depende",
+        r"\bdepends\b",
+        r"\bit depends\b",
+        r"\bdepending\b",
+        r"\bdepende\b",
     ),
     "deny": (
-        "deny",
-        "denied",
-        "should not",
-        "not allowed",
-        "not be allowed",
-        "no",
-        "block",
-        "blocked",
-        "reject",
-        "rejected",
-        "prohibit",
-        "forbid",
-        "negar",
-        "negado",
-        "bloquear",
-        "bloqueado",
-        "nao",
-        "proibido",
+        r"\bdeny\b",
+        r"\bdenied\b",
+        r"\bshould not\b",
+        r"\bnot allowed\b",
+        r"\bnot be allowed\b",
+        r"\bno\b",
+        r"\bblock\b",
+        r"\bblocked\b",
+        r"\breject\b",
+        r"\brejected\b",
+        r"\bprohibit\b",
+        r"\bforbid\b",
+        r"\bnegar\b",
+        r"\bnegado\b",
+        r"\bbloquear\b",
+        r"\bbloqueado\b",
+        r"\bnao\b",
+        r"\bproibido\b",
     ),
     "allow": (
-        "allow",
-        "allowed",
-        "yes",
-        "permit",
-        "permitted",
-        "grant",
-        "sim",
-        "permitir",
-        "permitido",
-        "autorizar",
-        "autorizado",
+        r"\ballow\b",
+        r"\ballowed\b",
+        r"\byes\b",
+        r"\bpermit\b",
+        r"\bpermitted\b",
+        r"\bgrant\b",
+        r"\bsim\b",
+        r"\bpermitir\b",
+        r"\bpermitido\b",
+        r"\bautorizar\b",
+        r"\bautorizado\b",
     ),
 }
 
 
 def infer_logic_label(text: str) -> str:
-    normalized = _strip_accents(text.lower())
-    matches = []
+    normalized = _strip_accents(str(text).lower())
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    first_chunk = re.split(r"[.\n:;,-]", normalized, maxsplit=1)[0]
 
-    for label, patterns in LOGIC_PATTERNS.items():
-        for pattern in patterns:
-            if re.search(rf"\b{re.escape(pattern)}\b", normalized):
-                matches.append((normalized.find(pattern), label))
+    starts = (
+        ("unknown", (r"unknown", r"unclear", r"nao e possivel", r"incerto")),
+        ("depends", (r"depends", r"it depends", r"depende")),
+        ("deny", (r"deny", r"denied", r"no", r"not allowed", r"negar", r"negado", r"nao")),
+        ("allow", (r"allow", r"allowed", r"yes", r"permit", r"sim", r"permitir")),
+    )
+    for label, patterns in starts:
+        if any(re.match(rf"^\s*{pattern}\b", first_chunk) for pattern in patterns):
+            return label
 
-    if not matches:
-        return "unknown"
+    for label in ("unknown", "depends", "deny", "allow"):
+        for pattern in LOGIC_LABEL_PATTERNS[label]:
+            if re.search(pattern, normalized):
+                return label
 
-    matches.sort(key=lambda item: item[0])
-    return matches[0][1]
+    return "unknown"
 
 
 def evaluate_logic(task: dict, generated_text: str) -> dict:
@@ -202,6 +311,9 @@ def evaluate_logic(task: dict, generated_text: str) -> dict:
         "passed": passed,
         "score": 1.0 if passed else 0.0,
         "error": "",
+        "failure_reason": "" if passed else f"inferred_{inferred_label}",
+        "test_count": 0,
+        "passed_tests": 0,
     }
 
 
@@ -218,10 +330,21 @@ def _extract_fenced_code(text: str, function_name: str) -> str:
     return blocks[0].strip() if blocks else ""
 
 
+def _safe_import_prefix(lines: list[str], end: int) -> list[str]:
+    imports = []
+    for line in lines[:end]:
+        stripped = line.strip()
+        if re.match(r"^(import\s+math|from\s+math\s+import\s+[a-zA-Z0-9_,\s]+)$", stripped):
+            imports.append(stripped)
+    return imports
+
+
 def _trim_function_block(code: str, function_name: str) -> str:
     lines = code.replace("\r\n", "\n").split("\n")
     start = None
-    pattern = re.compile(rf"^\s*def\s+{re.escape(function_name)}\s*\(")
+    pattern = re.compile(
+        rf"^\s*def\s+{re.escape(function_name)}\s*\([^)]*\)\s*(?:->\s*[^:]+)?\s*:"
+    )
 
     for index, line in enumerate(lines):
         if pattern.search(line):
@@ -231,7 +354,8 @@ def _trim_function_block(code: str, function_name: str) -> str:
     if start is None:
         return ""
 
-    block = [lines[start]]
+    block = _safe_import_prefix(lines, start)
+    block.append(lines[start])
     for line in lines[start + 1 :]:
         stripped = line.strip()
         if not stripped:
@@ -258,7 +382,8 @@ def extract_python_code(generated_text: str, function_name: str) -> str:
     if not match:
         return ""
 
-    return _trim_function_block(generated_text[match.start() :], function_name)
+    prefix_start = max(0, match.start() - 500)
+    return _trim_function_block(generated_text[prefix_start:], function_name)
 
 
 UNSAFE_CALL_NAMES = {
@@ -273,6 +398,28 @@ UNSAFE_CALL_NAMES = {
     "open",
     "setattr",
 }
+SAFE_MATH_IMPORTS = {
+    "acos",
+    "asin",
+    "atan",
+    "ceil",
+    "cos",
+    "degrees",
+    "e",
+    "exp",
+    "fabs",
+    "floor",
+    "gcd",
+    "isclose",
+    "log",
+    "pi",
+    "pow",
+    "radians",
+    "sin",
+    "sqrt",
+    "tan",
+    "trunc",
+}
 
 
 def validate_code_safety(code: str) -> tuple[bool, str]:
@@ -282,8 +429,15 @@ def validate_code_safety(code: str) -> tuple[bool, str]:
         return False, f"syntax_error: {error}"
 
     for node in ast.walk(tree):
-        if isinstance(node, (ast.Import, ast.ImportFrom)):
-            return False, "imports_are_not_allowed"
+        if isinstance(node, ast.Import):
+            if any(alias.name != "math" for alias in node.names):
+                return False, "only_math_import_is_allowed"
+        if isinstance(node, ast.ImportFrom):
+            if node.module != "math":
+                return False, "only_from_math_import_is_allowed"
+            for alias in node.names:
+                if alias.name.startswith("_") or alias.name not in SAFE_MATH_IMPORTS:
+                    return False, f"unsafe_math_import: {alias.name}"
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
             if node.func.id in UNSAFE_CALL_NAMES:
                 return False, f"unsafe_call: {node.func.id}"
@@ -307,10 +461,10 @@ def run_code_tests(
     code: str,
     tests: list[dict],
     timeout_seconds: float = 3.0,
-) -> tuple[bool, str]:
+) -> tuple[bool, int, str]:
     safe, reason = validate_code_safety(code)
     if not safe:
-        return False, reason
+        return False, 0, reason
 
     runner = textwrap.dedent(
         """
@@ -320,43 +474,70 @@ def run_code_tests(
 
         code = json.loads(sys.argv[1])
         tests = json.loads(sys.argv[2])
+
+        def safe_import(name, globals=None, locals=None, fromlist=(), level=0):
+            if name != "math":
+                raise ImportError(f"blocked import: {name}")
+            return math
+
         safe_builtins = {
+            "__import__": safe_import,
             "abs": abs,
             "all": all,
             "any": any,
             "bool": bool,
             "dict": dict,
             "enumerate": enumerate,
+            "filter": filter,
             "float": float,
             "int": int,
             "len": len,
             "list": list,
+            "map": map,
             "max": max,
             "min": min,
             "range": range,
+            "reversed": reversed,
             "round": round,
             "set": set,
+            "sorted": sorted,
             "str": str,
             "sum": sum,
             "tuple": tuple,
+            "zip": zip,
             "True": True,
             "False": False,
             "None": None,
         }
-        namespace = {"__builtins__": safe_builtins}
-        exec(code, namespace)
+        namespace = {"__builtins__": safe_builtins, "math": math}
 
         def same_value(left, right):
             if isinstance(left, (int, float)) and isinstance(right, (int, float)):
                 return abs(float(left) - float(right)) <= 1e-9
             return left == right
 
-        for test in tests:
-            result = eval(test["call"], {"__builtins__": safe_builtins}, namespace)
-            if not same_value(result, test["expected"]):
-                raise AssertionError(
-                    f"{test['call']} -> {result!r}, expected {test['expected']!r}"
-                )
+        try:
+            exec(code, namespace)
+            passed = 0
+            failure = ""
+            for test in tests:
+                try:
+                    result = eval(test["call"], {"__builtins__": safe_builtins}, namespace)
+                    if same_value(result, test["expected"]):
+                        passed += 1
+                    else:
+                        failure = (
+                            f"{test['call']} -> {result!r}, "
+                            f"expected {test['expected']!r}"
+                        )
+                        break
+                except Exception as error:
+                    failure = f"{test['call']} raised {type(error).__name__}: {error}"
+                    break
+            print(json.dumps({"passed_tests": passed, "failure": failure}))
+        except Exception as error:
+            print(json.dumps({"passed_tests": 0, "failure": f"{type(error).__name__}: {error}"}))
+            sys.exit(1)
         """
     )
 
@@ -377,15 +558,26 @@ def run_code_tests(
             timeout=timeout_seconds,
         )
 
-    if completed.returncode != 0:
-        error = completed.stderr.strip() or completed.stdout.strip()
-        return False, error[:500]
+    stdout = completed.stdout.strip()
+    result = {}
+    if stdout:
+        try:
+            result = json.loads(stdout.splitlines()[-1])
+        except json.JSONDecodeError:
+            result = {}
 
-    return True, ""
+    passed_tests = int(result.get("passed_tests", 0))
+    failure = result.get("failure", "")
+    if completed.returncode != 0 and not failure:
+        failure = completed.stderr.strip() or stdout
+
+    passed = completed.returncode == 0 and passed_tests == len(tests)
+    return passed, passed_tests, failure[:500]
 
 
 def evaluate_code(task: dict, generated_text: str) -> dict:
     function_name = task["function_name"]
+    test_count = len(task.get("tests", []))
     code = extract_python_code(generated_text, function_name)
     if not code:
         return {
@@ -394,21 +586,27 @@ def evaluate_code(task: dict, generated_text: str) -> dict:
             "passed": False,
             "score": 0.0,
             "error": "code_extraction_failed",
+            "failure_reason": "code_extraction_failed",
+            "test_count": test_count,
+            "passed_tests": 0,
         }
 
     try:
-        passed, error = run_code_tests(code, task["tests"])
+        passed, passed_tests, error = run_code_tests(code, task["tests"])
     except subprocess.TimeoutExpired:
-        passed, error = False, "code_execution_timeout"
+        passed, passed_tests, error = False, 0, "code_execution_timeout"
     except Exception as error:
-        passed, error = False, f"code_execution_error: {error}"
+        passed, passed_tests, error = False, 0, f"code_execution_error: {error}"
 
     return {
         "inferred_answer": "",
         "inferred_label": "",
         "passed": passed,
-        "score": 1.0 if passed else 0.0,
+        "score": passed_tests / test_count if test_count else 0.0,
         "error": error,
+        "failure_reason": "" if passed else error or "code_tests_failed",
+        "test_count": test_count,
+        "passed_tests": passed_tests,
     }
 
 
@@ -428,11 +626,16 @@ def evaluate_task(task: dict, generated_text: str) -> dict:
         "passed": False,
         "score": 0.0,
         "error": f"unsupported_category: {category}",
+        "failure_reason": f"unsupported_category: {category}",
+        "test_count": 0,
+        "passed_tests": 0,
     }
 
 
-def _empty_task_fields(task: dict) -> dict:
+def _task_fields(task: dict) -> dict:
     return {
+        "difficulty": task.get("difficulty", ""),
+        "answer_type": task.get("answer_type", ""),
         "expected_answer": task.get("expected_answer", ""),
         "expected_label": task.get("expected_label", ""),
         "function_name": task.get("function_name", ""),
@@ -449,10 +652,19 @@ def _build_row(
     expensive_model_calls: int,
     model_metadata: dict,
     max_new_tokens: int,
+    generated_tokens: int = 0,
+    total_time_seconds: float | None = None,
 ) -> dict:
+    tokens_per_second = (
+        generated_tokens / total_time_seconds
+        if total_time_seconds and total_time_seconds > 0
+        else ""
+    )
+
     return {
         "task_id": task["id"],
         "category": task["category"],
+        "difficulty": task.get("difficulty", ""),
         "mode": mode,
         "selected_mode": selected_mode,
         "cheap_model_name": model_metadata["cheap_model_name"],
@@ -468,14 +680,20 @@ def _build_row(
         ],
         "max_new_tokens": max_new_tokens,
         "generated_text": generated_text,
-        **_empty_task_fields(task),
+        **_task_fields(task),
         "inferred_answer": evaluation["inferred_answer"],
         "inferred_label": evaluation["inferred_label"],
+        "test_count": evaluation["test_count"],
+        "passed_tests": evaluation["passed_tests"],
         "passed": evaluation["passed"],
         "score": evaluation["score"],
+        "failure_reason": evaluation["failure_reason"],
         "error": evaluation["error"],
         "estimated_saved_percent": estimated_saved,
         "expensive_model_calls": expensive_model_calls,
+        "total_time_seconds": total_time_seconds if total_time_seconds is not None else "",
+        "generated_tokens": generated_tokens,
+        "tokens_per_second": tokens_per_second,
     }
 
 
@@ -485,6 +703,20 @@ def _generation_from_summary(summary: dict) -> tuple[str, float, int]:
         summary["estimated_saved_percent"],
         summary["expensive_model_calls"],
     )
+
+
+def _sync_if_cuda(device: str):
+    if str(device).startswith("cuda") and torch.cuda.is_available():
+        torch.cuda.synchronize()
+
+
+def _measure_generation(device: str, generation_fn):
+    _sync_if_cuda(device)
+    start = time.perf_counter()
+    result = generation_fn()
+    _sync_if_cuda(device)
+    elapsed = time.perf_counter() - start
+    return result, elapsed
 
 
 def run_task_evaluation(
@@ -497,7 +729,8 @@ def run_task_evaluation(
     torch_dtype: str = "auto",
     prompt_format: str = "auto",
     models=None,
-) -> tuple[list[dict], list[dict]]:
+    include_latency: bool = False,
+) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
     tasks = load_eval_tasks(dataset_path)
 
     if models is None:
@@ -542,14 +775,17 @@ def run_task_evaluation(
         prompt = task["prompt"]
         mode_summaries = {}
 
-        expensive_text, expensive_tokens = generate_greedy_with_model(
-            prompt=prompt,
-            model=expensive_model,
-            tokenizer=expensive_tokenizer,
-            device=device,
-            max_new_tokens=max_new_tokens,
-            temperature=temperature,
-            prompt_format=prompt_format,
+        (expensive_text, expensive_tokens), expensive_time = _measure_generation(
+            device,
+            lambda: generate_greedy_with_model(
+                prompt=prompt,
+                model=expensive_model,
+                tokenizer=expensive_tokenizer,
+                device=device,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                prompt_format=prompt_format,
+            ),
         )
         evaluation = evaluate_task(task, expensive_text)
         rows.append(
@@ -563,17 +799,22 @@ def run_task_evaluation(
                 expensive_model_calls=expensive_tokens,
                 model_metadata=model_metadata,
                 max_new_tokens=max_new_tokens,
+                generated_tokens=expensive_tokens,
+                total_time_seconds=expensive_time if include_latency else None,
             )
         )
 
-        cheap_text, cheap_tokens = generate_greedy_with_model(
-            prompt=prompt,
-            model=cheap_model,
-            tokenizer=cheap_tokenizer,
-            device=device,
-            max_new_tokens=max_new_tokens,
-            temperature=temperature,
-            prompt_format=prompt_format,
+        (cheap_text, cheap_tokens), cheap_time = _measure_generation(
+            device,
+            lambda: generate_greedy_with_model(
+                prompt=prompt,
+                model=cheap_model,
+                tokenizer=cheap_tokenizer,
+                device=device,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                prompt_format=prompt_format,
+            ),
         )
         cheap_saved = estimated_saved_percent(
             total_generated_tokens=cheap_tokens,
@@ -592,6 +833,8 @@ def run_task_evaluation(
                 expensive_model_calls=0,
                 model_metadata=model_metadata,
                 max_new_tokens=max_new_tokens,
+                generated_tokens=cheap_tokens,
+                total_time_seconds=cheap_time if include_latency else None,
             )
         )
 
@@ -600,18 +843,21 @@ def run_task_evaluation(
             "adaptive_guarded_v3",
             "speculative_adaptive",
         ):
-            summary = generate_with_mode(
-                prompt=prompt,
-                mode=mode,
-                cheap_model=cheap_model,
-                expensive_model=expensive_model,
-                tokenizer=tokenizer,
-                device=device,
-                cheap_model_name=cheap_model_name,
-                expensive_model_name=expensive_model_name,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                prompt_format=prompt_format,
+            summary, mode_time = _measure_generation(
+                device,
+                lambda mode=mode: generate_with_mode(
+                    prompt=prompt,
+                    mode=mode,
+                    cheap_model=cheap_model,
+                    expensive_model=expensive_model,
+                    tokenizer=tokenizer,
+                    device=device,
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    prompt_format=prompt_format,
+                ),
             )
             mode_summaries[mode] = summary
             generated_text, saved, expensive_calls = _generation_from_summary(
@@ -629,12 +875,33 @@ def run_task_evaluation(
                     expensive_model_calls=expensive_calls,
                     model_metadata=model_metadata,
                     max_new_tokens=max_new_tokens,
+                    generated_tokens=summary.get("total_generated_tokens", 0),
+                    total_time_seconds=mode_time if include_latency else None,
                 )
             )
 
         prompt_type = classify_prompt(prompt)
         selected_mode = choose_mode(prompt_type, prompt)
-        hybrid_summary = mode_summaries[selected_mode]
+        if include_latency:
+            hybrid_summary, hybrid_time = _measure_generation(
+                device,
+                lambda: generate_with_mode(
+                    prompt=prompt,
+                    mode=selected_mode,
+                    cheap_model=cheap_model,
+                    expensive_model=expensive_model,
+                    tokenizer=tokenizer,
+                    device=device,
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    prompt_format=prompt_format,
+                ),
+            )
+        else:
+            hybrid_summary = mode_summaries[selected_mode]
+            hybrid_time = None
         generated_text, saved, expensive_calls = _generation_from_summary(
             hybrid_summary
         )
@@ -650,10 +917,34 @@ def run_task_evaluation(
                 expensive_model_calls=expensive_calls,
                 model_metadata=model_metadata,
                 max_new_tokens=max_new_tokens,
+                generated_tokens=hybrid_summary.get("total_generated_tokens", 0),
+                total_time_seconds=hybrid_time if include_latency else None,
             )
         )
 
-    return rows, summarize_task_evaluation(rows)
+    return (
+        rows,
+        summarize_task_evaluation(rows),
+        summarize_task_evaluation_by_difficulty(rows),
+        summarize_task_evaluation_overall(rows),
+    )
+
+
+def _summary_from_group(group: list[dict], extra: dict) -> dict:
+    count = len(group)
+    passed = sum(1 for row in group if row["passed"])
+    score_sum = sum(float(row["score"]) for row in group)
+    saved_sum = sum(float(row["estimated_saved_percent"]) for row in group)
+    calls_sum = sum(float(row["expensive_model_calls"]) for row in group)
+
+    return {
+        **extra,
+        "count": count,
+        "pass_rate": passed / count if count else 0.0,
+        "avg_score": score_sum / count if count else 0.0,
+        "avg_estimated_saved_percent": saved_sum / count if count else 0.0,
+        "avg_expensive_model_calls": calls_sum / count if count else 0.0,
+    }
 
 
 def summarize_task_evaluation(rows: list[dict]) -> list[dict]:
@@ -667,25 +958,191 @@ def summarize_task_evaluation(rows: list[dict]) -> list[dict]:
         grouped.items(),
         key=lambda item: (item[0][0], mode_order.get(item[0][1], 999)),
     ):
-        count = len(group)
-        passed = sum(1 for row in group if row["passed"])
-        score_sum = sum(float(row["score"]) for row in group)
-        saved_sum = sum(float(row["estimated_saved_percent"]) for row in group)
-        calls_sum = sum(float(row["expensive_model_calls"]) for row in group)
-
         summary_rows.append(
+            _summary_from_group(
+                group,
+                {
+                    "category": category,
+                    "mode": mode,
+                },
+            )
+        )
+
+    return summary_rows
+
+
+def summarize_task_evaluation_by_difficulty(rows: list[dict]) -> list[dict]:
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[(row["category"], row["difficulty"], row["mode"])].append(row)
+
+    difficulty_order = {"easy": 0, "medium": 1, "hard": 2}
+    mode_order = {mode: index for index, mode in enumerate(TASK_MODES)}
+    summary_rows = []
+    for (category, difficulty, mode), group in sorted(
+        grouped.items(),
+        key=lambda item: (
+            item[0][0],
+            difficulty_order.get(item[0][1], 999),
+            mode_order.get(item[0][2], 999),
+        ),
+    ):
+        summary_rows.append(
+            _summary_from_group(
+                group,
+                {
+                    "category": category,
+                    "difficulty": difficulty,
+                    "mode": mode,
+                },
+            )
+        )
+
+    return summary_rows
+
+
+def summarize_task_evaluation_overall(rows: list[dict]) -> list[dict]:
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[row["mode"]].append(row)
+
+    mode_order = {mode: index for index, mode in enumerate(TASK_MODES)}
+    summary_rows = []
+    for mode, group in sorted(
+        grouped.items(),
+        key=lambda item: mode_order.get(item[0], 999),
+    ):
+        summary_rows.append(
+            _summary_from_group(
+                group,
+                {
+                    "mode": mode,
+                },
+            )
+        )
+
+    return summary_rows
+
+
+def _as_float(value, default: float = 0.0) -> float:
+    if value == "" or value is None:
+        return default
+    return float(value)
+
+
+def build_task_quality_latency_report(rows: list[dict]) -> list[dict]:
+    baselines = {}
+    for row in rows:
+        if row["mode"] == "expensive_only":
+            baselines[row["task_id"]] = _as_float(row["total_time_seconds"])
+
+    report_rows = []
+    for row in rows:
+        total_time = _as_float(row["total_time_seconds"])
+        baseline = baselines.get(row["task_id"], 0.0)
+        if baseline > 0 and total_time > 0:
+            speedup = 100 * (1 - total_time / baseline)
+        else:
+            speedup = 0.0
+
+        report_rows.append(
             {
-                "category": category,
-                "mode": mode,
+                "task_id": row["task_id"],
+                "category": row["category"],
+                "difficulty": row["difficulty"],
+                "mode": row["mode"],
+                "selected_mode": row["selected_mode"],
+                "passed": row["passed"],
+                "score": row["score"],
+                "total_time_seconds": total_time,
+                "expensive_only_seconds": baseline,
+                "real_speedup_vs_expensive_percent": speedup,
+                "generated_tokens": row["generated_tokens"],
+                "tokens_per_second": _as_float(row["tokens_per_second"]),
+                "estimated_saved_percent": row["estimated_saved_percent"],
+                "expensive_model_calls": row["expensive_model_calls"],
+                "cheap_model_name": row["cheap_model_name"],
+                "expensive_model_name": row["expensive_model_name"],
+                "device": row["device"],
+                "torch_dtype": row["torch_dtype"],
+                "prompt_format": row["prompt_format"],
+                "failure_reason": row["failure_reason"],
+                "generated_text": row["generated_text"],
+            }
+        )
+
+    return report_rows
+
+
+def summarize_task_quality_latency(
+    report_rows: list[dict],
+    group_fields: tuple[str, ...] = ("mode",),
+) -> list[dict]:
+    grouped = defaultdict(list)
+    for row in report_rows:
+        grouped[tuple(row[field] for field in group_fields)].append(row)
+
+    mode_order = {mode: index for index, mode in enumerate(TASK_MODES)}
+    difficulty_order = {"easy": 0, "medium": 1, "hard": 2}
+
+    def sort_key(item):
+        key = item[0]
+        parts = []
+        for field, value in zip(group_fields, key):
+            if field == "mode":
+                parts.append(mode_order.get(value, 999))
+            elif field == "difficulty":
+                parts.append(difficulty_order.get(value, 999))
+            else:
+                parts.append(value)
+        return tuple(parts)
+
+    summary_rows = []
+    for key, group in sorted(grouped.items(), key=sort_key):
+        count = len(group)
+        passed = sum(1 for row in group if row["passed"] is True or row["passed"] == "True")
+        score_sum = sum(_as_float(row["score"]) for row in group)
+        time_sum = sum(_as_float(row["total_time_seconds"]) for row in group)
+        speedup_sum = sum(
+            _as_float(row["real_speedup_vs_expensive_percent"]) for row in group
+        )
+        saved_sum = sum(_as_float(row["estimated_saved_percent"]) for row in group)
+        calls_sum = sum(_as_float(row["expensive_model_calls"]) for row in group)
+
+        summary = {field: value for field, value in zip(group_fields, key)}
+        summary.update(
+            {
                 "count": count,
                 "pass_rate": passed / count if count else 0.0,
                 "avg_score": score_sum / count if count else 0.0,
+                "avg_total_time_seconds": time_sum / count if count else 0.0,
+                "avg_real_speedup_vs_expensive_percent": (
+                    speedup_sum / count if count else 0.0
+                ),
                 "avg_estimated_saved_percent": saved_sum / count if count else 0.0,
                 "avg_expensive_model_calls": calls_sum / count if count else 0.0,
             }
         )
+        summary_rows.append(summary)
 
     return summary_rows
+
+
+def build_task_quality_latency_outputs(
+    rows: list[dict],
+) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
+    report_rows = build_task_quality_latency_report(rows)
+    summary_rows = summarize_task_quality_latency(report_rows, ("mode",))
+    by_category_rows = summarize_task_quality_latency(
+        report_rows,
+        ("category", "mode"),
+    )
+    by_difficulty_rows = summarize_task_quality_latency(
+        report_rows,
+        ("difficulty", "mode"),
+    )
+
+    return report_rows, summary_rows, by_category_rows, by_difficulty_rows
 
 
 def print_task_evaluation_report(summary_rows: list[dict]):
@@ -712,16 +1169,86 @@ def print_task_evaluation_report(summary_rows: list[dict]):
     print()
 
 
+def print_task_evaluation_overall_report(overall_rows: list[dict]):
+    print("Overall by mode")
+    print("=" * 72)
+    header = (
+        f"{'mode':<22} | {'pass_rate':>9} | {'avg_score':>9} | "
+        f"{'avg_saved':>10} | {'calls':>7}"
+    )
+    print(header)
+    print("-" * len(header))
+    for row in overall_rows:
+        print(
+            f"{row['mode']:<22} | "
+            f"{row['pass_rate']:>8.2%} | "
+            f"{row['avg_score']:>9.3f} | "
+            f"{row['avg_estimated_saved_percent']:>9.2f}% | "
+            f"{row['avg_expensive_model_calls']:>7.2f}"
+        )
+    print("=" * 72)
+    print()
+
+
+def print_task_quality_latency_report(summary_rows: list[dict]):
+    print("Task Quality-Latency Report")
+    print("=" * 104)
+    header = (
+        f"{'mode':<22} | {'pass_rate':>9} | {'avg_speedup':>11} | "
+        f"{'avg_saved':>10} | {'avg_calls':>9} | {'avg_time':>9}"
+    )
+    print(header)
+    print("-" * len(header))
+    for row in summary_rows:
+        print(
+            f"{row['mode']:<22} | "
+            f"{row['pass_rate']:>8.2%} | "
+            f"{row['avg_real_speedup_vs_expensive_percent']:>10.2f}% | "
+            f"{row['avg_estimated_saved_percent']:>9.2f}% | "
+            f"{row['avg_expensive_model_calls']:>9.2f} | "
+            f"{row['avg_total_time_seconds']:>9.3f}"
+        )
+    print("=" * 104)
+    print()
+
+
 def save_task_evaluation_outputs(
     rows: list[dict],
     summary_rows: list[dict],
+    difficulty_rows: list[dict],
+    overall_rows: list[dict],
     output_dir: str | Path = "results",
-) -> tuple[Path, Path]:
+) -> tuple[Path, Path, Path, Path]:
     output_path = Path(output_dir)
     detailed_csv = output_path / "task_evaluation.csv"
     summary_csv = output_path / "task_evaluation_summary.csv"
+    difficulty_csv = output_path / "task_evaluation_by_difficulty.csv"
+    overall_csv = output_path / "task_evaluation_overall.csv"
 
     save_csv(rows, str(detailed_csv))
     save_csv(summary_rows, str(summary_csv))
+    save_csv(difficulty_rows, str(difficulty_csv))
+    save_csv(overall_rows, str(overall_csv))
 
-    return detailed_csv, summary_csv
+    return detailed_csv, summary_csv, difficulty_csv, overall_csv
+
+
+def save_task_quality_latency_outputs(
+    report_rows: list[dict],
+    summary_rows: list[dict],
+    by_category_rows: list[dict],
+    by_difficulty_rows: list[dict],
+    output_dir: str | Path = "results",
+) -> tuple[Path, Path, Path, Path]:
+    output_path = Path(output_dir)
+    report_csv = output_path / "task_quality_latency_report.csv"
+    summary_csv = output_path / "task_quality_latency_summary.csv"
+    by_category_csv = output_path / "task_quality_latency_by_category.csv"
+    by_difficulty_csv = output_path / "task_quality_latency_by_difficulty.csv"
+
+    save_csv(report_rows, str(report_csv))
+    save_csv(summary_rows, str(summary_csv))
+    save_csv(by_category_rows, str(by_category_csv))
+    save_csv(by_difficulty_rows, str(by_difficulty_csv))
+
+    return report_csv, summary_csv, by_category_csv, by_difficulty_csv

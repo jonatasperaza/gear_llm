@@ -7,8 +7,12 @@ from gear_llm.config import (
     TORCH_DTYPE_CHOICES,
 )
 from gear_llm.task_evaluation import (
+    build_task_quality_latency_outputs,
+    print_task_evaluation_overall_report,
     print_task_evaluation_report,
+    print_task_quality_latency_report,
     run_task_evaluation,
+    save_task_quality_latency_outputs,
     save_task_evaluation_outputs,
 )
 
@@ -74,10 +78,15 @@ def main():
         default="data/eval_tasks.jsonl",
         help="Task evaluation JSONL dataset.",
     )
+    parser.add_argument(
+        "--include-latency",
+        action="store_true",
+        help="Measure generation latency and save task quality-latency reports.",
+    )
 
     args = parser.parse_args()
 
-    rows, summary_rows = run_task_evaluation(
+    rows, summary_rows, difficulty_rows, overall_rows = run_task_evaluation(
         dataset_path=args.dataset,
         cheap_model_name=args.cheap_model,
         expensive_model_name=args.expensive_model,
@@ -86,15 +95,48 @@ def main():
         device=args.device,
         torch_dtype=args.torch_dtype,
         prompt_format=args.prompt_format,
+        include_latency=args.include_latency,
     )
     print_task_evaluation_report(summary_rows)
-    detailed_csv, summary_csv = save_task_evaluation_outputs(
-        rows=rows,
-        summary_rows=summary_rows,
-        output_dir=args.output_dir,
+    print_task_evaluation_overall_report(overall_rows)
+    detailed_csv, summary_csv, difficulty_csv, overall_csv = (
+        save_task_evaluation_outputs(
+            rows=rows,
+            summary_rows=summary_rows,
+            difficulty_rows=difficulty_rows,
+            overall_rows=overall_rows,
+            output_dir=args.output_dir,
+        )
     )
-    print(f"task_csv       -> {detailed_csv}")
-    print(f"task_summary   -> {summary_csv}")
+    print(f"task_csv        -> {detailed_csv}")
+    print(f"task_summary    -> {summary_csv}")
+    print(f"task_difficulty -> {difficulty_csv}")
+    print(f"task_overall    -> {overall_csv}")
+
+    if args.include_latency:
+        (
+            latency_rows,
+            latency_summary_rows,
+            latency_by_category_rows,
+            latency_by_difficulty_rows,
+        ) = build_task_quality_latency_outputs(rows)
+        print_task_quality_latency_report(latency_summary_rows)
+        (
+            report_csv,
+            latency_summary_csv,
+            latency_category_csv,
+            latency_difficulty_csv,
+        ) = save_task_quality_latency_outputs(
+            report_rows=latency_rows,
+            summary_rows=latency_summary_rows,
+            by_category_rows=latency_by_category_rows,
+            by_difficulty_rows=latency_by_difficulty_rows,
+            output_dir=args.output_dir,
+        )
+        print(f"task_ql_report  -> {report_csv}")
+        print(f"task_ql_summary -> {latency_summary_csv}")
+        print(f"task_ql_category-> {latency_category_csv}")
+        print(f"task_ql_diff    -> {latency_difficulty_csv}")
 
 
 if __name__ == "__main__":

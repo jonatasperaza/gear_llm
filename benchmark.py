@@ -87,8 +87,12 @@ from gear_llm.teacher_calibration import (
     threshold_grid_search,
 )
 from gear_llm.task_evaluation import (
+    build_task_quality_latency_outputs,
+    print_task_evaluation_overall_report,
     print_task_evaluation_report,
+    print_task_quality_latency_report,
     run_task_evaluation,
+    save_task_quality_latency_outputs,
     save_task_evaluation_outputs,
 )
 
@@ -578,6 +582,11 @@ def main():
         help="Roda avaliacao task-specific de math, logic e code.",
     )
     parser.add_argument(
+        "--include-latency",
+        action="store_true",
+        help="Inclui latencia real na avaliacao task-specific.",
+    )
+    parser.add_argument(
         "--dataset",
         type=str,
         default="data/prompts.jsonl",
@@ -962,6 +971,7 @@ def main():
                 device=args.device,
                 torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
+                include_latency=args.include_latency,
             )
             print_quality_benchmark_report(quality_rows)
             save_quality_benchmark(quality_rows, quality_csv)
@@ -1131,7 +1141,12 @@ def main():
             print(f"{'latency_win':<15} -> {latency_winners_csv}")
 
         if args.task_evaluation:
-            task_rows, task_summary_rows = run_task_evaluation(
+            (
+                task_rows,
+                task_summary_rows,
+                task_difficulty_rows,
+                task_overall_rows,
+            ) = run_task_evaluation(
                 dataset_path=task_dataset,
                 cheap_model_name=args.cheap_model,
                 expensive_model_name=args.expensive_model,
@@ -1142,13 +1157,48 @@ def main():
                 prompt_format=args.prompt_format,
             )
             print_task_evaluation_report(task_summary_rows)
-            task_csv, task_summary_csv = save_task_evaluation_outputs(
+            print_task_evaluation_overall_report(task_overall_rows)
+            (
+                task_csv,
+                task_summary_csv,
+                task_difficulty_csv,
+                task_overall_csv,
+            ) = save_task_evaluation_outputs(
                 rows=task_rows,
                 summary_rows=task_summary_rows,
+                difficulty_rows=task_difficulty_rows,
+                overall_rows=task_overall_rows,
                 output_dir=output_dir,
             )
             print(f"{'task_csv':<15} -> {task_csv}")
             print(f"{'task_summary':<15} -> {task_summary_csv}")
+            print(f"{'task_diff':<15} -> {task_difficulty_csv}")
+            print(f"{'task_overall':<15} -> {task_overall_csv}")
+
+            if args.include_latency:
+                (
+                    latency_rows,
+                    latency_summary_rows,
+                    latency_by_category_rows,
+                    latency_by_difficulty_rows,
+                ) = build_task_quality_latency_outputs(task_rows)
+                print_task_quality_latency_report(latency_summary_rows)
+                (
+                    report_csv,
+                    latency_summary_csv,
+                    latency_category_csv,
+                    latency_difficulty_csv,
+                ) = save_task_quality_latency_outputs(
+                    report_rows=latency_rows,
+                    summary_rows=latency_summary_rows,
+                    by_category_rows=latency_by_category_rows,
+                    by_difficulty_rows=latency_by_difficulty_rows,
+                    output_dir=output_dir,
+                )
+                print(f"{'task_ql_report':<15} -> {report_csv}")
+                print(f"{'task_ql_sum':<15} -> {latency_summary_csv}")
+                print(f"{'task_ql_cat':<15} -> {latency_category_csv}")
+                print(f"{'task_ql_diff':<15} -> {latency_difficulty_csv}")
 
         return
 
@@ -1506,6 +1556,7 @@ def main():
             device=args.device,
             torch_dtype=args.torch_dtype,
             prompt_format=args.prompt_format,
+            include_latency=args.include_latency,
         )
         print_quality_benchmark_report(quality_rows)
         save_quality_benchmark(quality_rows, quality_csv)
@@ -1679,7 +1730,12 @@ def main():
         print(f"{'latency_win':<15} -> {latency_winners_csv}")
 
     if args.task_evaluation and model_work_requested:
-        task_rows, task_summary_rows = run_task_evaluation(
+        (
+            task_rows,
+            task_summary_rows,
+            task_difficulty_rows,
+            task_overall_rows,
+        ) = run_task_evaluation(
             dataset_path=task_dataset,
             cheap_model_name=args.cheap_model,
             expensive_model_name=args.expensive_model,
@@ -1690,13 +1746,48 @@ def main():
             prompt_format=args.prompt_format,
         )
         print_task_evaluation_report(task_summary_rows)
-        task_csv, task_summary_csv = save_task_evaluation_outputs(
+        print_task_evaluation_overall_report(task_overall_rows)
+        (
+            task_csv,
+            task_summary_csv,
+            task_difficulty_csv,
+            task_overall_csv,
+        ) = save_task_evaluation_outputs(
             rows=task_rows,
             summary_rows=task_summary_rows,
+            difficulty_rows=task_difficulty_rows,
+            overall_rows=task_overall_rows,
             output_dir=output_dir,
         )
         print(f"{'task_csv':<15} -> {task_csv}")
         print(f"{'task_summary':<15} -> {task_summary_csv}")
+        print(f"{'task_diff':<15} -> {task_difficulty_csv}")
+        print(f"{'task_overall':<15} -> {task_overall_csv}")
+
+        if args.include_latency:
+            (
+                latency_rows,
+                latency_summary_rows,
+                latency_by_category_rows,
+                latency_by_difficulty_rows,
+            ) = build_task_quality_latency_outputs(task_rows)
+            print_task_quality_latency_report(latency_summary_rows)
+            (
+                report_csv,
+                latency_summary_csv,
+                latency_category_csv,
+                latency_difficulty_csv,
+            ) = save_task_quality_latency_outputs(
+                report_rows=latency_rows,
+                summary_rows=latency_summary_rows,
+                by_category_rows=latency_by_category_rows,
+                by_difficulty_rows=latency_by_difficulty_rows,
+                output_dir=output_dir,
+            )
+            print(f"{'task_ql_report':<15} -> {report_csv}")
+            print(f"{'task_ql_sum':<15} -> {latency_summary_csv}")
+            print(f"{'task_ql_cat':<15} -> {latency_category_csv}")
+            print(f"{'task_ql_diff':<15} -> {latency_difficulty_csv}")
 
 
 if __name__ == "__main__":

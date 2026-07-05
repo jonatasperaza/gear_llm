@@ -1,0 +1,1434 @@
+task_id,category,difficulty,mode,selected_mode,passed,score,total_time_seconds,expensive_only_seconds,real_speedup_vs_expensive_percent,generated_tokens,tokens_per_second,estimated_saved_percent,expensive_model_calls,cheap_model_name,expensive_model_name,device,torch_dtype,prompt_format,failure_reason,generated_text
+math_001,math,easy,expensive_only,,True,1.0,1.8866692000010516,1.8866692000010516,0.0,3,1.5901038719444447,0.0,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,56
+math_001,math,easy,cheap_only,,True,1.0,0.36056939998525195,1.8866692000010516,80.88857336595886,9,24.960520777326415,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7 * 8 = 56
+math_001,math,easy,adaptive_calibrated,,True,1.0,0.6184752999979537,1.8866692000010516,67.21866769237505,9,14.551915007809976,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7 * 8 = 56
+math_001,math,easy,adaptive_guarded_v3,,True,1.0,0.5483221999893431,1.8866692000010516,70.93702489079499,9,16.413707123612575,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7 * 8 = 56
+math_001,math,easy,speculative_adaptive,,True,1.0,1.4829345000034664,1.8866692000010516,21.39933699014963,9,6.069047554007923,42.77777777777777,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7 * 8 = 56
+math_001,math,easy,hybrid,adaptive_calibrated,True,1.0,0.5067746999848168,1.8866692000010516,73.13918624502195,9,17.759371176717472,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7 * 8 = 56
+math_002,math,easy,expensive_only,,True,1.0,1.409091499983333,1.409091499983333,0.0,3,2.129031365270094,0.0,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,42
+math_002,math,easy,cheap_only,,False,0.0,0.09637660000589676,1.409091499983333,93.16037319031186,3,31.127887887894428,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,32
+math_002,math,easy,adaptive_calibrated,,True,1.0,0.7330710999958683,1.409091499983333,47.97562117119158,3,4.092372486129801,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,42
+math_002,math,easy,adaptive_guarded_v3,,True,1.0,0.7151083000062499,1.409091499983333,49.25039999072393,3,4.195168759716228,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,42
+math_002,math,easy,speculative_adaptive,,False,0.0,0.7612721000041347,1.409091499983333,45.97426071953885,3,3.940772294142536,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,32
+math_002,math,easy,hybrid,adaptive_calibrated,True,1.0,0.7094910999876447,1.409091499983333,49.64903982487747,3,4.228382850823982,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,42
+math_003,math,easy,expensive_only,,True,1.0,0.9433286999992561,0.9433286999992561,0.0,2,2.120151756224079,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7
+math_003,math,easy,cheap_only,,False,0.0,0.14118730000336654,0.9433286999992561,85.03307489706633,3,21.248370072439,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,17
+math_003,math,easy,adaptive_calibrated,,True,1.0,0.7177758000034373,0.9433286999992561,23.910318852378452,2,2.786385386621313,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7
+math_003,math,easy,adaptive_guarded_v3,,True,1.0,0.6792551999969874,0.9433286999992561,27.993794740102462,2,2.944401456196243,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7
+math_003,math,easy,speculative_adaptive,,True,1.0,1.344986100011738,0.9433286999992561,-42.578732101843045,2,1.487004215123521,-70.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7
+math_003,math,easy,hybrid,adaptive_calibrated,True,1.0,0.6822435999929439,0.9433286999992561,27.677001665116098,2,2.9315042310703756,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,7
+math_004,math,easy,expensive_only,,True,1.0,2.429187300003832,2.429187300003832,0.0,5,2.0583015562415103,0.0,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,0.75
+math_004,math,easy,cheap_only,,True,1.0,0.5233368999906816,2.429187300003832,78.45629688621145,14,26.751410038637218,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,1/2 + 1/4 = 3/4
+math_004,math,easy,adaptive_calibrated,,True,1.0,0.657676500006346,2.429187300003832,72.92606873066937,14,21.287061343783627,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,1/2 + 1/4 = 3/4
+math_004,math,easy,adaptive_guarded_v3,,True,1.0,0.6938909000018612,2.429187300003832,71.43526561328694,14,20.17608243595996,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,1/2 + 1/4 = 3/4
+math_004,math,easy,speculative_adaptive,,True,1.0,1.6933736999926623,2.429187300003832,30.290525560133187,14,8.267519449522965,50.714285714285715,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,1/2 + 1/4 = 3/4
+math_004,math,easy,hybrid,adaptive_calibrated,True,1.0,0.6647166000038851,2.429187300003832,72.63625575504875,14,21.06160730741217,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,1/2 + 1/4 = 3/4
+math_005,math,easy,expensive_only,,True,1.0,1.4042582999973092,1.4042582999973092,0.0,3,2.136359101460001,0.0,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-2
+math_005,math,easy,cheap_only,,True,1.0,0.3175258999981452,1.4042582999973092,77.38835511965615,9,28.344144525068895,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-5 is larger than -2.
+math_005,math,easy,adaptive_calibrated,,True,1.0,0.4632011999783572,1.4042582999973092,67.01453002063475,9,19.430001477587968,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-5 is larger than -2.
+math_005,math,easy,adaptive_guarded_v3,,True,1.0,0.5456661999924108,1.4042582999973092,61.14203490957066,9,16.493599933668555,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-5 is larger than -2.
+math_005,math,easy,speculative_adaptive,,True,1.0,2.1686186000006273,1.4042582999973092,-54.43160279022619,9,4.150107354053588,16.111111111111114,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-2 is larger than -5.
+math_005,math,easy,hybrid,adaptive_calibrated,True,1.0,0.4961730999930296,1.4042582999973092,64.66653606434227,9,18.138830984844674,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-5 is larger than -2.
+math_006,math,medium,expensive_only,,True,1.0,7.111365199991269,7.111365199991269,0.0,15,2.1092996320901105,0.0,15,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,f^(-1)(x) = (x-1)/5
+math_006,math,medium,cheap_only,,False,0.0,6.629404299979797,7.111365199991269,6.777332993840113,128,19.307918812613387,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,"The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) \). To find the inverse, we need to solve for \( x \) in terms of \( y \) where \( y = 5x + 1 \).
+
+Starting with the equation:
+\[ y = 5x + 1 \]
+
+We solve for \( x \):
+\[ y - 1 = 5x \]
+\[ x = \frac{y - 1}{5} \]
+
+Thus, the inverse function is:
+\[ f^{-1}(x) = \frac{x"
+math_006,math,medium,adaptive_calibrated,,True,1.0,2.2901478999992833,7.111365199991269,67.79594584733049,39,17.02946783481198,62.43589743589744,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).
+math_006,math,medium,adaptive_guarded_v3,,True,1.0,2.3254411999951117,7.111365199991269,67.29965154935418,39,16.771011023663803,62.43589743589744,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).
+math_006,math,medium,speculative_adaptive,,False,0.0,21.401943600008963,7.111365199991269,-200.95407841008134,128,5.980765223582142,50.89843750000001,17,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,"The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) \). To find the inverse, we solve for \( x \) in terms of \( y \) where \( y = 5x + 1 \).
+
+Starting with the equation:
+\[ y = 5x + 1 \]
+
+Subtract 1 from both sides:
+\[ y - 1 = 5x \]
+
+Divide both sides by 5:
+\[ x = \frac{y - 1}{5} \]
+
+Thus, the inverse function is:
+\[ f^{-1"
+math_006,math,medium,hybrid,adaptive_calibrated,True,1.0,2.215283500001533,7.111365199991269,68.84868885647649,39,17.60497019906166,62.43589743589744,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,The inverse of the function \( f(x) = 5x + 1 \) is \( f^{-1}(x) = \frac{x - 1}{5} \).
+math_007,math,medium,expensive_only,,True,1.0,2.450338599999668,2.450338599999668,0.0,5,2.0405343163596563,0.0,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,x = 4
+math_007,math,medium,cheap_only,,True,1.0,0.1990976000088267,2.450338599999668,91.8746902975428,5,25.113311259293592,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,x = 4
+math_007,math,medium,adaptive_calibrated,,True,1.0,0.30877269999473356,2.450338599999668,87.39877419411442,5,16.193141427610925,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,x = 4
+math_007,math,medium,adaptive_guarded_v3,,True,1.0,0.3403380000090692,2.450338599999668,86.11057263640562,5,14.691277494334344,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,x = 4
+math_007,math,medium,speculative_adaptive,,True,1.0,0.8235022999870125,2.450338599999668,66.39230594550793,5,6.0716284582069235,45.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,x = 4
+math_007,math,medium,hybrid,adaptive_calibrated,True,1.0,0.3255630000203382,2.450338599999668,86.71355052643001,5,15.358010583781466,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,x = 4
+math_008,math,medium,expensive_only,,True,1.0,1.4483813999977428,1.4483813999977428,0.0,3,2.0712776344716075,0.0,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,30
+math_008,math,medium,cheap_only,,False,0.0,0.5233312999771442,1.4483813999977428,63.86785276461298,14,26.751696297567968,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,20% of 150 is 30.
+math_008,math,medium,adaptive_calibrated,,True,1.0,0.7189769999822602,1.4483813999977428,50.359967341241706,3,4.172595229157569,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,30
+math_008,math,medium,adaptive_guarded_v3,,True,1.0,0.751028899976518,1.4483813999977428,48.14702122122747,3,3.994520051217469,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,30
+math_008,math,medium,speculative_adaptive,,False,0.0,1.7208286999957636,1.4483813999977428,-18.81046663526922,14,8.135615125453489,50.714285714285715,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,20% of 150 is 30.
+math_008,math,medium,hybrid,adaptive_calibrated,True,1.0,0.7163179000199307,1.4483813999977428,50.54355848390162,3,4.188084647775141,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,30
+math_009,math,medium,expensive_only,,True,1.0,1.4232352999970317,1.4232352999970317,0.0,3,2.10787351888072,0.0,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,19
+math_009,math,medium,cheap_only,,True,1.0,0.8343157999916002,1.4232352999970317,41.37892729379743,20,23.971738279679418,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"The maximum of 12, 7, and 19 is 19."
+math_009,math,medium,adaptive_calibrated,,True,1.0,0.999880999996094,1.4232352999970317,29.745910602542015,20,20.002380283331846,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"The maximum of 12, 7, and 19 is 19."
+math_009,math,medium,adaptive_guarded_v3,,True,1.0,1.074472100008279,1.4232352999970317,24.5049571205464,20,18.61379183307402,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"The maximum of 12, 7, and 19 is 19."
+math_009,math,medium,speculative_adaptive,,True,1.0,1.4609669000201393,1.4232352999970317,-2.6511146837902455,3,2.0534346123506597,-59.99999999999999,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,19
+math_009,math,medium,hybrid,adaptive_calibrated,True,1.0,0.9990552999952342,1.4232352999970317,29.80392630808708,20,20.018911866135344,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"The maximum of 12, 7, and 19 is 19."
+math_010,math,medium,expensive_only,,True,1.0,1.8869554999982938,1.8869554999982938,0.0,4,2.1198168160317596,0.0,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-24
+math_010,math,medium,cheap_only,,True,1.0,0.34684079998987727,1.8869554999982938,81.61902599238874,10,28.831671476630937,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-4 * 6 = -24
+math_010,math,medium,adaptive_calibrated,,True,1.0,0.49160009998013265,1.8869554999982938,73.94744603248051,10,20.341737116009813,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-4 * 6 = -24
+math_010,math,medium,adaptive_guarded_v3,,True,1.0,0.5151752000092529,1.8869554999982938,72.69807369544652,10,19.410872262136053,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-4 * 6 = -24
+math_010,math,medium,speculative_adaptive,,True,1.0,1.5663293999969028,1.8869554999982938,16.991714961040728,10,6.384353125223707,45.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-4 * 6 = -24
+math_010,math,medium,hybrid,adaptive_calibrated,True,1.0,0.5128600999887567,1.8869554999982938,72.8207633943026,10,19.498494814120317,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,-4 * 6 = -24
+math_011,math,hard,expensive_only,,True,1.0,8.858286400005454,8.858286400005454,0.0,18,2.0319957142036995,0.0,18,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,g^(-1)(x) = (x + 6) / 3
+math_011,math,hard,cheap_only,,True,1.0,1.523335199977737,8.858286400005454,82.80327445749779,39,25.6017191755104,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).
+math_011,math,hard,adaptive_calibrated,,True,1.0,2.299532699980773,8.858286400005454,74.04088560537672,39,16.959967562246923,62.43589743589744,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).
+math_011,math,hard,adaptive_guarded_v3,,True,1.0,2.374477899982594,8.858286400005454,73.19483935424427,39,16.42466329136434,62.43589743589744,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).
+math_011,math,hard,speculative_adaptive,,True,1.0,3.8678888000140432,8.858286400005454,56.335925196416525,18,4.6537015231499534,21.66666666666667,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,g^(-1)(x) = (x + 6) / 3
+math_011,math,hard,hybrid,adaptive_calibrated,True,1.0,2.287617900001351,8.858286400005454,74.1753901747866,39,17.048301641623354,62.43589743589744,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,The inverse of the function \( g(x) = 3x - 6 \) is \( g^{-1}(x) = \frac{x + 6}{3} \).
+math_012,math,hard,expensive_only,,True,1.0,2.908257799979765,2.908257799979765,0.0,6,2.0630908305452653,0.0,6,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,x = 16
+math_012,math,hard,cheap_only,,True,1.0,1.6775018999760505,2.908257799979765,42.31935353228582,41,24.441104955282228,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"x/2 - 3 = 5
+x/2 = 5 + 3
+x/2 = 8
+x = 8 * 2
+x = 16"
+math_012,math,hard,adaptive_calibrated,,True,1.0,2.315052900026785,2.908257799979765,20.397259828791903,41,17.710178458352132,62.5609756097561,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"x/2 - 3 = 5
+x/2 = 5 + 3
+x/2 = 8
+x = 8 * 2
+x = 16"
+math_012,math,hard,adaptive_guarded_v3,,True,1.0,3.533091899997089,2.908257799979765,-21.484825039295742,41,11.60456652713556,57.68292682926829,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"x/2 - 3 = 5
+x/2 = 5 + 3
+x/2 = 8
+x = 8 * 2
+x = 16"
+math_012,math,hard,speculative_adaptive,,True,1.0,5.3332344999944326,2.908257799979765,-83.38245323476963,41,7.687642461632392,50.36585365853659,6,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"x/2 - 3 = 5
+x/2 = 5 + 3
+x/2 = 8
+x = 8 * 2
+x = 16"
+math_012,math,hard,hybrid,adaptive_calibrated,True,1.0,2.406025399977807,2.908257799979765,17.269184320779697,41,17.04055160863147,62.5609756097561,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"x/2 - 3 = 5
+x/2 = 5 + 3
+x/2 = 8
+x = 8 * 2
+x = 16"
+math_013,math,hard,expensive_only,,False,0.0,1.8884284000087064,1.8884284000087064,0.0,4,2.1181634421413906,0.0,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,400
+math_013,math,hard,cheap_only,,False,0.0,7.492320599994855,1.8884284000087064,-296.74898979279874,128,17.08415947925238,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,"To find the original price before the discount, we can set up an equation based on the information given. Let's denote the original price by \( P \).
+
+The discount is 20%, which means the customer pays 80% of the original price. Therefore, the equation representing this situation is:
+\[ 0.80 \times P = 80 \]
+
+To find \( P \), we need to solve for \( P \) by dividing both sides of the equation by 0.80:
+\[ P = \frac{80}{0.80} \]
+
+Now, we perform the division"
+math_013,math,hard,adaptive_calibrated,,False,0.0,1.2054649000056088,1.8884284000087064,36.16570795058731,4,3.3182218743833927,15.000000000000002,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,400
+math_013,math,hard,adaptive_guarded_v3,,False,0.0,1.2192668999778107,1.8884284000087064,35.434835656348454,4,3.2806598785489833,15.000000000000002,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,400
+math_013,math,hard,speculative_adaptive,,False,0.0,1.9931576999952085,1.8884284000087064,-5.545844363811692,4,2.006865788898498,-53.75000000000001,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,400
+math_013,math,hard,hybrid,adaptive_calibrated,False,0.0,1.2648997000069357,1.8884284000087064,33.01839243674242,4,3.162306070574661,15.000000000000002,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,400
+math_014,math,hard,expensive_only,,True,1.0,1.990387500001816,1.990387500001816,0.0,4,2.0096589231977946,0.0,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,3/4
+math_014,math,hard,cheap_only,,True,1.0,0.45945129997562617,1.990387500001816,76.9164898807289,12,26.118110887131234,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,3/4 is larger than 2/3.
+math_014,math,hard,adaptive_calibrated,,True,1.0,0.6347186000202782,1.990387500001816,68.1108025437409,12,18.906015988213706,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,3/4 is larger than 2/3.
+math_014,math,hard,adaptive_guarded_v3,,True,1.0,0.6338862999982666,1.990387500001816,68.15261852289123,12,18.930839805234495,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,3/4 is larger than 2/3.
+math_014,math,hard,speculative_adaptive,,True,1.0,1.6598783000081312,1.990387500001816,16.605269074156837,12,7.22944567679523,48.33333333333334,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,3/4 is larger than 2/3.
+math_014,math,hard,hybrid,adaptive_calibrated,True,1.0,0.6614850999903865,1.990387500001816,66.76601415604836,12,18.140998187524403,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,3/4 is larger than 2/3.
+math_015,math,hard,expensive_only,,False,0.0,1.4807144000078551,1.4807144000078551,0.0,3,2.0260490476651576,0.0,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,15
+math_015,math,hard,cheap_only,,False,0.0,0.29438579999259673,1.4807144000078551,80.11866434262846,9,30.57212678134045,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,The final answer is 27.
+math_015,math,hard,adaptive_calibrated,,False,0.0,1.0013165000127628,1.4807144000078551,32.37612195792444,9,8.988167077927194,53.888888888888886,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,The final answer is 27.
+math_015,math,hard,adaptive_guarded_v3,,False,0.0,0.9861373000021558,1.4807144000078551,33.40124874878475,9,9.126518183604174,53.888888888888886,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,The final answer is 27.
+math_015,math,hard,speculative_adaptive,,False,0.0,1.961006500001531,1.4807144000078551,-32.43651172644286,3,1.5298266476922222,-105.00000000000001,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,15
+math_015,math,hard,hybrid,adaptive_calibrated,False,0.0,0.9773537000000942,1.4807144000078551,33.99444889609303,9,9.20853934455779,53.888888888888886,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,expected_answer_not_found,The final answer is 27.
+logic_001,logic,easy,expensive_only,,True,1.0,0.9494305000116583,0.9494305000116583,0.0,2,2.1065259647498595,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_001,logic,easy,cheap_only,,True,1.0,0.15809840001747943,0.9494305000116583,83.3480807688885,4,25.300698802503746,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_001,logic,easy,adaptive_calibrated,,True,1.0,0.7241632000077516,0.9494305000116583,23.726570823366277,4,5.523616775827857,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_001,logic,easy,adaptive_guarded_v3,,True,1.0,0.7400220000126865,0.9494305000116583,22.05622212435775,4,5.4052447088484215,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_001,logic,easy,speculative_adaptive,,True,1.0,0.7807186999998521,0.9494305000116583,17.769789364227773,4,5.123484297226079,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_001,logic,easy,hybrid,adaptive_calibrated,True,1.0,0.7288722000084817,0.9494305000116583,23.230589284889025,4,5.487930531516297,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_002,logic,easy,expensive_only,,True,1.0,0.9766539999982342,0.9766539999982342,0.0,2,2.047808128573288,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,allow
+logic_002,logic,easy,cheap_only,,True,1.0,0.15767409998807125,0.9766539999982342,83.85568481894752,3,19.026587120059435,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_002,logic,easy,adaptive_calibrated,,True,1.0,0.2515768999874126,0.9766539999982342,74.24093896222537,3,11.924783237849349,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_002,logic,easy,adaptive_guarded_v3,,True,1.0,0.2467338000133168,0.9766539999982342,74.7368259369477,3,12.158852981788806,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_002,logic,easy,speculative_adaptive,,True,1.0,0.7323047000099905,0.9766539999982342,25.019024136355917,2,2.731103596594034,-2.499999999999991,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow
+logic_002,logic,easy,hybrid,adaptive_calibrated,True,1.0,0.24579449999146163,0.9766539999982342,74.8330012479439,3,12.205317857414277,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_003,logic,easy,expensive_only,,True,1.0,0.9886687999824062,0.9886687999824062,0.0,2,2.0229221353355045,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_003,logic,easy,cheap_only,,True,1.0,0.18587630000547506,0.9886687999824062,81.19933591423307,4,21.5196880930069,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_003,logic,easy,adaptive_calibrated,,True,1.0,0.7537620999792125,0.9886687999824062,23.759898158753867,2,2.6533570738767,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_003,logic,easy,adaptive_guarded_v3,,True,1.0,0.7302726999914739,0.9886687999824062,26.135759517801162,2,2.7387029530521274,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_003,logic,easy,speculative_adaptive,,True,1.0,0.7766336999775376,0.9886687999824062,21.4465248633963,3,3.8628249071431853,20.000000000000004,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny
+logic_003,logic,easy,hybrid,adaptive_calibrated,True,1.0,0.7077748999872711,0.9886687999824062,28.411324399043824,2,2.8257571722817083,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_004,logic,easy,expensive_only,,True,1.0,0.9958424999786075,0.9958424999786075,0.0,2,2.0083497139788307,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,allow
+logic_004,logic,easy,cheap_only,,True,1.0,0.14132429999881424,0.9958424999786075,85.80856912595614,3,21.227771869559383,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_004,logic,easy,adaptive_calibrated,,True,1.0,0.24505779999890365,0.9958424999786075,75.39191187319602,3,12.242009844262952,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_004,logic,easy,adaptive_guarded_v3,,True,1.0,0.2517947999876924,0.9958424999786075,74.71539927316806,3,11.914463682914176,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_004,logic,easy,speculative_adaptive,,True,1.0,0.7447729999839794,0.9958424999786075,25.211767925150973,3,4.02807298339834,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_004,logic,easy,hybrid,adaptive_calibrated,True,1.0,0.25688869997975416,0.9958424999786075,74.20388264356336,3,11.67820927988049,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_005,logic,easy,expensive_only,,True,1.0,0.9308154000027571,0.9308154000027571,0.0,2,2.148653750243148,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_005,logic,easy,cheap_only,,True,1.0,0.1831841999955941,0.9308154000027571,80.32002908470879,4,21.835944366906137,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_005,logic,easy,adaptive_calibrated,,True,1.0,0.7510585999989416,0.9308154000027571,19.311756122995284,4,5.325816121412679,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_005,logic,easy,adaptive_guarded_v3,,True,1.0,0.7940807000268251,0.9308154000027571,14.689776294582902,4,5.037271400582932,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_005,logic,easy,speculative_adaptive,,True,1.0,0.7864444000006188,0.9308154000027571,15.5101645290474,4,5.086182824872112,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_005,logic,easy,hybrid,adaptive_calibrated,True,1.0,0.7505302999925334,0.9308154000027571,19.36851281249641,4,5.32956497564428,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_006,logic,medium,expensive_only,,True,1.0,0.9337874999910127,0.9337874999910127,0.0,2,2.1418149204388035,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_006,logic,medium,cheap_only,,True,1.0,1.6031682000029832,0.9337874999910127,-71.68447853697045,39,24.32682983602558,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny. Access should not be allowed unless explicitly authorized by the account owner or administrator. Suspended accounts are typically not allowed access to certain resources or features unless they have been reinstated.
+logic_006,logic,medium,adaptive_calibrated,,True,1.0,1.2131563999864738,0.9337874999910127,-29.917823915842725,15,12.364440397105636,58.333333333333336,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny. Access should not be allowed unless the account is suspended.
+logic_006,logic,medium,adaptive_guarded_v3,,True,1.0,1.1739073999924585,0.9337874999910127,-25.714619225868507,15,12.777839206138715,58.333333333333336,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny. Access should not be allowed unless the account is suspended.
+logic_006,logic,medium,speculative_adaptive,,True,1.0,0.8500989000021946,0.9337874999910127,8.962274606334276,4,4.70533487337729,22.500000000000007,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_006,logic,medium,hybrid,adaptive_calibrated,True,1.0,1.238626900012605,0.9337874999910127,-32.64547876519295,15,12.110184269247949,58.333333333333336,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny. Access should not be allowed unless the account is suspended.
+logic_007,logic,medium,expensive_only,,True,1.0,0.9330771999957506,0.9330771999957506,0.0,2,2.143445365516496,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,allow
+logic_007,logic,medium,cheap_only,,True,1.0,0.10526509999181144,0.9330771999957506,88.71850046359606,3,28.499474186918263,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_007,logic,medium,adaptive_calibrated,,True,1.0,0.23614359999191947,0.9330771999957506,74.69195475004695,3,12.70413426450116,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_007,logic,medium,adaptive_guarded_v3,,True,1.0,0.26933089998783544,0.9330771999957506,71.13519653153438,3,11.138714496314748,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_007,logic,medium,speculative_adaptive,,True,1.0,0.7328276000043843,0.9330771999957506,21.46120385240131,3,4.09373227752619,31.66666666666667,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_007,logic,medium,hybrid,adaptive_calibrated,True,1.0,0.27940250001847744,0.9330771999957506,70.05580031108359,3,10.737198127438388,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Allow.
+logic_008,logic,medium,expensive_only,,True,1.0,0.9402195999864489,0.9402195999864489,0.0,2,2.127162633100635,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_008,logic,medium,cheap_only,,False,0.0,0.11185220000334084,0.9402195999864489,88.10360898613973,3,26.821108569258314,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_008,logic,medium,adaptive_calibrated,,False,0.0,0.22823369997786358,0.9402195999864489,75.72549008963937,3,13.144421705869775,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_008,logic,medium,adaptive_guarded_v3,,False,0.0,0.23444090000703,0.9402195999864489,75.06530389172818,3,12.79640199261324,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_008,logic,medium,speculative_adaptive,,True,1.0,1.4282502999994904,0.9402195999864489,-51.906033443684365,2,1.4003147767591673,-70.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,deny
+logic_008,logic,medium,hybrid,adaptive_calibrated,False,0.0,0.2422769000113476,0.9402195999864489,74.23188157162014,3,12.38252594390752,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_009,logic,medium,expensive_only,,True,1.0,1.4113257999997586,1.4113257999997586,0.0,3,2.125660850244864,0.0,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny
+logic_009,logic,medium,cheap_only,,True,1.0,0.20163419999880716,1.4113257999997586,85.71313583306976,4,19.837904482591064,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_009,logic,medium,adaptive_calibrated,,True,1.0,0.31955919999745674,1.4113257999997586,77.35751730766125,4,12.5172425016455,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_009,logic,medium,adaptive_guarded_v3,,True,1.0,0.2990091000101529,1.4113257999997586,78.81360207471556,4,13.37751927905933,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_009,logic,medium,speculative_adaptive,,True,1.0,0.8255222000007052,1.4113257999997586,41.507325948349674,4,4.84541784581515,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_009,logic,medium,hybrid,adaptive_calibrated,True,1.0,0.31313279998721555,1.4113257999997586,77.81286220465401,4,12.774132892380837,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_010,logic,medium,expensive_only,,True,1.0,0.9381222999945749,0.9381222999945749,0.0,2,2.1319181944737546,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_010,logic,medium,cheap_only,,False,0.0,0.07961810001870617,0.9381222999945749,91.51303619803446,2,25.119916194057666,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow
+logic_010,logic,medium,adaptive_calibrated,,True,1.0,0.6718089999922086,0.9381222999945749,28.38790848526961,2,2.977036628004679,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_010,logic,medium,adaptive_guarded_v3,,True,1.0,0.6902350999880582,0.9381222999945749,26.423761593552374,2,2.897563453430001,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_010,logic,medium,speculative_adaptive,,True,1.0,1.2674475000239909,0.9381222999945749,-35.10471929207104,2,1.5779746300830158,-52.49999999999999,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_010,logic,medium,hybrid,adaptive_calibrated,True,1.0,0.664819700003136,0.9381222999945749,29.132939275936565,2,3.0083344401355223,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_011,logic,hard,expensive_only,,True,1.0,32.817385800008196,32.817385800008196,0.0,59,1.7978275405466715,0.0,59,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Based on the policy you've described, the user is both active and flagged. According to the policy:
+
+- Allow if active
+- Deny if flagged
+- Deny overrides allow
+
+Since the user is flagged, the policy dictates to deny access. Therefore, the answer is:
+
+deny"
+logic_011,logic,hard,cheap_only,,True,1.0,0.14327649999177083,32.817385800008196,99.56341281762992,4,27.918046575884688,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_011,logic,hard,adaptive_calibrated,,True,1.0,6.820195900014369,32.817385800008196,79.2177355576791,43,6.304804235888504,44.06976744186047,9,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Deny
+
+Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action."
+logic_011,logic,hard,adaptive_guarded_v3,,True,1.0,6.78043380001327,32.817385800008196,79.33889724997054,43,6.341777129350609,44.06976744186047,9,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Deny
+
+Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action."
+logic_011,logic,hard,speculative_adaptive,,True,1.0,0.7668825000000652,32.817385800008196,97.66318223921458,4,5.215922908658967,40.0,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,Deny.
+logic_011,logic,hard,hybrid,adaptive_calibrated,True,1.0,6.663098599994555,32.817385800008196,79.6964370026302,43,6.453453953095507,44.06976744186047,9,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Deny
+
+Explanation: According to the policy, if the user is active and flagged, the deny action overrides the allow action. This means that the deny action is applied in the absence of an allow action."
+logic_012,logic,hard,expensive_only,,True,1.0,23.399398400011705,23.399398400011705,0.0,42,1.794917941137281,0.0,42,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Based on the information provided, the user is an admin and a legal hold exists. According to the rule that admin override permits access unless a legal hold exists, the access should be **denied**."
+logic_012,logic,hard,cheap_only,,False,0.0,0.1127363000123296,23.399398400011705,99.51820855354865,3,26.610772215088662,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_012,logic,hard,adaptive_calibrated,,False,0.0,0.2337106000049971,23.399398400011705,99.00121107385017,3,12.8363882508361,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_012,logic,hard,adaptive_guarded_v3,,False,0.0,0.23968559998320416,23.399398400011705,98.97567622942356,3,12.516396480265078,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_012,logic,hard,speculative_adaptive,,False,0.0,10.12879340001382,23.399398400011705,56.713445248195995,50,4.936422140857546,25.599999999999994,12,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,"Based on the information provided, the user is an admin and a legal hold exists. According to the rule that admin overrides permits access unless a legal hold exists, the user should be allowed access in this scenario. Therefore, the answer is:
+
+Allow"
+logic_012,logic,hard,hybrid,adaptive_calibrated,False,0.0,0.24311320000560954,23.399398400011705,98.96102798948246,3,12.339930534132982,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_allow,Allow.
+logic_013,logic,hard,expensive_only,,True,1.0,1.0588159000035375,1.0588159000035375,0.0,2,1.888902499474477,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_013,logic,hard,cheap_only,,True,1.0,1.2140276999853086,1.0588159000035375,-14.658997846674993,31,25.53483746736186,64.99999999999999,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Based on the information provided, the manager approved the data export, but the user's active status is unknown. Therefore, the correct answer is:
+
+unknown"
+logic_013,logic,hard,adaptive_calibrated,,True,1.0,0.719620500021847,1.0588159000035375,32.03535194178302,2,2.77924267018419,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_013,logic,hard,adaptive_guarded_v3,,True,1.0,0.7107065000163857,1.0588159000035375,32.877235786314586,2,2.8141011795359816,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_013,logic,hard,speculative_adaptive,,True,1.0,1.6429631999926642,1.0588159000035375,-55.169864750536426,2,1.2173127188782622,-122.49999999999997,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_013,logic,hard,hybrid,adaptive_calibrated,True,1.0,0.7287613000080455,1.0588159000035375,31.17204794472668,2,2.7443828314949217,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_014,logic,hard,expensive_only,,False,0.0,0.9786084999796003,0.9786084999796003,0.0,2,2.0437181978714585,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,inferred_depends,depends
+logic_014,logic,hard,cheap_only,,True,1.0,0.07946419998188503,0.9786084999796003,91.87987842088624,2,25.168566479696867,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_014,logic,hard,adaptive_calibrated,,True,1.0,0.2050271000189241,0.9786084999796003,79.04911923172565,2,9.754808022039033,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_014,logic,hard,adaptive_guarded_v3,,True,1.0,0.21393430000171065,0.9786084999796003,78.1389288968806,2,9.348664519826917,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_014,logic,hard,speculative_adaptive,,True,1.0,0.7947020999854431,0.9786084999796003,18.792642818654336,2,2.516666308087817,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_014,logic,hard,hybrid,adaptive_calibrated,True,1.0,0.2128155000100378,0.9786084999796003,78.25325449201861,2,9.397811719097842,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_015,logic,hard,expensive_only,,True,1.0,1.0760930000105873,1.0760930000105873,0.0,2,1.8585754205076352,0.0,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_015,logic,hard,cheap_only,,True,1.0,0.08551480001187883,1.0760930000105873,92.0532147304148,2,23.387764453897812,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_015,logic,hard,adaptive_calibrated,,True,1.0,0.20238179998705164,1.0760930000105873,81.19290804929867,2,9.882311552362712,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_015,logic,hard,adaptive_guarded_v3,,True,1.0,0.24361440000939183,1.0760930000105873,77.36121320304147,2,8.209695321470717,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_015,logic,hard,speculative_adaptive,,True,1.0,0.7847962999949232,1.0760930000105873,27.069844336204973,2,2.548431994407897,15.000000000000002,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+logic_015,logic,hard,hybrid,adaptive_calibrated,True,1.0,0.22601419998682104,1.0760930000105873,78.99677816093987,2,8.84900152342915,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,unknown
+code_001,code,easy,expensive_only,,True,1.0,8.159418600000208,8.159418600000208,0.0,17,2.083481781410206,0.0,17,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def soma(a, b):
+    return a + b
+```"
+code_001,code,easy,cheap_only,,True,1.0,0.6134006999782287,8.159418600000208,92.48229892288879,17,27.714347245778132,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def soma(a, b):
+    return a + b
+```"
+code_001,code,easy,adaptive_calibrated,,True,1.0,1.2797449999779928,8.159418600000208,84.31573298644146,17,13.28389640146462,59.117647058823536,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def soma(a, b):
+    return a + b
+```"
+code_001,code,easy,adaptive_guarded_v3,,True,1.0,1.2109623000142165,8.159418600000208,85.15871829379871,17,14.038422170368493,59.117647058823536,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def soma(a, b):
+    return a + b
+```"
+code_001,code,easy,speculative_adaptive,,True,1.0,2.359336900000926,8.159418600000208,71.08449736846612,17,7.2054143687547665,47.352941176470594,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def soma(a, b):
+    return a + b
+```"
+code_001,code,easy,hybrid,speculative_adaptive,True,1.0,2.382262599974638,8.159418600000208,70.8035251436349,17,7.136073076150793,47.352941176470594,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def soma(a, b):
+    return a + b
+```"
+code_002,code,easy,expensive_only,,True,1.0,9.894271500001196,9.894271500001196,0.0,20,2.021371659348299,0.0,20,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def is_even(n):
+    return n % 2 == 0
+```"
+code_002,code,easy,cheap_only,,True,1.0,2.591425899998285,9.894271500001196,73.80882564221154,62,23.925052227054238,64.99999999999999,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Args:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+```"
+code_002,code,easy,adaptive_calibrated,,True,1.0,4.100102500000503,9.894271500001196,58.56084503037937,62,15.121573180180835,61.77419354838709,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Args:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+```"
+code_002,code,easy,adaptive_guarded_v3,,True,1.0,3.6771069999958854,9.894271500001196,62.83600060908536,62,16.86108127940508,61.77419354838709,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def is_even(n):
+    """"""
+    Check if the given number n is even.
+
+    Args:
+    n (int): The number to check.
+
+    Returns:
+    bool: True if n is even, False otherwise.
+    """"""
+    return n % 2 == 0
+```"
+code_002,code,easy,speculative_adaptive,,True,1.0,3.311185500002466,9.894271500001196,66.53431735724993,20,6.040132756073347,38.00000000000001,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def is_even(n):
+    return n % 2 == 0
+```"
+code_002,code,easy,hybrid,speculative_adaptive,True,1.0,3.306246899999678,9.894271500001196,66.5842310876624,20,6.049155010172394,38.00000000000001,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def is_even(n):
+    return n % 2 == 0
+```"
+code_003,code,easy,expensive_only,,True,1.0,7.569468500005314,7.569468500005314,0.0,16,2.113754750414612,0.0,16,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def reverse_string(s):
+    return s[::-1]
+```"
+code_003,code,easy,cheap_only,,True,1.0,4.235205299977679,7.569468500005314,44.048841738694,91,21.486561702328718,65.00000000000001,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def reverse_string(s):
+    """"""
+    Reverses the given string.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+print(f""Original: {original_string}"")
+print(f""Reversed: {reversed_string}"")
+```"
+code_003,code,easy,adaptive_calibrated,,True,1.0,5.2955337000021245,7.569468500005314,30.04087803524902,85,16.0512622174354,61.470588235294116,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def reverse_string(s):
+    """"""
+    Reverses the given string s.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+print(reversed_string)  # Output: ""olleh""
+```"
+code_003,code,easy,adaptive_guarded_v3,,True,1.0,5.259043300000485,7.569468500005314,30.52295151242398,85,16.162635512050674,61.470588235294116,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def reverse_string(s):
+    """"""
+    Reverses the given string s.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+original_string = ""hello""
+reversed_string = reverse_string(original_string)
+print(reversed_string)  # Output: ""olleh""
+```"
+code_003,code,easy,speculative_adaptive,,True,1.0,10.541059600014705,7.569468500005314,-39.257592524591445,79,7.4945027348,48.41772151898734,11,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def reverse_string(s):
+    """"""
+    Reverses the given string s.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+reversed_string = reverse_string(""hello"")
+print(reversed_string)  # Output: ""olleh""
+```"
+code_003,code,easy,hybrid,speculative_adaptive,True,1.0,10.37916270000278,7.569468500005314,-37.11877789035643,79,7.611403952650134,48.41772151898734,11,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def reverse_string(s):
+    """"""
+    Reverses the given string s.
+
+    Parameters:
+    s (str): The string to be reversed.
+
+    Returns:
+    str: The reversed string.
+    """"""
+    return s[::-1]
+
+# Example usage:
+reversed_string = reverse_string(""hello"")
+print(reversed_string)  # Output: ""olleh""
+```"
+code_004,code,easy,expensive_only,,True,1.0,7.122238399984781,7.122238399984781,0.0,15,2.1060794595182397,0.0,15,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def sum_list(values):
+    return sum(values)
+```"
+code_004,code,easy,cheap_only,,True,1.0,4.074637799989432,7.122238399984781,42.78992682977112,90,22.087852814852262,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def sum_list(values):
+    """"""
+    Calculate the sum of a list of numbers.
+
+    Args:
+    values (list): A list of numbers.
+
+    Returns:
+    int: The sum of the list of numbers.
+    """"""
+    return sum(values)
+
+# Example usage:
+numbers = [1, 2, 3, 4, 5]
+print(sum_list(numbers))  # Output: 15
+```"
+code_004,code,easy,adaptive_calibrated,,True,1.0,5.6734182999935,7.122238399984781,20.342201687525318,89,15.687191617812134,61.62921348314607,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def sum_list(values):
+    """"""
+    Calculate the sum of a list of numbers.
+
+    Args:
+    values (list): A list of numbers.
+
+    Returns:
+    int: The sum of the list elements.
+    """"""
+    return sum(values)
+
+# Example usage:
+numbers = [1, 2, 3, 4, 5]
+print(sum_list(numbers))  # Output: 15
+```"
+code_004,code,easy,adaptive_guarded_v3,,True,1.0,7.5973765999951866,7.122238399984781,-6.671192023162575,89,11.714570000394135,58.258426966292134,6,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def sum_list(values):
+    """"""
+    Calculate the sum of a list of numbers.
+
+    Args:
+    values (list): A list of numbers.
+
+    Returns:
+    int: The sum of the list elements.
+    """"""
+    return sum(values)
+
+# Example usage:
+numbers = [1, 2, 3, 4, 5]
+print(sum_list(numbers))  # Output: 15
+```"
+code_004,code,easy,speculative_adaptive,,True,1.0,2.499293000000762,7.122238399984781,64.9086023292045,15,6.001697279988952,35.66666666666667,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def sum_list(values):
+    return sum(values)
+```"
+code_004,code,easy,hybrid,speculative_adaptive,True,1.0,2.53680189998704,7.122238399984781,64.381957503803,15,5.9129567823473455,35.66666666666667,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def sum_list(values):
+    return sum(values)
+```"
+code_005,code,easy,expensive_only,,True,1.0,12.33261750001111,12.33261750001111,0.0,24,1.9460588962544552,0.0,24,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def max_of_three(a, b, c):
+    return max(a, b, c)
+```"
+code_005,code,easy,cheap_only,,True,1.0,6.739105500018923,12.33261750001111,45.35543245371186,128,18.993618663432496,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def max_of_three(a, b, c):
+    """"""
+    This function takes three numbers as input and returns the largest of them.
+    
+    Parameters:
+    a (int/float): The first number.
+    b (int/float): The second number.
+    c (int/float): The third number.
+    
+    Returns:
+    int/float: The largest of the three numbers.
+    """"""
+    return max(a, b, c)
+
+# Example usage:
+result = max_of_three(10, 20, 30)
+print(result)  # Output: 30
+```"
+code_005,code,easy,adaptive_calibrated,,True,1.0,6.943453899992164,12.33261750001111,43.698457363281484,92,13.249889943116612,60.65217391304348,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def max_of_three(a, b, c):
+    """"""
+    Returns the largest value among three numbers.
+
+    Parameters:
+    a (int/float): The first number.
+    b (int/float): The second number.
+    c (int/float): The third number.
+
+    Returns:
+    int/float: The largest number among a, b, and c.
+    """"""
+    return max(a, b, c)
+```"
+code_005,code,easy,adaptive_guarded_v3,,True,1.0,9.256146400002763,12.33261750001111,24.945808138504066,92,9.939341495287126,57.391304347826086,7,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def max_of_three(a, b, c):
+    """"""
+    Returns the largest value among three numbers.
+
+    Parameters:
+    a (int/float): The first number.
+    b (int/float): The second number.
+    c (int/float): The third number.
+
+    Returns:
+    int/float: The largest number among a, b, and c.
+    """"""
+    return max(a, b, c)
+```"
+code_005,code,easy,speculative_adaptive,,True,1.0,4.211921400012216,12.33261750001111,65.84730370492377,24,5.698112030279196,33.958333333333336,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def max_of_three(a, b, c):
+    return max(a, b, c)
+```"
+code_005,code,easy,hybrid,speculative_adaptive,True,1.0,4.222588500007987,12.33261750001111,65.76080868474043,24,5.683717463815052,33.958333333333336,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def max_of_three(a, b, c):
+    return max(a, b, c)
+```"
+code_006,code,medium,expensive_only,,True,1.0,34.42036459999508,34.42036459999508,0.0,63,1.830311814884407,0.0,63,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def factorial(n):
+    if n < 0:
+        return None
+    elif n == 0:
+        return 1
+    else:
+        result = 1
+        for i in range(1, n + 1):
+            result *= i
+        return result
+```"
+code_006,code,medium,cheap_only,,True,1.0,3.3386534999881405,34.42036459999508,90.30035405264528,78,23.3627119436854,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def factorial(n):
+    """"""
+    Calculate the factorial of a given number n.
+
+    Parameters:
+    n (int): A non-negative integer whose factorial is to be calculated.
+
+    Returns:
+    int: The factorial of n.
+    """"""
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+```"
+code_006,code,medium,adaptive_calibrated,,True,1.0,9.420237900019856,34.42036459999508,72.6317893215425,128,13.587767247335675,61.09375,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def factorial(n):
+    """"""
+    Calculate the factorial of a given number n for n >= 0.
+    
+    Parameters:
+    n (int): A non-negative integer whose factorial is to be calculated.
+    
+    Returns:
+    int: The factorial of n.
+    
+    Examples:
+    >>> factorial(5)
+    120
+    >>> factorial(0)
+    1
+    >>> factorial(3)
+    6
+    """"""
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+# Check function to verify the correctness of the"
+code_006,code,medium,adaptive_guarded_v3,,True,1.0,12.2307932000258,34.42036459999508,64.46640428664271,128,10.465388295481112,58.75,8,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def factorial(n):
+    """"""
+    Calculate the factorial of a given number n for n >= 0.
+    
+    Parameters:
+    n (int): A non-negative integer whose factorial is to be calculated.
+    
+    Returns:
+    int: The factorial of n.
+    
+    Examples:
+    >>> factorial(5)
+    120
+    >>> factorial(0)
+    1
+    >>> factorial(3)
+    6
+    """"""
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+# Check function to verify the correctness of the"
+code_006,code,medium,speculative_adaptive,,True,1.0,10.216941699996823,34.42036459999508,70.31716015001687,78,7.634378495085692,52.17948717948718,10,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def factorial(n):
+    """"""
+    Calculate the factorial of a given number n.
+
+    Parameters:
+    n (int): A non-negative integer whose factorial is to be calculated.
+
+    Returns:
+    int: The factorial of n.
+    """"""
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+```"
+code_006,code,medium,hybrid,speculative_adaptive,True,1.0,10.251060000009602,34.42036459999508,70.21803772522775,78,7.608969218785856,52.17948717948718,10,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def factorial(n):
+    """"""
+    Calculate the factorial of a given number n.
+
+    Parameters:
+    n (int): A non-negative integer whose factorial is to be calculated.
+
+    Returns:
+    int: The factorial of n.
+    """"""
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+```"
+code_007,code,medium,expensive_only,,True,1.0,22.185135100007756,22.185135100007756,0.0,40,1.8030090788126873,0.0,40,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def count_vowels(s):
+    vowels = ""aeiou""
+    count = sum(1 for char in s if char.lower() in vowels)
+    return count
+```"
+code_007,code,medium,cheap_only,,True,1.0,7.782138699985808,22.185135100007756,64.92183317836506,128,16.447920672530987,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def count_vowels(s):
+    """"""
+    Count the number of vowels in a given string, ignoring case.
+
+    Parameters:
+    s (str): The input string to count vowels in.
+
+    Returns:
+    int: The number of vowels in the input string.
+    """"""
+    vowels = 'aeiouAEIOU'
+    count = 0
+    for char in s:
+        if char in vowels:
+            count += 1
+    return count
+
+# Check function with provided data points
+def check_function():
+    test_cases = [
+        (""Hello World"", 3),
+        (""AEIOUae"
+code_007,code,medium,adaptive_calibrated,,True,1.0,14.777238899987424,22.185135100007756,33.391260258846664,128,8.6619699976637,56.40625,11,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def count_vowels(s):
+    """"""
+    Counts the number of vowels in a given string, ignoring case.
+
+    Parameters:
+    s (str): The input string.
+
+    Returns:
+    int: The number of vowels in the string.
+    """"""
+    vowels = 'aeiouAEIOU'
+    return sum(1 for char in s.lower() if char in vowels)
+
+# Check function with provided data points
+def check_function():
+    test_cases = [
+        (""Hello World"", 3),
+        (""AEIOUaeiou"", 10),
+        (""Python Programming"", 4),
+        (""1"
+code_007,code,medium,adaptive_guarded_v3,,True,1.0,15.392483600007836,22.185135100007756,30.618030809276185,128,8.31574704422195,56.40625,11,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def count_vowels(s):
+    """"""
+    Counts the number of vowels in a given string, ignoring case.
+
+    Parameters:
+    s (str): The input string.
+
+    Returns:
+    int: The number of vowels in the string.
+    """"""
+    vowels = 'aeiouAEIOU'
+    return sum(1 for char in s.lower() if char in vowels)
+
+# Check function with provided data points
+def check_function():
+    test_cases = [
+        (""Hello World"", 3),
+        (""AEIOUaeiou"", 10),
+        (""Python Programming"", 4),
+        (""1"
+code_007,code,medium,speculative_adaptive,,True,1.0,5.626133199984906,22.185135100007756,74.64007690454434,36,6.398710929932584,40.555555555555564,6,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def count_vowels(s):
+    vowels = 'aeiouAEIOU'
+    return sum(1 for char in s if char in vowels)
+```"
+code_007,code,medium,hybrid,adaptive_calibrated,True,1.0,15.027509800012922,22.185135100007756,32.26315849657517,128,8.517711963155062,56.40625,11,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def count_vowels(s):
+    """"""
+    Counts the number of vowels in a given string, ignoring case.
+
+    Parameters:
+    s (str): The input string.
+
+    Returns:
+    int: The number of vowels in the string.
+    """"""
+    vowels = 'aeiouAEIOU'
+    return sum(1 for char in s.lower() if char in vowels)
+
+# Check function with provided data points
+def check_function():
+    test_cases = [
+        (""Hello World"", 3),
+        (""AEIOUaeiou"", 10),
+        (""Python Programming"", 4),
+        (""1"
+code_008,code,medium,expensive_only,,True,1.0,12.122984399989946,12.122984399989946,0.0,23,1.8972226013933562,0.0,23,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def clamp(x, low, high):
+    return max(low, min(x, high))
+```"
+code_008,code,medium,cheap_only,,True,1.0,4.515958700008923,12.122984399989946,62.74878733645266,92,20.37219693789897,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def clamp(x, low, high):
+    """"""
+    Clamps a value x to the inclusive range [low, high].
+
+    Parameters:
+    x (float): The value to be clamped.
+    low (float): The lower bound of the range.
+    high (float): The upper bound of the range.
+
+    Returns:
+    float: The clamped value.
+    """"""
+    return max(low, min(x, high))
+```"
+code_008,code,medium,adaptive_calibrated,,True,1.0,5.598589599976549,12.122984399989946,53.818388152168275,91,16.254093709669515,62.80219780219781,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def clamp(x, low, high):
+    """"""
+    Limits the value x to the inclusive range [low, high].
+
+    Parameters:
+    x (float): The value to be clamped.
+    low (float): The lower bound of the range.
+    high (float): The upper bound of the range.
+
+    Returns:
+    float: The clamped value.
+    """"""
+    return max(low, min(x, high))
+```"
+code_008,code,medium,adaptive_guarded_v3,,True,1.0,6.756454699992901,12.122984399989946,44.267397556013485,91,13.46860210579013,60.60439560439561,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def clamp(x, low, high):
+    """"""
+    Limits the value x to the inclusive range [low, high].
+
+    Parameters:
+    x (float): The value to be clamped.
+    low (float): The lower bound of the range.
+    high (float): The upper bound of the range.
+
+    Returns:
+    float: The clamped value.
+    """"""
+    return max(low, min(x, high))
+```"
+code_008,code,medium,speculative_adaptive,,True,1.0,3.3556871000037063,12.122984399989946,72.31962865508193,23,6.854035943927727,46.08695652173914,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def clamp(x, low, high):
+    return max(low, min(x, high))
+```"
+code_008,code,medium,hybrid,adaptive_calibrated,True,1.0,5.366959000006318,12.122984399989946,55.72906123668056,91,16.95559813292646,62.80219780219781,2,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def clamp(x, low, high):
+    """"""
+    Limits the value x to the inclusive range [low, high].
+
+    Parameters:
+    x (float): The value to be clamped.
+    low (float): The lower bound of the range.
+    high (float): The upper bound of the range.
+
+    Returns:
+    float: The clamped value.
+    """"""
+    return max(low, min(x, high))
+```"
+code_009,code,medium,expensive_only,,True,1.0,14.44120319999638,14.44120319999638,0.0,28,1.9388966149307434,0.0,28,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fahrenheit_to_celsius(f):
+    return (f - 32) * 5/9
+```"
+code_009,code,medium,cheap_only,,True,1.0,3.4105570999963675,14.44120319999638,76.38315137067511,80,23.456578398902984,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fahrenheit_to_celsius(fahrenheit):
+    """"""
+    Convert a temperature from Fahrenheit to Celsius.
+
+    Parameters:
+    fahrenheit (float): The temperature in Fahrenheit.
+
+    Returns:
+    float: The temperature in Celsius.
+    """"""
+    celsius = (fahrenheit - 32) * 5.0 / 9.0
+    return celsius
+```"
+code_009,code,medium,adaptive_calibrated,,True,1.0,3.680991000001086,14.44120319999638,74.51049646609773,75,20.374947942002,63.666666666666664,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fahrenheit_to_celsius(fahrenheit):
+    """"""
+    Convert a temperature from Fahrenheit to Celsius.
+
+    Parameters:
+    fahrenheit (float): The temperature in Fahrenheit.
+
+    Returns:
+    float: The temperature in Celsius.
+    """"""
+    celsius = (fahrenheit - 32) * 5/9
+    return celsius
+```"
+code_009,code,medium,adaptive_guarded_v3,,True,1.0,4.299773900012951,14.44120319999638,70.22565335820474,75,17.442777630650323,63.666666666666664,1,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fahrenheit_to_celsius(fahrenheit):
+    """"""
+    Convert a temperature from Fahrenheit to Celsius.
+
+    Parameters:
+    fahrenheit (float): The temperature in Fahrenheit.
+
+    Returns:
+    float: The temperature in Celsius.
+    """"""
+    celsius = (fahrenheit - 32) * 5/9
+    return celsius
+```"
+code_009,code,medium,speculative_adaptive,,True,1.0,4.5453943999891635,14.44120319999638,68.52482208691376,34,7.480098976687493,50.29411764705883,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fahrenheit_to_celsius(fahrenheit):
+    return (fahrenheit - 32) * 5.0/9.0
+```"
+code_009,code,medium,hybrid,speculative_adaptive,True,1.0,4.483294199977536,14.44120319999638,68.954843042589,34,7.583709318065801,50.29411764705883,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fahrenheit_to_celsius(fahrenheit):
+    return (fahrenheit - 32) * 5.0/9.0
+```"
+code_010,code,medium,expensive_only,,True,1.0,17.900706700020237,17.900706700020237,0.0,33,1.8435026366843212,0.0,33,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def safe_divide(a, b):
+    if b == 0:
+        return None
+    else:
+        return a / b
+```"
+code_010,code,medium,cheap_only,,True,1.0,4.293170699995244,17.900706700020237,76.01675301461484,88,20.497670870645205,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def safe_divide(a, b):
+    """"""
+    Safely divides two numbers, handling division by zero.
+
+    Parameters:
+    a (float): The numerator.
+    b (float): The denominator.
+
+    Returns:
+    float: The result of the division if b is not zero, otherwise None.
+    """"""
+    if b == 0:
+        return None
+    else:
+        return a / b
+```"
+code_010,code,medium,adaptive_calibrated,,True,1.0,5.942399199993815,17.900706700020237,66.80354971691091,91,15.313680036860315,61.703296703296715,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def safe_divide(a, b):
+    """"""
+    Safely divides a by b, returning None if b is zero.
+
+    Parameters:
+    a (float): The numerator.
+    b (float): The denominator.
+
+    Returns:
+    float: The result of the division if b is not zero, otherwise None.
+    """"""
+    if b == 0:
+        return None
+    else:
+        return a / b
+```"
+code_010,code,medium,adaptive_guarded_v3,,True,1.0,6.866936499980511,17.900706700020237,61.63874077679432,91,13.251906436044408,60.60439560439561,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def safe_divide(a, b):
+    """"""
+    Safely divides a by b, returning None if b is zero.
+
+    Parameters:
+    a (float): The numerator.
+    b (float): The denominator.
+
+    Returns:
+    float: The result of the division if b is not zero, otherwise None.
+    """"""
+    if b == 0:
+        return None
+    else:
+        return a / b
+```"
+code_010,code,medium,speculative_adaptive,,True,1.0,4.524400299997069,17.900706700020237,74.72501853800021,33,7.293784327620476,48.787878787878796,5,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def safe_divide(a, b):
+    if b == 0:
+        return None
+    else:
+        return a / b
+```"
+code_010,code,medium,hybrid,adaptive_calibrated,True,1.0,5.978583699994488,17.900706700020237,66.60140965279471,91,15.220996236965606,61.703296703296715,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def safe_divide(a, b):
+    """"""
+    Safely divides a by b, returning None if b is zero.
+
+    Parameters:
+    a (float): The numerator.
+    b (float): The denominator.
+
+    Returns:
+    float: The result of the division if b is not zero, otherwise None.
+    """"""
+    if b == 0:
+        return None
+    else:
+        return a / b
+```"
+code_011,code,hard,expensive_only,,True,1.0,94.2874822000158,94.2874822000158,0.0,128,1.357550302684597,0.0,128,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Certainly! Below is a Python function `remove_duplicates` that removes duplicates from a list while preserving the order of elements:
+
+```python
+def remove_duplicates(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+```
+
+You can use this function to remove duplicates from any list. For example:
+
+```python
+my_list = [1, 2, 3, 2, 4, 3, 5]
+print(remove_duplicates(my_list))  # Output: [1, 2,"
+code_011,code,hard,cheap_only,,True,1.0,7.015344900020864,94.2874822000158,92.5596221933905,128,18.2457173274003,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Certainly! Below is a Python function named `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
+
+```python
+def remove_duplicates(values):
+    """"""
+    Removes duplicates from a list while preserving the original order of elements.
+
+    Parameters:
+    values (list): The list from which duplicates are to be removed.
+
+    Returns:
+    list: A new list with duplicates removed, preserving the original order.
+    """"""
+    seen = set()
+    result = []
+    for value in values:
+        if value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+# Example usage:
+"
+code_011,code,hard,adaptive_calibrated,,True,1.0,9.586406600021292,94.2874822000158,89.83278970194021,128,13.352239826726702,60.3125,6,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Certainly! Below is a Python function `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
+
+```python
+def remove_duplicates(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+# Example usage:
+values = [1, 2, 2, 3, 4, 4, 5]
+print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
+```
+
+### Explanation:
+1. **"
+code_011,code,hard,adaptive_guarded_v3,,True,1.0,11.667804700002307,94.2874822000158,87.62528765456806,128,10.970358459974454,58.75,8,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Certainly! Below is a Python function `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
+
+```python
+def remove_duplicates(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+# Example usage:
+values = [1, 2, 2, 3, 4, 4, 5]
+print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
+```
+
+### Explanation:
+1. **"
+code_011,code,hard,speculative_adaptive,,True,1.0,20.793820099992445,94.2874822000158,77.94636189787984,128,6.155675070019794,50.89843750000001,17,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Certainly! Below is a Python function named `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
+
+```python
+def remove_duplicates(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+# Example usage:
+values = [1, 2, 2, 3, 4, 4, 5]
+print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
+```
+
+### Explanation:
+1."
+code_011,code,hard,hybrid,speculative_adaptive,True,1.0,20.692683000001125,94.2874822000158,78.0536265078063,128,6.185761411412577,50.89843750000001,17,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"Certainly! Below is a Python function named `remove_duplicates` that removes duplicates from a list while preserving the original order of elements:
+
+```python
+def remove_duplicates(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value not in seen:
+            seen.add(value)
+            result.append(value)
+    return result
+
+# Example usage:
+values = [1, 2, 2, 3, 4, 4, 5]
+print(remove_duplicates(values))  # Output: [1, 2, 3, 4, 5]
+```
+
+### Explanation:
+1."
+code_012,code,hard,expensive_only,,True,1.0,12.07233890000498,12.07233890000498,0.0,23,1.9051817705341683,0.0,23,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def palindrome(s):
+    s = s.lower()
+    return s == s[::-1]
+```"
+code_012,code,hard,cheap_only,,True,1.0,7.087280400010059,12.07233890000498,41.293228605377074,128,18.060524316184573,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def palindrome(s):
+    """"""
+    Check if the given string s is a palindrome, ignoring case.
+    
+    Parameters:
+    s (str): The string to check.
+    
+    Returns:
+    bool: True if s is a palindrome, False otherwise.
+    """"""
+    # Convert the string to lowercase and remove non-alphanumeric characters
+    cleaned_s = ''.join(char.lower() for char in s if char.isalnum())
+    
+    # Check if the cleaned string is equal to its reverse
+    return cleaned_s == cleaned_s[::-1]
+
+# Check function to verify the correctness of the solution
+def check_palindrome():
+"
+code_012,code,hard,adaptive_calibrated,,True,1.0,8.484949999983655,12.07233890000498,29.71577363537934,128,15.085533798106832,62.65625,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def palindrome(s):
+    """"""
+    Check if the given string s is a palindrome, ignoring case.
+    
+    Args:
+    s (str): The string to check.
+    
+    Returns:
+    bool: True if s is a palindrome, False otherwise.
+    """"""
+    # Convert the string to lowercase and remove non-alphanumeric characters
+    cleaned_s = ''.join(char.lower() for char in s if char.isalnum())
+    
+    # Check if the cleaned string is equal to its reverse
+    return cleaned_s == cleaned_s[::-1]
+
+# Example usage
+print(palindrome(""A man, a plan, a"
+code_012,code,hard,adaptive_guarded_v3,,True,1.0,12.163547000003746,12.07233890000498,-0.7555130845335212,128,10.523246220856514,58.75,8,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def palindrome(s):
+    """"""
+    Check if the given string s is a palindrome, ignoring case.
+    
+    Args:
+    s (str): The string to check.
+    
+    Returns:
+    bool: True if s is a palindrome, False otherwise.
+    """"""
+    # Convert the string to lowercase and remove non-alphanumeric characters
+    cleaned_s = ''.join(char.lower() for char in s if char.isalnum())
+    
+    # Check if the cleaned string is equal to its reverse
+    return cleaned_s == cleaned_s[::-1]
+
+# Example usage
+print(palindrome(""A man, a plan, a"
+code_012,code,hard,speculative_adaptive,,True,1.0,7.3231083000137005,12.07233890000498,39.3397720137671,47,6.41803972773584,42.02127659574468,8,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def palindrome(s):
+    s = s.lower()  # Convert the string to lowercase to ignore case sensitivity
+    return s == s[::-1]  # Check if the string is equal to its reverse
+```"
+code_012,code,hard,hybrid,adaptive_calibrated,True,1.0,8.357655500003602,12.07233890000498,30.770204769515253,128,15.315299846942104,62.65625,3,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def palindrome(s):
+    """"""
+    Check if the given string s is a palindrome, ignoring case.
+    
+    Args:
+    s (str): The string to check.
+    
+    Returns:
+    bool: True if s is a palindrome, False otherwise.
+    """"""
+    # Convert the string to lowercase and remove non-alphanumeric characters
+    cleaned_s = ''.join(char.lower() for char in s if char.isalnum())
+    
+    # Check if the cleaned string is equal to its reverse
+    return cleaned_s == cleaned_s[::-1]
+
+# Example usage
+print(palindrome(""A man, a plan, a"
+code_013,code,hard,expensive_only,,True,1.0,13.87668479999411,13.87668479999411,0.0,27,1.9457096842043613,0.0,27,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def get_initials(name):
+    return ''.join(word[0].upper() for word in name.split())
+```"
+code_013,code,hard,cheap_only,,False,0.0,6.891141800006153,13.87668479999411,50.34014320186131,125,18.139229118734487,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","```python
+def get_initials(name):
+    """"""
+    Returns the uppercase initials for each word in the given name.
+    
+    Parameters:
+    name (str): The name to be processed.
+    
+    Returns:
+    str: The initials of each word in the name, in uppercase.
+    """"""
+    return ''.join(word.capitalize() for word in name.split())
+
+# Example usage:
+print(get_initials(""Alice""))  # Output: ""ALICE""
+print(get_initials(""Bob""))    # Output: ""BOB""
+print(get_initials(""Charlie""))  # Output: ""CHARLIE""
+```"
+code_013,code,hard,adaptive_calibrated,,False,0.0,12.89472450001631,13.87668479999411,7.076332093226023,118,9.151029166993894,54.83050847457627,12,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","```python
+def get_initials(name):
+    """"""
+    Returns the uppercase initials for each word in the given name.
+    
+    Parameters:
+    name (str): The name to get the initials from.
+    
+    Returns:
+    str: The initials of the name.
+    """"""
+    return ''.join(word.capitalize() for word in name.split())
+
+# Example usage:
+print(get_initials(""Alice""))  # Output: ""AL""
+print(get_initials(""Bob""))    # Output: ""BOB""
+print(get_initials(""Charlie""))  # Output: ""CH""
+```"
+code_013,code,hard,adaptive_guarded_v3,,False,0.0,15.079019099997822,13.87668479999411,-8.66442033766035,118,7.825442704029538,53.13559322033898,14,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","```python
+def get_initials(name):
+    """"""
+    Returns the uppercase initials for each word in the given name.
+    
+    Parameters:
+    name (str): The name to get the initials from.
+    
+    Returns:
+    str: The initials of the name.
+    """"""
+    return ''.join(word.capitalize() for word in name.split())
+
+# Example usage:
+print(get_initials(""Alice""))  # Output: ""AL""
+print(get_initials(""Bob""))    # Output: ""BOB""
+print(get_initials(""Charlie""))  # Output: ""CH""
+```"
+code_013,code,hard,speculative_adaptive,,False,0.0,3.3032852000033017,13.87668479999411,76.19542961727642,20,6.054578635831992,39.75000000000001,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","```python
+def get_initials(name):
+    return name.title().replace("" "", """")
+```"
+code_013,code,hard,hybrid,speculative_adaptive,False,0.0,3.265788999997312,13.87668479999411,76.46563968939685,20,6.124094361275778,39.75000000000001,4,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"get_initials(""Ada Lovelace"") -> 'AdaLovelace', expected 'AL'","```python
+def get_initials(name):
+    return name.title().replace("" "", """")
+```"
+code_014,code,hard,expensive_only,,True,1.0,37.60759770000004,37.60759770000004,0.0,66,1.7549645294147551,0.0,66,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fizzbuzz_value(n):
+    if n % 15 == 0:
+        return ""FizzBuzz""
+    elif n % 3 == 0:
+        return ""Fizz""
+    elif n % 5 == 0:
+        return ""Buzz""
+    else:
+        return str(n)
+```"
+code_014,code,hard,cheap_only,,False,0.0,7.2918920000083745,37.60759770000004,80.61058816312438,128,17.55374325344547,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"syntax_error: invalid syntax (<unknown>, line 9)","```python
+def fizzbuzz_value(n):
+    """"""
+    This function takes an integer n and returns FizzBuzz, Fizz, Buzz, or the number as a string.
+    FizzBuzz is a game where the numbers from 1 to n are used, and the first and third numbers are replaced by 'Fizz' and 'Buzz' respectively.
+    The second and fourth numbers are replaced by 'Fizz' and 'Buzz' respectively, and so on.
+    """"""
+    if n % 3 == 0 and n % 5 == 0:
+        return ""FizzBuzz""
+    elif n % 3 == "
+code_014,code,hard,adaptive_calibrated,,True,1.0,10.217861799988896,37.60759770000004,72.8303257190265,128,12.527082720979756,60.3125,6,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fizzbuzz_value(n):
+    """"""
+    Returns FizzBuzz, Fizz, Buzz, or the number as a string.
+    
+    Parameters:
+    n (int): The number to be evaluated.
+    
+    Returns:
+    str: The FizzBuzz value or the number itself.
+    """"""
+    if n % 3 == 0 and n % 5 == 0:
+        return ""FizzBuzz""
+    elif n % 3 == 0:
+        return ""Fizz""
+    elif n % 5 == 0:
+        return ""Buzz""
+    else:
+        return str(n)
+
+# Example usage"
+code_014,code,hard,adaptive_guarded_v3,,True,1.0,13.679152500000782,37.60759770000004,63.62662510612645,128,9.357304847649932,57.1875,10,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fizzbuzz_value(n):
+    """"""
+    Returns FizzBuzz, Fizz, Buzz, or the number as a string.
+    
+    Parameters:
+    n (int): The number to be evaluated.
+    
+    Returns:
+    str: The FizzBuzz value or the number itself.
+    """"""
+    if n % 3 == 0 and n % 5 == 0:
+        return ""FizzBuzz""
+    elif n % 3 == 0:
+        return ""Fizz""
+    elif n % 5 == 0:
+        return ""Buzz""
+    else:
+        return str(n)
+
+# Example usage"
+code_014,code,hard,speculative_adaptive,,False,0.0,22.561902299989015,37.60759770000004,40.007063253633476,128,5.673280483980392,50.3515625,17,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"syntax_error: expected an indented block after 'if' statement on line 15 (<unknown>, line 15)","```python
+def fizzbuzz_value(n):
+    """"""
+    This function takes an integer n and returns:
+    - Fizz if n is divisible by 3
+    - Buzz if n is divisible by 5
+    - FizzBuzz if n is divisible by both 3 and 5
+    - The number itself as a string if none of the above conditions are met
+    
+    Parameters:
+    n (int): The integer to check
+    
+    Returns:
+    str: The result of the FizzBuzz logic for n
+    """"""
+    if n % 3 == 0 and n % 5 == 0:
+"
+code_014,code,hard,hybrid,adaptive_calibrated,True,1.0,9.8865718000161,37.60759770000004,73.71123814160538,128,12.946853832568289,60.3125,6,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,,"```python
+def fizzbuzz_value(n):
+    """"""
+    Returns FizzBuzz, Fizz, Buzz, or the number as a string.
+    
+    Parameters:
+    n (int): The number to be evaluated.
+    
+    Returns:
+    str: The FizzBuzz value or the number itself.
+    """"""
+    if n % 3 == 0 and n % 5 == 0:
+        return ""FizzBuzz""
+    elif n % 3 == 0:
+        return ""Fizz""
+    elif n % 5 == 0:
+        return ""Buzz""
+    else:
+        return str(n)
+
+# Example usage"
+code_015,code,hard,expensive_only,,False,0.0,8.595128000015393,8.595128000015393,0.0,17,1.9778646693765998,0.0,17,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","```python
+def normalize_name(name):
+    return name.strip().title()
+```"
+code_015,code,hard,cheap_only,,False,0.0,7.276920300006168,8.595128000015393,15.336684922049615,128,17.589858720850838,65.0,0,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","```python
+import re
+
+def normalize_name(name):
+    """"""
+    This function takes a string representing a name and normalizes it by trimming extra spaces and converting all words to title case.
+    
+    Parameters:
+    name (str): The name to be normalized.
+    
+    Returns:
+    str: The normalized name.
+    """"""
+    # Trim extra spaces
+    name = name.strip()
+    
+    # Convert to title case
+    title_case_name = name.title()
+    
+    return title_case_name
+
+# Check function with provided data points
+def check_function():
+    test_cases = [
+        (""  Hello World  "", ""Hello World"
+code_015,code,hard,adaptive_calibrated,,False,0.0,12.497226000006776,8.595128000015393,-45.3989515919297,128,10.242272965210887,58.75,8,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","```python
+def normalize_name(name):
+    """"""
+    Normalizes the input name by trimming extra spaces and converting all words to title case.
+    
+    Parameters:
+    name (str): The name to be normalized.
+    
+    Returns:
+    str: The normalized name.
+    """"""
+    # Trim extra spaces
+    trimmed_name = name.strip()
+    
+    # Convert to title case
+    title_case_name = trimmed_name.title()
+    
+    return title_case_name
+
+# Example usage
+print(normalize_name(""  Hello World!  ""))  # Output: ""Hello World!""
+print(normalize_name(""  ALIEN  CLOUD"
+code_015,code,hard,adaptive_guarded_v3,,False,0.0,13.104119800002081,8.595128000015393,-52.45985632766159,128,9.767920467270123,57.96875,9,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","```python
+def normalize_name(name):
+    """"""
+    Normalizes the input name by trimming extra spaces and converting all words to title case.
+    
+    Parameters:
+    name (str): The name to be normalized.
+    
+    Returns:
+    str: The normalized name.
+    """"""
+    # Trim extra spaces
+    trimmed_name = name.strip()
+    
+    # Convert to title case
+    title_case_name = trimmed_name.title()
+    
+    return title_case_name
+
+# Example usage
+print(normalize_name(""  Hello World!  ""))  # Output: ""Hello World!""
+print(normalize_name(""  ALIEN  CLOUD"
+code_015,code,hard,speculative_adaptive,,False,0.0,15.570834999991348,8.595128000015393,-81.15884952456163,85,5.458923686497688,42.35294117647059,14,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","```python
+import re
+
+def normalize_name(name):
+    # Trim extra spaces
+    name = name.strip()
+    
+    # Title-case each word
+    name = name.title()
+    
+    return name
+
+# Example usage
+print(normalize_name(""  john doe  ""))  # Output: John Doe
+print(normalize_name(""anna  birnberg""))  # Output: Anna Birnberg
+```"
+code_015,code,hard,hybrid,adaptive_calibrated,False,0.0,12.33849470000132,8.595128000015393,-43.55219259072376,128,10.374036956062907,58.75,8,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,cuda,float16,auto,"normalize_name(""  ada   lovelace "") -> 'Ada   Lovelace', expected 'Ada Lovelace'","```python
+def normalize_name(name):
+    """"""
+    Normalizes the input name by trimming extra spaces and converting all words to title case.
+    
+    Parameters:
+    name (str): The name to be normalized.
+    
+    Returns:
+    str: The normalized name.
+    """"""
+    # Trim extra spaces
+    trimmed_name = name.strip()
+    
+    # Convert to title case
+    title_case_name = trimmed_name.title()
+    
+    return title_case_name
+
+# Example usage
+print(normalize_name(""  Hello World!  ""))  # Output: ""Hello World!""
+print(normalize_name(""  ALIEN  CLOUD"
