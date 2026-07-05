@@ -1,0 +1,6 @@
+prompt_name,fastest_mode_including_cheap,fastest_mode_excluding_cheap,expensive_only_seconds,fastest_seconds_excluding_cheap,best_real_speedup_excluding_cheap_percent
+code,cheap_only,speculative_adaptive,7.872126540003228,5.259049640002194,33.194040856969785
+easy,cheap_only,adaptive_guarded_v3,5.425999500002945,3.4078504800010707,37.19405097624463
+logic_negation,cheap_only,adaptive_calibrated,6.5225279000005685,5.036026779995882,22.79026081290595
+long_simple,cheap_only,adaptive_calibrated,10.74663066000212,9.503856499996619,11.564314428623492
+math,cheap_only,hybrid,6.770230500001344,4.294646380000631,36.56572874439388

@@ -19,7 +19,12 @@ from gear_llm.compute_simulator import (
     save_compute_sim_rows,
     simulate_compute_from_rows,
 )
-from gear_llm.config import ModelConfig, RouterConfig
+from gear_llm.config import (
+    DEVICE_CHOICES,
+    TORCH_DTYPE_CHOICES,
+    ModelConfig,
+    RouterConfig,
+)
 from gear_llm.dataset_benchmark import (
     parse_categories,
     print_dataset_benchmark_report,
@@ -596,6 +601,20 @@ def main():
         help="Modelo caro para geração adaptativa.",
     )
     parser.add_argument(
+        "--device",
+        type=str,
+        choices=DEVICE_CHOICES,
+        default="auto",
+        help="Device para carregar modelos: auto, cpu ou cuda.",
+    )
+    parser.add_argument(
+        "--torch-dtype",
+        type=str,
+        choices=TORCH_DTYPE_CHOICES,
+        default="auto",
+        help="dtype dos pesos: auto, float32, float16 ou bfloat16.",
+    )
+    parser.add_argument(
         "--adaptive-max-new-tokens",
         type=int,
         default=80,
@@ -780,7 +799,11 @@ def main():
 
     args = parser.parse_args()
 
-    model_config = ModelConfig(model_name=args.model)
+    model_config = ModelConfig(
+        model_name=args.model,
+        device=args.device,
+        torch_dtype=args.torch_dtype,
+    )
     router_config = RouterConfig()
     cost_config = ComputeCostConfig(
         cheap_cost=args.cheap_cost,
@@ -790,6 +813,8 @@ def main():
     adaptive_config = AdaptiveGenerationConfig(
         cheap_model_name=args.cheap_model,
         expensive_model_name=args.expensive_model,
+        device=args.device,
+        torch_dtype=args.torch_dtype,
         max_new_tokens=args.adaptive_max_new_tokens,
         temperature=args.adaptive_temperature,
         entropy_threshold=args.adaptive_entropy_threshold,
@@ -1017,6 +1042,8 @@ def main():
                     temperature=args.adaptive_temperature,
                     warmup_runs=args.latency_warmup_runs,
                     measured_runs=args.latency_measured_runs,
+                    device=args.device,
+                    torch_dtype=args.torch_dtype,
                 )
             )
             print_latency_benchmark_report(latency_summary_rows)
@@ -1034,7 +1061,11 @@ def main():
 
         return
 
-    model, tokenizer, device = load_model_and_tokenizer(model_config.model_name)
+    model, tokenizer, device = load_model_and_tokenizer(
+        model_config.model_name,
+        device=model_config.device,
+        torch_dtype=model_config.torch_dtype,
+    )
     adaptive_models = None
     teacher_models = None
 
@@ -1529,6 +1560,8 @@ def main():
                 temperature=args.adaptive_temperature,
                 warmup_runs=args.latency_warmup_runs,
                 measured_runs=args.latency_measured_runs,
+                device=args.device,
+                torch_dtype=args.torch_dtype,
                 models=adaptive_models,
             )
         )

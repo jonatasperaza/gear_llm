@@ -1,6 +1,7 @@
 import argparse
 
 from gear_llm.adaptive_generator import AdaptiveGenerationConfig
+from gear_llm.config import DEVICE_CHOICES, TORCH_DTYPE_CHOICES
 from gear_llm.latency_benchmark import (
     print_latency_benchmark_report,
     run_latency_benchmark,
@@ -54,6 +55,20 @@ def main():
         default=AdaptiveGenerationConfig.expensive_model_name,
         help="Modelo caro.",
     )
+    parser.add_argument(
+        "--device",
+        type=str,
+        choices=DEVICE_CHOICES,
+        default="auto",
+        help="Device para carregar os dois modelos.",
+    )
+    parser.add_argument(
+        "--torch-dtype",
+        type=str,
+        choices=TORCH_DTYPE_CHOICES,
+        default="auto",
+        help="dtype dos pesos dos dois modelos.",
+    )
     args = parser.parse_args()
 
     rows, summary_rows, winner_rows = run_latency_benchmark(
@@ -63,6 +78,8 @@ def main():
         temperature=args.temperature,
         warmup_runs=args.warmup_runs,
         measured_runs=args.measured_runs,
+        device=args.device,
+        torch_dtype=args.torch_dtype,
     )
     print_latency_benchmark_report(summary_rows)
     detailed_csv, summary_csv, winners_csv = save_latency_benchmark_outputs(

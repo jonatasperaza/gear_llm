@@ -1,9 +1,18 @@
 from dataclasses import dataclass
 
 
+DEFAULT_CHEAP_MODEL = "HuggingFaceTB/SmolLM2-135M-Instruct"
+DEFAULT_EXPENSIVE_MODEL = "HuggingFaceTB/SmolLM2-360M-Instruct"
+
+DEVICE_CHOICES = ("auto", "cpu", "cuda")
+TORCH_DTYPE_CHOICES = ("auto", "float32", "float16", "bfloat16")
+
+
 @dataclass
 class ModelConfig:
-    model_name: str = "HuggingFaceTB/SmolLM2-135M-Instruct"
+    model_name: str = DEFAULT_CHEAP_MODEL
+    device: str = "auto"
+    torch_dtype: str = "auto"
 
 
 @dataclass

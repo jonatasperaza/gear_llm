@@ -1,6 +1,7 @@
 import argparse
 
 from gear_llm.adaptive_generator import AdaptiveGenerationConfig
+from gear_llm.config import DEVICE_CHOICES, TORCH_DTYPE_CHOICES
 from gear_llm.hybrid_router import (
     hybrid_generate_with_models,
     load_hybrid_models,
@@ -30,6 +31,20 @@ def main():
         help="Modelo caro.",
     )
     parser.add_argument(
+        "--device",
+        type=str,
+        choices=DEVICE_CHOICES,
+        default="auto",
+        help="Device para carregar os dois modelos.",
+    )
+    parser.add_argument(
+        "--torch-dtype",
+        type=str,
+        choices=TORCH_DTYPE_CHOICES,
+        default="auto",
+        help="dtype dos pesos dos dois modelos.",
+    )
+    parser.add_argument(
         "--max-new-tokens",
         type=int,
         default=80,
@@ -48,6 +63,8 @@ def main():
         expensive_model_name=args.expensive_model,
         max_new_tokens=args.max_new_tokens,
         temperature=args.temperature,
+        device=args.device,
+        torch_dtype=args.torch_dtype,
     )
     summary = hybrid_generate_with_models(
         prompt=args.prompt,

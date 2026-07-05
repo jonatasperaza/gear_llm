@@ -1,0 +1,6 @@
+prompt_name,fastest_mode_including_cheap,fastest_mode_excluding_cheap,expensive_only_seconds,fastest_seconds_excluding_cheap,best_real_speedup_excluding_cheap_percent
+code,cheap_only,expensive_only,1.4735648399975616,1.4735648399975616,0.0
+easy,cheap_only,expensive_only,1.479695159997209,1.479695159997209,0.0
+logic_negation,cheap_only,expensive_only,1.5188280999951531,1.5188280999951531,0.0
+long_simple,expensive_only,expensive_only,1.3822785400028805,1.3822785400028805,0.0
+math,expensive_only,expensive_only,1.3463399199972628,1.3463399199972628,0.0

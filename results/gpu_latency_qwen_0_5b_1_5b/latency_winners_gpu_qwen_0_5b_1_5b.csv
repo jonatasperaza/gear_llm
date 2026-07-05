@@ -1,0 +1,6 @@
+prompt_name,cheap_model_name,expensive_model_name,device,torch_dtype,fastest_mode_including_cheap,fastest_mode_excluding_cheap,expensive_only_seconds,fastest_seconds_excluding_cheap,best_real_speedup_excluding_cheap_percent
+code,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-1.5B-Instruct,cuda,float16,cheap_only,adaptive_calibrated,1.363920939998934,1.222673679998843,10.355971219285006
+easy,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-1.5B-Instruct,cuda,float16,cheap_only,expensive_only,1.3471925999969243,1.3471925999969243,0.0
+logic_negation,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-1.5B-Instruct,cuda,float16,cheap_only,adaptive_calibrated,1.3451466200029245,1.2442072200006806,7.503970087812765
+long_simple,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-1.5B-Instruct,cuda,float16,cheap_only,expensive_only,1.4068166600016412,1.4068166600016412,0.0
+math,Qwen/Qwen2.5-0.5B-Instruct,Qwen/Qwen2.5-1.5B-Instruct,cuda,float16,cheap_only,expensive_only,1.3281595600012224,1.3281595600012224,0.0

@@ -203,10 +203,14 @@ def adaptive_calibrated_config(
     expensive_model_name: str,
     max_new_tokens: int,
     temperature: float,
+    device: str = "auto",
+    torch_dtype: str = "auto",
 ) -> AdaptiveGenerationConfig:
     return AdaptiveGenerationConfig(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
+        device=device,
+        torch_dtype=torch_dtype,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         entropy_threshold=0.35,
@@ -221,10 +225,14 @@ def adaptive_guarded_v3_config(
     expensive_model_name: str,
     max_new_tokens: int,
     temperature: float,
+    device: str = "auto",
+    torch_dtype: str = "auto",
 ) -> AdaptiveGenerationConfig:
     return AdaptiveGenerationConfig(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
+        device=device,
+        torch_dtype=torch_dtype,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         entropy_threshold=0.35,
@@ -251,10 +259,14 @@ def speculative_adaptive_config(
     expensive_model_name: str,
     max_new_tokens: int,
     temperature: float,
+    device: str = "auto",
+    torch_dtype: str = "auto",
 ) -> SpeculativeGenerationConfig:
     return SpeculativeGenerationConfig(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
+        device=device,
+        torch_dtype=torch_dtype,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         draft_length=6,
@@ -269,12 +281,16 @@ def load_hybrid_models(
     expensive_model_name: str = AdaptiveGenerationConfig.expensive_model_name,
     max_new_tokens: int = 80,
     temperature: float = 0.7,
+    device: str = "auto",
+    torch_dtype: str = "auto",
 ):
     config = speculative_adaptive_config(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
         temperature=temperature,
+        device=device,
+        torch_dtype=torch_dtype,
     )
     return load_speculative_models(config)
 

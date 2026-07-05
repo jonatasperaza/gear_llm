@@ -152,6 +152,8 @@ The CPU benchmark suggests that adaptive token-level routing is currently more r
 
 ## GPU Latency Benchmark
 
+### SmolLM2 135M -> 360M
+
 The CUDA latency benchmark was validated with:
 
 - `torch.cuda.is_available() = True`
@@ -183,3 +185,36 @@ Interpretation:
 - Hybrid routing has very small decision overhead, but the selected generation mode can still be slower than `expensive_only`.
 - `speculative_adaptive` is not competitive in the current GPU benchmark.
 - The next validation should use model pairs with a larger performance gap, such as `Qwen2.5-0.5B -> Qwen2.5-1.5B` or `Qwen2.5-1.5B -> Qwen2.5-3B`, preferably with configurable model support across benchmarks.
+
+### Qwen2.5 0.5B -> 3B
+
+This benchmark tested a larger model gap on the same limited GPU class:
+
+- `torch.cuda.is_available() = True`
+- GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+- device: `cuda`
+- dtype: `float16`
+- max_new_tokens: 32
+- warmup_runs: 1
+- measured_runs: 3
+- Cheap model: `Qwen/Qwen2.5-0.5B-Instruct`
+- Expensive model: `Qwen/Qwen2.5-3B-Instruct`
+
+Best non-cheap modes by prompt:
+
+| Prompt | Best mode excluding cheap_only | Real speedup vs expensive_only |
+|---|---|---:|
+| code | hybrid | 76.96% |
+| easy | adaptive_calibrated | 68.82% |
+| logic_negation | adaptive_guarded_v3 | 66.63% |
+| long_simple | speculative_adaptive | 58.27% |
+| math | speculative_adaptive | 71.42% |
+
+Interpretation:
+
+- This is the first strong GPU latency result for the project.
+- Unlike `SmolLM2-135M -> SmolLM2-360M`, where `expensive_only` won, the larger `Qwen2.5-0.5B -> Qwen2.5-3B` gap makes adaptive routing advantageous.
+- This supports the hypothesis that real speedup depends strongly on the gap between models and on the real cost of the expensive model on the target hardware.
+- Peak memory was close to 7 GB, above the RTX 3050 Laptop GPU's 6 GB dedicated VRAM, so the run likely involved Windows shared GPU/system memory.
+- This is a valid result for limited hardware, but it is not equivalent to fitting the full run inside dedicated VRAM.
+- `speculative_adaptive` became competitive again on `long_simple` and `math` once the expensive model became costly enough.

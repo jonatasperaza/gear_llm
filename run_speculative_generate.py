@@ -1,5 +1,6 @@
 import argparse
 
+from gear_llm.config import DEVICE_CHOICES, TORCH_DTYPE_CHOICES
 from gear_llm.speculative_generator import (
     SpeculativeGenerationConfig,
     print_speculative_report,
@@ -30,6 +31,20 @@ def main():
         type=str,
         default=SpeculativeGenerationConfig.expensive_model_name,
         help="Modelo caro usado para verificar os blocos.",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        choices=DEVICE_CHOICES,
+        default="auto",
+        help="Device para carregar os dois modelos.",
+    )
+    parser.add_argument(
+        "--torch-dtype",
+        type=str,
+        choices=TORCH_DTYPE_CHOICES,
+        default="auto",
+        help="dtype dos pesos dos dois modelos.",
     )
     parser.add_argument(
         "--max-new-tokens",
@@ -85,6 +100,8 @@ def main():
     config = SpeculativeGenerationConfig(
         cheap_model_name=args.cheap_model,
         expensive_model_name=args.expensive_model,
+        device=args.device,
+        torch_dtype=args.torch_dtype,
         max_new_tokens=args.max_new_tokens,
         draft_length=args.draft_length,
         verify_top_k=args.verify_top_k,

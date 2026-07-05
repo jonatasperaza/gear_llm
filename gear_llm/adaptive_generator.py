@@ -4,16 +4,19 @@ from pathlib import Path
 
 import torch
 import torch.nn.functional as F
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoTokenizer
 
-from gear_llm.model_loader import get_device
+from gear_llm.config import DEFAULT_CHEAP_MODEL, DEFAULT_EXPENSIVE_MODEL
+from gear_llm.model_loader import load_causal_lm_model, resolve_device
 from gear_llm.report import save_csv
 
 
 @dataclass
 class AdaptiveGenerationConfig:
-    cheap_model_name: str = "HuggingFaceTB/SmolLM2-135M-Instruct"
-    expensive_model_name: str = "HuggingFaceTB/SmolLM2-360M-Instruct"
+    cheap_model_name: str = DEFAULT_CHEAP_MODEL
+    expensive_model_name: str = DEFAULT_EXPENSIVE_MODEL
+    device: str = "auto"
+    torch_dtype: str = "auto"
     max_new_tokens: int = 80
     temperature: float = 0.7
     entropy_threshold: float = 0.35
@@ -36,25 +39,6 @@ class AdaptiveGenerationConfig:
     repetition_guard_cooldown_tokens: int = 8
 
 
-def _load_model(model_name: str, device: str):
-    dtype = torch.float16 if device == "cuda" else torch.float32
-
-    try:
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            dtype=dtype,
-        )
-    except TypeError:
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            torch_dtype=dtype,
-        )
-
-    model.to(device)
-    model.eval()
-    return model
-
-
 def load_adaptive_models(config: AdaptiveGenerationConfig):
     """
     Carrega tokenizer, modelo barato e modelo caro.
@@ -63,10 +47,18 @@ def load_adaptive_models(config: AdaptiveGenerationConfig):
     simples, usamos o tokenizer do modelo barato para codificar e decodificar.
     """
 
-    device = get_device()
+    device = resolve_device(config.device)
     tokenizer = AutoTokenizer.from_pretrained(config.cheap_model_name)
-    cheap_model = _load_model(config.cheap_model_name, device)
-    expensive_model = _load_model(config.expensive_model_name, device)
+    cheap_model = load_causal_lm_model(
+        model_name=config.cheap_model_name,
+        device=device,
+        torch_dtype=config.torch_dtype,
+    )
+    expensive_model = load_causal_lm_model(
+        model_name=config.expensive_model_name,
+        device=device,
+        torch_dtype=config.torch_dtype,
+    )
 
     return cheap_model, expensive_model, tokenizer, device
 
