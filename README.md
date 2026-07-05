@@ -125,6 +125,13 @@ estimated_saved_percent: ...
 expensive_model_calls  : ...
 ```
 
+## Relatório preliminar
+
+Este projeto consiste em uma pesquisa experimental sobre o roteamento de LLMs (de baixo ou alto custo) com foco na latência.
+
+- [Relatório Técnico](docs/TECHNICAL_REPORT.md)
+- [Rascunho para o Medium](docs/MEDIUM_DRAFT.md)
+
 ## Aviso Experimental
 
 GEAR-LLM é um projeto de pesquisa e validação. Os números atuais são dependentes dos prompts, modelos, thresholds e hardware usados. A economia reportada é uma estimativa de custo teórico, não uma aceleração real garantida.
