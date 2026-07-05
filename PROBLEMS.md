@@ -10,7 +10,7 @@
 
 ## 1. Switching Cost Between Models
 
-**Status:** Open
+**Status:** Investigating
 
 ### Problem
 
@@ -22,14 +22,20 @@ Theoretical savings may not translate into real wall-clock speedup.
 
 ### Current Mitigation
 
-The project estimates cost using `cheap_cost` and `expensive_cost`, but does not yet measure real latency or memory.
+The project now includes `latency_benchmark.py`, which measures wall-clock time, tokens per second, expensive model calls, and CUDA peak memory when available.
+
+Current observations:
+
+- On CPU, `adaptive_calibrated` and `adaptive_guarded_v3` can produce real speedups over `expensive_only`.
+- On GPU with `HuggingFaceTB/SmolLM2-135M-Instruct -> HuggingFaceTB/SmolLM2-360M-Instruct`, `expensive_only` was the fastest non-cheap mode for `code`, `easy`, `logic_negation`, `long_simple`, and `math`.
+- Hybrid routing has very small decision overhead, but the selected generation mode can still be slower than `expensive_only`.
 
 ### Next Steps
 
-- Implement `latency_benchmark.py`.
-- Measure total generation time, tokens per second, and expensive model calls.
-- Measure memory usage when both models are loaded.
-- Compare theoretical savings with real execution time.
+- Keep comparing theoretical savings with real execution time.
+- Add latency reports for larger model gaps and different hardware.
+- Measure memory pressure when both models are loaded.
+- Separate routing overhead, model-switching overhead, and generation time in future reports.
 
 ## 2. Small Gap Between Cheap and Expensive Models
 
@@ -45,11 +51,12 @@ Results may not generalize to larger pairs such as `0.5B -> 7B`, `1.5B -> 14B`, 
 
 ### Current Mitigation
 
-The documentation states that the project is experimental.
+The documentation states that the project is experimental. The GPU latency benchmark confirms that this small gap is not enough to make adaptive routing faster than `expensive_only` on an NVIDIA GeForce RTX 3050 6GB Laptop GPU.
 
 ### Next Steps
 
-- Test larger model pairs when hardware allows.
+- Test larger model pairs when hardware allows, such as `Qwen2.5-0.5B -> Qwen2.5-1.5B` or `Qwen2.5-1.5B -> Qwen2.5-3B`.
+- Add configurable model-pair support to all benchmark entry points.
 - Keep the benchmark model-agnostic.
 - Report model sizes clearly in all result files.
 
@@ -93,7 +100,7 @@ Adaptive Guard v3 reduces excessive optional fallbacks and adds budget/cooldown 
 
 ### Next Steps
 
-- Prefer speculative decoding over token-by-token model switching.
+- Evaluate speculative decoding as a way to reduce token-by-token model switching, but only when latency and quality benchmarks justify it.
 - Add quality checks for repetition and semantic drift.
 - Compare generated text against `expensive_only` more robustly.
 - Consider periodic full-context verification.
@@ -183,12 +190,12 @@ Python loop overhead may dominate for small models and short generations.
 
 ### Current Mitigation
 
-The current goal is experimentation, not production serving.
+The current goal is experimentation, not production serving. The latency benchmark now exposes when adaptive Python-level control flow is slower than direct `expensive_only` generation, especially on GPU with small models.
 
 ### Next Steps
 
-- Measure latency first.
 - Identify bottlenecks.
+- Compare CPU and GPU bottlenecks separately.
 - Consider batching, `torch.compile`, vLLM, llama.cpp, or custom kernels only after the algorithmic direction is validated.
 
 ## 9. Dataset Size and Diversity
@@ -229,7 +236,7 @@ The mode should not be used as the default global strategy yet.
 
 ### Current Mitigation
 
-Hybrid routing no longer selects `speculative_adaptive` automatically unless the router explicitly chooses it based on policy.
+Hybrid routing no longer selects `speculative_adaptive` automatically unless the router explicitly chooses it based on policy. The GPU latency benchmark shows that `speculative_adaptive` is not competitive with `expensive_only` for the current SmolLM2 135M -> 360M pair.
 
 ### Next Steps
 
@@ -237,6 +244,7 @@ Hybrid routing no longer selects `speculative_adaptive` automatically unless the
 - Improve acceptance rules.
 - Add prompt-level and block-level risk features.
 - Compare against standard speculative decoding baselines.
+- Re-test speculative decoding with larger model gaps and optimized verification.
 
 ## 11. Budget Cap Limits Code Quality
 
@@ -303,8 +311,8 @@ None. The current word list covers Python and JavaScript well.
 ## Current Priority Order
 
 1. Validate the latest hybrid router changes.
-2. Implement a real latency benchmark.
-3. Compare theoretical savings against real wall-clock speed.
+2. Run latency benchmarks with larger model gaps and configurable model pairs.
+3. Compare theoretical savings against real wall-clock speed on CPU and GPU.
 4. Add learned routing from oracle data.
 5. Improve quality evaluation beyond text similarity.
 6. Revisit speculative decoding with better acceptance criteria.

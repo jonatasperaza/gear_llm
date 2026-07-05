@@ -148,4 +148,38 @@ Best non-cheap modes by prompt:
 
 Interpretation:
 
-The CPU benchmark suggests that adaptive token-level routing is currently more robust than the speculative implementation. Speculative decoding remains experimental and may require GPU execution, optimized block verification, and KV-cache-aware implementation before becoming globally competitive.
+The CPU benchmark suggests that adaptive token-level routing is currently more robust than the speculative implementation. Speculative decoding remains experimental and may require larger model gaps, optimized block verification, and KV-cache-aware implementation before becoming globally competitive.
+
+## GPU Latency Benchmark
+
+The CUDA latency benchmark was validated with:
+
+- `torch.cuda.is_available() = True`
+- GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+- max_new_tokens: 32
+- warmup_runs: 1
+- measured_runs: 5
+- Cheap model: `HuggingFaceTB/SmolLM2-135M-Instruct`
+- Expensive model: `HuggingFaceTB/SmolLM2-360M-Instruct`
+
+Main result:
+
+With this small model pair on GPU, `expensive_only` was the fastest mode when excluding `cheap_only` for every benchmark prompt.
+
+Best non-cheap modes by prompt:
+
+| Prompt | Best mode excluding cheap_only |
+|---|---|
+| code | expensive_only |
+| easy | expensive_only |
+| logic_negation | expensive_only |
+| long_simple | expensive_only |
+| math | expensive_only |
+
+Interpretation:
+
+- On CPU, `adaptive_calibrated` and `adaptive_guarded_v3` produced real speedups over `expensive_only`.
+- On GPU, with small models, `expensive_only` wins because the expensive model is still cheap enough and adaptive modes add Python/model-switching overhead.
+- Hybrid routing has very small decision overhead, but the selected generation mode can still be slower than `expensive_only`.
+- `speculative_adaptive` is not competitive in the current GPU benchmark.
+- The next validation should use model pairs with a larger performance gap, such as `Qwen2.5-0.5B -> Qwen2.5-1.5B` or `Qwen2.5-1.5B -> Qwen2.5-3B`, preferably with configurable model support across benchmarks.
