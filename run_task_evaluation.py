@@ -95,6 +95,33 @@ def main():
         default=1,
         help="Measured generations per task/mode when --include-latency is set.",
     )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="Limit the number of tasks after category/difficulty filters.",
+    )
+    parser.add_argument(
+        "--categories",
+        type=str,
+        default=None,
+        help="Comma-separated task categories, for example: math,logic,code.",
+    )
+    parser.add_argument(
+        "--difficulties",
+        type=str,
+        default=None,
+        help="Comma-separated difficulties: easy,medium,hard.",
+    )
+    parser.add_argument(
+        "--modes",
+        type=str,
+        default=None,
+        help=(
+            "Comma-separated modes: expensive_only,cheap_only,"
+            "adaptive_calibrated,adaptive_guarded_v3,speculative_adaptive,hybrid."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -110,6 +137,10 @@ def main():
         include_latency=args.include_latency,
         warmup_runs=args.warmup_runs,
         measured_runs=args.measured_runs,
+        limit=args.limit,
+        categories=args.categories,
+        difficulties=args.difficulties,
+        modes=args.modes,
     )
     print_task_evaluation_report(summary_rows)
     print_task_evaluation_overall_report(overall_rows)

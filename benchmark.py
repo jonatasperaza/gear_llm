@@ -599,6 +599,18 @@ def main():
         help="Medicoes por task/modo na avaliacao task-specific com latencia.",
     )
     parser.add_argument(
+        "--difficulties",
+        type=str,
+        default=None,
+        help="Dificuldades separadas por vírgula para --task-evaluation.",
+    )
+    parser.add_argument(
+        "--modes",
+        type=str,
+        default=None,
+        help="Modos separados por vírgula para --task-evaluation.",
+    )
+    parser.add_argument(
         "--dataset",
         type=str,
         default="data/prompts.jsonl",
@@ -608,13 +620,13 @@ def main():
         "--categories",
         type=str,
         default=None,
-        help="Categorias separadas por vírgula para filtrar o dataset.",
+        help="Categorias separadas por vírgula para filtrar dataset/task evaluation.",
     )
     parser.add_argument(
         "--limit",
         type=int,
         default=None,
-        help="Limite total de prompts do dataset após filtro.",
+        help="Limite total de prompts/tasks após filtro.",
     )
     parser.add_argument(
         "--ablation-csv",
@@ -1169,6 +1181,10 @@ def main():
                 include_latency=args.include_latency,
                 warmup_runs=args.warmup_runs,
                 measured_runs=args.measured_runs,
+                limit=args.limit,
+                categories=args.categories,
+                difficulties=args.difficulties,
+                modes=args.modes,
             )
             print_task_evaluation_report(task_summary_rows)
             print_task_evaluation_overall_report(task_overall_rows)
@@ -1760,6 +1776,10 @@ def main():
             include_latency=args.include_latency,
             warmup_runs=args.warmup_runs,
             measured_runs=args.measured_runs,
+            limit=args.limit,
+            categories=args.categories,
+            difficulties=args.difficulties,
+            modes=args.modes,
         )
         print_task_evaluation_report(task_summary_rows)
         print_task_evaluation_overall_report(task_overall_rows)

@@ -97,6 +97,59 @@ def load_eval_tasks(path: str | Path) -> list[dict]:
     return tasks
 
 
+def _parse_filter_values(values: list[str] | str | None) -> list[str] | None:
+    if values is None:
+        return None
+    if isinstance(values, str):
+        parsed = [value.strip() for value in values.split(",")]
+    else:
+        parsed = [str(value).strip() for value in values]
+    parsed = [value for value in parsed if value]
+    return parsed or None
+
+
+def filter_eval_tasks(
+    tasks: list[dict],
+    categories: list[str] | str | None = None,
+    difficulties: list[str] | str | None = None,
+    limit: int | None = None,
+) -> list[dict]:
+    category_filter = set(_parse_filter_values(categories) or [])
+    difficulty_filter = set(_parse_filter_values(difficulties) or [])
+
+    invalid_difficulties = difficulty_filter - DIFFICULTIES
+    if invalid_difficulties:
+        values = ", ".join(sorted(invalid_difficulties))
+        raise ValueError(f"Invalid difficulties: {values}")
+
+    filtered = []
+    for task in tasks:
+        if category_filter and task["category"] not in category_filter:
+            continue
+        if difficulty_filter and task["difficulty"] not in difficulty_filter:
+            continue
+        filtered.append(task)
+
+    if limit is not None:
+        filtered = filtered[: max(0, limit)]
+
+    return filtered
+
+
+def resolve_task_modes(modes: list[str] | str | None = None) -> list[str]:
+    requested = _parse_filter_values(modes)
+    if requested is None:
+        return list(TASK_MODES)
+
+    invalid = [mode for mode in requested if mode not in TASK_MODES]
+    if invalid:
+        values = ", ".join(invalid)
+        valid = ", ".join(TASK_MODES)
+        raise ValueError(f"Invalid task evaluation modes: {values}. Valid modes: {valid}")
+
+    return requested
+
+
 def _strip_accents(text: str) -> str:
     normalized = unicodedata.normalize("NFD", text)
     return "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
@@ -736,6 +789,25 @@ def _std(values: list[float]) -> float:
     return variance ** 0.5
 
 
+def _median(values: list[float]) -> float:
+    return _percentile(values, 0.50)
+
+
+def _percentile(values: list[float], quantile: float) -> float:
+    if not values:
+        return 0.0
+
+    ordered = sorted(values)
+    if len(ordered) == 1:
+        return ordered[0]
+
+    position = (len(ordered) - 1) * quantile
+    lower = int(position)
+    upper = min(lower + 1, len(ordered) - 1)
+    weight = position - lower
+    return ordered[lower] * (1 - weight) + ordered[upper] * weight
+
+
 def _empty_timing_stats() -> dict:
     return {
         "total_time_seconds_avg": "",
@@ -773,17 +845,30 @@ def _run_generation_series(
     include_latency: bool,
     warmup_runs: int,
     measured_runs: int,
+    progress_prefix: str = "",
 ):
     if not include_latency:
         return generation_fn(), _empty_timing_stats()
 
-    for _ in range(max(0, warmup_runs)):
+    warmup_total = max(0, warmup_runs)
+    for run_index in range(1, warmup_total + 1):
+        if progress_prefix:
+            print(
+                f"{progress_prefix} | warmup {run_index}/{warmup_total}",
+                flush=True,
+            )
         generation_fn()
 
     result = None
     times = []
     token_counts = []
-    for _ in range(max(1, measured_runs)):
+    measured_total = max(1, measured_runs)
+    for run_index in range(1, measured_total + 1):
+        if progress_prefix:
+            print(
+                f"{progress_prefix} | measured {run_index}/{measured_total}",
+                flush=True,
+            )
         measured_result, elapsed = _measure_generation(device, generation_fn)
         if result is None:
             result = measured_result
@@ -806,8 +891,19 @@ def run_task_evaluation(
     include_latency: bool = False,
     warmup_runs: int = 0,
     measured_runs: int = 1,
+    limit: int | None = None,
+    categories: list[str] | str | None = None,
+    difficulties: list[str] | str | None = None,
+    modes: list[str] | str | None = None,
 ) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
-    tasks = load_eval_tasks(dataset_path)
+    tasks = filter_eval_tasks(
+        load_eval_tasks(dataset_path),
+        categories=categories,
+        difficulties=difficulties,
+        limit=limit,
+    )
+    selected_modes = resolve_task_modes(modes)
+    selected_mode_set = set(selected_modes)
 
     if models is None:
         config = AdaptiveGenerationConfig(
@@ -847,86 +943,107 @@ def run_task_evaluation(
     expensive_tokenizer = get_expensive_tokenizer(tokenizer)
     rows = []
 
-    for task in tasks:
+    total_tasks = len(tasks)
+
+    for task_index, task in enumerate(tasks, start=1):
         prompt = task["prompt"]
+        prompt_type = classify_prompt(prompt)
+        hybrid_selected_mode = choose_mode(prompt_type, prompt)
         mode_summaries = {}
 
-        (expensive_text, expensive_tokens), expensive_timing = _run_generation_series(
-            device,
-            lambda: generate_greedy_with_model(
-                prompt=prompt,
-                model=expensive_model,
-                tokenizer=expensive_tokenizer,
-                device=device,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                prompt_format=prompt_format,
-            ),
-            lambda result: result[1],
-            include_latency=include_latency,
-            warmup_runs=warmup_runs,
-            measured_runs=measured_runs,
-        )
-        evaluation = evaluate_task(task, expensive_text)
-        rows.append(
-            _build_row(
-                task=task,
-                mode="expensive_only",
-                selected_mode="",
-                generated_text=expensive_text,
-                evaluation=evaluation,
-                estimated_saved=0.0,
-                expensive_model_calls=expensive_tokens,
-                model_metadata=model_metadata,
-                max_new_tokens=max_new_tokens,
-                generated_tokens=expensive_tokens,
-                timing_stats=expensive_timing,
-            )
-        )
+        def progress_prefix(mode: str) -> str:
+            return f"[task {task_index}/{total_tasks}] {task['id']} | mode {mode}"
 
-        (cheap_text, cheap_tokens), cheap_timing = _run_generation_series(
-            device,
-            lambda: generate_greedy_with_model(
-                prompt=prompt,
-                model=cheap_model,
-                tokenizer=cheap_tokenizer,
-                device=device,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                prompt_format=prompt_format,
-            ),
-            lambda result: result[1],
-            include_latency=include_latency,
-            warmup_runs=warmup_runs,
-            measured_runs=measured_runs,
-        )
-        cheap_saved = estimated_saved_percent(
-            total_generated_tokens=cheap_tokens,
-            cheap_calls=cheap_tokens,
-            expensive_calls=0,
-        )
-        evaluation = evaluate_task(task, cheap_text)
-        rows.append(
-            _build_row(
-                task=task,
-                mode="cheap_only",
-                selected_mode="",
-                generated_text=cheap_text,
-                evaluation=evaluation,
-                estimated_saved=cheap_saved,
-                expensive_model_calls=0,
-                model_metadata=model_metadata,
-                max_new_tokens=max_new_tokens,
-                generated_tokens=cheap_tokens,
-                timing_stats=cheap_timing,
+        if "expensive_only" in selected_mode_set:
+            (expensive_text, expensive_tokens), expensive_timing = (
+                _run_generation_series(
+                    device,
+                    lambda: generate_greedy_with_model(
+                        prompt=prompt,
+                        model=expensive_model,
+                        tokenizer=expensive_tokenizer,
+                        device=device,
+                        max_new_tokens=max_new_tokens,
+                        temperature=temperature,
+                        prompt_format=prompt_format,
+                    ),
+                    lambda result: result[1],
+                    include_latency=include_latency,
+                    warmup_runs=warmup_runs,
+                    measured_runs=measured_runs,
+                    progress_prefix=progress_prefix("expensive_only"),
+                )
             )
-        )
+            evaluation = evaluate_task(task, expensive_text)
+            rows.append(
+                _build_row(
+                    task=task,
+                    mode="expensive_only",
+                    selected_mode="",
+                    generated_text=expensive_text,
+                    evaluation=evaluation,
+                    estimated_saved=0.0,
+                    expensive_model_calls=expensive_tokens,
+                    model_metadata=model_metadata,
+                    max_new_tokens=max_new_tokens,
+                    generated_tokens=expensive_tokens,
+                    timing_stats=expensive_timing,
+                )
+            )
+
+        if "cheap_only" in selected_mode_set:
+            (cheap_text, cheap_tokens), cheap_timing = _run_generation_series(
+                device,
+                lambda: generate_greedy_with_model(
+                    prompt=prompt,
+                    model=cheap_model,
+                    tokenizer=cheap_tokenizer,
+                    device=device,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    prompt_format=prompt_format,
+                ),
+                lambda result: result[1],
+                include_latency=include_latency,
+                warmup_runs=warmup_runs,
+                measured_runs=measured_runs,
+                progress_prefix=progress_prefix("cheap_only"),
+            )
+            cheap_saved = estimated_saved_percent(
+                total_generated_tokens=cheap_tokens,
+                cheap_calls=cheap_tokens,
+                expensive_calls=0,
+            )
+            evaluation = evaluate_task(task, cheap_text)
+            rows.append(
+                _build_row(
+                    task=task,
+                    mode="cheap_only",
+                    selected_mode="",
+                    generated_text=cheap_text,
+                    evaluation=evaluation,
+                    estimated_saved=cheap_saved,
+                    expensive_model_calls=0,
+                    model_metadata=model_metadata,
+                    max_new_tokens=max_new_tokens,
+                    generated_tokens=cheap_tokens,
+                    timing_stats=cheap_timing,
+                )
+            )
 
         for mode in (
             "adaptive_calibrated",
             "adaptive_guarded_v3",
             "speculative_adaptive",
         ):
+            needed_for_hybrid = (
+                not include_latency
+                and "hybrid" in selected_mode_set
+                and mode == hybrid_selected_mode
+            )
+            if mode not in selected_mode_set and not needed_for_hybrid:
+                continue
+
             summary, mode_timing = _run_generation_series(
                 device,
                 lambda mode=mode: generate_with_mode(
@@ -946,36 +1063,39 @@ def run_task_evaluation(
                 include_latency=include_latency,
                 warmup_runs=warmup_runs,
                 measured_runs=measured_runs,
+                progress_prefix=progress_prefix(mode),
             )
             mode_summaries[mode] = summary
-            generated_text, saved, expensive_calls = _generation_from_summary(
-                summary
-            )
-            evaluation = evaluate_task(task, generated_text)
-            rows.append(
-                _build_row(
-                    task=task,
-                    mode=mode,
-                    selected_mode="",
-                    generated_text=generated_text,
-                    evaluation=evaluation,
-                    estimated_saved=saved,
-                    expensive_model_calls=expensive_calls,
-                    model_metadata=model_metadata,
-                    max_new_tokens=max_new_tokens,
-                    generated_tokens=summary.get("total_generated_tokens", 0),
-                    timing_stats=mode_timing,
+            if mode in selected_mode_set:
+                generated_text, saved, expensive_calls = _generation_from_summary(
+                    summary
                 )
-            )
+                evaluation = evaluate_task(task, generated_text)
+                rows.append(
+                    _build_row(
+                        task=task,
+                        mode=mode,
+                        selected_mode="",
+                        generated_text=generated_text,
+                        evaluation=evaluation,
+                        estimated_saved=saved,
+                        expensive_model_calls=expensive_calls,
+                        model_metadata=model_metadata,
+                        max_new_tokens=max_new_tokens,
+                        generated_tokens=summary.get("total_generated_tokens", 0),
+                        timing_stats=mode_timing,
+                    )
+                )
 
-        prompt_type = classify_prompt(prompt)
-        selected_mode = choose_mode(prompt_type, prompt)
+        if "hybrid" not in selected_mode_set:
+            continue
+
         if include_latency:
             hybrid_summary, hybrid_timing = _run_generation_series(
                 device,
                 lambda: generate_with_mode(
                     prompt=prompt,
-                    mode=selected_mode,
+                    mode=hybrid_selected_mode,
                     cheap_model=cheap_model,
                     expensive_model=expensive_model,
                     tokenizer=tokenizer,
@@ -990,9 +1110,25 @@ def run_task_evaluation(
                 include_latency=include_latency,
                 warmup_runs=warmup_runs,
                 measured_runs=measured_runs,
+                progress_prefix=progress_prefix("hybrid"),
             )
         else:
-            hybrid_summary = mode_summaries[selected_mode]
+            if hybrid_selected_mode in mode_summaries:
+                hybrid_summary = mode_summaries[hybrid_selected_mode]
+            else:
+                hybrid_summary = generate_with_mode(
+                    prompt=prompt,
+                    mode=hybrid_selected_mode,
+                    cheap_model=cheap_model,
+                    expensive_model=expensive_model,
+                    tokenizer=tokenizer,
+                    device=device,
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    prompt_format=prompt_format,
+                )
             hybrid_timing = _empty_timing_stats()
         generated_text, saved, expensive_calls = _generation_from_summary(
             hybrid_summary
@@ -1002,7 +1138,7 @@ def run_task_evaluation(
             _build_row(
                 task=task,
                 mode="hybrid",
-                selected_mode=selected_mode,
+                selected_mode=hybrid_selected_mode,
                 generated_text=generated_text,
                 evaluation=evaluation,
                 estimated_saved=saved,
@@ -1216,10 +1352,9 @@ def summarize_task_quality_latency(
         passed = sum(1 for row in group if row["passed"] is True or row["passed"] == "True")
         score_sum = sum(_as_float(row["score"]) for row in group)
         time_values = [_as_float(row["total_time_seconds_avg"]) for row in group]
-        time_sum = sum(time_values)
-        speedup_sum = sum(
+        speedup_values = [
             _as_float(row["real_speedup_vs_expensive_percent_avg"]) for row in group
-        )
+        ]
         saved_sum = sum(_as_float(row["estimated_saved_percent"]) for row in group)
         calls_sum = sum(_as_float(row["expensive_model_calls"]) for row in group)
 
@@ -1230,11 +1365,17 @@ def summarize_task_quality_latency(
                 "pass_rate": passed / count if count else 0.0,
                 "avg_pass_rate": passed / count if count else 0.0,
                 "avg_score": score_sum / count if count else 0.0,
-                "avg_total_time_seconds": time_sum / count if count else 0.0,
+                "avg_total_time_seconds": _mean(time_values),
                 "std_total_time_seconds": _std(time_values),
+                "median_total_time_seconds": _median(time_values),
+                "p25_total_time_seconds": _percentile(time_values, 0.25),
+                "p75_total_time_seconds": _percentile(time_values, 0.75),
+                "min_total_time_seconds": min(time_values) if time_values else 0.0,
+                "max_total_time_seconds": max(time_values) if time_values else 0.0,
                 "avg_real_speedup_vs_expensive_percent": (
-                    speedup_sum / count if count else 0.0
+                    _mean(speedup_values)
                 ),
+                "median_real_speedup_vs_expensive_percent": _median(speedup_values),
                 "avg_estimated_saved_percent": saved_sum / count if count else 0.0,
                 "avg_expensive_model_calls": calls_sum / count if count else 0.0,
             }
