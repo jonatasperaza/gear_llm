@@ -125,6 +125,13 @@ estimated_saved_percent: ...
 expensive_model_calls  : ...
 ```
 
+## Article
+
+I wrote a preliminary article about the first GEAR-LLM results:
+
+- [I Built a Small Experimental LLM Router — and Found When It Actually Gets Faster](https://medium.com/@jonatassilvaperaza/i-built-a-small-experimental-llm-router-and-found-when-it-actually-gets-faster-f5ed4c46230f)
+
+
 ## Relatório preliminar
 
 Este projeto consiste em uma pesquisa experimental sobre o roteamento de LLMs (de baixo ou alto custo) com foco na latência.
