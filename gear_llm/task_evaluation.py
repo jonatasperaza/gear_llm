@@ -653,13 +653,11 @@ def _build_row(
     model_metadata: dict,
     max_new_tokens: int,
     generated_tokens: int = 0,
-    total_time_seconds: float | None = None,
+    timing_stats: dict | None = None,
 ) -> dict:
-    tokens_per_second = (
-        generated_tokens / total_time_seconds
-        if total_time_seconds and total_time_seconds > 0
-        else ""
-    )
+    timing_stats = timing_stats or {}
+    total_time_seconds = timing_stats.get("total_time_seconds_avg", "")
+    tokens_per_second = timing_stats.get("tokens_per_second_avg", "")
 
     return {
         "task_id": task["id"],
@@ -691,9 +689,15 @@ def _build_row(
         "error": evaluation["error"],
         "estimated_saved_percent": estimated_saved,
         "expensive_model_calls": expensive_model_calls,
-        "total_time_seconds": total_time_seconds if total_time_seconds is not None else "",
+        "total_time_seconds": total_time_seconds,
+        "total_time_seconds_avg": timing_stats.get("total_time_seconds_avg", ""),
+        "total_time_seconds_std": timing_stats.get("total_time_seconds_std", ""),
+        "total_time_seconds_min": timing_stats.get("total_time_seconds_min", ""),
+        "total_time_seconds_max": timing_stats.get("total_time_seconds_max", ""),
         "generated_tokens": generated_tokens,
         "tokens_per_second": tokens_per_second,
+        "tokens_per_second_avg": timing_stats.get("tokens_per_second_avg", ""),
+        "tokens_per_second_std": timing_stats.get("tokens_per_second_std", ""),
     }
 
 
@@ -719,6 +723,76 @@ def _measure_generation(device: str, generation_fn):
     return result, elapsed
 
 
+def _mean(values: list[float]) -> float:
+    return sum(values) / len(values) if values else 0.0
+
+
+def _std(values: list[float]) -> float:
+    if len(values) < 2:
+        return 0.0
+
+    mean = _mean(values)
+    variance = sum((value - mean) ** 2 for value in values) / len(values)
+    return variance ** 0.5
+
+
+def _empty_timing_stats() -> dict:
+    return {
+        "total_time_seconds_avg": "",
+        "total_time_seconds_std": "",
+        "total_time_seconds_min": "",
+        "total_time_seconds_max": "",
+        "tokens_per_second_avg": "",
+        "tokens_per_second_std": "",
+    }
+
+
+def _build_timing_stats(times: list[float], token_counts: list[int]) -> dict:
+    if not times:
+        return _empty_timing_stats()
+
+    tokens_per_second_values = [
+        token_count / elapsed if elapsed > 0 else 0.0
+        for token_count, elapsed in zip(token_counts, times)
+    ]
+
+    return {
+        "total_time_seconds_avg": _mean(times),
+        "total_time_seconds_std": _std(times),
+        "total_time_seconds_min": min(times),
+        "total_time_seconds_max": max(times),
+        "tokens_per_second_avg": _mean(tokens_per_second_values),
+        "tokens_per_second_std": _std(tokens_per_second_values),
+    }
+
+
+def _run_generation_series(
+    device: str,
+    generation_fn,
+    token_count_fn,
+    include_latency: bool,
+    warmup_runs: int,
+    measured_runs: int,
+):
+    if not include_latency:
+        return generation_fn(), _empty_timing_stats()
+
+    for _ in range(max(0, warmup_runs)):
+        generation_fn()
+
+    result = None
+    times = []
+    token_counts = []
+    for _ in range(max(1, measured_runs)):
+        measured_result, elapsed = _measure_generation(device, generation_fn)
+        if result is None:
+            result = measured_result
+        times.append(elapsed)
+        token_counts.append(int(token_count_fn(measured_result)))
+
+    return result, _build_timing_stats(times, token_counts)
+
+
 def run_task_evaluation(
     dataset_path: str | Path = "data/eval_tasks.jsonl",
     cheap_model_name: str = AdaptiveGenerationConfig.cheap_model_name,
@@ -730,6 +804,8 @@ def run_task_evaluation(
     prompt_format: str = "auto",
     models=None,
     include_latency: bool = False,
+    warmup_runs: int = 0,
+    measured_runs: int = 1,
 ) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
     tasks = load_eval_tasks(dataset_path)
 
@@ -775,7 +851,7 @@ def run_task_evaluation(
         prompt = task["prompt"]
         mode_summaries = {}
 
-        (expensive_text, expensive_tokens), expensive_time = _measure_generation(
+        (expensive_text, expensive_tokens), expensive_timing = _run_generation_series(
             device,
             lambda: generate_greedy_with_model(
                 prompt=prompt,
@@ -786,6 +862,10 @@ def run_task_evaluation(
                 temperature=temperature,
                 prompt_format=prompt_format,
             ),
+            lambda result: result[1],
+            include_latency=include_latency,
+            warmup_runs=warmup_runs,
+            measured_runs=measured_runs,
         )
         evaluation = evaluate_task(task, expensive_text)
         rows.append(
@@ -800,11 +880,11 @@ def run_task_evaluation(
                 model_metadata=model_metadata,
                 max_new_tokens=max_new_tokens,
                 generated_tokens=expensive_tokens,
-                total_time_seconds=expensive_time if include_latency else None,
+                timing_stats=expensive_timing,
             )
         )
 
-        (cheap_text, cheap_tokens), cheap_time = _measure_generation(
+        (cheap_text, cheap_tokens), cheap_timing = _run_generation_series(
             device,
             lambda: generate_greedy_with_model(
                 prompt=prompt,
@@ -815,6 +895,10 @@ def run_task_evaluation(
                 temperature=temperature,
                 prompt_format=prompt_format,
             ),
+            lambda result: result[1],
+            include_latency=include_latency,
+            warmup_runs=warmup_runs,
+            measured_runs=measured_runs,
         )
         cheap_saved = estimated_saved_percent(
             total_generated_tokens=cheap_tokens,
@@ -834,7 +918,7 @@ def run_task_evaluation(
                 model_metadata=model_metadata,
                 max_new_tokens=max_new_tokens,
                 generated_tokens=cheap_tokens,
-                total_time_seconds=cheap_time if include_latency else None,
+                timing_stats=cheap_timing,
             )
         )
 
@@ -843,7 +927,7 @@ def run_task_evaluation(
             "adaptive_guarded_v3",
             "speculative_adaptive",
         ):
-            summary, mode_time = _measure_generation(
+            summary, mode_timing = _run_generation_series(
                 device,
                 lambda mode=mode: generate_with_mode(
                     prompt=prompt,
@@ -858,6 +942,10 @@ def run_task_evaluation(
                     temperature=temperature,
                     prompt_format=prompt_format,
                 ),
+                lambda result: result.get("total_generated_tokens", 0),
+                include_latency=include_latency,
+                warmup_runs=warmup_runs,
+                measured_runs=measured_runs,
             )
             mode_summaries[mode] = summary
             generated_text, saved, expensive_calls = _generation_from_summary(
@@ -876,14 +964,14 @@ def run_task_evaluation(
                     model_metadata=model_metadata,
                     max_new_tokens=max_new_tokens,
                     generated_tokens=summary.get("total_generated_tokens", 0),
-                    total_time_seconds=mode_time if include_latency else None,
+                    timing_stats=mode_timing,
                 )
             )
 
         prompt_type = classify_prompt(prompt)
         selected_mode = choose_mode(prompt_type, prompt)
         if include_latency:
-            hybrid_summary, hybrid_time = _measure_generation(
+            hybrid_summary, hybrid_timing = _run_generation_series(
                 device,
                 lambda: generate_with_mode(
                     prompt=prompt,
@@ -898,10 +986,14 @@ def run_task_evaluation(
                     temperature=temperature,
                     prompt_format=prompt_format,
                 ),
+                lambda result: result.get("total_generated_tokens", 0),
+                include_latency=include_latency,
+                warmup_runs=warmup_runs,
+                measured_runs=measured_runs,
             )
         else:
             hybrid_summary = mode_summaries[selected_mode]
-            hybrid_time = None
+            hybrid_timing = _empty_timing_stats()
         generated_text, saved, expensive_calls = _generation_from_summary(
             hybrid_summary
         )
@@ -918,7 +1010,7 @@ def run_task_evaluation(
                 model_metadata=model_metadata,
                 max_new_tokens=max_new_tokens,
                 generated_tokens=hybrid_summary.get("total_generated_tokens", 0),
-                total_time_seconds=hybrid_time if include_latency else None,
+                timing_stats=hybrid_timing,
             )
         )
 
@@ -1034,16 +1126,28 @@ def build_task_quality_latency_report(rows: list[dict]) -> list[dict]:
     baselines = {}
     for row in rows:
         if row["mode"] == "expensive_only":
-            baselines[row["task_id"]] = _as_float(row["total_time_seconds"])
+            baselines[row["task_id"]] = _as_float(
+                row.get("total_time_seconds_avg", row["total_time_seconds"])
+            )
 
     report_rows = []
     for row in rows:
         total_time = _as_float(row["total_time_seconds"])
+        total_time_avg = _as_float(row.get("total_time_seconds_avg", total_time))
+        total_time_std = _as_float(row.get("total_time_seconds_std", 0.0))
+        total_time_min = _as_float(row.get("total_time_seconds_min", total_time_avg))
+        total_time_max = _as_float(row.get("total_time_seconds_max", total_time_avg))
+        tokens_per_second_avg = _as_float(
+            row.get("tokens_per_second_avg", row["tokens_per_second"])
+        )
+        tokens_per_second_std = _as_float(row.get("tokens_per_second_std", 0.0))
         baseline = baselines.get(row["task_id"], 0.0)
-        if baseline > 0 and total_time > 0:
-            speedup = 100 * (1 - total_time / baseline)
+        if baseline > 0 and total_time_avg > 0:
+            speedup = 100 * (1 - total_time_avg / baseline)
+            speedup_std = 100 * total_time_std / baseline
         else:
             speedup = 0.0
+            speedup_std = 0.0
 
         report_rows.append(
             {
@@ -1054,11 +1158,20 @@ def build_task_quality_latency_report(rows: list[dict]) -> list[dict]:
                 "selected_mode": row["selected_mode"],
                 "passed": row["passed"],
                 "score": row["score"],
-                "total_time_seconds": total_time,
+                "total_time_seconds": total_time_avg,
+                "total_time_seconds_avg": total_time_avg,
+                "total_time_seconds_std": total_time_std,
+                "total_time_seconds_min": total_time_min,
+                "total_time_seconds_max": total_time_max,
                 "expensive_only_seconds": baseline,
+                "expensive_only_seconds_avg": baseline,
                 "real_speedup_vs_expensive_percent": speedup,
+                "real_speedup_vs_expensive_percent_avg": speedup,
+                "real_speedup_vs_expensive_percent_std": speedup_std,
                 "generated_tokens": row["generated_tokens"],
-                "tokens_per_second": _as_float(row["tokens_per_second"]),
+                "tokens_per_second": tokens_per_second_avg,
+                "tokens_per_second_avg": tokens_per_second_avg,
+                "tokens_per_second_std": tokens_per_second_std,
                 "estimated_saved_percent": row["estimated_saved_percent"],
                 "expensive_model_calls": row["expensive_model_calls"],
                 "cheap_model_name": row["cheap_model_name"],
@@ -1102,9 +1215,10 @@ def summarize_task_quality_latency(
         count = len(group)
         passed = sum(1 for row in group if row["passed"] is True or row["passed"] == "True")
         score_sum = sum(_as_float(row["score"]) for row in group)
-        time_sum = sum(_as_float(row["total_time_seconds"]) for row in group)
+        time_values = [_as_float(row["total_time_seconds_avg"]) for row in group]
+        time_sum = sum(time_values)
         speedup_sum = sum(
-            _as_float(row["real_speedup_vs_expensive_percent"]) for row in group
+            _as_float(row["real_speedup_vs_expensive_percent_avg"]) for row in group
         )
         saved_sum = sum(_as_float(row["estimated_saved_percent"]) for row in group)
         calls_sum = sum(_as_float(row["expensive_model_calls"]) for row in group)
@@ -1114,8 +1228,10 @@ def summarize_task_quality_latency(
             {
                 "count": count,
                 "pass_rate": passed / count if count else 0.0,
+                "avg_pass_rate": passed / count if count else 0.0,
                 "avg_score": score_sum / count if count else 0.0,
                 "avg_total_time_seconds": time_sum / count if count else 0.0,
+                "std_total_time_seconds": _std(time_values),
                 "avg_real_speedup_vs_expensive_percent": (
                     speedup_sum / count if count else 0.0
                 ),
@@ -1192,10 +1308,11 @@ def print_task_evaluation_overall_report(overall_rows: list[dict]):
 
 def print_task_quality_latency_report(summary_rows: list[dict]):
     print("Task Quality-Latency Report")
-    print("=" * 104)
+    print("=" * 116)
     header = (
         f"{'mode':<22} | {'pass_rate':>9} | {'avg_speedup':>11} | "
-        f"{'avg_saved':>10} | {'avg_calls':>9} | {'avg_time':>9}"
+        f"{'avg_saved':>10} | {'avg_calls':>9} | {'avg_time':>9} | "
+        f"{'std_time':>9}"
     )
     print(header)
     print("-" * len(header))
@@ -1206,9 +1323,10 @@ def print_task_quality_latency_report(summary_rows: list[dict]):
             f"{row['avg_real_speedup_vs_expensive_percent']:>10.2f}% | "
             f"{row['avg_estimated_saved_percent']:>9.2f}% | "
             f"{row['avg_expensive_model_calls']:>9.2f} | "
-            f"{row['avg_total_time_seconds']:>9.3f}"
+            f"{row['avg_total_time_seconds']:>9.3f} | "
+            f"{row['std_total_time_seconds']:>9.3f}"
         )
-    print("=" * 104)
+    print("=" * 116)
     print()
 
 

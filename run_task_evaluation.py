@@ -83,6 +83,18 @@ def main():
         action="store_true",
         help="Measure generation latency and save task quality-latency reports.",
     )
+    parser.add_argument(
+        "--warmup-runs",
+        type=int,
+        default=0,
+        help="Warmup generations per task/mode when --include-latency is set.",
+    )
+    parser.add_argument(
+        "--measured-runs",
+        type=int,
+        default=1,
+        help="Measured generations per task/mode when --include-latency is set.",
+    )
 
     args = parser.parse_args()
 
@@ -96,6 +108,8 @@ def main():
         torch_dtype=args.torch_dtype,
         prompt_format=args.prompt_format,
         include_latency=args.include_latency,
+        warmup_runs=args.warmup_runs,
+        measured_runs=args.measured_runs,
     )
     print_task_evaluation_report(summary_rows)
     print_task_evaluation_overall_report(overall_rows)

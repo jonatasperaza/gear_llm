@@ -587,6 +587,18 @@ def main():
         help="Inclui latencia real na avaliacao task-specific.",
     )
     parser.add_argument(
+        "--warmup-runs",
+        type=int,
+        default=0,
+        help="Warmups por task/modo na avaliacao task-specific com latencia.",
+    )
+    parser.add_argument(
+        "--measured-runs",
+        type=int,
+        default=1,
+        help="Medicoes por task/modo na avaliacao task-specific com latencia.",
+    )
+    parser.add_argument(
         "--dataset",
         type=str,
         default="data/prompts.jsonl",
@@ -971,7 +983,6 @@ def main():
                 device=args.device,
                 torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
-                include_latency=args.include_latency,
             )
             print_quality_benchmark_report(quality_rows)
             save_quality_benchmark(quality_rows, quality_csv)
@@ -1155,6 +1166,9 @@ def main():
                 device=args.device,
                 torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
+                include_latency=args.include_latency,
+                warmup_runs=args.warmup_runs,
+                measured_runs=args.measured_runs,
             )
             print_task_evaluation_report(task_summary_rows)
             print_task_evaluation_overall_report(task_overall_rows)
@@ -1556,7 +1570,6 @@ def main():
             device=args.device,
             torch_dtype=args.torch_dtype,
             prompt_format=args.prompt_format,
-            include_latency=args.include_latency,
         )
         print_quality_benchmark_report(quality_rows)
         save_quality_benchmark(quality_rows, quality_csv)
@@ -1744,6 +1757,9 @@ def main():
             device=args.device,
             torch_dtype=args.torch_dtype,
             prompt_format=args.prompt_format,
+            include_latency=args.include_latency,
+            warmup_runs=args.warmup_runs,
+            measured_runs=args.measured_runs,
         )
         print_task_evaluation_report(task_summary_rows)
         print_task_evaluation_overall_report(task_overall_rows)
