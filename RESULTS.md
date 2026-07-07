@@ -310,3 +310,41 @@ Limitations:
 - Results are specific to `Qwen2.5-0.5B -> Qwen2.5-3B` on this CUDA setup.
 
 This benchmark improves the quality signal beyond lexical similarity, but it does not prove quality is solved. It should be treated as preliminary evidence that task-aware routed generation can approach expensive-only correctness while reducing real latency in a favorable setting, not as a production benchmark.
+
+## External MBPP Code Benchmark — Qwen2.5-Coder 0.5B → 3B, Split GPU
+
+This benchmark evaluates external MBPP-style code tasks from `data/external_eval_tasks_90.jsonl`. It uses a split-GPU setup with a Qwen2.5-Coder cheap/expensive pair.
+
+Configuration:
+
+- Dataset: `data/external_eval_tasks_90.jsonl`
+- Category: `code`
+- Task count: 30
+- Cheap model: `Qwen/Qwen2.5-Coder-0.5B-Instruct`
+- Expensive model: `Qwen/Qwen2.5-Coder-3B-Instruct`
+- cheap_device: `cuda:0`
+- expensive_device: `cuda:1`
+- device: `split`
+- torch_dtype: `float16`
+- prompt_format: `auto`
+- max_new_tokens: 256
+- warmup_runs: 1
+- measured_runs: 3
+
+Results:
+
+| Mode | Pass rate | Avg time | Avg speedup | Median speedup | Avg estimated saved | Avg expensive calls |
+|---|---:|---:|---:|---:|---:|---:|
+| expensive_only | 60.00% | 13.183s | 0.00% | - | 0.00% | 133.77 |
+| cheap_only | 46.67% | 5.232s | 34.62% | - | 65.00% | 0.00 |
+| adaptive_guarded_v3 | 53.33% | 6.081s | 24.58% | 41.19% | 58.32% | 9.77 |
+| hybrid | 53.33% | 6.065s | 24.83% | 41.24% | 58.32% | 9.77 |
+
+Interpretation:
+
+- Updating `hybrid` to route code prompts to `adaptive_guarded_v3` improved hybrid pass rate from 50.00% to 53.33%.
+- `hybrid` preserved 88.9% of the `expensive_only` pass rate.
+- `hybrid` reduced average expensive-model calls from 133.77 to 9.77, approximately a 92.7% reduction.
+- `hybrid` achieved 24.83% average per-task speedup and 41.24% median per-task speedup.
+- This is promising external evidence for routed code generation, but it is not definitive: the sample has only 30 tasks, and confidence intervals are still wide.
+- The result should be interpreted as preliminary external evidence, not as a final generalization claim.

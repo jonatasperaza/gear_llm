@@ -1,3 +1,2119 @@
 task_id,category,difficulty,mode,selected_mode,cheap_model_name,expensive_model_name,device,cheap_device,expensive_device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,max_new_tokens,generated_text,source,answer_type,expected_answer,expected_label,function_name,inferred_answer,inferred_label,test_count,passed_tests,passed,score,failure_reason,error,estimated_saved_percent,expensive_model_calls,total_time_seconds,total_time_seconds_avg,total_time_seconds_std,total_time_seconds_min,total_time_seconds_max,generated_tokens,tokens_per_second,tokens_per_second_avg,tokens_per_second_std
-math_001,math,easy,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto,chat,chat,4,7 * 8,,number,56,,,,,0,0,False,0.0,expected_answer_not_found,,0.0,4,,,,,,4,,,
-math_001,math,easy,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto,chat,chat,4,7 * 8,,number,56,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,,,,,,4,,,
+mbpp_000001,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `return_sum` that calculates the sum of all values in a given dictionary:
+
+```python
+def return_sum(dictionary):
+    return sum(dictionary.values())
+```
+
+This function takes a dictionary as an argument and returns the sum of all its values using the `sum()` function, which is applied to the dictionary's values.",mbpp,,,,return_sum,,,3,3,True,1.0,,,0.0,73,4.798360861666576,4.798360861666576,0.07196585314096439,4.736030092000419,4.899202514999615,73,15.21691849573265,15.21691849573265,0.22602790489442165
+mbpp_000001,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def return_sum(dict):
+    """"""
+    Calculate the sum of all items in the given dictionary.
+
+    Args:
+    dict (dict): A dictionary containing key-value pairs.
+
+    Returns:
+    int: The sum of all values in the dictionary.
+    """"""
+    return sum(dict.values())
+```",mbpp,,,,return_sum,,,3,3,True,1.0,,,64.99999999999999,0,2.386478275000021,2.386478275000021,0.013491047522798144,2.370859679000205,2.4037774169996737,62,25.980533765750636,25.980533765750636,0.1467209739367886
+mbpp_000001,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def return_sum(dictionary):
+    """"""
+    Calculate the sum of all items in the given dictionary.
+
+    Args:
+    dictionary (dict): A dictionary containing numeric values.
+
+    Returns:
+    int: The sum of all items in the dictionary.
+    """"""
+    return sum(dictionary.values())
+```",mbpp,,,,return_sum,,,3,3,True,1.0,,,60.08196721311476,3,2.8766393656666573,2.8766393656666573,0.00398398662962815,2.8711660879998817,2.8805338679999295,61,21.20534044587455,21.20534044587455,0.029389905456300998
+mbpp_000001,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def return_sum(dictionary):
+    """"""
+    Calculate the sum of all items in the given dictionary.
+
+    Args:
+    dictionary (dict): A dictionary containing numeric values.
+
+    Returns:
+    int: The sum of all items in the dictionary.
+    """"""
+    return sum(dictionary.values())
+```",mbpp,,,,return_sum,,,3,3,True,1.0,,,60.08196721311476,3,2.857995361666781,2.857995361666781,0.009082377011733445,2.8485241150001457,2.870244704000015,61,21.34384681687969,21.34384681687969,0.06773598460367748
+mbpp_000002,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def even_Power_Sum(n):
+    # Initialize the sum to 0
+    sum = 0
+    # Loop through the first n even natural numbers
+    for i in range(1, n + 1):
+        # Calculate the even number
+        even_number = 2 * i
+        # Add the fifth power of the even number to the sum
+        sum += even_number ** 5
+    # Return the final sum
+    return sum
+```",mbpp,,,,even_Power_Sum,,,3,3,True,1.0,,,0.0,102,7.7863238833335044,7.7863238833335044,0.08433070914433874,7.675298110999847,7.879552299000352,102,13.101433781339772,13.101433781339772,0.14238041454343062
+mbpp_000002,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def even_Power_Sum(n):
+    """"""
+    Calculate the sum of the first n even natural numbers raised to the fifth power.
+
+    Args:
+    n (int): The number of even natural numbers to consider.
+
+    Returns:
+    int: The sum of the first n even natural numbers raised to the fifth power.
+    """"""
+    # Initialize the sum to 0
+    sum_even_powers = 0
+    
+    # Loop through the first n even natural numbers
+    for i in range(2, n + 1, 2):
+        # Calculate the fifth power of the current even number
+        fifth_power = i ** 5
+        # Add the fifth power to the sum
+        sum_even_powers += fifth_power
+    
+    return sum_even_powers
+```
+
+This function iterates through the first `n` even natural numbers, calculates the fifth power of each, and accumulates the sum. The result is returned at the end.",mbpp,,,,even_Power_Sum,,,3,0,False,0.0,assert even_Power_Sum(2) == 1056,assert even_Power_Sum(2) == 1056,65.0,0,7.805043710666571,7.805043710666571,0.05395415386996653,7.7577335900000435,7.880543639999814,200,25.62567525632043,25.62567525632043,0.17636290556643872
+mbpp_000002,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def even_Power_Sum(n):
+    """"""
+    Calculate the sum of the first n even natural numbers raised to the fifth power.
+
+    Parameters:
+    n (int): The number of even natural numbers to consider.
+
+    Returns:
+    int: The sum of the first n even natural numbers raised to the fifth power.
+    """"""
+    total_sum = 0
+    for i in range(1, n + 1):
+        if i % 2 == 0:
+            total_sum += i ** 5
+    return total_sum
+
+# Example usage:
+print(even_Power_Sum(5))  # Output: 1024
+```
+
+This function iterates through the first `n` even natural numbers, checks if they are even, and if so, adds their fifth power to the total sum. The function then returns the total sum.",mbpp,,,,even_Power_Sum,,,3,0,False,0.0,assert even_Power_Sum(2) == 1056,assert even_Power_Sum(2) == 1056,55.65934065934067,17,9.121544576999895,9.121544576999895,0.03761143096868582,9.085332434000065,9.173391426999842,182,19.953099597088595,19.953099597088595,0.08208752606766558
+mbpp_000002,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def even_Power_Sum(n):
+    """"""
+    Calculate the sum of the first n even natural numbers raised to the fifth power.
+
+    Parameters:
+    n (int): The number of even natural numbers to consider.
+
+    Returns:
+    int: The sum of the first n even natural numbers raised to the fifth power.
+    """"""
+    total_sum = 0
+    for i in range(1, n + 1):
+        if i % 2 == 0:
+            total_sum += i ** 5
+    return total_sum
+
+# Example usage:
+print(even_Power_Sum(5))  # Output: 1024
+```
+
+This function iterates through the first `n` even natural numbers, checks if they are even, and if so, adds their fifth power to the total sum. The function then returns the total sum.",mbpp,,,,even_Power_Sum,,,3,0,False,0.0,assert even_Power_Sum(2) == 1056,assert even_Power_Sum(2) == 1056,55.65934065934067,17,8.938884610666719,8.938884610666719,0.025673038359590807,8.91267477800011,8.973748222999802,182,20.360649812840332,20.360649812840332,0.0583988890497864
+mbpp_000003,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_product(nums):
+    if not nums:
+        return 0
+    
+    # Initialize the maximum product and the current product
+    max_product = nums[0]
+    current_product = nums[0]
+    
+    # Iterate through the array starting from the second element
+    for num in nums[1:]:
+        # If the current number is positive, multiply it with the current product
+        # If the current number is negative, swap the current product with the maximum product
+        # This is because multiplying by a negative number can turn a small negative product into a large positive product
+        current_product = max(num, current_product * num)
+        max_product = max(max_product, current_product)
+    
+    return max_product
+```
+
+This function iterates through the array, keeping track of the maximum product of an increasing subsequence found so far. It updates the current product by multiplying it with the current number, or by starting a new subsequence with the current number if it's positive. The maximum product is updated whenever a larger product is found.",mbpp,,,,max_product,,,3,0,False,0.0,"assert max_product([3, 100, 4, 5, 150, 6]) == 3000","assert max_product([3, 100, 4, 5, 150, 6]) == 3000",0.0,218,23.981708987000122,23.981708987000122,0.9253635205758005,23.073740438000186,25.251868061000096,218,9.103549689163534,9.103549689163534,0.3444422533243718
+mbpp_000003,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_product(nums):
+    """"""
+    Find the maximum product formed by multiplying numbers of an increasing subsequence of the array.
+    
+    Args:
+    nums (list): A list of integers.
+    
+    Returns:
+    int: The maximum product of an increasing subsequence.
+    """"""
+    if not nums:
+        return 0
+    
+    # Initialize variables
+    max_product = nums[0]
+    current_product = nums[0]
+    min_product = nums[0]
+    
+    # Iterate through the array starting from the second element
+    for num in nums[1:]:
+        if num > current_product:
+            max_product = num
+            current_product = num
+        elif num < current_product:
+            if num < min_product:
+                min_product = num
+            else:
+                current_product *= num
+        else:
+            current_product *= num
+    
+    return max_product
+```
+
+This function iterates through the array, keeping track of the maximum and minimum products found so far. It updates these values whenever a larger product is found, ensuring that the maximum product is always the largest possible product formed by an increasing subsequence.",mbpp,,,,max_product,,,3,0,False,0.0,"assert max_product([3, 100, 4, 5, 150, 6]) == 3000","assert max_product([3, 100, 4, 5, 150, 6]) == 3000",65.00000000000001,0,8.939400768333448,8.939400768333448,0.0757399523806536,8.8383428369998,9.02067516399984,234,26.178136407626727,26.178136407626727,0.22251046920543935
+mbpp_000003,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_product(nums):
+    """"""
+    Finds the maximum product of an increasing subsequence in the given array.
+
+    Args:
+    nums (list): A list of integers.
+
+    Returns:
+    int: The maximum product of an increasing subsequence.
+    """"""
+    if not nums:
+        return 0
+
+    # Initialize the maximum product subsequence with the first element
+    max_product = nums[0]
+    current_product = nums[0]
+
+    # Iterate through the array starting from the second element
+    for num in nums[1:]:
+        # If the current number is greater than the current product, reset the current product
+        if num > current_product:
+            current_product = num
+        # Update the maximum product if the current product is greater
+        max_product = max(max_product, current_product * num)
+
+    return max_product
+```
+
+This function iterates through the array, keeping track of the maximum product of an increasing subsequence found so far. It updates this maximum product whenever it finds a number that is greater than the current product. This ensures that the maximum product is found efficiently.",mbpp,,,,max_product,,,3,0,False,0.0,"assert max_product([3, 100, 4, 5, 150, 6]) == 3000","assert max_product([3, 100, 4, 5, 150, 6]) == 3000",54.56521739130435,24,11.785721305666508,11.785721305666508,0.018980944905369956,11.76320765499986,11.809637753999596,230,19.515190499332093,19.515190499332093,0.03142375151895382
+mbpp_000003,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_product(nums):
+    """"""
+    Finds the maximum product of an increasing subsequence in the given array.
+
+    Args:
+    nums (list): A list of integers.
+
+    Returns:
+    int: The maximum product of an increasing subsequence.
+    """"""
+    if not nums:
+        return 0
+
+    # Initialize the maximum product subsequence with the first element
+    max_product = nums[0]
+    current_product = nums[0]
+
+    # Iterate through the array starting from the second element
+    for num in nums[1:]:
+        # If the current number is greater than the current product, reset the current product
+        if num > current_product:
+            current_product = num
+        # Update the maximum product if the current product is greater
+        max_product = max(max_product, current_product * num)
+
+    return max_product
+```
+
+This function iterates through the array, keeping track of the maximum product of an increasing subsequence found so far. It updates this maximum product whenever it finds a number that is greater than the current product. This ensures that the maximum product is found efficiently.",mbpp,,,,max_product,,,3,0,False,0.0,"assert max_product([3, 100, 4, 5, 150, 6]) == 3000","assert max_product([3, 100, 4, 5, 150, 6]) == 3000",54.56521739130435,24,11.735452387333376,11.735452387333376,0.11168037905984969,11.608098829000483,11.88002764599969,230,19.600504501343377,19.600504501343377,0.1861362497136985
+mbpp_000004,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_length(list_of_lists):
+    # Initialize variables to store the maximum length and the corresponding list
+    max_length = 0
+    max_list = []
+    
+    # Iterate through each list in the list of lists
+    for lst in list_of_lists:
+        # Check if the current list is longer than the previously recorded maximum
+        if len(lst) > max_length:
+            max_length = len(lst)
+            max_list = lst
+    
+    # Return the list with the maximum length
+    return max_list
+```",mbpp,,,,max_length,,,3,0,False,0.0,"assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17])","assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17])",0.0,111,8.576987206666672,8.576987206666672,0.23121915566097706,8.298559609000222,8.864700168999661,111,12.951007413658713,12.951007413658713,0.34875781968208663
+mbpp_000004,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_length(list_of_lists):
+    """"""
+    Find the list of maximum length in a list of lists.
+
+    Args:
+    list_of_lists (list of list): A list of lists.
+
+    Returns:
+    list: A list containing the maximum length of each sublist.
+    """"""
+    return [max(len(sublist), key=len) for sublist in list_of_lists]
+```",mbpp,,,,max_length,,,3,0,False,0.0,"assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17]) raised TypeError: 'int' object is not iterable","assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17]) raised TypeError: 'int' object is not iterable",65.0,0,2.983905519333348,2.983905519333348,0.02735183869603248,2.960031208000146,3.0221997910002756,80,26.81274006041599,26.81274006041599,0.24433746210150303
+mbpp_000004,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_length(list_of_lists):
+    """"""
+    Find the list of maximum length in a list of lists.
+
+    Args:
+    list_of_lists (list of list): A list of lists.
+
+    Returns:
+    list: The list of maximum lengths.
+    """"""
+    return [max(len(row) for row in list_of_lists)]
+```",mbpp,,,,max_length,,,3,0,False,0.0,"assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17])","assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17])",58.05555555555556,5,3.4017507466669485,3.4017507466669485,0.007235756242998841,3.3943835360005323,3.4115847510001913,72,21.16566756223536,21.16566756223536,0.04497577478994482
+mbpp_000004,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_length(list_of_lists):
+    """"""
+    Find the list of maximum length in a list of lists.
+
+    Args:
+    list_of_lists (list of list): A list of lists.
+
+    Returns:
+    list: The list of maximum lengths.
+    """"""
+    return [max(len(row) for row in list_of_lists)]
+```",mbpp,,,,max_length,,,3,0,False,0.0,"assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17])","assert max_length([[0], [1, 3], [5, 7], [9, 11], [13, 15, 17]])==(3, [13, 15, 17])",58.05555555555556,5,3.4126379169999077,3.4126379169999077,0.017364576118296955,3.3943339649995323,3.43596793100005,72,21.09859354650743,21.09859354650743,0.10713421372032005
+mbpp_000005,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def circle_circumference(radius):
+    """"""
+    Calculate the circumference of a circle given its radius.
+
+    Parameters:
+    radius (float): The radius of the circle.
+
+    Returns:
+    float: The circumference of the circle.
+    """"""
+    return 2 * math.pi * radius
+```",mbpp,,,,circle_circumference,,,3,3,True,1.0,,,0.0,67,4.390163087333046,4.390163087333046,0.03687598962741475,4.3579963669999415,4.441795490999539,67,15.262463086112042,15.262463086112042,0.1275105189851286
+mbpp_000005,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def circle_circumference(radius):
+    """"""
+    Calculate the circumference of a circle given its radius.
+
+    Parameters:
+    radius (float): The radius of the circle.
+
+    Returns:
+    float: The circumference of the circle.
+    """"""
+    return 2 * math.pi * radius
+```",mbpp,,,,circle_circumference,,,3,3,True,1.0,,,65.0,0,2.5169260766667017,2.5169260766667017,0.025785000894254135,2.4974725430001854,2.553363691999948,67,26.622546825468135,26.622546825468135,0.27079056062395196
+mbpp_000005,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def circle_circumference(radius):
+    """"""
+    Calculate the circumference of a circle given its radius.
+
+    Parameters:
+    radius (float): The radius of the circle.
+
+    Returns:
+    float: The circumference of the circle.
+    """"""
+    return 2 * math.pi * radius
+```",mbpp,,,,circle_circumference,,,3,3,True,1.0,,,65.0,0,2.8056201433331203,2.8056201433331203,0.014309574807030167,2.787775373999466,2.822808062000149,67,23.88125981011521,23.88125981011521,0.12184727207651863
+mbpp_000005,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def circle_circumference(radius):
+    """"""
+    Calculate the circumference of a circle given its radius.
+
+    Parameters:
+    radius (float): The radius of the circle.
+
+    Returns:
+    float: The circumference of the circle.
+    """"""
+    return 2 * math.pi * radius
+```",mbpp,,,,circle_circumference,,,3,3,True,1.0,,,65.0,0,2.766242742666994,2.766242742666994,0.02756033328874978,2.7428366240001196,2.8049360439999873,67,24.222967406027475,24.222967406027475,0.2397581160113832
+mbpp_000006,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def odd_num_sum(n):
+    # Initialize sum to 0
+    total_sum = 0
+    # Loop through the first n odd numbers
+    for i in range(1, 2*n, 2):
+        # Add the fourth power of the current odd number to the total sum
+        total_sum += i**4
+    return total_sum
+```",mbpp,,,,odd_num_sum,,,3,3,True,1.0,,,0.0,80,5.826966678000342,5.826966678000342,0.061386533378038365,5.758430128000327,5.907381629000156,80,13.730789646930376,13.730789646930376,0.1442326573409586
+mbpp_000006,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def odd_num_sum(n):
+    """"""
+    Calculate the sum of fourth power of the first n odd natural numbers.
+
+    Args:
+    n (int): The number of odd natural numbers to consider.
+
+    Returns:
+    int: The sum of fourth powers of the first n odd natural numbers.
+    """"""
+    return sum(i**4 for i in range(1, n+1, 2))
+```",mbpp,,,,odd_num_sum,,,3,0,False,0.0,assert odd_num_sum(2) == 82,assert odd_num_sum(2) == 82,65.00000000000001,0,3.2361482780000492,3.2361482780000492,0.03495588775514127,3.1869797299996208,3.2651723210001364,86,26.577925832474136,26.577925832474136,0.2891914224558553
+mbpp_000006,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def odd_num_sum(n):
+    """"""
+    Calculate the sum of fourth power of the first n odd natural numbers.
+
+    Args:
+    n (int): The number of odd natural numbers to consider.
+
+    Returns:
+    int: The sum of fourth powers of the first n odd natural numbers.
+    """"""
+    total_sum = 0
+    for i in range(1, n + 1):
+        odd_number = 2 * i - 1
+        total_sum += odd_number ** 4
+    return total_sum
+```",mbpp,,,,odd_num_sum,,,3,3,True,1.0,,,58.80530973451327,7,5.202896744333278,5.202896744333278,0.045400871053963184,5.148554440000225,5.259682826999779,113,21.720323274019307,21.720323274019307,0.1894106843727216
+mbpp_000006,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def odd_num_sum(n):
+    """"""
+    Calculate the sum of fourth power of the first n odd natural numbers.
+
+    Args:
+    n (int): The number of odd natural numbers to consider.
+
+    Returns:
+    int: The sum of fourth powers of the first n odd natural numbers.
+    """"""
+    total_sum = 0
+    for i in range(1, n + 1):
+        odd_number = 2 * i - 1
+        total_sum += odd_number ** 4
+    return total_sum
+```",mbpp,,,,odd_num_sum,,,3,3,True,1.0,,,58.80530973451327,7,5.223036867666451,5.223036867666451,0.04081697727117073,5.166428073999668,5.2611199049997595,113,21.636250366311028,21.636250366311028,0.16986495075429933
+mbpp_000007,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_perimeter(side_length):
+    """"""
+    Calculate the perimeter of a square.
+
+    Parameters:
+    side_length (float): The length of one side of the square.
+
+    Returns:
+    float: The perimeter of the square.
+    """"""
+    return 4 * side_length
+```",mbpp,,,,square_perimeter,,,3,3,True,1.0,,,0.0,62,3.9280076656668825,3.9280076656668825,0.011779102434254254,3.913049022999985,3.941835226000876,62,15.784225250597316,15.784225250597316,0.04735353679714656
+mbpp_000007,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_perimeter(side_length):
+    """"""
+    Calculate the perimeter of a square given its side length.
+
+    Parameters:
+    side_length (float): The length of the side of the square.
+
+    Returns:
+    float: The perimeter of the square.
+    """"""
+    return 4 * side_length
+```",mbpp,,,,square_perimeter,,,3,3,True,1.0,,,65.00000000000001,0,2.4634408523331026,2.4634408523331026,0.028945039856486155,2.4323401719993853,2.5020407860001797,66,26.79547753079809,26.79547753079809,0.31349882527305367
+mbpp_000007,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_perimeter(side_length):
+    """"""
+    Calculate the perimeter of a square given its side length.
+
+    Parameters:
+    side_length (float): The length of the side of the square.
+
+    Returns:
+    float: The perimeter of the square.
+    """"""
+    return 4 * side_length
+```",mbpp,,,,square_perimeter,,,3,3,True,1.0,,,63.4848484848485,1,2.8169361480001194,2.8169361480001194,0.0027289480687213955,2.8130769419994976,2.8188909130003594,66,23.429733056138488,23.429733056138488,0.022713451581325362
+mbpp_000007,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_perimeter(side_length):
+    """"""
+    Calculate the perimeter of a square given its side length.
+
+    Parameters:
+    side_length (float): The length of the side of the square.
+
+    Returns:
+    float: The perimeter of the square.
+    """"""
+    return 4 * side_length
+```",mbpp,,,,square_perimeter,,,3,3,True,1.0,,,63.4848484848485,1,2.79443806866675,2.79443806866675,0.012435722536760462,2.777125986000101,2.8057754600004046,66,23.618813166886138,23.618813166886138,0.10539411158368214
+mbpp_000008,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `first_repeated_char` that finds the first repeated character in a given string:
+
+```python
+def first_repeated_char(s):
+    char_count = {}
+    
+    for char in s:
+        if char in char_count:
+            return char
+        char_count[char] = 1
+    
+    return None
+
+# Example usage:
+input_string = ""programming""
+result = first_repeated_char(input_string)
+print(f""The first repeated character is: {result}"")
+```
+
+This function uses a dictionary `char_count` to keep track of the characters that have been seen so far. As it iterates through the string, it checks if the current character is already in the dictionary. If it is, the function returns that character as the first repeated one. If the loop completes without finding any repeated characters, the function returns `None`.",mbpp,,,,first_repeated_char,,,3,3,True,1.0,,,0.0,177,16.94429163366658,16.94429163366658,0.43963425534563433,16.38269057799971,17.45611295799972,177,10.453065845480655,10.453065845480655,0.27253336524894345
+mbpp_000008,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def first_repeated_char(s):
+    """"""
+    Find the first repeated character in a given string.
+
+    Args:
+    s (str): The input string to search for the first repeated character.
+
+    Returns:
+    str: The first repeated character in the string, or None if no repeated character is found.
+    """"""
+    # Create a dictionary to store the count of each character
+    char_count = {}
+    
+    # Iterate over each character in the string
+    for char in s:
+        # If the character is already in the dictionary, it's repeated
+        if char in char_count:
+            return char
+        # Otherwise, add the character to the dictionary with a count of 1
+        else:
+            char_count[char] = 1
+    
+    # If no repeated character is found, return None
+    return None
+```",mbpp,,,,first_repeated_char,,,3,3,True,1.0,,,65.0,0,6.680888374999995,6.680888374999995,0.055918840466252666,6.60881278800025,6.745107853999798,175,26.195959680924897,26.195959680924897,0.21965226716569247
+mbpp_000008,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def first_repeated_char(s):
+    """"""
+    Find the first repeated character in a given string.
+
+    Args:
+    s (str): The input string to search for repeated characters.
+
+    Returns:
+    str: The first repeated character in the string, or None if no repeated character is found.
+    """"""
+    char_count = {}
+    for char in s:
+        if char in char_count:
+            return char
+        char_count[char] = 1
+    return None
+```",mbpp,,,,first_repeated_char,,,3,3,True,1.0,,,60.09803921568628,5,4.626727661999818,4.626727661999818,0.056101894791367055,4.54749270100001,4.669880621999255,102,22.049088463058467,22.049088463058467,0.2696437777395808
+mbpp_000008,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def first_repeated_char(s):
+    """"""
+    Find the first repeated character in a given string.
+
+    Args:
+    s (str): The input string to search for repeated characters.
+
+    Returns:
+    str: The first repeated character in the string, or None if no repeated character is found.
+    """"""
+    char_count = {}
+    for char in s:
+        if char in char_count:
+            return char
+        char_count[char] = 1
+    return None
+```",mbpp,,,,first_repeated_char,,,3,3,True,1.0,,,60.09803921568628,5,4.640440440999555,4.640440440999555,0.026802329550105877,4.609630619999734,4.674966373999268,102,21.981404600884574,21.981404600884574,0.12681307908390052
+mbpp_000009,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def multiply_elements(t):
+    # Initialize an empty list to store the results
+    result = []
+    # Iterate through the tuple, stopping at the second last element
+    for i in range(len(t) - 1):
+        # Multiply the current element with the next element and append to the result list
+        result.append(t[i] * t[i + 1])
+    # Convert the result list to a tuple and return it
+    return tuple(result)
+```",mbpp,,,,multiply_elements,,,4,4,True,1.0,,,0.0,99,8.764040082999903,8.764040082999903,0.19015857955066506,8.575459347000105,9.024367818999963,99,11.301422762277914,11.301422762277914,0.24255924482864308
+mbpp_000009,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def multiply_elements(t_1, t_2, ...):
+    """"""
+    Multiply each element in the tuple t_1, t_2, ..., t_{N+1} by the next element.
+    
+    Parameters:
+    t_1, t_2, ..., t_{N+1} (tuple): A tuple of numbers.
+    
+    Returns:
+    tuple: A tuple where each element is the product of the corresponding elements in t_1, t_2, ..., t_{N+1}.
+    """"""
+    return tuple(x * y for x, y in zip(t_1, t_2))
+
+# Example usage:
+result = multiply_elements(2, 3, 4, 5)
+print(result)  # Output: (6, 12, 24, 30)
+```
+
+This function uses the `zip` function to pair each element from the input tuples and then applies the multiplication operation to each pair. The result is a new tuple with the products of the corresponding elements.",mbpp,,,,multiply_elements,,,4,0,False,0.0,"syntax_error: invalid syntax (<unknown>, line 1)","syntax_error: invalid syntax (<unknown>, line 1)",65.0,0,8.41446370633336,8.41446370633336,0.060283273653520125,8.370687483000438,8.499706701999457,215,25.552547099881412,25.552547099881412,0.18214300540740055
+mbpp_000009,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def multiply_elements(t_1, t_2, *args):
+    """"""
+    Multiply each element of the tuple t_1, t_2, ..., t_{N+1} by the corresponding element in the tuple t_2.
+    
+    Parameters:
+    t_1 (tuple): The first tuple of numbers.
+    t_2 (tuple): The second tuple of numbers.
+    *args: Additional tuples of numbers to multiply with t_2.
+    
+    Returns:
+    tuple: A tuple of length N where each element is the product of the corresponding elements from t_1 and t_2.
+    """"""
+    # Initialize the result tuple with the first element of t_2
+    result = (t_2[0],)
+    
+    # Iterate over the remaining tuples and multiply each element with the corresponding element from t_2
+    for i in range(1, len(args)):
+        result += (t_2[i] * args[i],)
+    
+    return result
+```",mbpp,,,,multiply_elements,,,4,0,False,0.0,"assert multiply_elements((1, 5, 7, 8, 10)) == (5, 35, 56, 80) raised TypeError: multiply_elements() missing 1 required positional argument: 't_2'","assert multiply_elements((1, 5, 7, 8, 10)) == (5, 35, 56, 80) raised TypeError: multiply_elements() missing 1 required positional argument: 't_2'",50.645933014354064,30,11.44697005099988,11.44697005099988,0.01726338435668253,11.424926097000025,11.46707964199959,209,18.25814818627587,18.25814818627587,0.027542413645164777
+mbpp_000009,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def multiply_elements(t_1, t_2, *args):
+    """"""
+    Multiply each element of the tuple t_1, t_2, ..., t_{N+1} by the corresponding element in the tuple t_2.
+    
+    Parameters:
+    t_1 (tuple): The first tuple of numbers.
+    t_2 (tuple): The second tuple of numbers.
+    *args: Additional tuples of numbers to multiply with t_2.
+    
+    Returns:
+    tuple: A tuple of length N where each element is the product of the corresponding elements from t_1 and t_2.
+    """"""
+    # Initialize the result tuple with the first element of t_2
+    result = (t_2[0],)
+    
+    # Iterate over the remaining tuples and multiply each element with the corresponding element from t_2
+    for i in range(1, len(args)):
+        result += (t_2[i] * args[i],)
+    
+    return result
+```",mbpp,,,,multiply_elements,,,4,0,False,0.0,"assert multiply_elements((1, 5, 7, 8, 10)) == (5, 35, 56, 80) raised TypeError: multiply_elements() missing 1 required positional argument: 't_2'","assert multiply_elements((1, 5, 7, 8, 10)) == (5, 35, 56, 80) raised TypeError: multiply_elements() missing 1 required positional argument: 't_2'",50.645933014354064,30,11.485325884999838,11.485325884999838,0.054075117752112475,11.430590938000023,11.558945296000275,209,18.197535243372187,18.197535243372187,0.08548456120638542
+mbpp_000010,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `remove_parenthesis` that removes all occurrences of parentheses and the text within them from a given string.
+
+```python
+def remove_parenthesis(input_string):
+    # Use a regular expression to find and replace all text within parentheses
+    result = re.sub(r'\([^)]*\)', '', input_string)
+    return result
+
+# Example usage:
+input_str = ""This is a test (with some text) inside parentheses.""
+output_str = remove_parenthesis(input_str)
+print(output_str)  # Output: ""This is a test  inside parentheses.""
+```
+
+In this function, we use the `re.sub` method from the `re` module to replace all occurrences of text within parentheses with an empty string. The regular expression `\([^)]*\)` matches any text that is enclosed in parentheses, including nested parentheses.",mbpp,,,,remove_parenthesis,,,3,0,False,0.0,"assert remove_parenthesis([""python (chrome)""])==(""python"") raised NameError: name 're' is not defined","assert remove_parenthesis([""python (chrome)""])==(""python"") raised NameError: name 're' is not defined",0.0,177,17.089509159666704,17.089509159666704,0.8130158638299753,16.04232720500022,18.024256624999907,177,10.38098223713998,10.38098223713998,0.49949496695121615
+mbpp_000010,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def remove_parenthesis(s):
+    """"""
+    Remove the parenthesis and what is in between them from a string.
+
+    Args:
+    s (str): The input string containing parentheses.
+
+    Returns:
+    str: The string with the parentheses removed and what is in between them.
+    """"""
+    # Remove the first and last parenthesis
+    s = s[1:-1]
+    return s
+
+# Example usage:
+print(remove_parenthesis(""Hello (world)""))  # Output: ""Hello world""
+print(remove_parenthesis(""Python (programming)""))  # Output: ""Python programming""
+print(remove_parenthesis(""No (parentheses) here""))  # Output: ""No here""
+```
+
+This function takes a string `s` as input and returns a new string with the parentheses removed and what is in between them. The function uses string slicing to remove the first and last characters of the string, effectively removing the parentheses.",mbpp,,,,remove_parenthesis,,,3,0,False,0.0,"assert remove_parenthesis([""python (chrome)""])==(""python"")","assert remove_parenthesis([""python (chrome)""])==(""python"")",65.0,0,7.4976312576667015,7.4976312576667015,0.012427680687053492,7.488345398000092,7.515197054000055,196,26.14166143162713,26.14166143162713,0.04328057059342862
+mbpp_000010,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def remove_parenthesis(s):
+    """"""
+    Remove the parenthesis and what is in between them from a string.
+
+    Args:
+    s (str): The input string containing parentheses.
+
+    Returns:
+    str: The string with the parentheses removed and what is in between them.
+    """"""
+    # Remove all parentheses and their contents
+    return s.replace('(', '').replace(')', '')
+
+# Example usage
+input_string = ""Hello (world) this is a (test) string""
+output_string = remove_parenthesis(input_string)
+print(output_string)  # Output: ""Hello world this is a test string""
+```",mbpp,,,,remove_parenthesis,,,3,0,False,0.0,"assert remove_parenthesis([""python (chrome)""])==(""python"") raised AttributeError: 'list' object has no attribute 'replace'","assert remove_parenthesis([""python (chrome)""])==(""python"") raised AttributeError: 'list' object has no attribute 'replace'",53.46153846153846,15,6.53825882066667,6.53825882066667,0.04045478255572935,6.492761041999984,6.591046821999953,130,19.883729385254846,19.883729385254846,0.12283051886238593
+mbpp_000010,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def remove_parenthesis(s):
+    """"""
+    Remove the parenthesis and what is in between them from a string.
+
+    Args:
+    s (str): The input string containing parentheses.
+
+    Returns:
+    str: The string with the parentheses removed and what is in between them.
+    """"""
+    # Remove all parentheses and their contents
+    return s.replace('(', '').replace(')', '')
+
+# Example usage
+input_string = ""Hello (world) this is a (test) string""
+output_string = remove_parenthesis(input_string)
+print(output_string)  # Output: ""Hello world this is a test string""
+```",mbpp,,,,remove_parenthesis,,,3,0,False,0.0,"assert remove_parenthesis([""python (chrome)""])==(""python"") raised AttributeError: 'list' object has no attribute 'replace'","assert remove_parenthesis([""python (chrome)""])==(""python"") raised AttributeError: 'list' object has no attribute 'replace'",53.46153846153846,15,6.504592867333183,6.504592867333183,0.03258969171231556,6.46797962599976,6.547142733000328,130,19.98637912550461,19.98637912550461,0.10000466351117086
+mbpp_000011,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def string_to_list(input_string):
+    # Split the input string by spaces and return the resulting list
+    return input_string.split()
+```",mbpp,,,,string_to_list,,,3,3,True,1.0,,,0.0,32,1.970074280999749,1.970074280999749,0.03409839816360216,1.9316693509999823,2.014532381999743,32,16.24788855434885,16.24788855434885,0.28001271113701415
+mbpp_000011,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def string_to_list(input_string):
+    """"""
+    Convert a string to a list of strings split on the space character.
+
+    Args:
+    input_string (str): The string to be converted.
+
+    Returns:
+    list: A list of strings from the input string, split by spaces.
+    """"""
+    return input_string.split(' ')
+```",mbpp,,,,string_to_list,,,3,3,True,1.0,,,65.0,0,2.7205554723335204,2.7205554723335204,0.026249215866429258,2.699033471000803,2.7575106439999217,72,26.467631507874444,26.467631507874444,0.25371237230384286
+mbpp_000011,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def string_to_list(input_string):
+    """"""
+    Convert a string to a list of strings split on the space character.
+
+    Args:
+    input_string (str): The string to be converted.
+
+    Returns:
+    list: A list of strings from the input string, split by spaces.
+    """"""
+    return input_string.split()
+```",mbpp,,,,string_to_list,,,3,3,True,1.0,,,62.18309859154931,2,3.165645780999815,3.165645780999815,0.03974077397955991,3.1094645419998415,3.1950573710000754,71,22.43184992366533,22.43184992366533,0.2841181143047572
+mbpp_000011,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def string_to_list(input_string):
+    """"""
+    Convert a string to a list of strings split on the space character.
+
+    Args:
+    input_string (str): The string to be converted.
+
+    Returns:
+    list: A list of strings from the input string, split by spaces.
+    """"""
+    return input_string.split()
+```",mbpp,,,,string_to_list,,,3,3,True,1.0,,,62.18309859154931,2,3.170261989333085,3.170261989333085,0.012871303195035934,3.1526260350001394,3.182983234999483,71,22.395995368108007,22.395995368108007,0.0911198356611182
+mbpp_000012,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def kth_element(arr, k):
+    """"""
+    Find the kth element in the given array using 1-based indexing.
+
+    Parameters:
+    arr (list): The input array.
+    k (int): The 1-based index of the element to find.
+
+    Returns:
+    int: The kth element in the array.
+    """"""
+    # Check if k is within the valid range
+    if k < 1 or k > len(arr):
+        raise ValueError(""k is out of the valid range."")
+    
+    # Return the kth element (1-based index)
+    return arr[k - 1]
+```
+
+This function takes an array and a 1-based index as input and returns the element at that index. It includes a check to ensure that the provided index is within the valid range of the array.",mbpp,,,,kth_element,,,3,3,True,1.0,,,0.0,172,16.641706095999627,16.641706095999627,0.6765412798727714,15.697411269999975,17.24724247499944,172,10.35303882393148,10.35303882393148,0.4319829097145006
+mbpp_000012,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def kth_element(arr, k):
+    """"""
+    Find the kth element in the given array using 1-based indexing.
+    
+    Parameters:
+    arr (list): The array to search through.
+    k (int): The position of the element to find.
+    
+    Returns:
+    int: The kth element in the array.
+    """"""
+    # Check if the array is empty
+    if not arr:
+        raise ValueError(""Array is empty"")
+    
+    # Check if k is out of bounds
+    if k < 1 or k > len(arr):
+        raise ValueError(""k is out of bounds"")
+    
+    # Return the kth element
+    return arr[k - 1]
+```
+
+This function takes an array and an integer `k` as input and returns the kth element in the array. It first checks if the array is empty and raises a `ValueError` if it is. Then, it checks if `k` is out of bounds and raises a `ValueError` if it is. Finally, it returns the kth element by accessing the element at index `k - 1` in the array.",mbpp,,,,kth_element,,,3,3,True,1.0,,,64.99999999999999,0,9.1689956400002,9.1689956400002,0.023420437456973118,9.136947760000112,9.192263569000716,238,25.957211041376258,25.957211041376258,0.0663892876628269
+mbpp_000012,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def kth_element(arr, k):
+    """"""
+    Find the kth element in the given array using 1-based indexing.
+
+    Parameters:
+    arr (list): The input array.
+    k (int): The 1-based index of the element to find.
+
+    Returns:
+    int: The kth element in the array.
+    """"""
+    # Check if k is within the valid range
+    if k < 1 or k > len(arr):
+        raise ValueError(""k must be between 1 and the length of the array"")
+    
+    # Return the kth element
+    return arr[k - 1]
+```
+
+This function takes an array and a k value as input and returns the kth element in the array. It first checks if k is within the valid range (1 to the length of the array). If not, it raises a ValueError. Otherwise, it returns the kth element by accessing the array with the appropriate index.",mbpp,,,,kth_element,,,3,3,True,1.0,,,55.90909090909091,18,9.59733996433321,9.59733996433321,0.05998439373728881,9.515836579999814,9.658465414000602,198,20.631524835845553,20.631524835845553,0.12933154276409425
+mbpp_000012,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def kth_element(arr, k):
+    """"""
+    Find the kth element in the given array using 1-based indexing.
+
+    Parameters:
+    arr (list): The input array.
+    k (int): The 1-based index of the element to find.
+
+    Returns:
+    int: The kth element in the array.
+    """"""
+    # Check if k is within the valid range
+    if k < 1 or k > len(arr):
+        raise ValueError(""k must be between 1 and the length of the array"")
+    
+    # Return the kth element
+    return arr[k - 1]
+```
+
+This function takes an array and a k value as input and returns the kth element in the array. It first checks if k is within the valid range (1 to the length of the array). If not, it raises a ValueError. Otherwise, it returns the kth element by accessing the array with the appropriate index.",mbpp,,,,kth_element,,,3,3,True,1.0,,,55.90909090909091,18,9.645065622333581,9.645065622333581,0.002155469818181174,9.642047144000571,9.646943190999991,198,20.528632737514872,20.528632737514872,0.004588380837935996
+mbpp_000013,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def remove_lowercase(s):
+    # Use a generator expression to filter out lowercase characters
+    return ''.join(char for char in s if not char.islower())
+```",mbpp,,,,remove_lowercase,,,3,3,True,1.0,,,0.0,37,2.2693172070000096,2.2693172070000096,0.021858008679415036,2.240259842999876,2.2929788520004877,37,16.305981722272747,16.305981722272747,0.15760624670166
+mbpp_000013,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def remove_lowercase(s):
+    """"""
+    Remove all lowercase letters from the input string.
+
+    Args:
+    s (str): The input string from which lowercase letters will be removed.
+
+    Returns:
+    str: A new string with all lowercase letters removed.
+    """"""
+    return ''.join([char for char in s if char.isupper() or char.islower()])
+```",mbpp,,,,remove_lowercase,,,3,0,False,0.0,"assert remove_lowercase(""PYTHon"")==('PYTH')","assert remove_lowercase(""PYTHon"")==('PYTH')",65.0,0,2.9731633513335205,2.9731633513335205,0.017931656324574097,2.9528158260000055,2.996444368000084,78,26.23563661480161,26.23563661480161,0.15800575356351776
+mbpp_000013,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def remove_lowercase(s):
+    """"""
+    Remove all lowercase letters from the input string.
+
+    Args:
+    s (str): The input string from which lowercase letters will be removed.
+
+    Returns:
+    str: A new string with all lowercase letters removed.
+    """"""
+    return ''.join([char for char in s if char.isupper() or char.islower()])
+```",mbpp,,,,remove_lowercase,,,3,0,False,0.0,"assert remove_lowercase(""PYTHon"")==('PYTH')","assert remove_lowercase(""PYTHon"")==('PYTH')",62.43589743589744,2,3.421244417999939,3.421244417999939,0.021838253111442628,3.3907576319998043,3.440763423000135,78,22.799654581340146,22.799654581340146,0.14611863136404646
+mbpp_000013,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def remove_lowercase(s):
+    """"""
+    Remove all lowercase letters from the input string.
+
+    Args:
+    s (str): The input string from which lowercase letters will be removed.
+
+    Returns:
+    str: A new string with all lowercase letters removed.
+    """"""
+    return ''.join([char for char in s if char.isupper() or char.islower()])
+```",mbpp,,,,remove_lowercase,,,3,0,False,0.0,"assert remove_lowercase(""PYTHon"")==('PYTH')","assert remove_lowercase(""PYTHon"")==('PYTH')",62.43589743589744,2,3.4292885083335327,3.4292885083335327,0.02637465023873667,3.403023466000377,3.4653566770002726,78,22.74658316681389,22.74658316681389,0.17426927616143933
+mbpp_000014,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def lateralsurface_cube(side_length):
+    """"""
+    Calculate the lateral surface area of a cube.
+
+    Parameters:
+    side_length (float): The length of a side of the cube.
+
+    Returns:
+    float: The lateral surface area of the cube.
+    """"""
+    return 4 * side_length ** 2
+```",mbpp,,,,lateralsurface_cube,,,3,3,True,1.0,,,0.0,70,4.6189061533338345,4.6189061533338345,0.03883585812712332,4.586654773000191,4.673531482000726,70,15.156168762078664,15.156168762078664,0.12671702546352495
+mbpp_000014,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def lateral_surface_cube(side_length):
+    """"""
+    Calculate the lateral surface area of a cube given its side length.
+
+    Parameters:
+    side_length (float): The length of the side of the cube.
+
+    Returns:
+    float: The lateral surface area of the cube.
+    """"""
+    return 6 * side_length ** 2
+```",mbpp,,,,lateralsurface_cube,,,3,0,False,0.0,assert lateralsurface_cube(5)==100 raised NameError: name 'lateralsurface_cube' is not defined,assert lateralsurface_cube(5)==100 raised NameError: name 'lateralsurface_cube' is not defined,65.0,0,2.8112586423330868,2.8112586423330868,0.001517841403768071,2.8091526629996224,2.8126713569999993,73,25.967024231652136,25.967024231652136,0.01402445945012185
+mbpp_000014,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def lateral_surface_cube(side_length):
+    """"""
+    Calculate the lateral surface area of a cube given its side length.
+
+    Parameters:
+    side_length (float): The length of the side of the cube.
+
+    Returns:
+    float: The lateral surface area of the cube.
+    """"""
+    return 6 * side_length ** 2
+```",mbpp,,,,lateralsurface_cube,,,3,0,False,0.0,assert lateralsurface_cube(5)==100 raised NameError: name 'lateralsurface_cube' is not defined,assert lateralsurface_cube(5)==100 raised NameError: name 'lateralsurface_cube' is not defined,62.26027397260274,2,3.320781603333368,3.320781603333368,0.030892454769595738,3.283562393000466,3.359204421999493,73,21.984678197886428,21.984678197886428,0.204420484959346
+mbpp_000014,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def lateral_surface_cube(side_length):
+    """"""
+    Calculate the lateral surface area of a cube given its side length.
+
+    Parameters:
+    side_length (float): The length of the side of the cube.
+
+    Returns:
+    float: The lateral surface area of the cube.
+    """"""
+    return 6 * side_length ** 2
+```",mbpp,,,,lateralsurface_cube,,,3,0,False,0.0,assert lateralsurface_cube(5)==100 raised NameError: name 'lateralsurface_cube' is not defined,assert lateralsurface_cube(5)==100 raised NameError: name 'lateralsurface_cube' is not defined,62.26027397260274,2,3.2353344453331374,3.2353344453331374,0.026566246300980933,3.216330172999733,3.2729039359992385,73,22.564867772095308,22.564867772095308,0.18421712372539983
+mbpp_000015,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_val(lst):
+    # Initialize max_val with the first element of the list
+    max_val = lst[0]
+    # Iterate through the list starting from the second element
+    for num in lst[1:]:
+        # Update max_val if the current number is greater than max_val
+        if num > max_val:
+            max_val = num
+    # Return the maximum value found
+    return max_val
+```",mbpp,,,,max_val,,,3,0,False,0.0,"assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'","assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'",0.0,92,6.473391521666902,6.473391521666902,0.01602666820184151,6.455155408000792,6.494165660999897,92,14.212111731873046,14.212111731873046,0.035165815681717054
+mbpp_000015,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_val(heterogeneous_list):
+    """"""
+    Find the maximum value in a given heterogeneous list.
+
+    Args:
+    heterogeneous_list (list): A list containing elements of various data types.
+
+    Returns:
+    int/float: The maximum value in the list.
+    """"""
+    if not heterogeneous_list:
+        return None  # Return None if the list is empty
+
+    max_value = heterogeneous_list[0]
+    for item in heterogeneous_list:
+        if item > max_value:
+            max_value = item
+    return max_value
+```",mbpp,,,,max_val,,,3,0,False,0.0,"assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'","assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'",64.99999999999999,0,4.300564122000348,4.300564122000348,0.036350936432027775,4.256769970999812,4.34577728900058,114,26.510043450230267,26.510043450230267,0.22397990535061496
+mbpp_000015,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_val(heterogeneous_list):
+    """"""
+    Find the maximum value in a given heterogeneous list.
+
+    Args:
+    heterogeneous_list (list): A list containing elements of various data types.
+
+    Returns:
+    int/float: The maximum value in the list.
+    """"""
+    if not heterogeneous_list:
+        return None  # Return None if the list is empty
+
+    max_value = heterogeneous_list[0]
+    for item in heterogeneous_list:
+        if item > max_value:
+            max_value = item
+    return max_value
+```",mbpp,,,,max_val,,,3,0,False,0.0,"assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'","assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'",61.49122807017543,4,4.961566846666756,4.961566846666756,0.021383587281054096,4.936912228999972,4.989059876000283,114,22.977039171302227,22.977039171302227,0.09894485655457011
+mbpp_000015,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_val(heterogeneous_list):
+    """"""
+    Find the maximum value in a given heterogeneous list.
+
+    Args:
+    heterogeneous_list (list): A list containing elements of various data types.
+
+    Returns:
+    int/float: The maximum value in the list.
+    """"""
+    if not heterogeneous_list:
+        return None  # Return None if the list is empty
+
+    max_value = heterogeneous_list[0]
+    for item in heterogeneous_list:
+        if item > max_value:
+            max_value = item
+    return max_value
+```",mbpp,,,,max_val,,,3,0,False,0.0,"assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'","assert max_val(['Python', 3, 2, 4, 5, 'version'])==5 raised TypeError: '>' not supported between instances of 'int' and 'str'",61.49122807017543,4,4.954170547666763,4.954170547666763,0.030244294433177707,4.91141162599979,4.976462139000432,114,23.01177685990446,23.01177685990446,0.1410900506357587
+mbpp_000016,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `comb_sort` that implements the Comb Sort algorithm to sort a list of elements:
+
+```python
+def comb_sort(arr):
+    # Initialize gap size
+    gap = len(arr)
+    shrink_factor = 1.3
+    sorted = False
+
+    while not sorted:
+        # Update the gap size
+        gap = int(gap / shrink_factor)
+        if gap < 1:
+            gap = 1
+
+        # Perform a gapped insertion sort
+        sorted = True
+        for i in range(len(arr) - gap):
+            if arr[i] > arr[i + gap]:
+                # Swap if the element found is greater than the next element
+                arr[i], arr[i + gap] = arr[i + gap], arr[i]
+                sorted = False
+
+    return arr
+
+# Example usage:
+# unsorted_list = [64, 34, 25, 12, 22, 11, 90]
+# sorted_list = comb_sort(unsorted_list)
+# print(sorted_list)
+```
+
+### Explanation:
+- **Gap Initialization**: The initial gap size is set to the length of the list.
+- **Gap Shrink Factor**: The gap size",mbpp,,,,comb_sort,,,3,0,False,0.0,"assert comb_sort([5, 15, 37, 25, 79]) == [5, 15, 25, 37, 79]","assert comb_sort([5, 15, 37, 25, 79]) == [5, 15, 25, 37, 79]",0.0,256,29.24503212399971,29.24503212399971,0.9350952094650937,28.549091699999735,30.5668374199995,256,8.762384658092756,8.762384658092756,0.27400566498442236
+mbpp_000016,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def comb_sort(arr):
+    """"""
+    Sorts a list of elements using the comb sort algorithm.
+    
+    Parameters:
+    arr (list): The list of elements to be sorted.
+    
+    Returns:
+    list: The sorted list.
+    """"""
+    n = len(arr)
+    gap = n
+    swapped = True
+    
+    while gap > 0:
+        # Find the next gap
+        for i in range(0, n - gap):
+            if arr[i] > arr[i + gap]:
+                arr[i], arr[i + gap] = arr[i + gap], arr[i]
+                swapped = True
+        
+        # Reduce the gap
+        gap //= 2
+    
+    return arr
+```",mbpp,,,,comb_sort,,,3,3,True,1.0,,,65.00000000000001,0,5.526914898999773,5.526914898999773,0.01097000382151818,5.511413551999794,5.535206550000112,147,26.597221526350626,26.597221526350626,0.05286470291718082
+mbpp_000016,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def comb_sort(arr):
+    n = len(arr)
+    gap = n
+    swapped = True
+    while gap > 0:
+        gap = int(gap / 1.3)
+        swapped = False
+        for i in range(0, n - gap):
+            if arr[i] > arr[i + gap]:
+                arr[i], arr[i + gap] = arr[i + gap], arr[i]
+                swapped = True
+    return arr
+```",mbpp,,,,comb_sort,,,3,3,True,1.0,,,58.0,7,4.625929223333212,4.625929223333212,0.04527078116202506,4.563779571999476,4.670316865000132,100,21.61935975378376,21.61935975378376,0.2126796891583214
+mbpp_000016,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def comb_sort(arr):
+    n = len(arr)
+    gap = n
+    swapped = True
+    while gap > 0:
+        gap = int(gap / 1.3)
+        swapped = False
+        for i in range(0, n - gap):
+            if arr[i] > arr[i + gap]:
+                arr[i], arr[i + gap] = arr[i + gap], arr[i]
+                swapped = True
+    return arr
+```",mbpp,,,,comb_sort,,,3,3,True,1.0,,,58.0,7,4.6445365806663785,4.6445365806663785,0.024480610038433763,4.611397716999818,4.669784271999561,100,21.531272957986545,21.531272957986545,0.11375913959395942
+mbpp_000017,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def closest_num(n):
+    # Subtract 1 from n to find the closest smaller number
+    return n - 1
+```",mbpp,,,,closest_num,,,3,3,True,1.0,,,0.0,31,1.949746940666652,1.949746940666652,0.007889792186792565,1.941476904999945,1.9603687230001015,31,15.899759152854067,15.899759152854067,0.06423071062493159
+mbpp_000017,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def closest_num(n):
+    """"""
+    Find the closest smaller number than n.
+
+    Args:
+    n (int): The number to find the closest smaller number for.
+
+    Returns:
+    int: The closest smaller number than n.
+    """"""
+    # Start from n-1 and move towards 0
+    for i in range(n-1, -1, -1):
+        if n - i < 0:
+            return i
+    return 0  # If no smaller number is found, return 0
+```",mbpp,,,,closest_num,,,3,0,False,0.0,assert closest_num(11) == 10,assert closest_num(11) == 10,65.00000000000001,0,4.250288294666764,4.250288294666764,0.029153612116373892,4.209163227999852,4.273389787999804,112,26.35239942463744,26.35239942463744,0.18161775865931382
+mbpp_000017,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def closest_num(n):
+    """"""
+    Find the closest smaller number than n.
+
+    Parameters:
+    n (int): The number to find the closest smaller number for.
+
+    Returns:
+    int: The closest smaller number than n.
+    """"""
+    # Subtract 1 from n to get the closest smaller number
+    return n - 1
+```",mbpp,,,,closest_num,,,3,3,True,1.0,,,58.333333333333336,5,3.54187853099999,3.54187853099999,0.007164955488964142,3.5344960519996675,3.551580522000222,75,21.175290451665887,21.175290451665887,0.042797004254434466
+mbpp_000017,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def closest_num(n):
+    """"""
+    Find the closest smaller number than n.
+
+    Parameters:
+    n (int): The number to find the closest smaller number for.
+
+    Returns:
+    int: The closest smaller number than n.
+    """"""
+    # Subtract 1 from n to get the closest smaller number
+    return n - 1
+```",mbpp,,,,closest_num,,,3,3,True,1.0,,,58.333333333333336,5,3.533215823666675,3.533215823666675,0.04350903396344048,3.487187410999468,3.591593754000314,75,21.230324726614764,21.230324726614764,0.260165701887329
+mbpp_000018,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `find_sum` that calculates the sum of non-repeated elements in a given list:
+
+```python
+def find_sum(lst):
+    # Create a dictionary to count occurrences of each element
+    count_dict = {}
+    
+    # Count occurrences of each element in the list
+    for element in lst:
+        if element in count_dict:
+            count_dict[element] += 1
+        else:
+            count_dict[element] = 1
+    
+    # Calculate the sum of elements that appear only once
+    sum_of_non_repeated = sum(element for element, count in count_dict.items() if count == 1)
+    
+    return sum_of_non_repeated
+
+# Example usage:
+example_list = [1, 2, 2, 3, 4, 4, 5]
+result = find_sum(example_list)
+print(""Sum of non-repeated elements:"", result)
+```
+
+This function works by first counting the occurrences of each element in the list using a dictionary. It then calculates the sum of elements that appear exactly once.",mbpp,,,,find_sum,,,3,0,False,0.0,"assert find_sum([1,2,3,1,1,4,5,6]) == 21","assert find_sum([1,2,3,1,1,4,5,6]) == 21",0.0,221,24.299867163667233,24.299867163667233,0.6600539023676405,23.380730823000704,24.900495681000393,221,9.10152927521125,9.10152927521125,0.2514337752718671
+mbpp_000018,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def find_sum(numbers):
+    """"""
+    Calculate the sum of non-repeated elements in a given list.
+
+    Args:
+    numbers (list): A list of integers.
+
+    Returns:
+    int: The sum of non-repeated elements.
+    """"""
+    # Convert the list to a set to remove duplicates
+    unique_numbers = set(numbers)
+    # Calculate the sum of the unique numbers
+    return sum(unique_numbers)
+```",mbpp,,,,find_sum,,,3,3,True,1.0,,,65.0,0,3.4544301619998805,3.4544301619998805,0.05837783544450253,3.3796140799995555,3.5220685340000273,90,26.060967876490974,26.060967876490974,0.4418661889984468
+mbpp_000018,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def find_sum(nums):
+    """"""
+    Calculate the sum of non-repeated elements in a given list.
+
+    Args:
+    nums (list): A list of integers.
+
+    Returns:
+    int: The sum of non-repeated elements.
+    """"""
+    # Create a set to store unique elements
+    unique_elements = set(nums)
+    # Calculate the sum of unique elements
+    return sum(unique_elements)
+```",mbpp,,,,find_sum,,,3,3,True,1.0,,,56.95402298850575,7,4.2237298413332,4.2237298413332,0.0006677652219058736,4.222966123000333,4.224592757999744,87,20.597908825304845,20.597908825304845,0.003256384876359397
+mbpp_000018,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def find_sum(nums):
+    """"""
+    Calculate the sum of non-repeated elements in a given list.
+
+    Args:
+    nums (list): A list of integers.
+
+    Returns:
+    int: The sum of non-repeated elements.
+    """"""
+    # Create a set to store unique elements
+    unique_elements = set(nums)
+    # Calculate the sum of unique elements
+    return sum(unique_elements)
+```",mbpp,,,,find_sum,,,3,3,True,1.0,,,56.95402298850575,7,4.1865397893334375,4.1865397893334375,0.026455780285654384,4.166093804999946,4.223898252000254,87,20.78171077531411,20.78171077531411,0.1307484473893356
+mbpp_000019,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `split_Arr` that takes a list and an integer `n` as input. It splits the list at the nth element and moves the first part to the end of the list.
+
+```python
+def split_Arr(arr, n):
+    # Check if n is within the valid range
+    if n < 0 or n >= len(arr):
+        raise ValueError(""n must be a valid index within the list"")
+    
+    # Split the list at the nth element
+    first_part = arr[:n]
+    second_part = arr[n:]
+    
+    # Move the first part to the end
+    arr[:] = second_part + first_part
+
+# Example usage:
+my_list = [1, 2, 3, 4, 5]
+split_Arr(my_list, 2)
+print(my_list)  # Output: [3, 4, 5, 1, 2]
+```
+
+### Explanation:
+- The function first checks if `n` is within the valid range of indices for the list. If not, it raises a `ValueError`.
+- It then splits the list into two parts: `first_part` containing elements from the start to the nth element, and `",mbpp,,,,split_Arr,,,3,0,False,0.0,"assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]","assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]",0.0,256,30.654120762666633,30.654120762666633,0.3994190792410998,30.20122507999986,31.172916901000463,256,8.352656349149747,8.352656349149747,0.1085026995477992
+mbpp_000019,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def split_Arr(arr, n):
+    """"""
+    Splits the list at the nth element and adds the first part to the end.
+    
+    Parameters:
+    arr (list): The list to be split.
+    n (int): The index at which to split the list.
+    
+    Returns:
+    list: A new list with the nth element removed and the first part added to the end.
+    """"""
+    # Check if the index is valid
+    if n < 0 or n >= len(arr):
+        raise IndexError(""Index out of range"")
+    
+    # Remove the nth element
+    arr.pop(n)
+    
+    # Add the first part to the end
+    arr.append(arr[0])
+    
+    return arr
+```",mbpp,,,,split_Arr,,,3,0,False,0.0,"assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]","assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]",65.0,0,5.921542930333392,5.921542930333392,0.14330999201278607,5.810217944000215,6.123874068000077,154,26.021724071218173,26.021724071218173,0.6193330247472805
+mbpp_000019,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def split_Arr(arr, n):
+    """"""
+    Splits the list at the nth element and adds the first part to the end.
+
+    Parameters:
+    arr (list): The list to be split.
+    n (int): The index at which to split the list.
+
+    Returns:
+    list: A new list with the nth element moved to the end and the first part added to the end.
+    """"""
+    # Check if the index is within the bounds of the list
+    if n < 0 or n >= len(arr):
+        raise IndexError(""Index out of range"")
+    
+    # Split the list at the nth element
+    split_point = arr[n]
+    first_part = arr[:n]
+    # Add the first part to the end of the list
+    return first_part + [split_point] + arr[n+1:]
+
+# Example usage:
+arr = [1, 2, 3, 4, 5]
+n = 2
+result = split_Arr(arr, n)
+print(result)  # Output: [1, 2, 3, 4, 5, 1]
+```",mbpp,,,,split_Arr,,,3,0,False,0.0,"assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]","assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]",56.17647058823529,21,11.904029820333259,11.904029820333259,0.09219994110712533,11.789703149999696,12.015491434000069,238,19.994429404613584,19.994429404613584,0.1549251120045337
+mbpp_000019,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def split_Arr(arr, n):
+    """"""
+    Splits the list at the nth element and adds the first part to the end.
+
+    Parameters:
+    arr (list): The list to be split.
+    n (int): The index at which to split the list.
+
+    Returns:
+    list: A new list with the nth element moved to the end and the first part added to the end.
+    """"""
+    # Check if the index is within the bounds of the list
+    if n < 0 or n >= len(arr):
+        raise IndexError(""Index out of range"")
+    
+    # Split the list at the nth element
+    split_point = arr[n]
+    first_part = arr[:n]
+    # Add the first part to the end of the list
+    return first_part + [split_point] + arr[n+1:]
+
+# Example usage:
+arr = [1, 2, 3, 4, 5]
+n = 2
+result = split_Arr(arr, n)
+print(result)  # Output: [1, 2, 3, 4, 5, 1]
+```",mbpp,,,,split_Arr,,,3,0,False,0.0,"assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]","assert split_Arr([12,10,5,6,52,36],2) == [5,6,52,36,12,10]",56.17647058823529,21,11.829271722999996,11.829271722999996,0.06119786689697408,11.751564477000102,11.901124684000024,238,20.120120700776372,20.120120700776372,0.10416882520985538
+mbpp_000020,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `count_samepair` that takes three lists as input and returns the count of items that are identical in the same position across all three lists.
+
+```python
+def count_samepair(list1, list2, list3):
+    # Ensure all lists are of the same length
+    if len(list1) != len(list2) or len(list2) != len(list3):
+        raise ValueError(""All lists must be of the same length."")
+    
+    # Initialize a counter for identical items
+    count = 0
+    
+    # Iterate over the lists and count identical items
+    for i in range(len(list1)):
+        if list1[i] == list2[i] == list3[i]:
+            count += 1
+    
+    return count
+
+# Example usage:
+list1 = [1, 2, 3, 4, 5]
+list2 = [1, 2, 3, 4, 6]
+list3 = [1, 2, 3, 4, 5]
+
+result = count_samepair(list1, list2, list3)
+print(result)  # Output: 4
+```
+
+This function first checks if all three lists are of the same",mbpp,,,,count_samepair,,,3,3,True,1.0,,,0.0,256,30.655203899333173,30.655203899333173,0.9566750256245874,29.904569013999208,32.00532958399981,256,8.358916008047652,8.358916008047652,0.2553394813169718
+mbpp_000020,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def count_samepair(list1, list2, list3):
+    """"""
+    Count the number of items that are identical in the same position of three given lists.
+
+    Args:
+    list1 (list): The first list of items.
+    list2 (list): The second list of items.
+    list3 (list): The third list of items.
+
+    Returns:
+    int: The count of identical items in the same position.
+    """"""
+    count = 0
+    for i in range(len(list1)):
+        if list1[i] == list2[i] == list3[i]:
+            count += 1
+    return count
+```",mbpp,,,,count_samepair,,,3,3,True,1.0,,,65.0,0,5.195349019333359,5.195349019333359,0.02789315657501016,5.160210784999435,5.228442976000224,136,26.178014631542414,26.178014631542414,0.14063204442640298
+mbpp_000020,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def count_samepair(list1, list2, list3):
+    """"""
+    Count the number of items that are identical in the same position of three given lists.
+
+    Args:
+    list1 (list): The first list.
+    list2 (list): The second list.
+    list3 (list): The third list.
+
+    Returns:
+    int: The count of identical items in the same position.
+    """"""
+    # Initialize a counter for identical items
+    identical_count = 0
+    
+    # Iterate over the indices of the lists
+    for i in range(len(list1)):
+        # Check if the items at the current index are identical
+        if list1[i] == list2[i] == list3[i]:
+            # Increment the counter if they are identical
+            identical_count += 1
+    
+    return identical_count
+```",mbpp,,,,count_samepair,,,3,3,True,1.0,,,55.285714285714285,17,8.663358639999993,8.663358639999993,0.06919169524357742,8.605099280999639,8.760573716999716,175,20.2012997218041,20.2012997218041,0.16048897575839918
+mbpp_000020,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def count_samepair(list1, list2, list3):
+    """"""
+    Count the number of items that are identical in the same position of three given lists.
+
+    Args:
+    list1 (list): The first list.
+    list2 (list): The second list.
+    list3 (list): The third list.
+
+    Returns:
+    int: The count of identical items in the same position.
+    """"""
+    # Initialize a counter for identical items
+    identical_count = 0
+    
+    # Iterate over the indices of the lists
+    for i in range(len(list1)):
+        # Check if the items at the current index are identical
+        if list1[i] == list2[i] == list3[i]:
+            # Increment the counter if they are identical
+            identical_count += 1
+    
+    return identical_count
+```",mbpp,,,,count_samepair,,,3,3,True,1.0,,,55.285714285714285,17,8.701143441666924,8.701143441666924,0.023058538372576206,8.668867241000044,8.721310120000453,175,20.11244065469865,20.11244065469865,0.05339015421769389
+mbpp_000021,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import heapq
+
+def heap_queue_largest(numbers, n):
+    """"""
+    Finds the n largest integers from a given list of numbers and returns them in descending order.
+
+    Args:
+    numbers (list): A list of integers.
+    n (int): The number of largest integers to find.
+
+    Returns:
+    list: A list of the n largest integers from the input list, sorted in descending order.
+    """"""
+    # Use heapq.nlargest to find the n largest numbers
+    largest_numbers = heapq.nlargest(n, numbers)
+    # Sort the result in descending order
+    largest_numbers.sort(reverse=True)
+    return largest_numbers
+
+# Example usage
+numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
+n = 3
+print(heap_queue_largest(numbers, n))  # Output: [9, 6, 5]
+```
+
+This Python function utilizes the `heapq.nlargest` method to efficiently find the n largest numbers in the given list. It then sorts these numbers in descending order before returning them.",mbpp,,,,heap_queue_largest,,,3,0,False,0.0,"assert heap_queue_largest( [25, 35, 22, 85, 14, 65, 75, 22, 58],3)==[85, 75, 65] raised NameError: name 'heapq' is not defined","assert heap_queue_largest( [25, 35, 22, 85, 14, 65, 75, 22, 58],3)==[85, 75, 65] raised NameError: name 'heapq' is not defined",0.0,240,27.904359831666625,27.904359831666625,0.26677589095834786,27.690128483999615,28.28042301200003,240,8.601587585338123,8.601587585338123,0.0816982880168992
+mbpp_000021,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def heap_queue_largest(numbers, n):
+    """"""
+    Find the n largest integers from a given list of numbers, returned in descending order.
+
+    Args:
+    numbers (list): A list of integers.
+    n (int): The number of largest integers to find.
+
+    Returns:
+    list: A list of the n largest integers in descending order.
+    """"""
+    # Sort the list in descending order
+    sorted_numbers = sorted(numbers, reverse=True)
+    # Return the first n elements of the sorted list
+    return sorted_numbers[:n]
+```",mbpp,,,,heap_queue_largest,,,3,3,True,1.0,,,65.00000000000001,0,4.473266676332969,4.473266676332969,0.014860667019159623,4.455857320999712,4.492166690999511,117,26.15567081141546,26.15567081141546,0.08684948282104478
+mbpp_000021,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def heap_queue_largest(numbers, n):
+    """"""
+    Find the n largest integers from a given list of numbers, returned in descending order.
+
+    Args:
+    numbers (list): A list of integers.
+    n (int): The number of largest integers to find.
+
+    Returns:
+    list: A list of the n largest integers in descending order.
+    """"""
+    # Sort the list in descending order
+    sorted_numbers = sorted(numbers, reverse=True)
+    # Return the first n elements from the sorted list
+    return sorted_numbers[:n]
+```",mbpp,,,,heap_queue_largest,,,3,3,True,1.0,,,57.307692307692314,9,5.561687984666908,5.561687984666908,0.015290767241495452,5.541047075000279,5.577591985000254,117,21.036938022123916,21.036938022123916,0.05790637269192823
+mbpp_000021,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def heap_queue_largest(numbers, n):
+    """"""
+    Find the n largest integers from a given list of numbers, returned in descending order.
+
+    Args:
+    numbers (list): A list of integers.
+    n (int): The number of largest integers to find.
+
+    Returns:
+    list: A list of the n largest integers in descending order.
+    """"""
+    # Sort the list in descending order
+    sorted_numbers = sorted(numbers, reverse=True)
+    # Return the first n elements from the sorted list
+    return sorted_numbers[:n]
+```",mbpp,,,,heap_queue_largest,,,3,3,True,1.0,,,57.307692307692314,9,5.598022524000044,5.598022524000044,0.027333056602793237,5.561431157999323,5.627109310999913,117,20.90073668175097,20.90073668175097,0.10224704072772188
+mbpp_000022,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `highest_Power_of_2` that finds the highest power of 2 that is less than or equal to a given number `n`.
+
+```python
+def highest_Power_of_2(n):
+    if n < 1:
+        return 0
+    power = 0
+    while (1 << power) <= n:
+        power += 1
+    return (1 << (power - 1))
+
+# Example usage:
+n = 10
+print(highest_Power_of_2(n))  # Output: 8
+```
+
+### Explanation:
+- The function first checks if `n` is less than 1. If so, it returns 0 because there is no positive power of 2 less than 1.
+- It initializes a variable `power` to 0.
+- It uses a `while` loop to check if `2` raised to the power of `power` is less than or equal to `n`.
+- If the condition is true, it increments the `power` by 1.
+- Once the loop exits, the function returns `2` raised to the power of `power - 1`, which is the highest power of 2 less than or",mbpp,,,,highest_Power_of_2,,,3,3,True,1.0,,,0.0,256,30.749851794999813,30.749851794999813,0.37177028126913314,30.445623737999995,31.273319670999626,256,8.326450558017667,8.326450558017667,0.09984860252396664
+mbpp_000022,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def highest_Power_of_2(n):
+    """"""
+    Find the highest power of 2 that is less than or equal to n.
+
+    Args:
+    n (int): The upper limit (exclusive) for which to find the highest power of 2.
+
+    Returns:
+    int: The highest power of 2 less than or equal to n.
+    """"""
+    # Initialize the highest power of 2 to 0
+    highest_power = 0
+    
+    # Loop through numbers from 1 to n
+    for i in range(1, n + 1):
+        # Check if the current number is a power of 2
+        if i & (i - 1) == 0:
+            # Update the highest power of 2 if the current number is greater
+            highest_power = i
+    
+    return highest_power
+```
+
+This function iterates through all numbers from 1 to `n`, checking if each number is a power of 2 by using the bitwise AND operation (`&`). If the result is 0, it means the number is a power of 2, and the function updates the `highest_power` variable accordingly. Finally, it returns the highest power of 2 found.",mbpp,,,,highest_Power_of_2,,,3,3,True,1.0,,,65.00000000000001,0,10.228241392999735,10.228241392999735,0.019661346773110322,10.202232011999513,10.249760007999612,254,24.83329532363096,24.83329532363096,0.04776653586810394
+mbpp_000022,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def highest_Power_of_2(n):
+    """"""
+    Find the highest power of 2 that is less than or equal to n.
+
+    Args:
+    n (int): The upper limit.
+
+    Returns:
+    int: The highest power of 2 less than or equal to n.
+    """"""
+    power = 1
+    while power <= n:
+        power *= 2
+    return power - 1
+```",mbpp,,,,highest_Power_of_2,,,3,0,False,0.0,assert highest_Power_of_2(10) == 8,assert highest_Power_of_2(10) == 8,57.30769230769232,7,4.498292061000332,4.498292061000332,0.06637834476984654,4.435931742000321,4.590238329000385,91,20.234269089056173,20.234269089056173,0.29606582614873644
+mbpp_000022,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def highest_Power_of_2(n):
+    """"""
+    Find the highest power of 2 that is less than or equal to n.
+
+    Args:
+    n (int): The upper limit.
+
+    Returns:
+    int: The highest power of 2 less than or equal to n.
+    """"""
+    power = 1
+    while power <= n:
+        power *= 2
+    return power - 1
+```",mbpp,,,,highest_Power_of_2,,,3,0,False,0.0,assert highest_Power_of_2(10) == 8,assert highest_Power_of_2(10) == 8,57.30769230769232,7,4.546281034000458,4.546281034000458,0.04127068873730823,4.502096323000842,4.601398957000129,91,20.018004520405444,20.018004520405444,0.18110674770197036
+mbpp_000023,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def test_three_equal(a, b, c):
+    # Check if all three numbers are equal
+    if a == b == c:
+        return 3
+    else:
+        return 0
+```",mbpp,,,,test_three_equal,,,3,2,False,0.6666666666666666,"assert test_three_equal(1,2,2) == 2","assert test_three_equal(1,2,2) == 2",0.0,46,3.0638551543330927,3.0638551543330927,0.01380417914221138,3.0504661859995394,3.0828534869997384,46,15.014068617714974,15.014068617714974,0.06748129259880843
+mbpp_000023,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def test_three_equal(a, b, c):
+    """"""
+    Count the number of equal numbers from three given integers.
+
+    Parameters:
+    a (int): The first integer.
+    b (int): The second integer.
+    c (int): The third integer.
+
+    Returns:
+    int: The count of equal numbers.
+    """"""
+    return a == b == c
+```",mbpp,,,,test_three_equal,,,3,0,False,0.0,"assert test_three_equal(1,1,1) == 3","assert test_three_equal(1,1,1) == 3",65.00000000000001,0,3.1497318960000484,3.1497318960000484,0.031172431803532675,3.121892260000095,3.1932540240004528,81,25.71897810226211,25.71897810226211,0.25297041030070067
+mbpp_000023,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def test_three_equal(a, b, c):
+    """"""
+    This function takes three integers as input and returns the count of equal numbers.
+    
+    Parameters:
+    a (int): The first integer.
+    b (int): The second integer.
+    c (int): The third integer.
+    
+    Returns:
+    int: The count of equal numbers.
+    """"""
+    return a == b == c
+```",mbpp,,,,test_three_equal,,,3,0,False,0.0,"assert test_three_equal(1,1,1) == 3","assert test_three_equal(1,1,1) == 3",61.55172413793103,3,3.9683599886666343,3.9683599886666343,0.028813759309036357,3.9297386799999003,3.998924307999914,87,21.924573505901403,21.924573505901403,0.15965673123027918
+mbpp_000023,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def test_three_equal(a, b, c):
+    """"""
+    This function takes three integers as input and returns the count of equal numbers.
+    
+    Parameters:
+    a (int): The first integer.
+    b (int): The second integer.
+    c (int): The third integer.
+    
+    Returns:
+    int: The count of equal numbers.
+    """"""
+    return a == b == c
+```",mbpp,,,,test_three_equal,,,3,0,False,0.0,"assert test_three_equal(1,1,1) == 3","assert test_three_equal(1,1,1) == 3",61.55172413793103,3,3.973663514666441,3.973663514666441,0.018823936830971322,3.9501862890001576,3.996270697,87,21.89464526534194,21.89464526534194,0.10375450767869142
+mbpp_000024,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"To solve the problem of finding the largest sum of a contiguous subarray in the modified array formed by repeating the given array `k` times, we can use a variation of Kadane's algorithm. The key idea is to handle the repeated array by considering the sum of the subarray that spans across the boundaries of the repeated array.
+
+Here's the Python function `max_sub_array_sum_repeated`:
+
+```python
+def max_sub_array_sum_repeated(nums, k):
+    if not nums:
+        return 0
+
+    n = len(nums)
+    total_sum = sum(nums)
+    max_sum = float('-inf')
+
+    # Calculate the maximum sum of a subarray that spans across the boundaries
+    for i in range(n):
+        current_sum = 0
+        for j in range(i, i + n):
+            current_sum += nums[j % n]
+            max_sum = max(max_sum, current_sum)
+
+    # Calculate the maximum sum of a subarray that does not span across the boundaries
+    for i in range(n):
+        current_sum = 0
+        for j in range(i, i + n):
+            current_sum += nums[j]
+            max_sum = max(max_sum, current_sum)
+
+    # The result is the maximum of",mbpp,,,,max_sub_array_sum_repeated,,,3,0,False,0.0,"assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given","assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given",0.0,256,31.943195040666676,31.943195040666676,0.787344883573032,31.146494964999874,33.01520648499991,256,8.019041977745829,8.019041977745829,0.19538420643374985
+mbpp_000024,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_sub_array_sum_repeated(arr, k):
+    """"""
+    Find the largest sum of a contiguous array in the modified array which is formed by repeating the given array k times.
+    
+    Parameters:
+    arr (list): The input array.
+    k (int): The number of times the array should be repeated.
+    
+    Returns:
+    int: The largest sum of the modified array.
+    """"""
+    if k == 1:
+        return max(arr)
+    
+    # Initialize the maximum sum to the first element of the array
+    max_sum = arr[0]
+    
+    # Iterate through the array, considering each repetition of the array
+    for i in range(k):
+        # Update the maximum sum by considering the current element and the sum of the previous elements
+        max_sum = max(max_sum, arr[i] + max_sum)
+    
+    return max_sum
+```
+
+This function takes an array `arr` and an integer `k` as input. It first checks if `k` is 1, in which case it returns the maximum value of the array. Otherwise, it initializes `max_sum` to the first element of the array and iterates through the array, updating `max_sum` by considering each element and",mbpp,,,,max_sub_array_sum_repeated,,,3,0,False,0.0,"assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given","assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given",65.0,0,10.167474156999864,10.167474156999864,0.08448480274036012,10.048245365999719,10.233788879999338,256,25.180076709682467,25.180076709682467,0.2104429165427382
+mbpp_000024,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_sub_array_sum_repeated(arr, k):
+    """"""
+    Finds the largest sum of a contiguous array in the modified array which is formed by repeating the given array k times.
+    
+    Parameters:
+    arr (list): The input array.
+    k (int): The number of times the array is repeated.
+    
+    Returns:
+    int: The largest sum of a contiguous array in the modified array.
+    """"""
+    # Initialize variables to keep track of the maximum sum and the current sum
+    max_sum = current_sum = arr[0]
+    
+    # Iterate through the array, considering the repeated array
+    for i in range(1, len(arr)):
+        # Update the current sum by adding the next element
+        current_sum = max(arr[i], current_sum + arr[i])
+        # Update the maximum sum if the current sum is greater
+        max_sum = max(max_sum, current_sum)
+    
+    return max_sum
+```
+
+This function iterates through the array, considering the repeated array, and keeps track of the maximum sum found. It updates the current sum by adding the next element and updates the maximum sum if the current sum is greater. This approach ensures that the function efficiently finds the largest sum of a contiguous array",mbpp,,,,max_sub_array_sum_repeated,,,3,0,False,0.0,"assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given","assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given",54.453125,27,13.473559162333308,13.473559162333308,0.08785973589515068,13.3553096429996,13.565726140000152,256,19.00098652725255,19.00098652725255,0.12424567847960721
+mbpp_000024,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def max_sub_array_sum_repeated(arr, k):
+    """"""
+    Finds the largest sum of a contiguous array in the modified array which is formed by repeating the given array k times.
+    
+    Parameters:
+    arr (list): The input array.
+    k (int): The number of times the array is repeated.
+    
+    Returns:
+    int: The largest sum of a contiguous array in the modified array.
+    """"""
+    # Initialize variables to keep track of the maximum sum and the current sum
+    max_sum = current_sum = arr[0]
+    
+    # Iterate through the array, considering the repeated array
+    for i in range(1, len(arr)):
+        # Update the current sum by adding the next element
+        current_sum = max(arr[i], current_sum + arr[i])
+        # Update the maximum sum if the current sum is greater
+        max_sum = max(max_sum, current_sum)
+    
+    return max_sum
+```
+
+This function iterates through the array, considering the repeated array, and keeps track of the maximum sum found. It updates the current sum by adding the next element and updates the maximum sum if the current sum is greater. This approach ensures that the function efficiently finds the largest sum of a contiguous array",mbpp,,,,max_sub_array_sum_repeated,,,3,0,False,0.0,"assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given","assert max_sub_array_sum_repeated([10, 20, -30, -1], 4, 3) == 30 raised TypeError: max_sub_array_sum_repeated() takes 2 positional arguments but 3 were given",54.453125,27,13.371076387999588,13.371076387999588,0.006087495570022124,13.364644022999528,13.37924786199983,256,19.14580738481894,19.14580738481894,0.008714970208933692
+mbpp_000025,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `count_integer` that returns the number of integer elements in a given list:
+
+```python
+def count_integer(lst):
+    return sum(1 for item in lst if isinstance(item, int))
+```
+
+This function uses a generator expression within the `sum` function to iterate over each item in the list `lst`. It checks if each item is an instance of the `int` type using `isinstance(item, int)`. If the condition is true, it adds 1 to the sum. The result is the total count of integer elements in the list.",mbpp,,,,count_integer,,,3,0,False,0.0,"assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined","assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined",0.0,123,9.897772229000111,9.897772229000111,0.30140446677974203,9.563000195999848,10.29365932500059,123,12.438474557407945,12.438474557407945,0.3756085222309267
+mbpp_000025,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def count_integer(lst):
+    """"""
+    Return the number of integer elements in a given list.
+
+    Args:
+    lst (list): The list to count integer elements in.
+
+    Returns:
+    int: The number of integer elements in the list.
+    """"""
+    return len([x for x in lst if isinstance(x, int)])
+```",mbpp,,,,count_integer,,,3,0,False,0.0,"assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined","assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined",65.0,0,2.786914779999885,2.786914779999885,0.02367316324624023,2.759871457999907,2.8175280189998375,72,25.836881124562627,25.836881124562627,0.2190649247172587
+mbpp_000025,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def count_integer(lst):
+    """"""
+    Return the number of integer elements in a given list.
+
+    Args:
+    lst (list): The list to count integer elements in.
+
+    Returns:
+    int: The number of integer elements in the list.
+    """"""
+    return sum(1 for item in lst if isinstance(item, int))
+```",mbpp,,,,count_integer,,,3,0,False,0.0,"assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined","assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined",60.833333333333336,3,3.3759018679996493,3.3759018679996493,0.01856242073660124,3.349650804999328,3.3891077979997135,72,21.328281506877534,21.328281506877534,0.11773142754858228
+mbpp_000025,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def count_integer(lst):
+    """"""
+    Return the number of integer elements in a given list.
+
+    Args:
+    lst (list): The list to count integer elements in.
+
+    Returns:
+    int: The number of integer elements in the list.
+    """"""
+    return sum(1 for item in lst if isinstance(item, int))
+```",mbpp,,,,count_integer,,,3,0,False,0.0,"assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined","assert count_integer([1,2,'abc',1.2]) == 2 raised NameError: name 'isinstance' is not defined",60.833333333333336,3,3.38500962299986,3.38500962299986,0.014446506726074995,3.3694636990003346,3.4042628079996575,72,21.270636543053623,21.270636543053623,0.09063713149832546
+mbpp_000026,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def sum_average(n):
+    # Calculate the sum of the first n natural numbers
+    total_sum = n * (n + 1) // 2
+    
+    # Calculate the average of the first n natural numbers
+    average = total_sum / n
+    
+    return total_sum, average
+```",mbpp,,,,sum_average,,,3,3,True,1.0,,,0.0,65,4.290117883666729,4.290117883666729,0.034451416016142065,4.265278877000128,4.338836393999372,65,15.152070424486206,15.152070424486206,0.12099075240064444
+mbpp_000026,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def sum_average(n):
+    """"""
+    Calculate the sum and average of the first n natural numbers.
+
+    Args:
+    n (int): The number of natural numbers to sum and average.
+
+    Returns:
+    tuple: A tuple containing the sum and average of the first n natural numbers.
+    """"""
+    sum_n = sum(range(1, n + 1))
+    average_n = sum_n / n
+    return sum_n, average_n
+
+# Example usage:
+result = sum_average(5)
+print(result)  # Output: (15, 5.0)
+```",mbpp,,,,sum_average,,,3,3,True,1.0,,,65.0,0,4.715428541666976,4.715428541666976,0.04667745762925957,4.663533159000508,4.776707940000051,123,26.087134640750936,26.087134640750936,0.257501180820002
+mbpp_000026,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def sum_average(n):
+    """"""
+    Calculate the sum and average of the first n natural numbers.
+
+    Args:
+    n (int): The number of natural numbers to sum and average.
+
+    Returns:
+    tuple: A tuple containing the sum and average of the first n natural numbers.
+    """"""
+    if n <= 0:
+        raise ValueError(""The number of natural numbers must be a positive integer."")
+    
+    sum_n = sum(range(1, n + 1))
+    average_n = sum_n / n
+    
+    return sum_n, average_n
+```",mbpp,,,,sum_average,,,3,3,True,1.0,,,58.27731092436974,8,5.659754742333159,5.659754742333159,0.027190340411914486,5.633641295999951,5.697256052999364,119,21.02613005359284,21.02613005359284,0.10074496323537446
+mbpp_000026,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def sum_average(n):
+    """"""
+    Calculate the sum and average of the first n natural numbers.
+
+    Args:
+    n (int): The number of natural numbers to sum and average.
+
+    Returns:
+    tuple: A tuple containing the sum and average of the first n natural numbers.
+    """"""
+    if n <= 0:
+        raise ValueError(""The number of natural numbers must be a positive integer."")
+    
+    sum_n = sum(range(1, n + 1))
+    average_n = sum_n / n
+    
+    return sum_n, average_n
+```",mbpp,,,,sum_average,,,3,3,True,1.0,,,58.27731092436974,8,5.56560003533347,5.56560003533347,0.01934879637945012,5.548509926999941,5.592652115999954,119,21.381600246123003,21.381600246123003,0.07416927204019239
+mbpp_000027,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def difference(n):
+    # Calculate the sum of cubes of the first n natural numbers
+    sum_of_cubes = sum(i**3 for i in range(1, n+1))
+    # Calculate the sum of the first n natural numbers
+    sum_of_numbers = sum(range(1, n+1))
+    # Return the difference between the sum of cubes and the sum of numbers
+    return sum_of_cubes - sum_of_numbers
+```",mbpp,,,,difference,,,3,3,True,1.0,,,0.0,97,7.487502721333233,7.487502721333233,0.1438986034508251,7.343203145999723,7.683924132999891,97,12.959662095408442,12.959662095408442,0.2467494814939374
+mbpp_000027,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def difference(n):
+    """"""
+    Calculate the difference between the sum of cubes of the first n natural numbers and the sum of the first n natural numbers.
+    
+    Args:
+    n (int): The number of natural numbers to consider.
+    
+    Returns:
+    int: The difference between the sum of cubes and the sum of the first n natural numbers.
+    """"""
+    # Calculate the sum of the first n natural numbers
+    sum_natural = n * (n + 1) // 2
+    
+    # Calculate the sum of the cubes of the first n natural numbers
+    sum_cubes = sum(i**3 for i in range(1, n + 1))
+    
+    # Return the difference
+    return sum_cubes - sum_natural
+```",mbpp,,,,difference,,,3,3,True,1.0,,,65.0,0,6.281434862999959,6.281434862999959,0.01124424910066399,6.265622854999492,6.29080203400008,161,25.631168680127704,25.631168680127704,0.045936978338124816
+mbpp_000027,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def difference(n):
+    """"""
+    Calculate the difference between the sum of cubes of the first n natural numbers and the sum of the first n natural numbers.
+
+    Args:
+    n (int): The number of natural numbers to consider.
+
+    Returns:
+    int: The difference between the sum of cubes and the sum of the first n natural numbers.
+    """"""
+    # Calculate the sum of the first n natural numbers
+    sum_natural = n * (n + 1) // 2
+    
+    # Calculate the sum of the cubes of the first n natural numbers
+    sum_cubes = sum(i**3 for i in range(1, n + 1))
+    
+    # Return the difference
+    return sum_cubes - sum_natural
+```",mbpp,,,,difference,,,3,3,True,1.0,,,57.45283018867924,12,7.562282597000073,7.562282597000073,0.027286538241924584,7.530814396999631,7.597359578000578,159,21.02567136595196,21.02567136595196,0.07581273913223933
+mbpp_000027,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def difference(n):
+    """"""
+    Calculate the difference between the sum of cubes of the first n natural numbers and the sum of the first n natural numbers.
+
+    Args:
+    n (int): The number of natural numbers to consider.
+
+    Returns:
+    int: The difference between the sum of cubes and the sum of the first n natural numbers.
+    """"""
+    # Calculate the sum of the first n natural numbers
+    sum_natural = n * (n + 1) // 2
+    
+    # Calculate the sum of the cubes of the first n natural numbers
+    sum_cubes = sum(i**3 for i in range(1, n + 1))
+    
+    # Return the difference
+    return sum_cubes - sum_natural
+```",mbpp,,,,difference,,,3,3,True,1.0,,,57.45283018867924,12,7.516932820000268,7.516932820000268,0.029604102492455254,7.482811059000596,7.555002826999953,159,21.15257221200999,21.15257221200999,0.08324172998066066
+mbpp_000028,code,hard,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"Certainly! Below is a Python function named `Extract` that takes a list of lists as input and returns a new list containing the first element of each sublist.
+
+```python
+def Extract(list_of_lists):
+    # Use a list comprehension to extract the first element of each sublist
+    return [sublist[0] for sublist in list_of_lists if sublist]
+
+# Example usage:
+example_list = [[1, 2, 3], [4, 5], [6, 7, 8, 9], []]
+result = Extract(example_list)
+print(result)  # Output: [1, 4, 6]
+```
+
+This function uses a list comprehension to iterate over each sublist in the input list. It checks if the sublist is not empty before attempting to access the first element. If the sublist is empty, it simply skips it.",mbpp,,,,Extract,,,3,3,True,1.0,,,0.0,177,16.448809988666955,16.448809988666955,0.8456274644348751,15.450745834000372,17.5183941410005,177,10.789024122796064,10.789024122796064,0.55214626928601
+mbpp_000028,code,hard,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def Extract(lst):
+    """"""
+    Extracts the first element of each sublist in a given list.
+
+    Parameters:
+    lst (list): A list of lists.
+
+    Returns:
+    list: A list containing the first element of each sublist.
+    """"""
+    return [sublist[0] for sublist in lst]
+```",mbpp,,,,Extract,,,3,3,True,1.0,,,65.0,0,2.656063351666186,2.656063351666186,0.027704543592791266,2.6318844969991915,2.694852026999797,69,25.981103894496766,25.981103894496766,0.2691950093813917
+mbpp_000028,code,hard,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def Extract(lst):
+    """"""
+    Extracts the first element of each sublist in a given list of lists.
+
+    Parameters:
+    lst (list of lists): The input list containing sublists.
+
+    Returns:
+    list: A list containing the first element of each sublist.
+    """"""
+    return [sublist[0] for sublist in lst]
+```",mbpp,,,,Extract,,,3,3,True,1.0,,,55.666666666666664,7,3.7171668109998186,3.7171668109998186,0.045327909297719876,3.653074834999643,3.750258265999946,75,20.17968381629873,20.17968381629873,0.24821219202830083
+mbpp_000028,code,hard,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def Extract(lst):
+    """"""
+    Extracts the first element of each sublist in a given list of lists.
+
+    Parameters:
+    lst (list of lists): The input list containing sublists.
+
+    Returns:
+    list: A list containing the first element of each sublist.
+    """"""
+    return [sublist[0] for sublist in lst]
+```",mbpp,,,,Extract,,,3,3,True,1.0,,,55.666666666666664,7,3.7205051883332394,3.7205051883332394,0.013380441992453156,3.7077603829993677,3.7389908810000634,75,20.158812933169916,20.158812933169916,0.07235259027464162
+mbpp_000029,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_Sum(n):
+    # Initialize sum to 0
+    sum = 0
+    # Loop through the first n even natural numbers
+    for i in range(1, n + 1):
+        # Calculate the square of the even number and add it to the sum
+        sum += (2 * i) ** 2
+    # Return the total sum
+    return sum
+```",mbpp,,,,square_Sum,,,3,3,True,1.0,,,0.0,88,7.2192011306666855,7.2192011306666855,0.16311413990385698,7.006000640999446,7.402080451000074,88,12.195980504169144,12.195980504169144,0.27735855164780293
+mbpp_000029,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_Sum(n):
+    """"""
+    Calculate the sum of squares of the first n even natural numbers.
+
+    Args:
+    n (int): The number of even natural numbers to consider.
+
+    Returns:
+    int: The sum of squares of the first n even natural numbers.
+    """"""
+    return sum(i**2 for i in range(2, n+1, 2))
+```",mbpp,,,,square_Sum,,,3,0,False,0.0,assert square_Sum(2) == 20,assert square_Sum(2) == 20,65.0,0,3.2156813436668017,3.2156813436668017,0.049926803212418255,3.1539265560004424,3.2762030989997584,84,26.12829408878035,26.12829408878035,0.40597551759846945
+mbpp_000029,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_Sum(n):
+    """"""
+    Calculate the sum of squares of the first n even natural numbers.
+
+    Args:
+    n (int): The number of even natural numbers to consider.
+
+    Returns:
+    int: The sum of squares of the first n even natural numbers.
+    """"""
+    return sum(i**2 for i in range(2, n+1, 2))
+```",mbpp,,,,square_Sum,,,3,0,False,0.0,assert square_Sum(2) == 20,assert square_Sum(2) == 20,61.42857142857143,3,3.857215631333323,3.857215631333323,0.017521803315706023,3.8325815660000444,3.871854840999731,84,21.77781765905769,21.77781765905769,0.09923018329152736
+mbpp_000029,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+def square_Sum(n):
+    """"""
+    Calculate the sum of squares of the first n even natural numbers.
+
+    Args:
+    n (int): The number of even natural numbers to consider.
+
+    Returns:
+    int: The sum of squares of the first n even natural numbers.
+    """"""
+    return sum(i**2 for i in range(2, n+1, 2))
+```",mbpp,,,,square_Sum,,,3,0,False,0.0,assert square_Sum(2) == 20,assert square_Sum(2) == 20,61.42857142857143,3,3.8443436050001765,3.8443436050001765,0.02148586908174765,3.819263404000594,3.8717397310001616,84,21.850966058639823,21.850966058639823,0.12201740834798055
+mbpp_000030,code,medium,expensive_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def next_Perfect_Square(n):
+    # Calculate the square root of the given number
+    sqrt_n = math.sqrt(n)
+    
+    # Find the next integer greater than the square root
+    next_int = math.ceil(sqrt_n)
+    
+    # Return the square of the next integer
+    return next_int ** 2
+```",mbpp,,,,next_Perfect_Square,,,3,2,False,0.6666666666666666,assert next_Perfect_Square(9) == 16,assert next_Perfect_Square(9) == 16,0.0,76,5.6105289340002855,5.6105289340002855,0.07308706488304875,5.519822801000373,5.698799091000183,76,13.548260694272726,13.548260694272726,0.1766273526109776
+mbpp_000030,code,medium,cheap_only,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def next_Perfect_Square(n):
+    """"""
+    Find the next perfect square greater than the given number n.
+    
+    Args:
+    n (int): The number to find the next perfect square for.
+    
+    Returns:
+    int: The next perfect square greater than n.
+    """"""
+    # Calculate the square root of n
+    sqrt_n = math.isqrt(n)
+    # Add 1 to the square root to get the next perfect square
+    return sqrt_n + 1
+
+# Check function to verify the correctness of the solution
+def check_next_Perfect_Square():
+    test_cases = [(10, 16), (15, 16), (20, 25), (23, 29), (28, 36)]
+    for n, expected in test_cases:
+        result = next_Perfect_Square(n)
+        assert result == expected, f""Failed for {n}: expected {expected}, got {result}""
+    print(""All test cases passed!"")
+
+# Run the check function to verify the solution
+check_next_Perfect_Square()
+```
+
+This Python code snippet defines a function `next_Perfect_Square` that calculates the next perfect",mbpp,,,,next_Perfect_Square,,,3,0,False,0.0,assert next_Perfect_Square(35) == 36,assert next_Perfect_Square(35) == 36,65.0,0,10.040180977667054,10.040180977667054,0.05963267113868052,9.962514405000547,10.107474953000747,256,25.498449235526518,25.498449235526518,0.1516793311650653
+mbpp_000030,code,medium,adaptive_guarded_v3,,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def next_Perfect_Square(n):
+    """"""
+    Find the next perfect square greater than the given number n.
+    
+    Args:
+    n (int): The number to find the next perfect square for.
+    
+    Returns:
+    int: The next perfect square greater than n.
+    """"""
+    # Calculate the square root of n
+    sqrt_n = math.isqrt(n)
+    # If the square root is an integer, it's the next perfect square
+    if sqrt_n * sqrt_n == n:
+        return (sqrt_n + 1) ** 2
+    # If the square root is not an integer, the next perfect square is the square of the integer part of the square root plus one
+    else:
+        return (sqrt_n + 1) ** 2
+
+# Check function to verify the correctness of the solution
+def check_solution():
+    test_cases = [(10, 16), (15, 25), (26, 36), (1, 1), (0, 0)]
+    for n, expected in test_cases:
+        result = next_Perfect_Square(n)
+        assert result == expected, f""Failed for {n}: expected",mbpp,,,,next_Perfect_Square,,,3,3,True,1.0,,,56.40625,22,12.717398325000127,12.717398325000127,0.06296980779209246,12.665849216000424,12.806060175999846,256,20.130395300967823,20.130395300967823,0.09934102247630473
+mbpp_000030,code,medium,hybrid,adaptive_guarded_v3,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto,chat,chat,256,"```python
+import math
+
+def next_Perfect_Square(n):
+    """"""
+    Find the next perfect square greater than the given number n.
+    
+    Args:
+    n (int): The number to find the next perfect square for.
+    
+    Returns:
+    int: The next perfect square greater than n.
+    """"""
+    # Calculate the square root of n
+    sqrt_n = math.isqrt(n)
+    # If the square root is an integer, it's the next perfect square
+    if sqrt_n * sqrt_n == n:
+        return (sqrt_n + 1) ** 2
+    # If the square root is not an integer, the next perfect square is the square of the integer part of the square root plus one
+    else:
+        return (sqrt_n + 1) ** 2
+
+# Check function to verify the correctness of the solution
+def check_solution():
+    test_cases = [(10, 16), (15, 25), (26, 36), (1, 1), (0, 0)]
+    for n, expected in test_cases:
+        result = next_Perfect_Square(n)
+        assert result == expected, f""Failed for {n}: expected",mbpp,,,,next_Perfect_Square,,,3,3,True,1.0,,,56.40625,22,12.752889463000125,12.752889463000125,0.008577362270486102,12.743700191000244,12.764341553000122,256,20.073891216512923,20.073891216512923,0.01349791278109648

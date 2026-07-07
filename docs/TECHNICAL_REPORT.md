@@ -173,6 +173,43 @@ The routed adaptive/hybrid modes reached 86.67% pass rate, compared with 91.11% 
 
 The result is encouraging, but it should not be overread. It is based on one measured run per task/mode, a small 45-task dataset, laptop CUDA timing, a local subprocess code evaluator, normalization-based math checks, and keyword-based logic labels. It improves the quality signal beyond lexical similarity, but it does not prove quality is solved.
 
+## External MBPP Code Benchmark — Qwen2.5-Coder 0.5B → 3B, Split GPU
+
+This benchmark extends the task-specific evaluation path to external MBPP-style code tasks. It uses a coder-specialized cheap/expensive pair and places the two models on separate CUDA devices.
+
+Configuration:
+
+- Dataset: `data/external_eval_tasks_90.jsonl`.
+- Category: `code`.
+- Task count: 30.
+- Cheap model: `Qwen/Qwen2.5-Coder-0.5B-Instruct`.
+- Expensive model: `Qwen/Qwen2.5-Coder-3B-Instruct`.
+- cheap_device: `cuda:0`.
+- expensive_device: `cuda:1`.
+- Device: split.
+- torch_dtype: float16.
+- Prompt format: auto.
+- max_new_tokens: 256.
+- warmup_runs: 1.
+- measured_runs: 3.
+
+| Mode | Pass rate | Avg total time | Avg speedup | Median speedup | Avg estimated saved | Avg expensive calls |
+|---|---:|---:|---:|---:|---:|---:|
+| expensive_only | 60.00% | 13.183s | 0.00% | - | 0.00% | 133.77 |
+| cheap_only | 46.67% | 5.232s | 34.62% | - | 65.00% | 0.00 |
+| adaptive_guarded_v3 | 53.33% | 6.081s | 24.58% | 41.19% | 58.32% | 9.77 |
+| hybrid | 53.33% | 6.065s | 24.83% | 41.24% | 58.32% | 9.77 |
+
+Interpretation:
+
+- Updating `hybrid` to route code prompts to `adaptive_guarded_v3` improved hybrid pass rate from 50.00% to 53.33%.
+- `hybrid` preserved 88.9% of the `expensive_only` pass rate.
+- `hybrid` reduced average expensive-model calls from 133.77 to 9.77, approximately a 92.7% reduction.
+- `hybrid` achieved 24.83% average per-task speedup and 41.24% median per-task speedup.
+- For this MBPP code run, `adaptive_guarded_v3` is the best routed policy because it preserves more pass rate than `adaptive_calibrated` while still maintaining real speedup.
+- This is promising external evidence, but it is not definitive. The sample has only 30 tasks, confidence intervals are wide, and code evaluation still depends on the local subprocess harness and extracted generated functions.
+- The result should be treated as preliminary external evidence, not as a final generalization claim.
+
 ## 8. Key Findings
 
 - Estimated savings and real latency are not the same.
