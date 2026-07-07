@@ -186,11 +186,15 @@ def choose_mode(prompt_type: str, prompt: str | None = None) -> str:
 
     speculative_adaptive continua experimental. Ele nao e usado para
     matematica por padrao, nem mesmo em math_symbolic_dense, porque o oracle
-    atual nao mostrou evidencia high-confidence nessa familia. A excecao
-    conservadora sao prompts curtos e diretos, onde o oracle indicou melhor
-    trade-off em alguns casos previsiveis.
+    atual nao mostrou evidencia high-confidence nessa familia.
+
+    Para codigo, o benchmark MBPP com Qwen2.5-Coder-0.5B -> 3B favoreceu
+    adaptive_guarded_v3 como melhor modo roteado. A excecao conservadora de
+    prompts curtos e diretos continua valendo para categorias nao-codigo.
     """
 
+    if prompt_type == "code":
+        return "adaptive_guarded_v3"
     if prompt is not None and is_short_direct_prompt(prompt, prompt_type):
         return "speculative_adaptive"
     if prompt_type == "logic":
