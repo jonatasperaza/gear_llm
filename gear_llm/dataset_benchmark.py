@@ -59,6 +59,8 @@ def build_dataset_row(
         "cheap_model_name": model_metadata["cheap_model_name"],
         "expensive_model_name": model_metadata["expensive_model_name"],
         "device": model_metadata["device"],
+        "cheap_device": model_metadata["cheap_device"],
+        "expensive_device": model_metadata["expensive_device"],
         "torch_dtype": model_metadata["torch_dtype"],
         "prompt_format": model_metadata["prompt_format"],
         "effective_prompt_format_cheap": model_metadata[
@@ -103,6 +105,8 @@ def summarize_dataset_rows(rows: list[dict]) -> list[dict]:
                     "",
                 ),
                 "device": first_row.get("device", ""),
+                "cheap_device": first_row.get("cheap_device", ""),
+                "expensive_device": first_row.get("expensive_device", ""),
                 "torch_dtype": first_row.get("torch_dtype", ""),
                 "prompt_format": first_row.get("prompt_format", ""),
                 "effective_prompt_format_cheap": first_row.get(
@@ -156,6 +160,8 @@ def build_hybrid_mode_matrix(
             "cheap_model_name": model_metadata["cheap_model_name"],
             "expensive_model_name": model_metadata["expensive_model_name"],
             "device": model_metadata["device"],
+            "cheap_device": model_metadata["cheap_device"],
+            "expensive_device": model_metadata["expensive_device"],
             "torch_dtype": model_metadata["torch_dtype"],
             "prompt_format": model_metadata["prompt_format"],
             "effective_prompt_format_cheap": model_metadata[
@@ -184,6 +190,8 @@ def run_dataset_benchmark(
     max_new_tokens: int = 80,
     temperature: float = 0.7,
     device: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
     torch_dtype: str = "auto",
     prompt_format: str = "auto",
     models=None,
@@ -201,13 +209,15 @@ def run_dataset_benchmark(
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             device=device,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
             torch_dtype=torch_dtype,
             prompt_format=prompt_format,
         )
     else:
         cheap_model, expensive_model, tokenizer, device = models
 
-    runtime_metadata = get_model_runtime_metadata(
+    cheap_runtime_metadata = get_model_runtime_metadata(
         cheap_model,
         fallback_device=device,
     )
@@ -215,17 +225,23 @@ def run_dataset_benchmark(
         expensive_model,
         fallback_device=device,
     )
-    if runtime_metadata != expensive_runtime_metadata:
+    if cheap_runtime_metadata["torch_dtype"] != expensive_runtime_metadata["torch_dtype"]:
         raise ValueError(
-            "cheap_model e expensive_model precisam usar o mesmo device/dtype. "
-            f"cheap={runtime_metadata}, expensive={expensive_runtime_metadata}"
+            "cheap_model e expensive_model precisam usar o mesmo dtype. "
+            f"cheap={cheap_runtime_metadata}, expensive={expensive_runtime_metadata}"
         )
 
     model_metadata = {
         "cheap_model_name": cheap_model_name,
         "expensive_model_name": expensive_model_name,
-        "device": runtime_metadata["device"],
-        "torch_dtype": runtime_metadata["torch_dtype"],
+        "device": (
+            cheap_runtime_metadata["device"]
+            if cheap_runtime_metadata["device"] == expensive_runtime_metadata["device"]
+            else "split"
+        ),
+        "cheap_device": cheap_runtime_metadata["device"],
+        "expensive_device": expensive_runtime_metadata["device"],
+        "torch_dtype": cheap_runtime_metadata["torch_dtype"],
         **prompt_format_metadata(tokenizer, prompt_format),
     }
     expensive_tokenizer = get_expensive_tokenizer(tokenizer)
@@ -239,7 +255,7 @@ def run_dataset_benchmark(
             prompt=prompt,
             model=expensive_model,
             tokenizer=expensive_tokenizer,
-            device=device,
+            device=expensive_runtime_metadata["device"],
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             prompt_format=prompt_format,
@@ -253,7 +269,7 @@ def run_dataset_benchmark(
                 cheap_model=cheap_model,
                 expensive_model=expensive_model,
                 tokenizer=tokenizer,
-                device=device,
+                device=cheap_runtime_metadata["device"],
                 cheap_model_name=cheap_model_name,
                 expensive_model_name=expensive_model_name,
                 max_new_tokens=max_new_tokens,

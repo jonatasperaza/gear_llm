@@ -1,31 +1,3 @@
-task_id,category,difficulty,mode,selected_mode,cheap_model_name,expensive_model_name,device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,max_new_tokens,generated_text,source,answer_type,expected_answer,expected_label,function_name,inferred_answer,inferred_label,test_count,passed_tests,passed,score,failure_reason,error,estimated_saved_percent,expensive_model_calls,total_time_seconds,total_time_seconds_avg,total_time_seconds_std,total_time_seconds_min,total_time_seconds_max,generated_tokens,tokens_per_second,tokens_per_second_avg,tokens_per_second_std
-gsm8k_000001,math,medium,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,10,gsm8k,number,4,,,,,0,0,False,0.0,expected_answer_not_found,,0.0,3,,,,,,3,,,
-gsm8k_000001,math,medium,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,10 candies,gsm8k,number,4,,,,,0,0,False,0.0,expected_answer_not_found,,15.000000000000002,2,,,,,,4,,,
-gsm8k_000002,math,medium,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,Lia has 3 + 4 = 7 pencils now.,gsm8k,number,7,,,7,,0,0,True,1.0,,,0.0,15,,,,,,15,,,
-gsm8k_000002,math,medium,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,Lia has 3 pencils.,gsm8k,number,7,,,,,0,0,False,0.0,expected_answer_not_found,,40.0,2,,,,,,8,,,
-mbpp_000001,code,hard,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,"```python
-def reverse_string(s):
-    return s[::-1]
-```",mbpp,,,,reverse_string,,,2,2,True,1.0,,,0.0,19,,,,,,19,,,
-mbpp_000001,code,hard,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,"Here's a Python function that reverses a string:
-
-```python
-def reverse_string(s):
-    return s[::-1]
-```
-
-This function uses Python's slice notation `s[::-1]` to create a reversed copy of the input string `s`. The `[::-1]`",mbpp,,,,reverse_string,,,2,2,True,1.0,,,63.4375,1,,,,,,64,,,
-mbpp_000002,code,easy,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,"```python
-def add_numbers(a, b):
-    return a + b
-```",mbpp,,,,add_numbers,,,2,2,True,1.0,,,0.0,20,,,,,,20,,,
-mbpp_000002,code,easy,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,"```python
-def add_numbers(a, b):
-    return a + b
-```
-
-This function uses the built-in `sum` function in Python, which adds up all the elements in an iterable (like a list or tuple) and returns the sum.",mbpp,,,,add_numbers,,,2,2,True,1.0,,,58.10344827586208,4,,,,,,58,,,
-logiqa_000001,logic,medium,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,A,logiqa,choice,B,,,A,,0,0,False,0.0,inferred_A,,0.0,2,,,,,,2,,,
-logiqa_000001,logic,medium,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,A,logiqa,choice,B,,,A,,0,0,False,0.0,inferred_A,,65.0,0,,,,,,2,,,
-logiqa_000002,logic,medium,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,A,logiqa,choice,A,,,A,,0,0,True,1.0,,,0.0,2,,,,,,2,,,
-logiqa_000002,logic,medium,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,float16,auto,chat,chat,64,A,logiqa,choice,A,,,A,,0,0,True,1.0,,,15.000000000000002,1,,,,,,2,,,
+task_id,category,difficulty,mode,selected_mode,cheap_model_name,expensive_model_name,device,cheap_device,expensive_device,torch_dtype,prompt_format,effective_prompt_format_cheap,effective_prompt_format_expensive,max_new_tokens,generated_text,source,answer_type,expected_answer,expected_label,function_name,inferred_answer,inferred_label,test_count,passed_tests,passed,score,failure_reason,error,estimated_saved_percent,expensive_model_calls,total_time_seconds,total_time_seconds_avg,total_time_seconds_std,total_time_seconds_min,total_time_seconds_max,generated_tokens,tokens_per_second,tokens_per_second_avg,tokens_per_second_std
+math_001,math,easy,expensive_only,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto,chat,chat,4,7 * 8,,number,56,,,,,0,0,False,0.0,expected_answer_not_found,,0.0,4,,,,,,4,,,
+math_001,math,easy,adaptive_calibrated,,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto,chat,chat,4,7 * 8,,number,56,,,,,0,0,False,0.0,expected_answer_not_found,,65.0,0,,,,,,4,,,

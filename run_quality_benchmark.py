@@ -37,6 +37,18 @@ def main():
         help="Device para carregar os dois modelos.",
     )
     parser.add_argument(
+        "--cheap-device",
+        type=str,
+        default=None,
+        help="Device opcional para o modelo barato, ex: cuda:0.",
+    )
+    parser.add_argument(
+        "--expensive-device",
+        type=str,
+        default=None,
+        help="Device opcional para o modelo caro, ex: cuda:1.",
+    )
+    parser.add_argument(
         "--torch-dtype",
         type=str,
         choices=TORCH_DTYPE_CHOICES,
@@ -77,6 +89,8 @@ def main():
         max_new_tokens=args.max_new_tokens,
         temperature=args.temperature,
         device=args.device,
+        cheap_device=args.cheap_device,
+        expensive_device=args.expensive_device,
         torch_dtype=args.torch_dtype,
         prompt_format=args.prompt_format,
     )

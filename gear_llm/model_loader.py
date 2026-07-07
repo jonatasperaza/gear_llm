@@ -1,3 +1,5 @@
+import re
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -5,16 +7,24 @@ from gear_llm.config import PROMPT_FORMAT_CHOICES
 
 
 def resolve_device(device: str = "auto") -> str:
-    if device not in {"auto", "cpu", "cuda"}:
+    if not re.fullmatch(r"auto|cpu|cuda(?::\d+)?", str(device)):
         raise ValueError(
-            f"device inválido: {device}. Use auto, cpu ou cuda."
+            f"device inválido: {device}. Use auto, cpu, cuda ou cuda:N."
         )
 
     if device == "auto":
         return "cuda" if torch.cuda.is_available() else "cpu"
 
-    if device == "cuda" and not torch.cuda.is_available():
-        raise ValueError("device=cuda solicitado, mas CUDA não está disponível.")
+    if str(device).startswith("cuda"):
+        if not torch.cuda.is_available():
+            raise ValueError(f"device={device} solicitado, mas CUDA não está disponível.")
+        if ":" in str(device):
+            index = int(str(device).split(":", 1)[1])
+            if index >= torch.cuda.device_count():
+                raise ValueError(
+                    f"device={device} solicitado, mas há apenas "
+                    f"{torch.cuda.device_count()} CUDA device(s)."
+                )
 
     return device
 
@@ -33,7 +43,7 @@ def resolve_torch_dtype(torch_dtype: str = "auto", device: str = "auto") -> torc
         )
 
     if torch_dtype == "auto":
-        return torch.float16 if resolved_device == "cuda" else torch.float32
+        return torch.float16 if resolved_device.startswith("cuda") else torch.float32
 
     return {
         "float32": torch.float32,
@@ -77,6 +87,22 @@ def resolve_effective_prompt_format(tokenizer, prompt_format: str = "auto") -> s
         return "chat"
 
     return "chat" if has_chat_template else "raw"
+
+
+def resolve_split_devices(
+    device: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
+) -> tuple[str, str, str]:
+    if cheap_device is None and expensive_device is None:
+        resolved = resolve_device(device)
+        return resolved, resolved, resolved
+
+    default_device = resolve_device(device)
+    resolved_cheap = resolve_device(cheap_device or default_device)
+    resolved_expensive = resolve_device(expensive_device or default_device)
+    primary_device = resolved_cheap
+    return resolved_cheap, resolved_expensive, primary_device
 
 
 def encode_prompt(
@@ -181,14 +207,18 @@ def ensure_shared_prompt_encoding(
     tokenizer,
     device: str,
     prompt_format: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
 ) -> tuple[dict, str, str]:
     cheap_tokenizer = get_cheap_tokenizer(tokenizer)
     expensive_tokenizer = get_expensive_tokenizer(tokenizer)
+    resolved_cheap_device = resolve_device(cheap_device or device)
+    resolved_expensive_device = resolve_device(expensive_device or device)
 
     cheap_encoded, effective_cheap = encode_prompt(
         prompt=prompt,
         tokenizer=cheap_tokenizer,
-        device=device,
+        device=resolved_cheap_device,
         prompt_format=prompt_format,
     )
 
@@ -205,7 +235,7 @@ def ensure_shared_prompt_encoding(
     expensive_encoded, effective_expensive = encode_prompt(
         prompt=prompt,
         tokenizer=expensive_tokenizer,
-        device=device,
+        device=resolved_expensive_device,
         prompt_format=prompt_format,
     )
 

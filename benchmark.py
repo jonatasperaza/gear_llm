@@ -48,7 +48,11 @@ from gear_llm.latency_benchmark import (
     run_latency_benchmark,
     save_latency_benchmark_outputs,
 )
-from gear_llm.model_loader import get_expensive_tokenizer, load_model_and_tokenizer
+from gear_llm.model_loader import (
+    get_expensive_tokenizer,
+    get_model_runtime_metadata,
+    load_model_and_tokenizer,
+)
 from gear_llm.mode_oracle import (
     print_mode_oracle_report,
     run_mode_oracle,
@@ -223,12 +227,20 @@ def run_speculative_benchmark(
     verify_top_k: int,
     min_draft_length: int,
     max_draft_length: int,
+    device: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
+    torch_dtype: str = "auto",
     prompt_format: str = "auto",
     models=None,
 ) -> list[dict]:
     speculative_config = SpeculativeGenerationConfig(
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
+        device=device,
+        cheap_device=cheap_device,
+        expensive_device=expensive_device,
+        torch_dtype=torch_dtype,
         max_new_tokens=max_new_tokens,
         draft_length=draft_length,
         verify_top_k=verify_top_k,
@@ -247,13 +259,18 @@ def run_speculative_benchmark(
 
     rows = []
     expensive_tokenizer = get_expensive_tokenizer(tokenizer)
+    cheap_runtime = get_model_runtime_metadata(cheap_model, fallback_device=device)
+    expensive_runtime = get_model_runtime_metadata(
+        expensive_model,
+        fallback_device=device,
+    )
 
     for prompt_name, prompt in prompts.items():
         reference_text, _ = generate_greedy_with_model(
             prompt=prompt,
             model=expensive_model,
             tokenizer=expensive_tokenizer,
-            device=device,
+            device=expensive_runtime["device"],
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             prompt_format=prompt_format,
@@ -264,6 +281,9 @@ def run_speculative_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    device=cheap_runtime["device"],
+                    cheap_device=cheap_runtime["device"],
+                    expensive_device=expensive_runtime["device"],
                     prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
@@ -278,6 +298,9 @@ def run_speculative_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
+                    device=cheap_runtime["device"],
+                    cheap_device=cheap_runtime["device"],
+                    expensive_device=expensive_runtime["device"],
                     prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
@@ -307,7 +330,7 @@ def run_speculative_benchmark(
                 cheap_model=cheap_model,
                 expensive_model=expensive_model,
                 tokenizer=tokenizer,
-                device=device,
+                device=cheap_runtime["device"],
                 config=adaptive_config,
             )
             rows.append(
@@ -324,7 +347,7 @@ def run_speculative_benchmark(
             cheap_model=cheap_model,
             expensive_model=expensive_model,
             tokenizer=tokenizer,
-            device=device,
+            device=cheap_runtime["device"],
             config=speculative_config,
         )
         rows.append(
@@ -409,6 +432,10 @@ def run_hybrid_benchmark(
     expensive_model_name: str,
     max_new_tokens: int,
     temperature: float,
+    device: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
+    torch_dtype: str = "auto",
     prompt_format: str = "auto",
     models=None,
 ) -> list[dict]:
@@ -418,6 +445,10 @@ def run_hybrid_benchmark(
             expensive_model_name=expensive_model_name,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
+            device=device,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
+            torch_dtype=torch_dtype,
             prompt_format=prompt_format,
         )
     else:
@@ -430,6 +461,11 @@ def run_hybrid_benchmark(
         "speculative_adaptive",
     )
     expensive_tokenizer = get_expensive_tokenizer(tokenizer)
+    cheap_runtime = get_model_runtime_metadata(cheap_model, fallback_device=device)
+    expensive_runtime = get_model_runtime_metadata(
+        expensive_model,
+        fallback_device=device,
+    )
 
     for prompt_name, prompt in prompts.items():
         prompt_type = classify_prompt(prompt)
@@ -438,7 +474,7 @@ def run_hybrid_benchmark(
             prompt=prompt,
             model=expensive_model,
             tokenizer=expensive_tokenizer,
-            device=device,
+            device=expensive_runtime["device"],
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             prompt_format=prompt_format,
@@ -452,7 +488,7 @@ def run_hybrid_benchmark(
                 cheap_model=cheap_model,
                 expensive_model=expensive_model,
                 tokenizer=tokenizer,
-                device=device,
+                device=cheap_runtime["device"],
                 cheap_model_name=cheap_model_name,
                 expensive_model_name=expensive_model_name,
                 max_new_tokens=max_new_tokens,
@@ -690,6 +726,18 @@ def main():
         help="Device para carregar modelos: auto, cpu ou cuda.",
     )
     parser.add_argument(
+        "--cheap-device",
+        type=str,
+        default=None,
+        help="Device opcional para o modelo barato, ex: cuda:0.",
+    )
+    parser.add_argument(
+        "--expensive-device",
+        type=str,
+        default=None,
+        help="Device opcional para o modelo caro, ex: cuda:1.",
+    )
+    parser.add_argument(
         "--torch-dtype",
         type=str,
         choices=TORCH_DTYPE_CHOICES,
@@ -903,6 +951,8 @@ def main():
         cheap_model_name=args.cheap_model,
         expensive_model_name=args.expensive_model,
         device=args.device,
+        cheap_device=args.cheap_device,
+        expensive_device=args.expensive_device,
         torch_dtype=args.torch_dtype,
         prompt_format=args.prompt_format,
         max_new_tokens=args.adaptive_max_new_tokens,
@@ -993,6 +1043,8 @@ def main():
                 max_new_tokens=args.adaptive_max_new_tokens,
                 temperature=args.adaptive_temperature,
                 device=args.device,
+                cheap_device=args.cheap_device,
+                expensive_device=args.expensive_device,
                 torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
             )
@@ -1029,6 +1081,10 @@ def main():
                 verify_top_k=args.speculative_verify_top_k,
                 min_draft_length=args.speculative_min_draft_length,
                 max_draft_length=args.speculative_max_draft_length,
+                device=args.device,
+                cheap_device=args.cheap_device,
+                expensive_device=args.expensive_device,
+                torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
             )
             print_speculative_benchmark_report(speculative_rows)
@@ -1061,6 +1117,10 @@ def main():
                 expensive_model_name=args.expensive_model,
                 max_new_tokens=speculative_max_new_tokens,
                 temperature=args.adaptive_temperature,
+                device=args.device,
+                cheap_device=args.cheap_device,
+                expensive_device=args.expensive_device,
+                torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
             )
             print_hybrid_benchmark_report(hybrid_rows)
@@ -1078,6 +1138,8 @@ def main():
                     max_new_tokens=speculative_max_new_tokens,
                     temperature=args.adaptive_temperature,
                     device=args.device,
+                    cheap_device=args.cheap_device,
+                    expensive_device=args.expensive_device,
                     torch_dtype=args.torch_dtype,
                     prompt_format=args.prompt_format,
                 )
@@ -1146,6 +1208,8 @@ def main():
                     warmup_runs=args.latency_warmup_runs,
                     measured_runs=args.latency_measured_runs,
                     device=args.device,
+                    cheap_device=args.cheap_device,
+                    expensive_device=args.expensive_device,
                     torch_dtype=args.torch_dtype,
                     prompt_format=args.prompt_format,
                 )
@@ -1176,6 +1240,8 @@ def main():
                 max_new_tokens=speculative_max_new_tokens,
                 temperature=args.adaptive_temperature,
                 device=args.device,
+                cheap_device=args.cheap_device,
+                expensive_device=args.expensive_device,
                 torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
                 include_latency=args.include_latency,
@@ -1584,6 +1650,8 @@ def main():
             max_new_tokens=args.adaptive_max_new_tokens,
             temperature=args.adaptive_temperature,
             device=args.device,
+            cheap_device=args.cheap_device,
+            expensive_device=args.expensive_device,
             torch_dtype=args.torch_dtype,
             prompt_format=args.prompt_format,
         )
@@ -1620,6 +1688,10 @@ def main():
             verify_top_k=args.speculative_verify_top_k,
             min_draft_length=args.speculative_min_draft_length,
             max_draft_length=args.speculative_max_draft_length,
+            device=args.device,
+            cheap_device=args.cheap_device,
+            expensive_device=args.expensive_device,
+            torch_dtype=args.torch_dtype,
             prompt_format=args.prompt_format,
             models=adaptive_models,
         )
@@ -1653,6 +1725,10 @@ def main():
             expensive_model_name=args.expensive_model,
             max_new_tokens=speculative_max_new_tokens,
             temperature=args.adaptive_temperature,
+            device=args.device,
+            cheap_device=args.cheap_device,
+            expensive_device=args.expensive_device,
+            torch_dtype=args.torch_dtype,
             prompt_format=args.prompt_format,
             models=adaptive_models,
         )
@@ -1671,6 +1747,8 @@ def main():
                 max_new_tokens=speculative_max_new_tokens,
                 temperature=args.adaptive_temperature,
                 device=args.device,
+                cheap_device=args.cheap_device,
+                expensive_device=args.expensive_device,
                 torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
                 models=adaptive_models,
@@ -1740,6 +1818,8 @@ def main():
                 warmup_runs=args.latency_warmup_runs,
                 measured_runs=args.latency_measured_runs,
                 device=args.device,
+                cheap_device=args.cheap_device,
+                expensive_device=args.expensive_device,
                 torch_dtype=args.torch_dtype,
                 prompt_format=args.prompt_format,
                 models=adaptive_models,
@@ -1771,6 +1851,8 @@ def main():
             max_new_tokens=speculative_max_new_tokens,
             temperature=args.adaptive_temperature,
             device=args.device,
+            cheap_device=args.cheap_device,
+            expensive_device=args.expensive_device,
             torch_dtype=args.torch_dtype,
             prompt_format=args.prompt_format,
             include_latency=args.include_latency,

@@ -197,6 +197,35 @@ def _strip_assignment(text: str) -> str:
     )
 
 
+def _clean_extracted_math_answer(text: str) -> str:
+    text = str(text).strip()
+    text = re.sub(r"^[`*_=\s:]+", "", text)
+    text = re.sub(r"[`*_]+$", "", text).strip()
+    text = re.sub(r"(?:</s>|<\|endoftext\|>)$", "", text).strip()
+
+    while text and text[-1] in ".。!;":
+        text = text[:-1].rstrip()
+
+    return text
+
+
+def _preferred_math_answer_texts(generated_text: str) -> list[str]:
+    markers = (
+        r"Final\s+Answer\s*:",
+        r"Answer\s*:",
+        r"The\s+answer\s+is",
+    )
+    candidates = []
+    for marker in markers:
+        pattern = rf"{marker}\s*([^\n\r]+)"
+        for match in re.finditer(pattern, str(generated_text), flags=re.IGNORECASE):
+            candidate = _clean_extracted_math_answer(match.group(1))
+            if candidate:
+                candidates.append(candidate)
+
+    return candidates
+
+
 def _number_match(generated: str, answer: str) -> bool:
     answer_core = _strip_assignment(_compact_math(answer))
     if not answer_core:
@@ -240,23 +269,28 @@ def _expression_match(generated: str, answer: str) -> bool:
     return any(candidate and candidate in generated_compact for candidate in candidates)
 
 
+def _math_answer_matches(text: str, answer: str, answer_type: str) -> bool:
+    if answer_type == "number":
+        return _number_match(text, answer)
+    if answer_type in {"expression", "choice"}:
+        return _expression_match(text, answer) or _number_match(text, answer)
+    if answer_type == "boolean":
+        return _expression_match(text, answer)
+    return False
+
+
 def evaluate_math(task: dict, generated_text: str) -> dict:
     expected_answers = [task["expected_answer"]]
     expected_answers.extend(task.get("acceptable_answers", []))
     answer_type = task.get("answer_type", "number")
+    candidate_texts = _preferred_math_answer_texts(generated_text)
+    candidate_texts.append(generated_text)
 
     for answer in expected_answers:
-        if answer_type == "number":
-            matched = _number_match(generated_text, str(answer))
-        elif answer_type in {"expression", "choice"}:
-            matched = _expression_match(generated_text, str(answer)) or _number_match(
-                generated_text,
-                str(answer),
-            )
-        elif answer_type == "boolean":
-            matched = _expression_match(generated_text, str(answer))
-        else:
-            matched = False
+        matched = any(
+            _math_answer_matches(candidate, str(answer), answer_type)
+            for candidate in candidate_texts
+        )
 
         if matched:
             return {
@@ -826,6 +860,8 @@ def _build_row(
         "cheap_model_name": model_metadata["cheap_model_name"],
         "expensive_model_name": model_metadata["expensive_model_name"],
         "device": model_metadata["device"],
+        "cheap_device": model_metadata["cheap_device"],
+        "expensive_device": model_metadata["expensive_device"],
         "torch_dtype": model_metadata["torch_dtype"],
         "prompt_format": model_metadata["prompt_format"],
         "effective_prompt_format_cheap": model_metadata[
@@ -867,16 +903,29 @@ def _generation_from_summary(summary: dict) -> tuple[str, float, int]:
     )
 
 
-def _sync_if_cuda(device: str):
-    if str(device).startswith("cuda") and torch.cuda.is_available():
-        torch.cuda.synchronize()
+def _normalize_devices(devices) -> list[str]:
+    if isinstance(devices, (list, tuple, set)):
+        values = [str(device) for device in devices]
+    else:
+        values = [str(devices)]
+    unique = []
+    for device in values:
+        if device not in unique:
+            unique.append(device)
+    return unique
 
 
-def _measure_generation(device: str, generation_fn):
-    _sync_if_cuda(device)
+def _sync_if_cuda(devices):
+    for device in _normalize_devices(devices):
+        if device.startswith("cuda") and torch.cuda.is_available():
+            torch.cuda.synchronize(device)
+
+
+def _measure_generation(devices, generation_fn):
+    _sync_if_cuda(devices)
     start = time.perf_counter()
     result = generation_fn()
-    _sync_if_cuda(device)
+    _sync_if_cuda(devices)
     elapsed = time.perf_counter() - start
     return result, elapsed
 
@@ -951,6 +1000,7 @@ def _run_generation_series(
     warmup_runs: int,
     measured_runs: int,
     progress_prefix: str = "",
+    measurement_devices=None,
 ):
     if not include_latency:
         return generation_fn(), _empty_timing_stats()
@@ -974,7 +1024,10 @@ def _run_generation_series(
                 f"{progress_prefix} | measured {run_index}/{measured_total}",
                 flush=True,
             )
-        measured_result, elapsed = _measure_generation(device, generation_fn)
+        measured_result, elapsed = _measure_generation(
+            measurement_devices or device,
+            generation_fn,
+        )
         if result is None:
             result = measured_result
         times.append(elapsed)
@@ -992,6 +1045,8 @@ def run_task_evaluation(
     device: str = "auto",
     torch_dtype: str = "auto",
     prompt_format: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
     models=None,
     include_latency: bool = False,
     warmup_runs: int = 0,
@@ -1015,6 +1070,8 @@ def run_task_evaluation(
             cheap_model_name=cheap_model_name,
             expensive_model_name=expensive_model_name,
             device=device,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
             torch_dtype=torch_dtype,
             prompt_format=prompt_format,
             max_new_tokens=max_new_tokens,
@@ -1031,16 +1088,22 @@ def run_task_evaluation(
         expensive_model,
         fallback_device=device,
     )
-    if cheap_runtime != expensive_runtime:
+    if cheap_runtime["torch_dtype"] != expensive_runtime["torch_dtype"]:
         raise ValueError(
-            "cheap_model and expensive_model must use the same device/dtype. "
+            "cheap_model and expensive_model must use the same dtype. "
             f"cheap={cheap_runtime}, expensive={expensive_runtime}"
         )
 
     model_metadata = {
         "cheap_model_name": cheap_model_name,
         "expensive_model_name": expensive_model_name,
-        "device": cheap_runtime["device"],
+        "device": (
+            cheap_runtime["device"]
+            if cheap_runtime["device"] == expensive_runtime["device"]
+            else "split"
+        ),
+        "cheap_device": cheap_runtime["device"],
+        "expensive_device": expensive_runtime["device"],
         "torch_dtype": cheap_runtime["torch_dtype"],
         **prompt_format_metadata(tokenizer, prompt_format),
     }
@@ -1067,7 +1130,7 @@ def run_task_evaluation(
                         prompt=prompt,
                         model=expensive_model,
                         tokenizer=expensive_tokenizer,
-                        device=device,
+                        device=expensive_runtime["device"],
                         max_new_tokens=max_new_tokens,
                         temperature=temperature,
                         prompt_format=prompt_format,
@@ -1077,6 +1140,7 @@ def run_task_evaluation(
                     warmup_runs=warmup_runs,
                     measured_runs=measured_runs,
                     progress_prefix=progress_prefix("expensive_only"),
+                    measurement_devices=expensive_runtime["device"],
                 )
             )
             evaluation = evaluate_task(task, expensive_text)
@@ -1103,7 +1167,7 @@ def run_task_evaluation(
                     prompt=prompt,
                     model=cheap_model,
                     tokenizer=cheap_tokenizer,
-                    device=device,
+                    device=cheap_runtime["device"],
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     prompt_format=prompt_format,
@@ -1113,6 +1177,7 @@ def run_task_evaluation(
                 warmup_runs=warmup_runs,
                 measured_runs=measured_runs,
                 progress_prefix=progress_prefix("cheap_only"),
+                measurement_devices=cheap_runtime["device"],
             )
             cheap_saved = estimated_saved_percent(
                 total_generated_tokens=cheap_tokens,
@@ -1157,7 +1222,7 @@ def run_task_evaluation(
                     cheap_model=cheap_model,
                     expensive_model=expensive_model,
                     tokenizer=tokenizer,
-                    device=device,
+                    device=cheap_runtime["device"],
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
                     max_new_tokens=max_new_tokens,
@@ -1169,6 +1234,10 @@ def run_task_evaluation(
                 warmup_runs=warmup_runs,
                 measured_runs=measured_runs,
                 progress_prefix=progress_prefix(mode),
+                measurement_devices=[
+                    cheap_runtime["device"],
+                    expensive_runtime["device"],
+                ],
             )
             mode_summaries[mode] = summary
             if mode in selected_mode_set:
@@ -1204,7 +1273,7 @@ def run_task_evaluation(
                     cheap_model=cheap_model,
                     expensive_model=expensive_model,
                     tokenizer=tokenizer,
-                    device=device,
+                    device=cheap_runtime["device"],
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
                     max_new_tokens=max_new_tokens,
@@ -1216,6 +1285,10 @@ def run_task_evaluation(
                 warmup_runs=warmup_runs,
                 measured_runs=measured_runs,
                 progress_prefix=progress_prefix("hybrid"),
+                measurement_devices=[
+                    cheap_runtime["device"],
+                    expensive_runtime["device"],
+                ],
             )
         else:
             if hybrid_selected_mode in mode_summaries:
@@ -1227,7 +1300,7 @@ def run_task_evaluation(
                     cheap_model=cheap_model,
                     expensive_model=expensive_model,
                     tokenizer=tokenizer,
-                    device=device,
+                    device=cheap_runtime["device"],
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
                     max_new_tokens=max_new_tokens,
@@ -1280,6 +1353,7 @@ def _wilson_interval(passed: int, count: int, z: float = 1.96) -> tuple[float, f
 
 def _summary_from_group(group: list[dict], extra: dict) -> dict:
     count = len(group)
+    first_row = group[0] if group else {}
     passed = sum(1 for row in group if row["passed"])
     pass_rate = passed / count if count else 0.0
     ci_low, ci_high = _wilson_interval(passed, count)
@@ -1296,6 +1370,16 @@ def _summary_from_group(group: list[dict], extra: dict) -> dict:
         "avg_score": score_sum / count if count else 0.0,
         "avg_estimated_saved_percent": saved_sum / count if count else 0.0,
         "avg_expensive_model_calls": calls_sum / count if count else 0.0,
+        "cheap_model_name": first_row.get("cheap_model_name", ""),
+        "expensive_model_name": first_row.get("expensive_model_name", ""),
+        "device": first_row.get("device", ""),
+        "cheap_device": first_row.get("cheap_device", first_row.get("device", "")),
+        "expensive_device": first_row.get(
+            "expensive_device",
+            first_row.get("device", ""),
+        ),
+        "torch_dtype": first_row.get("torch_dtype", ""),
+        "prompt_format": first_row.get("prompt_format", ""),
     }
 
 
@@ -1437,6 +1521,8 @@ def build_task_quality_latency_report(rows: list[dict]) -> list[dict]:
                 "cheap_model_name": row["cheap_model_name"],
                 "expensive_model_name": row["expensive_model_name"],
                 "device": row["device"],
+                "cheap_device": row.get("cheap_device", row["device"]),
+                "expensive_device": row.get("expensive_device", row["device"]),
                 "torch_dtype": row["torch_dtype"],
                 "prompt_format": row["prompt_format"],
                 "failure_reason": row["failure_reason"],
@@ -1473,6 +1559,7 @@ def summarize_task_quality_latency(
     summary_rows = []
     for key, group in sorted(grouped.items(), key=sort_key):
         count = len(group)
+        first_row = group[0] if group else {}
         passed = sum(1 for row in group if row["passed"] is True or row["passed"] == "True")
         pass_rate = passed / count if count else 0.0
         ci_low, ci_high = _wilson_interval(passed, count)
@@ -1506,6 +1593,19 @@ def summarize_task_quality_latency(
                 "median_real_speedup_vs_expensive_percent": _median(speedup_values),
                 "avg_estimated_saved_percent": saved_sum / count if count else 0.0,
                 "avg_expensive_model_calls": calls_sum / count if count else 0.0,
+                "cheap_model_name": first_row.get("cheap_model_name", ""),
+                "expensive_model_name": first_row.get("expensive_model_name", ""),
+                "device": first_row.get("device", ""),
+                "cheap_device": first_row.get(
+                    "cheap_device",
+                    first_row.get("device", ""),
+                ),
+                "expensive_device": first_row.get(
+                    "expensive_device",
+                    first_row.get("device", ""),
+                ),
+                "torch_dtype": first_row.get("torch_dtype", ""),
+                "prompt_format": first_row.get("prompt_format", ""),
             }
         )
         summary_rows.append(summary)

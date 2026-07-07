@@ -8,9 +8,11 @@ import torch.nn.functional as F
 from gear_llm.config import DEFAULT_CHEAP_MODEL, DEFAULT_EXPENSIVE_MODEL
 from gear_llm.model_loader import (
     ensure_shared_prompt_encoding,
+    get_model_runtime_metadata,
     load_causal_lm_model,
     load_tokenizer_pair,
     resolve_device,
+    resolve_split_devices,
 )
 from gear_llm.report import save_csv
 
@@ -20,6 +22,8 @@ class AdaptiveGenerationConfig:
     cheap_model_name: str = DEFAULT_CHEAP_MODEL
     expensive_model_name: str = DEFAULT_EXPENSIVE_MODEL
     device: str = "auto"
+    cheap_device: str | None = None
+    expensive_device: str | None = None
     torch_dtype: str = "auto"
     prompt_format: str = "auto"
     max_new_tokens: int = 80
@@ -52,23 +56,27 @@ def load_adaptive_models(config: AdaptiveGenerationConfig):
     simples, usamos o tokenizer do modelo barato para codificar e decodificar.
     """
 
-    device = resolve_device(config.device)
+    cheap_device, expensive_device, primary_device = resolve_split_devices(
+        device=config.device,
+        cheap_device=config.cheap_device,
+        expensive_device=config.expensive_device,
+    )
     tokenizer, _ = load_tokenizer_pair(
         cheap_model_name=config.cheap_model_name,
         expensive_model_name=config.expensive_model_name,
     )
     cheap_model = load_causal_lm_model(
         model_name=config.cheap_model_name,
-        device=device,
+        device=cheap_device,
         torch_dtype=config.torch_dtype,
     )
     expensive_model = load_causal_lm_model(
         model_name=config.expensive_model_name,
-        device=device,
+        device=expensive_device,
         torch_dtype=config.torch_dtype,
     )
 
-    return cheap_model, expensive_model, tokenizer, device
+    return cheap_model, expensive_model, tokenizer, primary_device
 
 
 def next_token_stats(logits: torch.Tensor, temperature: float) -> dict:
@@ -254,6 +262,7 @@ def choose_next_token(
     generated_tokens: list[str],
     expensive_model_calls_so_far: int,
     last_repetition_guard_step: int | None,
+    expensive_device: str,
 ) -> dict:
     cheap_outputs = cheap_model(input_ids=input_ids, return_dict=True)
     cheap_logits = cheap_outputs.logits[0, -1]
@@ -302,7 +311,11 @@ def choose_next_token(
             "fallback_optional_only": fallback["fallback_optional_only"],
         }
 
-    expensive_outputs = expensive_model(input_ids=input_ids, return_dict=True)
+    expensive_input_ids = input_ids.to(expensive_device)
+    expensive_outputs = expensive_model(
+        input_ids=expensive_input_ids,
+        return_dict=True,
+    )
     expensive_logits = expensive_outputs.logits[0, -1]
     expensive_stats = next_token_stats(
         logits=expensive_logits,
@@ -387,15 +400,27 @@ def adaptive_generate_with_models(
     device: str,
     config: AdaptiveGenerationConfig,
 ) -> tuple[str, list[dict], dict]:
+    cheap_runtime = get_model_runtime_metadata(cheap_model, fallback_device=device)
+    expensive_runtime = get_model_runtime_metadata(
+        expensive_model,
+        fallback_device=device,
+    )
+    cheap_device = cheap_runtime["device"]
+    expensive_device = expensive_runtime["device"]
+
+    # The adaptive loop keeps the mutable generation context on the cheap
+    # model device. Expensive fallbacks move a copy only when needed.
     encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
         ensure_shared_prompt_encoding(
             prompt=prompt,
             tokenizer=tokenizer,
             device=device,
             prompt_format=config.prompt_format,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
         )
     )
-    input_ids = encoded["input_ids"].to(device)
+    input_ids = encoded["input_ids"].to(cheap_device)
     prompt_length = input_ids.shape[-1]
     history = []
     generated_tokens = []
@@ -412,9 +437,10 @@ def adaptive_generate_with_models(
             generated_tokens=generated_tokens,
             expensive_model_calls_so_far=expensive_model_calls_so_far,
             last_repetition_guard_step=last_repetition_guard_step,
+            expensive_device=expensive_device,
         )
         token_id = decision["token_id"]
-        token_tensor = torch.tensor([[token_id]], device=device)
+        token_tensor = torch.tensor([[token_id]], device=cheap_device)
         input_ids = torch.cat([input_ids, token_tensor], dim=-1)
 
         token_text = tokenizer.decode(
@@ -458,6 +484,8 @@ def adaptive_generate_with_models(
                 "fallback_required": decision["fallback_required"],
                 "fallback_optional_only": decision["fallback_optional_only"],
                 "prompt_format": config.prompt_format,
+                "cheap_device": cheap_device,
+                "expensive_device": expensive_device,
                 "effective_prompt_format_cheap": effective_prompt_format_cheap,
                 "effective_prompt_format_expensive": (
                     effective_prompt_format_expensive
@@ -495,6 +523,8 @@ def adaptive_generate_with_models(
     summary.update(
         {
             "prompt_format": config.prompt_format,
+            "cheap_device": cheap_device,
+            "expensive_device": expensive_device,
             "effective_prompt_format_cheap": effective_prompt_format_cheap,
             "effective_prompt_format_expensive": (
                 effective_prompt_format_expensive

@@ -35,6 +35,28 @@ LATENCY_MODES = (
 )
 
 
+def _cuda_devices(*devices: str) -> list[str]:
+    unique = []
+    for device in devices:
+        if str(device).startswith("cuda") and device not in unique:
+            unique.append(device)
+    return unique
+
+
+def _synchronize_cuda_devices(devices: list[str]):
+    for device in devices:
+        torch.cuda.synchronize(device)
+
+
+def _reset_peak_memory_stats(devices: list[str]):
+    for device in devices:
+        torch.cuda.reset_peak_memory_stats(device)
+
+
+def _max_memory_allocated(devices: list[str]) -> int:
+    return sum(int(torch.cuda.max_memory_allocated(device)) for device in devices)
+
+
 def run_latency_benchmark(
     prompts: dict[str, str] | None = None,
     cheap_model_name: str = AdaptiveGenerationConfig.cheap_model_name,
@@ -44,6 +66,8 @@ def run_latency_benchmark(
     warmup_runs: int = 1,
     measured_runs: int = 3,
     device: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
     torch_dtype: str = "auto",
     prompt_format: str = "auto",
     models=None,
@@ -58,13 +82,15 @@ def run_latency_benchmark(
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             device=device,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
             torch_dtype=torch_dtype,
             prompt_format=prompt_format,
         )
     else:
         cheap_model, expensive_model, tokenizer, device = models
 
-    runtime_metadata = get_model_runtime_metadata(
+    cheap_runtime_metadata = get_model_runtime_metadata(
         cheap_model,
         fallback_device=device,
     )
@@ -72,14 +98,19 @@ def run_latency_benchmark(
         expensive_model,
         fallback_device=device,
     )
-    if runtime_metadata != expensive_runtime_metadata:
+    if cheap_runtime_metadata["torch_dtype"] != expensive_runtime_metadata["torch_dtype"]:
         raise ValueError(
-            "cheap_model e expensive_model precisam usar o mesmo device/dtype. "
-            f"cheap={runtime_metadata}, expensive={expensive_runtime_metadata}"
+            "cheap_model e expensive_model precisam usar o mesmo dtype. "
+            f"cheap={cheap_runtime_metadata}, expensive={expensive_runtime_metadata}"
         )
 
-    runtime_torch_dtype = runtime_metadata["torch_dtype"]
+    runtime_torch_dtype = cheap_runtime_metadata["torch_dtype"]
     runtime_prompt_metadata = prompt_format_metadata(tokenizer, prompt_format)
+    runtime_device = (
+        cheap_runtime_metadata["device"]
+        if cheap_runtime_metadata["device"] == expensive_runtime_metadata["device"]
+        else "split"
+    )
 
     rows = []
 
@@ -92,7 +123,9 @@ def run_latency_benchmark(
                     cheap_model=cheap_model,
                     expensive_model=expensive_model,
                     tokenizer=tokenizer,
-                    device=device,
+                    device=cheap_runtime_metadata["device"],
+                    cheap_device=cheap_runtime_metadata["device"],
+                    expensive_device=expensive_runtime_metadata["device"],
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
                     max_new_tokens=max_new_tokens,
@@ -115,10 +148,15 @@ def run_latency_benchmark(
                         cheap_model=cheap_model,
                         expensive_model=expensive_model,
                         tokenizer=tokenizer,
-                        device=device,
+                        device=cheap_runtime_metadata["device"],
+                        cheap_device=cheap_runtime_metadata["device"],
+                        expensive_device=expensive_runtime_metadata["device"],
                         cheap_model_name=cheap_model_name,
                         expensive_model_name=expensive_model_name,
                         runtime_torch_dtype=runtime_torch_dtype,
+                        runtime_device=runtime_device,
+                        runtime_cheap_device=cheap_runtime_metadata["device"],
+                        runtime_expensive_device=expensive_runtime_metadata["device"],
                         runtime_prompt_metadata=runtime_prompt_metadata,
                         max_new_tokens=max_new_tokens,
                         temperature=temperature,
@@ -141,20 +179,25 @@ def _measure_generation(
     expensive_model,
     tokenizer,
     device: str,
+    cheap_device: str,
+    expensive_device: str,
     cheap_model_name: str,
     expensive_model_name: str,
     runtime_torch_dtype: str,
+    runtime_device: str,
+    runtime_cheap_device: str,
+    runtime_expensive_device: str,
     runtime_prompt_metadata: dict,
     max_new_tokens: int,
     temperature: float,
     prompt_format: str,
 ) -> dict:
-    device_is_cuda = str(device).startswith("cuda")
+    cuda_devices = _cuda_devices(cheap_device, expensive_device)
 
-    if device_is_cuda:
+    if cuda_devices:
         torch.cuda.empty_cache()
-        torch.cuda.reset_peak_memory_stats()
-        torch.cuda.synchronize()
+        _reset_peak_memory_stats(cuda_devices)
+        _synchronize_cuda_devices(cuda_devices)
 
     total_start = time.perf_counter()
     prompt_type = ""
@@ -177,6 +220,8 @@ def _measure_generation(
         expensive_model=expensive_model,
         tokenizer=tokenizer,
         device=device,
+        cheap_device=cheap_device,
+        expensive_device=expensive_device,
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
@@ -184,8 +229,8 @@ def _measure_generation(
         prompt_format=prompt_format,
     )
 
-    if device_is_cuda:
-        torch.cuda.synchronize()
+    if cuda_devices:
+        _synchronize_cuda_devices(cuda_devices)
 
     generation_time = time.perf_counter() - generation_start
     total_time = time.perf_counter() - total_start
@@ -193,7 +238,7 @@ def _measure_generation(
     generated_tokens = result["generated_tokens"]
     tokens_per_second = generated_tokens / total_time if total_time else 0.0
     memory_peak_bytes = (
-        int(torch.cuda.max_memory_allocated()) if device_is_cuda else 0
+        _max_memory_allocated(cuda_devices) if cuda_devices else 0
     )
 
     return {
@@ -204,7 +249,9 @@ def _measure_generation(
         "selected_mode": selected_mode,
         "prompt_type": prompt_type,
         "run_index": run_index,
-        "device": device,
+        "device": runtime_device,
+        "cheap_device": runtime_cheap_device,
+        "expensive_device": runtime_expensive_device,
         "torch_dtype": runtime_torch_dtype,
         "prompt_format": runtime_prompt_metadata["prompt_format"],
         "effective_prompt_format_cheap": runtime_prompt_metadata[
@@ -236,6 +283,8 @@ def _run_generation(
     expensive_model,
     tokenizer,
     device: str,
+    cheap_device: str,
+    expensive_device: str,
     cheap_model_name: str,
     expensive_model_name: str,
     max_new_tokens: int,
@@ -252,6 +301,8 @@ def _run_generation(
             expensive_model=expensive_model,
             tokenizer=tokenizer,
             device=device,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
             cheap_model_name=cheap_model_name,
             expensive_model_name=expensive_model_name,
             max_new_tokens=max_new_tokens,
@@ -271,6 +322,8 @@ def _run_generation(
         expensive_model=expensive_model,
         tokenizer=tokenizer,
         device=device,
+        cheap_device=cheap_device,
+        expensive_device=expensive_device,
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
@@ -286,6 +339,8 @@ def run_selected_generation_mode(
     expensive_model,
     tokenizer,
     device: str,
+    cheap_device: str,
+    expensive_device: str,
     cheap_model_name: str,
     expensive_model_name: str,
     max_new_tokens: int,
@@ -298,7 +353,7 @@ def run_selected_generation_mode(
             prompt=prompt,
             model=cheap_model,
             tokenizer=cheap_tokenizer,
-            device=device,
+            device=cheap_device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             prompt_format=prompt_format,
@@ -322,7 +377,7 @@ def run_selected_generation_mode(
             prompt=prompt,
             model=expensive_model,
             tokenizer=expensive_tokenizer,
-            device=device,
+            device=expensive_device,
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             prompt_format=prompt_format,
@@ -342,7 +397,7 @@ def run_selected_generation_mode(
         cheap_model=cheap_model,
         expensive_model=expensive_model,
         tokenizer=tokenizer,
-        device=device,
+        device=cheap_device,
         cheap_model_name=cheap_model_name,
         expensive_model_name=expensive_model_name,
         max_new_tokens=max_new_tokens,
@@ -401,6 +456,8 @@ def summarize_latency_rows(rows: list[dict]) -> list[dict]:
                     "",
                 ),
                 "device": first_row.get("device", ""),
+                "cheap_device": first_row.get("cheap_device", ""),
+                "expensive_device": first_row.get("expensive_device", ""),
                 "torch_dtype": first_row.get("torch_dtype", ""),
                 "prompt_format": first_row.get("prompt_format", ""),
                 "effective_prompt_format_cheap": first_row.get(
@@ -506,6 +563,11 @@ def build_latency_winners(summary_rows: list[dict]) -> list[dict]:
                     "",
                 ),
                 "device": fastest_excluding_cheap.get("device", ""),
+                "cheap_device": fastest_excluding_cheap.get("cheap_device", ""),
+                "expensive_device": fastest_excluding_cheap.get(
+                    "expensive_device",
+                    "",
+                ),
                 "torch_dtype": fastest_excluding_cheap.get(
                     "torch_dtype",
                     "",

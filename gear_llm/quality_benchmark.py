@@ -158,6 +158,8 @@ def build_quality_row(
         "cheap_model_name": model_metadata["cheap_model_name"],
         "expensive_model_name": model_metadata["expensive_model_name"],
         "device": model_metadata["device"],
+        "cheap_device": model_metadata["cheap_device"],
+        "expensive_device": model_metadata["expensive_device"],
         "torch_dtype": model_metadata["torch_dtype"],
         "prompt_format": model_metadata["prompt_format"],
         "effective_prompt_format_cheap": model_metadata[
@@ -191,6 +193,8 @@ def run_quality_benchmark(
     max_new_tokens: int = 80,
     temperature: float = 0.7,
     device: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
     torch_dtype: str = "auto",
     prompt_format: str = "auto",
     models=None,
@@ -203,6 +207,8 @@ def run_quality_benchmark(
             cheap_model_name=cheap_model_name,
             expensive_model_name=expensive_model_name,
             device=device,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
             torch_dtype=torch_dtype,
             prompt_format=prompt_format,
             max_new_tokens=max_new_tokens,
@@ -214,7 +220,7 @@ def run_quality_benchmark(
     else:
         cheap_model, expensive_model, tokenizer, device = models
 
-    runtime_metadata = get_model_runtime_metadata(
+    cheap_runtime_metadata = get_model_runtime_metadata(
         cheap_model,
         fallback_device=device,
     )
@@ -222,17 +228,23 @@ def run_quality_benchmark(
         expensive_model,
         fallback_device=device,
     )
-    if runtime_metadata != expensive_runtime_metadata:
+    if cheap_runtime_metadata["torch_dtype"] != expensive_runtime_metadata["torch_dtype"]:
         raise ValueError(
-            "cheap_model e expensive_model precisam usar o mesmo device/dtype. "
-            f"cheap={runtime_metadata}, expensive={expensive_runtime_metadata}"
+            "cheap_model e expensive_model precisam usar o mesmo dtype. "
+            f"cheap={cheap_runtime_metadata}, expensive={expensive_runtime_metadata}"
         )
 
     model_metadata = {
         "cheap_model_name": cheap_model_name,
         "expensive_model_name": expensive_model_name,
-        "device": runtime_metadata["device"],
-        "torch_dtype": runtime_metadata["torch_dtype"],
+        "device": (
+            cheap_runtime_metadata["device"]
+            if cheap_runtime_metadata["device"] == expensive_runtime_metadata["device"]
+            else "split"
+        ),
+        "cheap_device": cheap_runtime_metadata["device"],
+        "expensive_device": expensive_runtime_metadata["device"],
+        "torch_dtype": cheap_runtime_metadata["torch_dtype"],
         **prompt_format_metadata(tokenizer, prompt_format),
     }
     cheap_tokenizer = get_cheap_tokenizer(tokenizer)
@@ -244,7 +256,7 @@ def run_quality_benchmark(
             prompt=prompt,
             model=expensive_model,
             tokenizer=expensive_tokenizer,
-            device=device,
+            device=expensive_runtime_metadata["device"],
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             prompt_format=prompt_format,
@@ -268,7 +280,7 @@ def run_quality_benchmark(
             prompt=prompt,
             model=cheap_model,
             tokenizer=cheap_tokenizer,
-            device=device,
+            device=cheap_runtime_metadata["device"],
             max_new_tokens=max_new_tokens,
             temperature=temperature,
             prompt_format=prompt_format,
@@ -299,7 +311,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
-                    device=device,
+                    device=cheap_runtime_metadata["device"],
+                    cheap_device=cheap_runtime_metadata["device"],
+                    expensive_device=expensive_runtime_metadata["device"],
                     torch_dtype=torch_dtype,
                     prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
@@ -315,7 +329,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
-                    device=device,
+                    device=cheap_runtime_metadata["device"],
+                    cheap_device=cheap_runtime_metadata["device"],
+                    expensive_device=expensive_runtime_metadata["device"],
                     torch_dtype=torch_dtype,
                     prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
@@ -338,7 +354,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
-                    device=device,
+                    device=cheap_runtime_metadata["device"],
+                    cheap_device=cheap_runtime_metadata["device"],
+                    expensive_device=expensive_runtime_metadata["device"],
                     torch_dtype=torch_dtype,
                     prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
@@ -364,7 +382,9 @@ def run_quality_benchmark(
                 AdaptiveGenerationConfig(
                     cheap_model_name=cheap_model_name,
                     expensive_model_name=expensive_model_name,
-                    device=device,
+                    device=cheap_runtime_metadata["device"],
+                    cheap_device=cheap_runtime_metadata["device"],
+                    expensive_device=expensive_runtime_metadata["device"],
                     torch_dtype=torch_dtype,
                     prompt_format=prompt_format,
                     max_new_tokens=max_new_tokens,
@@ -396,7 +416,7 @@ def run_quality_benchmark(
                 cheap_model=cheap_model,
                 expensive_model=expensive_model,
                 tokenizer=tokenizer,
-                device=device,
+                device=cheap_runtime_metadata["device"],
                 config=adaptive_config,
             )
 
@@ -427,7 +447,7 @@ def run_quality_benchmark(
             cheap_model=cheap_model,
             expensive_model=expensive_model,
             tokenizer=tokenizer,
-            device=device,
+            device=cheap_runtime_metadata["device"],
             cheap_model_name=cheap_model_name,
             expensive_model_name=expensive_model_name,
             max_new_tokens=max_new_tokens,

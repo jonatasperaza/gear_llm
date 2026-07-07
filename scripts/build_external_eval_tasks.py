@@ -156,7 +156,11 @@ def unique(values: list[str]) -> list[str]:
     return result
 
 
-def convert_gsm8k(record: dict, index: int) -> dict | None:
+def convert_gsm8k(
+    record: dict,
+    index: int,
+    math_prompt_style: str = "direct",
+) -> dict | None:
     question = record.get("question") or record.get("prompt") or record.get("problem")
     answer_field = record.get("answer") or record.get("target") or record.get("final_answer")
     if not question or answer_field is None:
@@ -164,13 +168,21 @@ def convert_gsm8k(record: dict, index: int) -> dict | None:
 
     final = parse_gsm8k_answer(answer_field)
     acceptable = unique([final, final.replace(",", "")])
+    if math_prompt_style == "cot_final":
+        prompt = (
+            f"{question.strip()}\n\n"
+            "Solve the problem step by step. End your answer with exactly this format:\n"
+            "Final Answer: <number>"
+        )
+    else:
+        prompt = f"{question.strip()}\n\nAnswer only the final number."
 
     return {
         "id": f"gsm8k_{index:06d}",
         "category": "math",
         "source": "gsm8k",
         "difficulty": "medium",
-        "prompt": f"{question.strip()}\n\nAnswer only the final number.",
+        "prompt": prompt,
         "expected_answer": final,
         "acceptable_answers": acceptable,
         "answer_type": "number",
@@ -337,7 +349,13 @@ def convert_logiqa(record: dict, index: int) -> dict | None:
     }
 
 
-def build_source_tasks(source: str, kind: str, limit: int | None, seed: int) -> list[dict]:
+def build_source_tasks(
+    source: str,
+    kind: str,
+    limit: int | None,
+    seed: int,
+    math_prompt_style: str = "direct",
+) -> list[dict]:
     if limit is not None and limit <= 0:
         return []
 
@@ -356,7 +374,10 @@ def build_source_tasks(source: str, kind: str, limit: int | None, seed: int) -> 
     tasks = []
     skipped = 0
     for record in records:
-        task = converter(record, len(tasks) + 1)
+        if kind == "gsm8k":
+            task = converter(record, len(tasks) + 1, math_prompt_style)
+        else:
+            task = converter(record, len(tasks) + 1)
         if task is None:
             skipped += 1
             continue
@@ -403,6 +424,12 @@ def main():
     parser.add_argument("--math-limit", type=int, default=None)
     parser.add_argument("--code-limit", type=int, default=None)
     parser.add_argument("--logic-limit", type=int, default=None)
+    parser.add_argument(
+        "--math-prompt-style",
+        choices=("direct", "cot_final"),
+        default="direct",
+        help="GSM8K prompt style. direct preserves old behavior; cot_final allows reasoning.",
+    )
     parser.add_argument("--seed", type=int, default=42)
 
     args = parser.parse_args()
@@ -419,6 +446,7 @@ def main():
                 kind="gsm8k",
                 limit=args.math_limit,
                 seed=args.seed,
+                math_prompt_style=args.math_prompt_style,
             )
         )
     if not any_limit_set or args.code_limit is not None:

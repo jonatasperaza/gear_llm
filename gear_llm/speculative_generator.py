@@ -10,6 +10,7 @@ from gear_llm.adaptive_generator import (
 )
 from gear_llm.config import DEFAULT_CHEAP_MODEL, DEFAULT_EXPENSIVE_MODEL
 from gear_llm.model_loader import ensure_shared_prompt_encoding
+from gear_llm.model_loader import get_model_runtime_metadata
 from gear_llm.report import save_csv
 
 
@@ -18,6 +19,8 @@ class SpeculativeGenerationConfig:
     cheap_model_name: str = DEFAULT_CHEAP_MODEL
     expensive_model_name: str = DEFAULT_EXPENSIVE_MODEL
     device: str = "auto"
+    cheap_device: str | None = None
+    expensive_device: str | None = None
     torch_dtype: str = "auto"
     prompt_format: str = "auto"
     max_new_tokens: int = 80
@@ -35,6 +38,8 @@ def load_speculative_models(config: SpeculativeGenerationConfig):
         cheap_model_name=config.cheap_model_name,
         expensive_model_name=config.expensive_model_name,
         device=config.device,
+        cheap_device=config.cheap_device,
+        expensive_device=config.expensive_device,
         torch_dtype=config.torch_dtype,
         prompt_format=config.prompt_format,
         max_new_tokens=config.max_new_tokens,
@@ -79,6 +84,7 @@ def verify_draft(
     draft_ids: list[int],
     expensive_model,
     config: SpeculativeGenerationConfig,
+    expensive_device: str,
 ) -> dict:
     if not draft_ids:
         return {
@@ -88,8 +94,9 @@ def verify_draft(
             "acceptance_rate": 0.0,
         }
 
-    draft_tensor = torch.tensor([draft_ids], device=input_ids.device)
-    verification_input_ids = torch.cat([input_ids, draft_tensor], dim=-1)
+    expensive_input_ids = input_ids.to(expensive_device)
+    draft_tensor = torch.tensor([draft_ids], device=expensive_device)
+    verification_input_ids = torch.cat([expensive_input_ids, draft_tensor], dim=-1)
     context_length = input_ids.shape[-1]
 
     outputs = expensive_model(input_ids=verification_input_ids, return_dict=True)
@@ -201,15 +208,30 @@ def speculative_generate_with_models(
     device: str,
     config: SpeculativeGenerationConfig,
 ) -> tuple[str, list[dict], list[dict], dict]:
+    # The draft context lives on the cheap model device; verification moves
+    # a copy to the expensive model device once per block.
+    cheap_runtime = get_model_runtime_metadata(
+        cheap_model,
+        fallback_device=device,
+    )
+    expensive_runtime = get_model_runtime_metadata(
+        expensive_model,
+        fallback_device=device,
+    )
+    cheap_device = cheap_runtime["device"]
+    expensive_device = expensive_runtime["device"]
+
     encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
         ensure_shared_prompt_encoding(
             prompt=prompt,
             tokenizer=tokenizer,
             device=device,
             prompt_format=config.prompt_format,
+            cheap_device=cheap_device,
+            expensive_device=expensive_device,
         )
     )
-    input_ids = encoded["input_ids"].to(device)
+    input_ids = encoded["input_ids"].to(cheap_device)
     prompt_length = input_ids.shape[-1]
     current_draft_length = max(
         config.min_draft_length,
@@ -241,6 +263,7 @@ def speculative_generate_with_models(
             draft_ids=draft_ids,
             expensive_model=expensive_model,
             config=config,
+            expensive_device=expensive_device,
         )
 
         accepted_ids = verification["accepted_ids"]
@@ -260,6 +283,8 @@ def speculative_generate_with_models(
                     "source": "cheap_accepted",
                     "block_index": block_index,
                     "prompt_format": config.prompt_format,
+                    "cheap_device": cheap_device,
+                    "expensive_device": expensive_device,
                     "effective_prompt_format_cheap": (
                         effective_prompt_format_cheap
                     ),
@@ -281,6 +306,8 @@ def speculative_generate_with_models(
                     "source": "expensive_corrected",
                     "block_index": block_index,
                     "prompt_format": config.prompt_format,
+                    "cheap_device": cheap_device,
+                    "expensive_device": expensive_device,
                     "effective_prompt_format_cheap": (
                         effective_prompt_format_cheap
                     ),
@@ -291,7 +318,7 @@ def speculative_generate_with_models(
             )
 
         if emitted_ids:
-            emitted_tensor = torch.tensor([emitted_ids], device=device)
+            emitted_tensor = torch.tensor([emitted_ids], device=cheap_device)
             input_ids = torch.cat([input_ids, emitted_tensor], dim=-1)
             generated_ids.extend(emitted_ids)
 
@@ -320,6 +347,8 @@ def speculative_generate_with_models(
                 "generated_text_so_far": generated_text_so_far,
                 "next_draft_length": next_draft_length,
                 "prompt_format": config.prompt_format,
+                "cheap_device": cheap_device,
+                "expensive_device": expensive_device,
                 "effective_prompt_format_cheap": effective_prompt_format_cheap,
                 "effective_prompt_format_expensive": (
                     effective_prompt_format_expensive
@@ -360,6 +389,8 @@ def speculative_generate_with_models(
     summary.update(
         {
             "prompt_format": config.prompt_format,
+            "cheap_device": cheap_device,
+            "expensive_device": expensive_device,
             "effective_prompt_format_cheap": effective_prompt_format_cheap,
             "effective_prompt_format_expensive": (
                 effective_prompt_format_expensive
