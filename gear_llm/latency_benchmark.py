@@ -30,6 +30,7 @@ LATENCY_MODES = (
     "expensive_only",
     "adaptive_calibrated",
     "adaptive_guarded_v3",
+    "adaptive_code_quality",
     "speculative_adaptive",
     "hybrid",
 )

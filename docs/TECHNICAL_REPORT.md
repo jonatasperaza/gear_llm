@@ -210,6 +210,39 @@ Interpretation:
 - This is promising external evidence, but it is not definitive. The sample has only 30 tasks, confidence intervals are wide, and code evaluation still depends on the local subprocess harness and extracted generated functions.
 - The result should be treated as preliminary external evidence, not as a final generalization claim.
 
+## Larger MBPP Correctness-Only Follow-up
+
+This follow-up used the same MBPP-style code evaluation path on a larger subset. The CSV files for this run were lost, so the result below was recovered from the printed Kaggle output. That makes it less auditable than the CSV-backed benchmark above, but still useful for tracking the direction of the experiment.
+
+Configuration:
+
+- Category: `code`.
+- Cheap model: `Qwen/Qwen2.5-Coder-0.5B-Instruct`.
+- Expensive model: `Qwen/Qwen2.5-Coder-3B-Instruct`.
+- cheap_device: `cuda:0`.
+- expensive_device: `cuda:1`.
+- torch_dtype: float16.
+- prompt_format: auto.
+- max_new_tokens: 256.
+- Modes: `expensive_only`, `cheap_only`, `adaptive_guarded_v3`, `hybrid`.
+
+Recovered results:
+
+| Mode | Pass rate | Avg score | Avg estimated saved | Avg expensive calls |
+|---|---:|---:|---:|---:|
+| expensive_only | 55.00% | 0.580 | 0.00% | 145.66 |
+| cheap_only | 39.00% | 0.403 | 65.00% | 0.00 |
+| adaptive_guarded_v3 | 46.00% | 0.470 | 58.14% | 10.30 |
+| hybrid | 46.00% | 0.470 | 58.14% | 10.30 |
+
+Interpretation:
+
+- `hybrid` preserved 83.6% of the `expensive_only` pass rate.
+- `hybrid` improved over `cheap_only` by 7 percentage points.
+- `hybrid` reduced average expensive-model calls from 145.66 to 10.30, about a 92.9% reduction.
+- This larger run is weaker than the 30-task MBPP result, where `hybrid` preserved 88.9% of the expensive-only pass rate.
+- The guarded hybrid policy strongly reduces expensive calls, but quality preservation is not robust enough yet on larger MBPP subsets.
+
 ## 8. Key Findings
 
 - Estimated savings and real latency are not the same.

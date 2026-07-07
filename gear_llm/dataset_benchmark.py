@@ -26,6 +26,7 @@ from gear_llm.report import save_csv
 DATASET_MODES = (
     "adaptive_calibrated",
     "adaptive_guarded_v3",
+    "adaptive_code_quality",
     "speculative_adaptive",
 )
 

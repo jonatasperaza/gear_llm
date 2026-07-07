@@ -8,6 +8,7 @@ from gear_llm.report import save_csv
 BASE_MODES = (
     "adaptive_calibrated",
     "adaptive_guarded_v3",
+    "adaptive_code_quality",
     "speculative_adaptive",
 )
 
@@ -109,6 +110,7 @@ def run_mode_oracle(
                 ),
                 "calibrated_score": scores["adaptive_calibrated"],
                 "guarded_score": scores["adaptive_guarded_v3"],
+                "code_quality_score": scores["adaptive_code_quality"],
                 "speculative_score": scores["speculative_adaptive"],
             }
         )

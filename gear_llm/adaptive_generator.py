@@ -1,4 +1,5 @@
 import math
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -46,6 +47,7 @@ class AdaptiveGenerationConfig:
     repetition_guard_entropy_threshold: float = 0.25
     repetition_guard_margin_threshold: float = 0.35
     repetition_guard_cooldown_tokens: int = 8
+    enable_code_structural_fallback: bool = False
 
 
 def load_adaptive_models(config: AdaptiveGenerationConfig):
@@ -123,8 +125,69 @@ def repeated_ngram_rate_from_tokens(tokens: list[str], ngram_size: int) -> float
     return repeated / len(ngrams)
 
 
+def is_code_structural_token(token_text: str) -> bool:
+    stripped = token_text.strip()
+    lowered = stripped.lower()
+
+    if "\n" in token_text or "\t" in token_text:
+        return True
+    if token_text.startswith("    ") or token_text.startswith("  "):
+        return True
+
+    structural_keywords = {
+        "def",
+        "return",
+        "if",
+        "else",
+        "elif",
+        "for",
+        "while",
+        "import",
+        "from",
+        "try",
+        "except",
+        "with",
+        "lambda",
+    }
+    if lowered in structural_keywords:
+        return True
+
+    keyword_pattern = (
+        r"\b(def|return|if|else|elif|for|while|import|from|try|except|with|lambda)\b"
+    )
+    if re.search(keyword_pattern, lowered):
+        return True
+
+    structural_symbols = (
+        ":",
+        "(",
+        ")",
+        "[",
+        "]",
+        "{",
+        "}",
+        "=",
+        "==",
+        "!=",
+        "<=",
+        ">=",
+        "+",
+        "-",
+        "*",
+        "/",
+        "%",
+        ",",
+        ".",
+        "\"",
+        "'",
+        "`",
+    )
+    return any(symbol in token_text for symbol in structural_symbols)
+
+
 def fallback_reasons(
     cheap_stats: dict,
+    candidate_token_text: str,
     step: int,
     generated_tokens: list[str],
     config: AdaptiveGenerationConfig,
@@ -179,6 +242,13 @@ def fallback_reasons(
 
     if repetition_triggered:
         optional_reasons.append("repetition_guard")
+
+    code_structural_triggered = (
+        config.enable_code_structural_fallback
+        and is_code_structural_token(candidate_token_text)
+    )
+    if code_structural_triggered:
+        optional_reasons.append("code_structural_token")
 
     periodic_triggered = (
         config.enable_periodic_teacher_check
@@ -246,6 +316,7 @@ def fallback_reasons(
         "optional_fallback_budget_blocked": optional_fallback_budget_blocked,
         "repetition_guard_uncertainty_passed": repetition_uncertainty_passed,
         "repetition_guard_cooldown_blocked": repetition_cooldown_blocked,
+        "code_structural_token_triggered": code_structural_triggered,
         "fallback_required": fallback_required,
         "fallback_optional_only": fallback_optional_only,
         "expensive_call_ratio_so_far": expensive_call_ratio_so_far,
@@ -257,6 +328,7 @@ def choose_next_token(
     input_ids: torch.Tensor,
     cheap_model,
     expensive_model,
+    tokenizer,
     config: AdaptiveGenerationConfig,
     step: int,
     generated_tokens: list[str],
@@ -270,9 +342,14 @@ def choose_next_token(
         logits=cheap_logits,
         temperature=config.temperature,
     )
+    candidate_token_text = tokenizer.decode(
+        [cheap_stats["token_id"]],
+        clean_up_tokenization_spaces=False,
+    )
 
     fallback = fallback_reasons(
         cheap_stats=cheap_stats,
+        candidate_token_text=candidate_token_text,
         step=step,
         generated_tokens=generated_tokens,
         config=config,
@@ -306,6 +383,9 @@ def choose_next_token(
             ],
             "repetition_guard_cooldown_blocked": fallback[
                 "repetition_guard_cooldown_blocked"
+            ],
+            "code_structural_token_triggered": fallback[
+                "code_structural_token_triggered"
             ],
             "fallback_required": fallback["fallback_required"],
             "fallback_optional_only": fallback["fallback_optional_only"],
@@ -342,6 +422,9 @@ def choose_next_token(
         ],
         "repetition_guard_cooldown_blocked": fallback[
             "repetition_guard_cooldown_blocked"
+        ],
+        "code_structural_token_triggered": fallback[
+            "code_structural_token_triggered"
         ],
         "fallback_required": fallback["fallback_required"],
         "fallback_optional_only": fallback["fallback_optional_only"],
@@ -432,6 +515,7 @@ def adaptive_generate_with_models(
             input_ids=input_ids,
             cheap_model=cheap_model,
             expensive_model=expensive_model,
+            tokenizer=tokenizer,
             config=config,
             step=index,
             generated_tokens=generated_tokens,
@@ -480,6 +564,9 @@ def adaptive_generate_with_models(
                 ],
                 "repetition_guard_cooldown_blocked": decision[
                     "repetition_guard_cooldown_blocked"
+                ],
+                "code_structural_token_triggered": decision[
+                    "code_structural_token_triggered"
                 ],
                 "fallback_required": decision["fallback_required"],
                 "fallback_optional_only": decision["fallback_optional_only"],

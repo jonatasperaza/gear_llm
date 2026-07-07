@@ -11,7 +11,12 @@ from gear_llm.adaptive_generator import (
     adaptive_generate_with_models,
     load_adaptive_models,
 )
-from gear_llm.hybrid_router import classify_prompt, choose_mode, generate_with_mode
+from gear_llm.hybrid_router import (
+    adaptive_code_quality_config,
+    classify_prompt,
+    choose_mode,
+    generate_with_mode,
+)
 from gear_llm.model_loader import get_model_runtime_metadata
 from gear_llm.model_loader import (
     encode_prompt,
@@ -405,6 +410,20 @@ def run_quality_benchmark(
                     repetition_guard_entropy_threshold=0.25,
                     repetition_guard_margin_threshold=0.35,
                     repetition_guard_cooldown_tokens=8,
+                ),
+            ),
+            (
+                "adaptive_code_quality",
+                adaptive_code_quality_config(
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    device=cheap_runtime_metadata["device"],
+                    cheap_device=cheap_runtime_metadata["device"],
+                    expensive_device=expensive_runtime_metadata["device"],
+                    torch_dtype=torch_dtype,
+                    prompt_format=prompt_format,
                 ),
             ),
         )

@@ -35,6 +35,7 @@ TASK_MODES = (
     "cheap_only",
     "adaptive_calibrated",
     "adaptive_guarded_v3",
+    "adaptive_code_quality",
     "speculative_adaptive",
     "hybrid",
 )
@@ -1204,6 +1205,7 @@ def run_task_evaluation(
         for mode in (
             "adaptive_calibrated",
             "adaptive_guarded_v3",
+            "adaptive_code_quality",
             "speculative_adaptive",
         ):
             needed_for_hybrid = (

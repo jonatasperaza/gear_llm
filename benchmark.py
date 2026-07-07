@@ -38,6 +38,7 @@ from gear_llm.guard_tuning import (
     save_guard_tuning,
 )
 from gear_llm.hybrid_router import (
+    adaptive_code_quality_config,
     choose_mode,
     classify_prompt,
     generate_with_mode,
@@ -322,6 +323,20 @@ def run_speculative_benchmark(
                     repetition_guard_cooldown_tokens=8,
                 ),
             ),
+            (
+                "adaptive_code_quality",
+                adaptive_code_quality_config(
+                    cheap_model_name=cheap_model_name,
+                    expensive_model_name=expensive_model_name,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    device=cheap_runtime["device"],
+                    cheap_device=cheap_runtime["device"],
+                    expensive_device=expensive_runtime["device"],
+                    torch_dtype=torch_dtype,
+                    prompt_format=prompt_format,
+                ),
+            ),
         )
 
         for mode, adaptive_config in adaptive_modes:
@@ -458,6 +473,7 @@ def run_hybrid_benchmark(
     base_modes = (
         "adaptive_calibrated",
         "adaptive_guarded_v3",
+        "adaptive_code_quality",
         "speculative_adaptive",
     )
     expensive_tokenizer = get_expensive_tokenizer(tokenizer)

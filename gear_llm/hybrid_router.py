@@ -15,6 +15,7 @@ from gear_llm.speculative_generator import (
 HYBRID_MODES = (
     "adaptive_calibrated",
     "adaptive_guarded_v3",
+    "adaptive_code_quality",
     "speculative_adaptive",
 )
 
@@ -188,13 +189,15 @@ def choose_mode(prompt_type: str, prompt: str | None = None) -> str:
     matematica por padrao, nem mesmo em math_symbolic_dense, porque o oracle
     atual nao mostrou evidencia high-confidence nessa familia.
 
-    Para codigo, o benchmark MBPP com Qwen2.5-Coder-0.5B -> 3B favoreceu
-    adaptive_guarded_v3 como melhor modo roteado. A excecao conservadora de
-    prompts curtos e diretos continua valendo para categorias nao-codigo.
+    Para codigo, os benchmarks MBPP indicaram que correcao exige uma politica
+    mais conservadora. adaptive_code_quality usa a familia guarded com
+    thresholds mais estritos e fallbacks extras em tokens estruturais de codigo.
+    A excecao conservadora de prompts curtos e diretos continua valendo para
+    categorias nao-codigo.
     """
 
     if prompt_type == "code":
-        return "adaptive_guarded_v3"
+        return "adaptive_code_quality"
     if prompt is not None and is_short_direct_prompt(prompt, prompt_type):
         return "speculative_adaptive"
     if prompt_type == "logic":
@@ -267,6 +270,47 @@ def adaptive_guarded_v3_config(
         repetition_guard_entropy_threshold=0.25,
         repetition_guard_margin_threshold=0.35,
         repetition_guard_cooldown_tokens=8,
+    )
+
+
+def adaptive_code_quality_config(
+    cheap_model_name: str,
+    expensive_model_name: str,
+    max_new_tokens: int,
+    temperature: float,
+    device: str = "auto",
+    cheap_device: str | None = None,
+    expensive_device: str | None = None,
+    torch_dtype: str = "auto",
+    prompt_format: str = "auto",
+) -> AdaptiveGenerationConfig:
+    return AdaptiveGenerationConfig(
+        cheap_model_name=cheap_model_name,
+        expensive_model_name=expensive_model_name,
+        device=device,
+        cheap_device=cheap_device,
+        expensive_device=expensive_device,
+        torch_dtype=torch_dtype,
+        prompt_format=prompt_format,
+        max_new_tokens=max_new_tokens,
+        temperature=temperature,
+        entropy_threshold=0.25,
+        margin_threshold=0.30,
+        teacher_check_interval=8,
+        enable_periodic_teacher_check=True,
+        enable_repetition_guard=True,
+        repetition_ngram_size=3,
+        repetition_threshold=0.25,
+        risk_gated_periodic_check=True,
+        periodic_entropy_risk_threshold=0.25,
+        periodic_margin_risk_threshold=0.35,
+        periodic_repetition_risk_threshold=0.05,
+        max_expensive_call_ratio=0.60,
+        repetition_guard_requires_uncertainty=True,
+        repetition_guard_entropy_threshold=0.25,
+        repetition_guard_margin_threshold=0.35,
+        repetition_guard_cooldown_tokens=4,
+        enable_code_structural_fallback=True,
     )
 
 
@@ -358,6 +402,14 @@ def generate_with_mode(
     else:
         if mode == "adaptive_guarded_v3":
             config = adaptive_guarded_v3_config(
+                cheap_model_name=cheap_model_name,
+                expensive_model_name=expensive_model_name,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                prompt_format=prompt_format,
+            )
+        elif mode == "adaptive_code_quality":
+            config = adaptive_code_quality_config(
                 cheap_model_name=cheap_model_name,
                 expensive_model_name=expensive_model_name,
                 max_new_tokens=max_new_tokens,
