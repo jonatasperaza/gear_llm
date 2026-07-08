@@ -1,5 +1,6 @@
 import difflib
 import re
+import time
 import unicodedata
 from collections import Counter
 from pathlib import Path
@@ -25,6 +26,7 @@ from gear_llm.model_loader import (
     prompt_format_metadata,
 )
 from gear_llm.report import save_csv
+from gear_llm.runtime_profiler import RuntimeProfiler
 
 
 PROMPTS = {
@@ -97,21 +99,45 @@ def generate_greedy_with_model(
     max_new_tokens: int,
     temperature: float,
     prompt_format: str = "auto",
+    runtime_profiler: RuntimeProfiler | None = None,
+    model_role: str = "cheap",
 ) -> tuple[str, int]:
-    encoded, _ = encode_prompt(
-        prompt=prompt,
-        tokenizer=tokenizer,
-        device=device,
-        prompt_format=prompt_format,
-    )
+    if runtime_profiler is None:
+        encoded, _ = encode_prompt(
+            prompt=prompt,
+            tokenizer=tokenizer,
+            device=device,
+            prompt_format=prompt_format,
+        )
+    else:
+        with runtime_profiler.timed("prompt_format_time_seconds"):
+            encoded, _ = encode_prompt(
+                prompt=prompt,
+                tokenizer=tokenizer,
+                device=device,
+                prompt_format=prompt_format,
+            )
     input_ids = encoded["input_ids"].to(device)
     prompt_length = input_ids.shape[-1]
     safe_temperature = max(temperature, 1e-6)
 
     for _ in range(max_new_tokens):
-        outputs = model(input_ids=input_ids, return_dict=True)
+        if runtime_profiler is None:
+            outputs = model(input_ids=input_ids, return_dict=True)
+        else:
+            with runtime_profiler.forward(model_role, device):
+                outputs = model(input_ids=input_ids, return_dict=True)
+
+        router_start = time.perf_counter() if runtime_profiler is not None else 0.0
         logits = outputs.logits[0, -1].float() / safe_temperature
         token_id = int(torch.argmax(logits).detach().cpu())
+        if runtime_profiler is not None:
+            runtime_profiler.add_time(
+                "router_decision_time_seconds",
+                time.perf_counter() - router_start,
+            )
+            runtime_profiler.increment("number_of_router_decisions")
+
         token_tensor = torch.tensor([[token_id]], device=device)
         input_ids = torch.cat([input_ids, token_tensor], dim=-1)
 
@@ -119,11 +145,19 @@ def generate_greedy_with_model(
             break
 
     generated_ids = input_ids[0, prompt_length:]
-    generated_text = tokenizer.decode(
-        generated_ids,
-        clean_up_tokenization_spaces=False,
-        skip_special_tokens=True,
-    )
+    if runtime_profiler is None:
+        generated_text = tokenizer.decode(
+            generated_ids,
+            clean_up_tokenization_spaces=False,
+            skip_special_tokens=True,
+        )
+    else:
+        with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+            generated_text = tokenizer.decode(
+                generated_ids,
+                clean_up_tokenization_spaces=False,
+                skip_special_tokens=True,
+            )
 
     return generated_text, int(generated_ids.numel())
 

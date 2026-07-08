@@ -92,11 +92,14 @@ from gear_llm.teacher_calibration import (
     threshold_grid_search,
 )
 from gear_llm.task_evaluation import (
+    build_runtime_profile_outputs,
     build_task_quality_latency_outputs,
+    print_runtime_profile_report,
     print_task_evaluation_overall_report,
     print_task_evaluation_report,
     print_task_quality_latency_report,
     run_task_evaluation,
+    save_runtime_profile_outputs,
     save_task_quality_latency_outputs,
     save_task_evaluation_outputs,
 )
@@ -637,6 +640,11 @@ def main():
         "--include-latency",
         action="store_true",
         help="Inclui latencia real na avaliacao task-specific.",
+    )
+    parser.add_argument(
+        "--profile-runtime",
+        action="store_true",
+        help="Coleta perfil detalhado de runtime na avaliacao task-specific.",
     )
     parser.add_argument(
         "--warmup-runs",
@@ -1267,6 +1275,7 @@ def main():
                 categories=args.categories,
                 difficulties=args.difficulties,
                 modes=args.modes,
+                profile_runtime=args.profile_runtime,
             )
             print_task_evaluation_report(task_summary_rows)
             print_task_evaluation_overall_report(task_overall_rows)
@@ -1311,6 +1320,19 @@ def main():
                 print(f"{'task_ql_sum':<15} -> {latency_summary_csv}")
                 print(f"{'task_ql_cat':<15} -> {latency_category_csv}")
                 print(f"{'task_ql_diff':<15} -> {latency_difficulty_csv}")
+
+            if args.profile_runtime:
+                profile_rows, profile_summary_rows = build_runtime_profile_outputs(
+                    task_rows
+                )
+                print_runtime_profile_report(profile_summary_rows)
+                profile_csv, profile_summary_csv = save_runtime_profile_outputs(
+                    profile_rows=profile_rows,
+                    summary_rows=profile_summary_rows,
+                    output_dir=output_dir,
+                )
+                print(f"{'runtime_prof':<15} -> {profile_csv}")
+                print(f"{'runtime_sum':<15} -> {profile_summary_csv}")
 
         return
 
@@ -1878,6 +1900,7 @@ def main():
             categories=args.categories,
             difficulties=args.difficulties,
             modes=args.modes,
+            profile_runtime=args.profile_runtime,
         )
         print_task_evaluation_report(task_summary_rows)
         print_task_evaluation_overall_report(task_overall_rows)
@@ -1922,6 +1945,19 @@ def main():
             print(f"{'task_ql_sum':<15} -> {latency_summary_csv}")
             print(f"{'task_ql_cat':<15} -> {latency_category_csv}")
             print(f"{'task_ql_diff':<15} -> {latency_difficulty_csv}")
+
+        if args.profile_runtime:
+            profile_rows, profile_summary_rows = build_runtime_profile_outputs(
+                task_rows
+            )
+            print_runtime_profile_report(profile_summary_rows)
+            profile_csv, profile_summary_csv = save_runtime_profile_outputs(
+                profile_rows=profile_rows,
+                summary_rows=profile_summary_rows,
+                output_dir=output_dir,
+            )
+            print(f"{'runtime_prof':<15} -> {profile_csv}")
+            print(f"{'runtime_sum':<15} -> {profile_summary_csv}")
 
 
 if __name__ == "__main__":

@@ -28,6 +28,12 @@ from gear_llm.quality_benchmark import (
     generate_greedy_with_model,
 )
 from gear_llm.report import save_csv
+from gear_llm.runtime_profiler import (
+    COUNT_FIELDS,
+    TIME_FIELDS,
+    RuntimeProfiler,
+    maybe_profiler,
+)
 
 
 TASK_MODES = (
@@ -42,6 +48,13 @@ TASK_MODES = (
 DIFFICULTIES = {"easy", "medium", "hard"}
 MATH_ANSWER_TYPES = {"number", "expression", "boolean", "choice"}
 LOGIC_ANSWER_TYPES = {"label", "choice"}
+DERIVED_PROFILE_FIELDS = (
+    "average_time_per_generated_token",
+    "average_cheap_forward_time",
+    "average_expensive_forward_time",
+    "routing_overhead_time_seconds",
+)
+PROFILE_FIELDS = TIME_FIELDS + COUNT_FIELDS + DERIVED_PROFILE_FIELDS
 
 
 def load_eval_tasks(path: str | Path) -> list[dict]:
@@ -824,6 +837,28 @@ def evaluate_task(task: dict, generated_text: str) -> dict:
     }
 
 
+def _evaluate_with_profile(
+    task: dict,
+    generated_text: str,
+    runtime_profiler: RuntimeProfiler | None,
+) -> dict:
+    if runtime_profiler is None:
+        return evaluate_task(task, generated_text)
+
+    with runtime_profiler.timed("evaluation_time_seconds"):
+        return evaluate_task(task, generated_text)
+
+
+def _profile_metrics(
+    runtime_profiler: RuntimeProfiler | None,
+    generated_tokens: int,
+) -> dict:
+    if runtime_profiler is None:
+        return {}
+
+    return runtime_profiler.summary(generated_tokens=generated_tokens)
+
+
 def _task_fields(task: dict) -> dict:
     return {
         "source": task.get("source", ""),
@@ -847,8 +882,10 @@ def _build_row(
     max_new_tokens: int,
     generated_tokens: int = 0,
     timing_stats: dict | None = None,
+    profile_metrics: dict | None = None,
 ) -> dict:
     timing_stats = timing_stats or {}
+    profile_metrics = profile_metrics or {}
     total_time_seconds = timing_stats.get("total_time_seconds_avg", "")
     tokens_per_second = timing_stats.get("tokens_per_second_avg", "")
 
@@ -893,6 +930,7 @@ def _build_row(
         "tokens_per_second": tokens_per_second,
         "tokens_per_second_avg": timing_stats.get("tokens_per_second_avg", ""),
         "tokens_per_second_std": timing_stats.get("tokens_per_second_std", ""),
+        **profile_metrics,
     }
 
 
@@ -993,6 +1031,14 @@ def _build_timing_stats(times: list[float], token_counts: list[int]) -> dict:
     }
 
 
+def _run_profiled_generation(generation_fn, runtime_profiler):
+    if runtime_profiler is None:
+        return generation_fn(None)
+
+    with runtime_profiler.timed("total_generation_time_seconds"):
+        return generation_fn(runtime_profiler)
+
+
 def _run_generation_series(
     device: str,
     generation_fn,
@@ -1002,9 +1048,10 @@ def _run_generation_series(
     measured_runs: int,
     progress_prefix: str = "",
     measurement_devices=None,
+    runtime_profiler: RuntimeProfiler | None = None,
 ):
     if not include_latency:
-        return generation_fn(), _empty_timing_stats()
+        return _run_profiled_generation(generation_fn, runtime_profiler), _empty_timing_stats()
 
     warmup_total = max(0, warmup_runs)
     for run_index in range(1, warmup_total + 1):
@@ -1013,7 +1060,7 @@ def _run_generation_series(
                 f"{progress_prefix} | warmup {run_index}/{warmup_total}",
                 flush=True,
             )
-        generation_fn()
+        generation_fn(None)
 
     result = None
     times = []
@@ -1025,9 +1072,13 @@ def _run_generation_series(
                 f"{progress_prefix} | measured {run_index}/{measured_total}",
                 flush=True,
             )
+        measured_runtime_profiler = runtime_profiler if result is None else None
         measured_result, elapsed = _measure_generation(
             measurement_devices or device,
-            generation_fn,
+            lambda: _run_profiled_generation(
+                generation_fn,
+                measured_runtime_profiler,
+            ),
         )
         if result is None:
             result = measured_result
@@ -1056,6 +1107,7 @@ def run_task_evaluation(
     categories: list[str] | str | None = None,
     difficulties: list[str] | str | None = None,
     modes: list[str] | str | None = None,
+    profile_runtime: bool = False,
 ) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
     tasks = filter_eval_tasks(
         load_eval_tasks(dataset_path),
@@ -1124,10 +1176,11 @@ def run_task_evaluation(
             return f"[task {task_index}/{total_tasks}] {task['id']} | mode {mode}"
 
         if "expensive_only" in selected_mode_set:
+            expensive_profiler = maybe_profiler(profile_runtime)
             (expensive_text, expensive_tokens), expensive_timing = (
                 _run_generation_series(
                     device,
-                    lambda: generate_greedy_with_model(
+                    lambda runtime_profiler=None: generate_greedy_with_model(
                         prompt=prompt,
                         model=expensive_model,
                         tokenizer=expensive_tokenizer,
@@ -1135,6 +1188,8 @@ def run_task_evaluation(
                         max_new_tokens=max_new_tokens,
                         temperature=temperature,
                         prompt_format=prompt_format,
+                        runtime_profiler=runtime_profiler,
+                        model_role="expensive",
                     ),
                     lambda result: result[1],
                     include_latency=include_latency,
@@ -1142,9 +1197,10 @@ def run_task_evaluation(
                     measured_runs=measured_runs,
                     progress_prefix=progress_prefix("expensive_only"),
                     measurement_devices=expensive_runtime["device"],
+                    runtime_profiler=expensive_profiler,
                 )
             )
-            evaluation = evaluate_task(task, expensive_text)
+            evaluation = _evaluate_with_profile(task, expensive_text, expensive_profiler)
             rows.append(
                 _build_row(
                     task=task,
@@ -1158,13 +1214,18 @@ def run_task_evaluation(
                     max_new_tokens=max_new_tokens,
                     generated_tokens=expensive_tokens,
                     timing_stats=expensive_timing,
+                    profile_metrics=_profile_metrics(
+                        expensive_profiler,
+                        expensive_tokens,
+                    ),
                 )
             )
 
         if "cheap_only" in selected_mode_set:
+            cheap_profiler = maybe_profiler(profile_runtime)
             (cheap_text, cheap_tokens), cheap_timing = _run_generation_series(
                 device,
-                lambda: generate_greedy_with_model(
+                lambda runtime_profiler=None: generate_greedy_with_model(
                     prompt=prompt,
                     model=cheap_model,
                     tokenizer=cheap_tokenizer,
@@ -1172,6 +1233,8 @@ def run_task_evaluation(
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     prompt_format=prompt_format,
+                    runtime_profiler=runtime_profiler,
+                    model_role="cheap",
                 ),
                 lambda result: result[1],
                 include_latency=include_latency,
@@ -1179,13 +1242,14 @@ def run_task_evaluation(
                 measured_runs=measured_runs,
                 progress_prefix=progress_prefix("cheap_only"),
                 measurement_devices=cheap_runtime["device"],
+                runtime_profiler=cheap_profiler,
             )
             cheap_saved = estimated_saved_percent(
                 total_generated_tokens=cheap_tokens,
                 cheap_calls=cheap_tokens,
                 expensive_calls=0,
             )
-            evaluation = evaluate_task(task, cheap_text)
+            evaluation = _evaluate_with_profile(task, cheap_text, cheap_profiler)
             rows.append(
                 _build_row(
                     task=task,
@@ -1199,6 +1263,7 @@ def run_task_evaluation(
                     max_new_tokens=max_new_tokens,
                     generated_tokens=cheap_tokens,
                     timing_stats=cheap_timing,
+                    profile_metrics=_profile_metrics(cheap_profiler, cheap_tokens),
                 )
             )
 
@@ -1210,15 +1275,17 @@ def run_task_evaluation(
         ):
             needed_for_hybrid = (
                 not include_latency
+                and not profile_runtime
                 and "hybrid" in selected_mode_set
                 and mode == hybrid_selected_mode
             )
             if mode not in selected_mode_set and not needed_for_hybrid:
                 continue
 
+            mode_profiler = maybe_profiler(profile_runtime)
             summary, mode_timing = _run_generation_series(
                 device,
-                lambda mode=mode: generate_with_mode(
+                lambda runtime_profiler=None, mode=mode: generate_with_mode(
                     prompt=prompt,
                     mode=mode,
                     cheap_model=cheap_model,
@@ -1230,6 +1297,7 @@ def run_task_evaluation(
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     prompt_format=prompt_format,
+                    runtime_profiler=runtime_profiler,
                 ),
                 lambda result: result.get("total_generated_tokens", 0),
                 include_latency=include_latency,
@@ -1240,13 +1308,19 @@ def run_task_evaluation(
                     cheap_runtime["device"],
                     expensive_runtime["device"],
                 ],
+                runtime_profiler=mode_profiler,
             )
             mode_summaries[mode] = summary
             if mode in selected_mode_set:
                 generated_text, saved, expensive_calls = _generation_from_summary(
                     summary
                 )
-                evaluation = evaluate_task(task, generated_text)
+                generated_token_count = summary.get("total_generated_tokens", 0)
+                evaluation = _evaluate_with_profile(
+                    task,
+                    generated_text,
+                    mode_profiler,
+                )
                 rows.append(
                     _build_row(
                         task=task,
@@ -1258,18 +1332,23 @@ def run_task_evaluation(
                         expensive_model_calls=expensive_calls,
                         model_metadata=model_metadata,
                         max_new_tokens=max_new_tokens,
-                        generated_tokens=summary.get("total_generated_tokens", 0),
+                        generated_tokens=generated_token_count,
                         timing_stats=mode_timing,
+                        profile_metrics=_profile_metrics(
+                            mode_profiler,
+                            generated_token_count,
+                        ),
                     )
                 )
 
         if "hybrid" not in selected_mode_set:
             continue
 
-        if include_latency:
+        if include_latency or profile_runtime:
+            hybrid_profiler = maybe_profiler(profile_runtime)
             hybrid_summary, hybrid_timing = _run_generation_series(
                 device,
-                lambda: generate_with_mode(
+                lambda runtime_profiler=None: generate_with_mode(
                     prompt=prompt,
                     mode=hybrid_selected_mode,
                     cheap_model=cheap_model,
@@ -1281,6 +1360,7 @@ def run_task_evaluation(
                     max_new_tokens=max_new_tokens,
                     temperature=temperature,
                     prompt_format=prompt_format,
+                    runtime_profiler=runtime_profiler,
                 ),
                 lambda result: result.get("total_generated_tokens", 0),
                 include_latency=include_latency,
@@ -1291,8 +1371,10 @@ def run_task_evaluation(
                     cheap_runtime["device"],
                     expensive_runtime["device"],
                 ],
+                runtime_profiler=hybrid_profiler,
             )
         else:
+            hybrid_profiler = None
             if hybrid_selected_mode in mode_summaries:
                 hybrid_summary = mode_summaries[hybrid_selected_mode]
             else:
@@ -1313,7 +1395,8 @@ def run_task_evaluation(
         generated_text, saved, expensive_calls = _generation_from_summary(
             hybrid_summary
         )
-        evaluation = evaluate_task(task, generated_text)
+        generated_token_count = hybrid_summary.get("total_generated_tokens", 0)
+        evaluation = _evaluate_with_profile(task, generated_text, hybrid_profiler)
         rows.append(
             _build_row(
                 task=task,
@@ -1325,8 +1408,12 @@ def run_task_evaluation(
                 expensive_model_calls=expensive_calls,
                 model_metadata=model_metadata,
                 max_new_tokens=max_new_tokens,
-                generated_tokens=hybrid_summary.get("total_generated_tokens", 0),
+                generated_tokens=generated_token_count,
                 timing_stats=hybrid_timing,
+                profile_metrics=_profile_metrics(
+                    hybrid_profiler,
+                    generated_token_count,
+                ),
             )
         )
 
@@ -1632,6 +1719,94 @@ def build_task_quality_latency_outputs(
     return report_rows, summary_rows, by_category_rows, by_difficulty_rows
 
 
+def build_runtime_profile_rows(rows: list[dict]) -> list[dict]:
+    profile_rows = []
+    for row in rows:
+        if "total_generation_time_seconds" not in row:
+            continue
+
+        profile_rows.append(
+            {
+                "task_id": row["task_id"],
+                "category": row["category"],
+                "difficulty": row["difficulty"],
+                "mode": row["mode"],
+                "selected_mode": row["selected_mode"],
+                "cheap_model_name": row["cheap_model_name"],
+                "expensive_model_name": row["expensive_model_name"],
+                "device": row["device"],
+                "cheap_device": row["cheap_device"],
+                "expensive_device": row["expensive_device"],
+                "torch_dtype": row["torch_dtype"],
+                "prompt_format": row["prompt_format"],
+                "passed": row["passed"],
+                "score": row["score"],
+                "estimated_saved_percent": row["estimated_saved_percent"],
+                "expensive_model_calls": row["expensive_model_calls"],
+                "generated_tokens": row["generated_tokens"],
+                **{field: row.get(field, 0.0) for field in PROFILE_FIELDS},
+            }
+        )
+
+    return profile_rows
+
+
+def summarize_runtime_profile_rows(profile_rows: list[dict]) -> list[dict]:
+    grouped = defaultdict(list)
+    for row in profile_rows:
+        grouped[row["mode"]].append(row)
+
+    mode_order = {mode: index for index, mode in enumerate(TASK_MODES)}
+    summary_rows = []
+    for mode, group in sorted(
+        grouped.items(),
+        key=lambda item: mode_order.get(item[0], 999),
+    ):
+        count = len(group)
+        first_row = group[0]
+        passed = sum(1 for row in group if row["passed"] is True or row["passed"] == "True")
+        summary = {
+            "mode": mode,
+            "count": count,
+            "pass_rate": passed / count if count else 0.0,
+            "cheap_model_name": first_row.get("cheap_model_name", ""),
+            "expensive_model_name": first_row.get("expensive_model_name", ""),
+            "device": first_row.get("device", ""),
+            "cheap_device": first_row.get("cheap_device", ""),
+            "expensive_device": first_row.get("expensive_device", ""),
+            "torch_dtype": first_row.get("torch_dtype", ""),
+            "prompt_format": first_row.get("prompt_format", ""),
+            "avg_estimated_saved_percent": _mean(
+                [_as_float(row["estimated_saved_percent"]) for row in group]
+            ),
+            "avg_expensive_model_calls": _mean(
+                [_as_float(row["expensive_model_calls"]) for row in group]
+            ),
+        }
+
+        for field in TIME_FIELDS + DERIVED_PROFILE_FIELDS:
+            values = [_as_float(row[field]) for row in group]
+            summary[f"avg_{field}"] = _mean(values)
+            summary[f"median_{field}"] = _median(values)
+
+        for field in COUNT_FIELDS:
+            values = [_as_float(row[field]) for row in group]
+            summary[f"avg_{field}"] = _mean(values)
+            summary[f"total_{field}"] = sum(values)
+
+        summary_rows.append(summary)
+
+    return summary_rows
+
+
+def build_runtime_profile_outputs(
+    rows: list[dict],
+) -> tuple[list[dict], list[dict]]:
+    profile_rows = build_runtime_profile_rows(rows)
+    summary_rows = summarize_runtime_profile_rows(profile_rows)
+    return profile_rows, summary_rows
+
+
 def print_task_evaluation_report(summary_rows: list[dict]):
     print()
     print("Task-Specific Quality Evaluation")
@@ -1701,6 +1876,30 @@ def print_task_quality_latency_report(summary_rows: list[dict]):
     print()
 
 
+def print_runtime_profile_report(summary_rows: list[dict]):
+    print("Runtime Profile Summary")
+    print("=" * 116)
+    header = (
+        f"{'mode':<22} | {'total':>9} | {'cheap_fwd':>9} | "
+        f"{'exp_fwd':>9} | {'route_ovh':>9} | {'cheap_n':>7} | "
+        f"{'exp_n':>7}"
+    )
+    print(header)
+    print("-" * len(header))
+    for row in summary_rows:
+        print(
+            f"{row['mode']:<22} | "
+            f"{row['avg_total_generation_time_seconds']:>9.3f} | "
+            f"{row['avg_cheap_forward_time_seconds']:>9.3f} | "
+            f"{row['avg_expensive_forward_time_seconds']:>9.3f} | "
+            f"{row['avg_routing_overhead_time_seconds']:>9.3f} | "
+            f"{row['avg_number_of_cheap_forwards']:>7.2f} | "
+            f"{row['avg_number_of_expensive_forwards']:>7.2f}"
+        )
+    print("=" * 116)
+    print()
+
+
 def save_task_evaluation_outputs(
     rows: list[dict],
     summary_rows: list[dict],
@@ -1741,3 +1940,18 @@ def save_task_quality_latency_outputs(
     save_csv(by_difficulty_rows, str(by_difficulty_csv))
 
     return report_csv, summary_csv, by_category_csv, by_difficulty_csv
+
+
+def save_runtime_profile_outputs(
+    profile_rows: list[dict],
+    summary_rows: list[dict],
+    output_dir: str | Path = "results",
+) -> tuple[Path, Path]:
+    output_path = Path(output_dir)
+    profile_csv = output_path / "runtime_profile.csv"
+    summary_csv = output_path / "runtime_profile_summary.csv"
+
+    save_csv(profile_rows, str(profile_csv))
+    save_csv(summary_rows, str(summary_csv))
+
+    return profile_csv, summary_csv

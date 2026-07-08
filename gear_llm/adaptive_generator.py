@@ -16,6 +16,7 @@ from gear_llm.model_loader import (
     resolve_split_devices,
 )
 from gear_llm.report import save_csv
+from gear_llm.runtime_profiler import RuntimeProfiler
 
 
 @dataclass
@@ -335,27 +336,62 @@ def choose_next_token(
     expensive_model_calls_so_far: int,
     last_repetition_guard_step: int | None,
     expensive_device: str,
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> dict:
-    cheap_outputs = cheap_model(input_ids=input_ids, return_dict=True)
-    cheap_logits = cheap_outputs.logits[0, -1]
-    cheap_stats = next_token_stats(
-        logits=cheap_logits,
-        temperature=config.temperature,
-    )
-    candidate_token_text = tokenizer.decode(
-        [cheap_stats["token_id"]],
-        clean_up_tokenization_spaces=False,
-    )
+    cheap_device = str(input_ids.device)
+    if runtime_profiler is None:
+        cheap_outputs = cheap_model(input_ids=input_ids, return_dict=True)
+    else:
+        with runtime_profiler.forward("cheap", cheap_device):
+            cheap_outputs = cheap_model(input_ids=input_ids, return_dict=True)
 
-    fallback = fallback_reasons(
-        cheap_stats=cheap_stats,
-        candidate_token_text=candidate_token_text,
-        step=step,
-        generated_tokens=generated_tokens,
-        config=config,
-        expensive_model_calls_so_far=expensive_model_calls_so_far,
-        last_repetition_guard_step=last_repetition_guard_step,
-    )
+    cheap_logits = cheap_outputs.logits[0, -1]
+    if runtime_profiler is None:
+        cheap_stats = next_token_stats(
+            logits=cheap_logits,
+            temperature=config.temperature,
+        )
+    else:
+        with runtime_profiler.timed("router_decision_time_seconds"):
+            cheap_stats = next_token_stats(
+                logits=cheap_logits,
+                temperature=config.temperature,
+            )
+
+    if runtime_profiler is None:
+        candidate_token_text = tokenizer.decode(
+            [cheap_stats["token_id"]],
+            clean_up_tokenization_spaces=False,
+        )
+    else:
+        with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+            candidate_token_text = tokenizer.decode(
+                [cheap_stats["token_id"]],
+                clean_up_tokenization_spaces=False,
+            )
+
+    if runtime_profiler is None:
+        fallback = fallback_reasons(
+            cheap_stats=cheap_stats,
+            candidate_token_text=candidate_token_text,
+            step=step,
+            generated_tokens=generated_tokens,
+            config=config,
+            expensive_model_calls_so_far=expensive_model_calls_so_far,
+            last_repetition_guard_step=last_repetition_guard_step,
+        )
+    else:
+        with runtime_profiler.timed("guard_time_seconds"):
+            fallback = fallback_reasons(
+                cheap_stats=cheap_stats,
+                candidate_token_text=candidate_token_text,
+                step=step,
+                generated_tokens=generated_tokens,
+                config=config,
+                expensive_model_calls_so_far=expensive_model_calls_so_far,
+                last_repetition_guard_step=last_repetition_guard_step,
+            )
+        runtime_profiler.increment("number_of_router_decisions")
     reasons = fallback["reasons"]
 
     if not reasons:
@@ -392,15 +428,29 @@ def choose_next_token(
         }
 
     expensive_input_ids = input_ids.to(expensive_device)
-    expensive_outputs = expensive_model(
-        input_ids=expensive_input_ids,
-        return_dict=True,
-    )
+    if runtime_profiler is None:
+        expensive_outputs = expensive_model(
+            input_ids=expensive_input_ids,
+            return_dict=True,
+        )
+    else:
+        with runtime_profiler.forward("expensive", expensive_device):
+            expensive_outputs = expensive_model(
+                input_ids=expensive_input_ids,
+                return_dict=True,
+            )
     expensive_logits = expensive_outputs.logits[0, -1]
-    expensive_stats = next_token_stats(
-        logits=expensive_logits,
-        temperature=config.temperature,
-    )
+    if runtime_profiler is None:
+        expensive_stats = next_token_stats(
+            logits=expensive_logits,
+            temperature=config.temperature,
+        )
+    else:
+        with runtime_profiler.timed("router_decision_time_seconds"):
+            expensive_stats = next_token_stats(
+                logits=expensive_logits,
+                temperature=config.temperature,
+            )
 
     return {
         **cheap_stats,
@@ -482,6 +532,7 @@ def adaptive_generate_with_models(
     tokenizer,
     device: str,
     config: AdaptiveGenerationConfig,
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> tuple[str, list[dict], dict]:
     cheap_runtime = get_model_runtime_metadata(cheap_model, fallback_device=device)
     expensive_runtime = get_model_runtime_metadata(
@@ -493,16 +544,31 @@ def adaptive_generate_with_models(
 
     # The adaptive loop keeps the mutable generation context on the cheap
     # model device. Expensive fallbacks move a copy only when needed.
-    encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
-        ensure_shared_prompt_encoding(
-            prompt=prompt,
-            tokenizer=tokenizer,
-            device=device,
-            prompt_format=config.prompt_format,
-            cheap_device=cheap_device,
-            expensive_device=expensive_device,
+    if runtime_profiler is None:
+        encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
+            ensure_shared_prompt_encoding(
+                prompt=prompt,
+                tokenizer=tokenizer,
+                device=device,
+                prompt_format=config.prompt_format,
+                cheap_device=cheap_device,
+                expensive_device=expensive_device,
+            )
         )
-    )
+    else:
+        with runtime_profiler.timed("prompt_format_time_seconds"):
+            (
+                encoded,
+                effective_prompt_format_cheap,
+                effective_prompt_format_expensive,
+            ) = ensure_shared_prompt_encoding(
+                prompt=prompt,
+                tokenizer=tokenizer,
+                device=device,
+                prompt_format=config.prompt_format,
+                cheap_device=cheap_device,
+                expensive_device=expensive_device,
+            )
     input_ids = encoded["input_ids"].to(cheap_device)
     prompt_length = input_ids.shape[-1]
     history = []
@@ -522,15 +588,23 @@ def adaptive_generate_with_models(
             expensive_model_calls_so_far=expensive_model_calls_so_far,
             last_repetition_guard_step=last_repetition_guard_step,
             expensive_device=expensive_device,
+            runtime_profiler=runtime_profiler,
         )
         token_id = decision["token_id"]
         token_tensor = torch.tensor([[token_id]], device=cheap_device)
         input_ids = torch.cat([input_ids, token_tensor], dim=-1)
 
-        token_text = tokenizer.decode(
-            [token_id],
-            clean_up_tokenization_spaces=False,
-        )
+        if runtime_profiler is None:
+            token_text = tokenizer.decode(
+                [token_id],
+                clean_up_tokenization_spaces=False,
+            )
+        else:
+            with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+                token_text = tokenizer.decode(
+                    [token_id],
+                    clean_up_tokenization_spaces=False,
+                )
         generated_tokens.append(token_text)
 
         history.append(
@@ -590,16 +664,29 @@ def adaptive_generate_with_models(
             break
 
     generated_ids = input_ids[0, prompt_length:]
-    generated_text = tokenizer.decode(
-        generated_ids,
-        clean_up_tokenization_spaces=False,
-        skip_special_tokens=True,
-    )
-    full_text = tokenizer.decode(
-        input_ids[0],
-        clean_up_tokenization_spaces=False,
-        skip_special_tokens=True,
-    )
+    if runtime_profiler is None:
+        generated_text = tokenizer.decode(
+            generated_ids,
+            clean_up_tokenization_spaces=False,
+            skip_special_tokens=True,
+        )
+        full_text = tokenizer.decode(
+            input_ids[0],
+            clean_up_tokenization_spaces=False,
+            skip_special_tokens=True,
+        )
+    else:
+        with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+            generated_text = tokenizer.decode(
+                generated_ids,
+                clean_up_tokenization_spaces=False,
+                skip_special_tokens=True,
+            )
+            full_text = tokenizer.decode(
+                input_ids[0],
+                clean_up_tokenization_spaces=False,
+                skip_special_tokens=True,
+            )
     summary = summarize_adaptive_history(
         prompt=prompt,
         generated_text=generated_text,

@@ -10,6 +10,7 @@ from gear_llm.speculative_generator import (
     load_speculative_models,
     speculative_generate_with_models,
 )
+from gear_llm.runtime_profiler import RuntimeProfiler
 
 
 HYBRID_MODES = (
@@ -379,6 +380,7 @@ def generate_with_mode(
     max_new_tokens: int = 80,
     temperature: float = 0.7,
     prompt_format: str = "auto",
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> dict:
     if mode not in HYBRID_MODES:
         raise ValueError(f"Modo desconhecido: {mode}")
@@ -432,6 +434,7 @@ def generate_with_mode(
             tokenizer=tokenizer,
             device=device,
             config=config,
+            runtime_profiler=runtime_profiler,
         )
         total = summary["total_generated_tokens"]
         cheap_accepted = summary["cheap_accepted_tokens"]
@@ -459,6 +462,7 @@ def hybrid_generate_with_models(
     max_new_tokens: int = 80,
     temperature: float = 0.7,
     prompt_format: str = "auto",
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> dict:
     prompt_type = classify_prompt(prompt)
     selected_mode = choose_mode(prompt_type, prompt)
@@ -474,6 +478,7 @@ def hybrid_generate_with_models(
         max_new_tokens=max_new_tokens,
         temperature=temperature,
         prompt_format=prompt_format,
+        runtime_profiler=runtime_profiler,
     )
 
     return {
