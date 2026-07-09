@@ -1,7 +1,4 @@
 category,mode,count,pass_rate,pass_rate_ci95_low,pass_rate_ci95_high,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls,cheap_model_name,expensive_model_name,device,cheap_device,expensive_device,torch_dtype,prompt_format
-code,expensive_only,1,0.0,0.0,0.7934567085261071,0.0,0.0,8.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto
-code,cheap_only,1,0.0,0.0,0.7934567085261071,0.0,65.0,0.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto
-code,adaptive_guarded_v3,1,0.0,0.0,0.7934567085261071,0.0,40.0,2.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto
-code,adaptive_code_quality,1,0.0,0.0,0.7934567085261071,0.0,15.000000000000002,4.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto
-code,speculative_adaptive,1,0.0,0.0,0.7934567085261071,0.0,23.124999999999996,3.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto
-code,hybrid,1,0.0,0.0,0.7934567085261071,0.0,15.000000000000002,4.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda:0,cuda:0,cuda:0,float16,auto
+code,expensive_only,3,0.0,0.0,0.5615060804490177,0.0,0.0,8.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
+code,cheap_only,3,0.0,0.0,0.5615060804490177,0.0,65.0,0.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
+code,prompt_router_v1,3,0.0,0.0,0.5615060804490177,0.0,21.666666666666668,5.333333333333333,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto

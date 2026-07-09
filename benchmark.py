@@ -668,7 +668,10 @@ def main():
         "--modes",
         type=str,
         default=None,
-        help="Modos separados por vírgula para --task-evaluation.",
+        help=(
+            "Modos separados por vírgula para --task-evaluation, incluindo "
+            "prompt_router_v1."
+        ),
     )
     parser.add_argument(
         "--dataset",

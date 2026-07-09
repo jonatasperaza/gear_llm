@@ -140,7 +140,7 @@ def main():
         help=(
             "Comma-separated modes: expensive_only,cheap_only,"
             "adaptive_calibrated,adaptive_guarded_v3,adaptive_code_quality,"
-            "speculative_adaptive,hybrid."
+            "speculative_adaptive,prompt_router_v1,hybrid."
         ),
     )
 
