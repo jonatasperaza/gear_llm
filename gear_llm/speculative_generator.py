@@ -12,6 +12,7 @@ from gear_llm.config import DEFAULT_CHEAP_MODEL, DEFAULT_EXPENSIVE_MODEL
 from gear_llm.model_loader import ensure_shared_prompt_encoding
 from gear_llm.model_loader import get_model_runtime_metadata
 from gear_llm.report import save_csv
+from gear_llm.runtime_profiler import RuntimeProfiler
 
 
 @dataclass
@@ -55,15 +56,28 @@ def generate_draft(
     tokenizer,
     config: SpeculativeGenerationConfig,
     draft_length: int,
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> tuple[list[int], list[float]]:
     draft_ids = []
     entropies = []
     draft_input_ids = input_ids
 
     for _ in range(draft_length):
-        outputs = cheap_model(input_ids=draft_input_ids, return_dict=True)
+        if runtime_profiler is None:
+            outputs = cheap_model(input_ids=draft_input_ids, return_dict=True)
+        else:
+            with runtime_profiler.forward("cheap", str(input_ids.device)):
+                outputs = cheap_model(input_ids=draft_input_ids, return_dict=True)
         logits = outputs.logits[0, -1]
-        stats = next_token_stats(logits=logits, temperature=config.temperature)
+        if runtime_profiler is None:
+            stats = next_token_stats(logits=logits, temperature=config.temperature)
+        else:
+            with runtime_profiler.timed("router_decision_time_seconds"):
+                stats = next_token_stats(
+                    logits=logits,
+                    temperature=config.temperature,
+                )
+            runtime_profiler.increment("number_of_router_decisions")
         token_id = stats["token_id"]
 
         draft_ids.append(token_id)
@@ -85,6 +99,7 @@ def verify_draft(
     expensive_model,
     config: SpeculativeGenerationConfig,
     expensive_device: str,
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> dict:
     if not draft_ids:
         return {
@@ -99,17 +114,37 @@ def verify_draft(
     verification_input_ids = torch.cat([expensive_input_ids, draft_tensor], dim=-1)
     context_length = input_ids.shape[-1]
 
-    outputs = expensive_model(input_ids=verification_input_ids, return_dict=True)
+    if runtime_profiler is None:
+        outputs = expensive_model(input_ids=verification_input_ids, return_dict=True)
+    else:
+        with runtime_profiler.forward("expensive", expensive_device):
+            outputs = expensive_model(
+                input_ids=verification_input_ids,
+                return_dict=True,
+            )
     logits = outputs.logits[0].float() / max(config.temperature, 1e-6)
     accepted_ids = []
     rejected_at = -1
     correction_id = None
 
     for offset, draft_id in enumerate(draft_ids):
-        prediction_position = context_length + offset - 1
-        token_logits = logits[prediction_position]
-        topk = min(config.verify_top_k, token_logits.numel())
-        top_ids = torch.topk(token_logits, k=topk).indices.detach().cpu().tolist()
+        if runtime_profiler is None:
+            prediction_position = context_length + offset - 1
+            token_logits = logits[prediction_position]
+            topk = min(config.verify_top_k, token_logits.numel())
+            top_ids = torch.topk(token_logits, k=topk).indices.detach().cpu().tolist()
+        else:
+            with runtime_profiler.timed("router_decision_time_seconds"):
+                prediction_position = context_length + offset - 1
+                token_logits = logits[prediction_position]
+                topk = min(config.verify_top_k, token_logits.numel())
+                top_ids = (
+                    torch.topk(token_logits, k=topk)
+                    .indices.detach()
+                    .cpu()
+                    .tolist()
+                )
+            runtime_profiler.increment("number_of_router_decisions")
 
         if draft_id in top_ids:
             accepted_ids.append(draft_id)
@@ -207,6 +242,7 @@ def speculative_generate_with_models(
     tokenizer,
     device: str,
     config: SpeculativeGenerationConfig,
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> tuple[str, list[dict], list[dict], dict]:
     # The draft context lives on the cheap model device; verification moves
     # a copy to the expensive model device once per block.
@@ -221,16 +257,31 @@ def speculative_generate_with_models(
     cheap_device = cheap_runtime["device"]
     expensive_device = expensive_runtime["device"]
 
-    encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
-        ensure_shared_prompt_encoding(
-            prompt=prompt,
-            tokenizer=tokenizer,
-            device=device,
-            prompt_format=config.prompt_format,
-            cheap_device=cheap_device,
-            expensive_device=expensive_device,
+    if runtime_profiler is None:
+        encoded, effective_prompt_format_cheap, effective_prompt_format_expensive = (
+            ensure_shared_prompt_encoding(
+                prompt=prompt,
+                tokenizer=tokenizer,
+                device=device,
+                prompt_format=config.prompt_format,
+                cheap_device=cheap_device,
+                expensive_device=expensive_device,
+            )
         )
-    )
+    else:
+        with runtime_profiler.timed("prompt_format_time_seconds"):
+            (
+                encoded,
+                effective_prompt_format_cheap,
+                effective_prompt_format_expensive,
+            ) = ensure_shared_prompt_encoding(
+                prompt=prompt,
+                tokenizer=tokenizer,
+                device=device,
+                prompt_format=config.prompt_format,
+                cheap_device=cheap_device,
+                expensive_device=expensive_device,
+            )
     input_ids = encoded["input_ids"].to(cheap_device)
     prompt_length = input_ids.shape[-1]
     current_draft_length = max(
@@ -252,6 +303,7 @@ def speculative_generate_with_models(
             tokenizer=tokenizer,
             config=config,
             draft_length=block_draft_length,
+            runtime_profiler=runtime_profiler,
         )
 
         if not draft_ids:
@@ -264,6 +316,7 @@ def speculative_generate_with_models(
             expensive_model=expensive_model,
             config=config,
             expensive_device=expensive_device,
+            runtime_profiler=runtime_profiler,
         )
 
         accepted_ids = verification["accepted_ids"]
@@ -273,13 +326,21 @@ def speculative_generate_with_models(
             emitted_ids.append(verification["correction_id"])
 
         for token_id in accepted_ids:
+            if runtime_profiler is None:
+                token_text = tokenizer.decode(
+                    [token_id],
+                    clean_up_tokenization_spaces=False,
+                )
+            else:
+                with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+                    token_text = tokenizer.decode(
+                        [token_id],
+                        clean_up_tokenization_spaces=False,
+                    )
             token_rows.append(
                 {
                     "index": len(token_rows),
-                    "token": tokenizer.decode(
-                        [token_id],
-                        clean_up_tokenization_spaces=False,
-                    ),
+                    "token": token_text,
                     "source": "cheap_accepted",
                     "block_index": block_index,
                     "prompt_format": config.prompt_format,
@@ -296,13 +357,21 @@ def speculative_generate_with_models(
 
         if verification["correction_id"] is not None:
             correction_id = verification["correction_id"]
+            if runtime_profiler is None:
+                correction_text = tokenizer.decode(
+                    [correction_id],
+                    clean_up_tokenization_spaces=False,
+                )
+            else:
+                with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+                    correction_text = tokenizer.decode(
+                        [correction_id],
+                        clean_up_tokenization_spaces=False,
+                    )
             token_rows.append(
                 {
                     "index": len(token_rows),
-                    "token": tokenizer.decode(
-                        [correction_id],
-                        clean_up_tokenization_spaces=False,
-                    ),
+                    "token": correction_text,
                     "source": "expensive_corrected",
                     "block_index": block_index,
                     "prompt_format": config.prompt_format,
@@ -322,11 +391,19 @@ def speculative_generate_with_models(
             input_ids = torch.cat([input_ids, emitted_tensor], dim=-1)
             generated_ids.extend(emitted_ids)
 
-        generated_text_so_far = tokenizer.decode(
-            generated_ids,
-            clean_up_tokenization_spaces=False,
-            skip_special_tokens=True,
-        )
+        if runtime_profiler is None:
+            generated_text_so_far = tokenizer.decode(
+                generated_ids,
+                clean_up_tokenization_spaces=False,
+                skip_special_tokens=True,
+            )
+        else:
+            with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+                generated_text_so_far = tokenizer.decode(
+                    generated_ids,
+                    clean_up_tokenization_spaces=False,
+                    skip_special_tokens=True,
+                )
         cheap_entropy_avg = sum(entropies) / len(entropies) if entropies else 0.0
         next_draft_length = adapt_draft_length(
             current_length=current_draft_length,
@@ -367,16 +444,29 @@ def speculative_generate_with_models(
             break
 
     generated_ids_tensor = input_ids[0, prompt_length:]
-    generated_text = tokenizer.decode(
-        generated_ids_tensor,
-        clean_up_tokenization_spaces=False,
-        skip_special_tokens=True,
-    )
-    full_text = tokenizer.decode(
-        input_ids[0],
-        clean_up_tokenization_spaces=False,
-        skip_special_tokens=True,
-    )
+    if runtime_profiler is None:
+        generated_text = tokenizer.decode(
+            generated_ids_tensor,
+            clean_up_tokenization_spaces=False,
+            skip_special_tokens=True,
+        )
+        full_text = tokenizer.decode(
+            input_ids[0],
+            clean_up_tokenization_spaces=False,
+            skip_special_tokens=True,
+        )
+    else:
+        with runtime_profiler.timed("tokenizer_decode_time_seconds"):
+            generated_text = tokenizer.decode(
+                generated_ids_tensor,
+                clean_up_tokenization_spaces=False,
+                skip_special_tokens=True,
+            )
+            full_text = tokenizer.decode(
+                input_ids[0],
+                clean_up_tokenization_spaces=False,
+                skip_special_tokens=True,
+            )
     summary = summarize_speculative_generation(
         prompt=prompt,
         generated_text=generated_text,
@@ -404,6 +494,7 @@ def speculative_generate_with_models(
 def speculative_generate(
     prompt: str,
     config: SpeculativeGenerationConfig,
+    runtime_profiler: RuntimeProfiler | None = None,
 ) -> tuple[str, list[dict], list[dict], dict]:
     cheap_model, expensive_model, tokenizer, device = load_speculative_models(config)
 
@@ -414,6 +505,7 @@ def speculative_generate(
         tokenizer=tokenizer,
         device=device,
         config=config,
+        runtime_profiler=runtime_profiler,
     )
 
 

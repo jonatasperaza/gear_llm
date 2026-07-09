@@ -400,6 +400,7 @@ def generate_with_mode(
             tokenizer=tokenizer,
             device=device,
             config=config,
+            runtime_profiler=runtime_profiler,
         )
     else:
         if mode == "adaptive_guarded_v3":
