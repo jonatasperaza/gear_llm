@@ -27,7 +27,10 @@ from gear_llm.quality_benchmark import (
     estimated_saved_percent,
     generate_greedy_with_model,
 )
-from gear_llm.prompt_router import classify_prompt_router_v1
+from gear_llm.prompt_router import (
+    classify_prompt_router_v1,
+    classify_prompt_router_v2,
+)
 from gear_llm.report import save_csv
 from gear_llm.runtime_profiler import (
     COUNT_FIELDS,
@@ -45,6 +48,7 @@ TASK_MODES = (
     "adaptive_code_quality",
     "speculative_adaptive",
     "prompt_router_v1",
+    "prompt_router_v2",
     "hybrid",
 )
 DIFFICULTIES = {"easy", "medium", "hard"}
@@ -1097,6 +1101,90 @@ def _run_generation_series(
     return result, _build_timing_stats(times, token_counts)
 
 
+def _run_prompt_router_generation(
+    prompt: str,
+    router_mode: str,
+    router_info: dict,
+    cheap_model,
+    expensive_model,
+    cheap_tokenizer,
+    expensive_tokenizer,
+    cheap_device: str,
+    expensive_device: str,
+    max_new_tokens: int,
+    temperature: float,
+    prompt_format: str,
+    include_latency: bool,
+    warmup_runs: int,
+    measured_runs: int,
+    progress_prefix: str,
+    runtime_profiler: RuntimeProfiler | None,
+    measurement_device: str,
+):
+    selected_mode = router_info["selected_mode"]
+
+    if selected_mode == "cheap_only":
+        result, timing = _run_generation_series(
+            measurement_device,
+            lambda runtime_profiler=None: generate_greedy_with_model(
+                prompt=prompt,
+                model=cheap_model,
+                tokenizer=cheap_tokenizer,
+                device=cheap_device,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                prompt_format=prompt_format,
+                runtime_profiler=runtime_profiler,
+                model_role="cheap",
+            ),
+            lambda generation_result: generation_result[1],
+            include_latency=include_latency,
+            warmup_runs=warmup_runs,
+            measured_runs=measured_runs,
+            progress_prefix=progress_prefix,
+            measurement_devices=cheap_device,
+            runtime_profiler=runtime_profiler,
+        )
+        generated_text, generated_tokens = result
+        saved = estimated_saved_percent(
+            total_generated_tokens=generated_tokens,
+            cheap_calls=generated_tokens,
+            expensive_calls=0,
+        )
+        expensive_calls = 0
+    elif selected_mode == "expensive_only":
+        result, timing = _run_generation_series(
+            measurement_device,
+            lambda runtime_profiler=None: generate_greedy_with_model(
+                prompt=prompt,
+                model=expensive_model,
+                tokenizer=expensive_tokenizer,
+                device=expensive_device,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                prompt_format=prompt_format,
+                runtime_profiler=runtime_profiler,
+                model_role="expensive",
+            ),
+            lambda generation_result: generation_result[1],
+            include_latency=include_latency,
+            warmup_runs=warmup_runs,
+            measured_runs=measured_runs,
+            progress_prefix=progress_prefix,
+            measurement_devices=expensive_device,
+            runtime_profiler=runtime_profiler,
+        )
+        generated_text, generated_tokens = result
+        saved = 0.0
+        expensive_calls = generated_tokens
+    else:
+        raise ValueError(
+            f"{router_mode} selected unsupported mode: {selected_mode}"
+        )
+
+    return generated_text, generated_tokens, timing, saved, expensive_calls
+
+
 def run_task_evaluation(
     dataset_path: str | Path = "data/eval_tasks.jsonl",
     cheap_model_name: str = AdaptiveGenerationConfig.cheap_model_name,
@@ -1179,8 +1267,10 @@ def run_task_evaluation(
         prompt = task["prompt"]
         prompt_type = classify_prompt(prompt)
         hybrid_selected_mode = choose_mode(prompt_type, prompt)
-        prompt_router_info = classify_prompt_router_v1(prompt)
-        prompt_router_selected_mode = prompt_router_info["selected_mode"]
+        prompt_router_infos = {
+            "prompt_router_v1": classify_prompt_router_v1(prompt),
+            "prompt_router_v2": classify_prompt_router_v2(prompt),
+        }
         mode_summaries = {}
 
         def progress_prefix(mode: str) -> str:
@@ -1278,66 +1368,37 @@ def run_task_evaluation(
                 )
             )
 
-        if "prompt_router_v1" in selected_mode_set:
-            router_profiler = maybe_profiler(profile_runtime)
-            if prompt_router_selected_mode == "cheap_only":
-                (router_text, router_tokens), router_timing = _run_generation_series(
-                    device,
-                    lambda runtime_profiler=None: generate_greedy_with_model(
-                        prompt=prompt,
-                        model=cheap_model,
-                        tokenizer=cheap_tokenizer,
-                        device=cheap_runtime["device"],
-                        max_new_tokens=max_new_tokens,
-                        temperature=temperature,
-                        prompt_format=prompt_format,
-                        runtime_profiler=runtime_profiler,
-                        model_role="cheap",
-                    ),
-                    lambda result: result[1],
-                    include_latency=include_latency,
-                    warmup_runs=warmup_runs,
-                    measured_runs=measured_runs,
-                    progress_prefix=progress_prefix("prompt_router_v1"),
-                    measurement_devices=cheap_runtime["device"],
-                    runtime_profiler=router_profiler,
-                )
-                router_saved = estimated_saved_percent(
-                    total_generated_tokens=router_tokens,
-                    cheap_calls=router_tokens,
-                    expensive_calls=0,
-                )
-                router_expensive_calls = 0
-            elif prompt_router_selected_mode == "expensive_only":
-                (router_text, router_tokens), router_timing = _run_generation_series(
-                    device,
-                    lambda runtime_profiler=None: generate_greedy_with_model(
-                        prompt=prompt,
-                        model=expensive_model,
-                        tokenizer=expensive_tokenizer,
-                        device=expensive_runtime["device"],
-                        max_new_tokens=max_new_tokens,
-                        temperature=temperature,
-                        prompt_format=prompt_format,
-                        runtime_profiler=runtime_profiler,
-                        model_role="expensive",
-                    ),
-                    lambda result: result[1],
-                    include_latency=include_latency,
-                    warmup_runs=warmup_runs,
-                    measured_runs=measured_runs,
-                    progress_prefix=progress_prefix("prompt_router_v1"),
-                    measurement_devices=expensive_runtime["device"],
-                    runtime_profiler=router_profiler,
-                )
-                router_saved = 0.0
-                router_expensive_calls = router_tokens
-            else:
-                raise ValueError(
-                    "prompt_router_v1 selected unsupported mode: "
-                    f"{prompt_router_selected_mode}"
-                )
+        for router_mode, prompt_router_info in prompt_router_infos.items():
+            if router_mode not in selected_mode_set:
+                continue
 
+            router_profiler = maybe_profiler(profile_runtime)
+            (
+                router_text,
+                router_tokens,
+                router_timing,
+                router_saved,
+                router_expensive_calls,
+            ) = _run_prompt_router_generation(
+                prompt=prompt,
+                router_mode=router_mode,
+                router_info=prompt_router_info,
+                cheap_model=cheap_model,
+                expensive_model=expensive_model,
+                cheap_tokenizer=cheap_tokenizer,
+                expensive_tokenizer=expensive_tokenizer,
+                cheap_device=cheap_runtime["device"],
+                expensive_device=expensive_runtime["device"],
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                prompt_format=prompt_format,
+                include_latency=include_latency,
+                warmup_runs=warmup_runs,
+                measured_runs=measured_runs,
+                progress_prefix=progress_prefix(router_mode),
+                runtime_profiler=router_profiler,
+                measurement_device=device,
+            )
             evaluation = _evaluate_with_profile(
                 task,
                 router_text,
@@ -1346,8 +1407,8 @@ def run_task_evaluation(
             rows.append(
                 _build_row(
                     task=task,
-                    mode="prompt_router_v1",
-                    selected_mode=prompt_router_selected_mode,
+                    mode=router_mode,
+                    selected_mode=prompt_router_info["selected_mode"],
                     generated_text=router_text,
                     evaluation=evaluation,
                     estimated_saved=router_saved,

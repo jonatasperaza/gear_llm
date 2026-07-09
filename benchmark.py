@@ -670,7 +670,7 @@ def main():
         default=None,
         help=(
             "Modos separados por vírgula para --task-evaluation, incluindo "
-            "prompt_router_v1."
+            "prompt_router_v1 e prompt_router_v2."
         ),
     )
     parser.add_argument(
