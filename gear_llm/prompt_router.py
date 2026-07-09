@@ -1,5 +1,6 @@
 import re
 import unicodedata
+from pathlib import Path
 
 
 def _normalize_prompt(prompt: str) -> str:
@@ -116,4 +117,51 @@ def classify_prompt_router_v2(prompt: str) -> dict:
         "selected_mode": "cheap_only",
         "reason": "default_cheap",
         "matched_features": [],
+    }
+
+
+def load_prompt_router_ml_model(path: str | Path):
+    model_path = Path(path)
+    if not model_path.exists():
+        raise FileNotFoundError(
+            "prompt_router_ml_v1 requires a trained model file. "
+            f"Not found: {model_path}. Train one with "
+            "python scripts/train_prompt_router_ml.py "
+            "--router-dataset results/prompt_router_dataset.csv "
+            "--output-model results/prompt_router_ml_v1.joblib"
+        )
+
+    try:
+        import joblib
+    except ImportError as exc:
+        raise ImportError(
+            "prompt_router_ml_v1 requires joblib/scikit-learn. "
+            "Install project requirements first: pip install -r requirements.txt"
+        ) from exc
+
+    return joblib.load(model_path)
+
+
+def classify_prompt_router_ml_v1(prompt: str, model) -> dict:
+    prediction = str(model.predict([prompt])[0])
+    if prediction not in {"cheap_only", "expensive_only"}:
+        raise ValueError(
+            "prompt_router_ml_v1 model predicted unsupported mode: "
+            f"{prediction}. Expected cheap_only or expensive_only."
+        )
+
+    matched_features = []
+    if hasattr(model, "predict_proba"):
+        try:
+            classes = list(model.classes_)
+            probabilities = model.predict_proba([prompt])[0]
+            confidence = float(probabilities[classes.index(prediction)])
+            matched_features.append(f"confidence={confidence:.4f}")
+        except Exception:
+            pass
+
+    return {
+        "selected_mode": prediction,
+        "reason": "ml_prediction",
+        "matched_features": matched_features,
     }

@@ -140,8 +140,15 @@ def main():
         help=(
             "Comma-separated modes: expensive_only,cheap_only,"
             "adaptive_calibrated,adaptive_guarded_v3,adaptive_code_quality,"
-            "speculative_adaptive,prompt_router_v1,prompt_router_v2,hybrid."
+            "speculative_adaptive,prompt_router_v1,prompt_router_v2,"
+            "prompt_router_ml_v1,hybrid."
         ),
+    )
+    parser.add_argument(
+        "--prompt-router-model",
+        type=str,
+        default="results/prompt_router_ml_v1.joblib",
+        help="Trained .joblib model used by prompt_router_ml_v1.",
     )
 
     args = parser.parse_args()
@@ -165,6 +172,7 @@ def main():
         difficulties=args.difficulties,
         modes=args.modes,
         profile_runtime=args.profile_runtime,
+        prompt_router_model=args.prompt_router_model,
     )
     print_task_evaluation_report(summary_rows)
     print_task_evaluation_overall_report(overall_rows)

@@ -28,8 +28,10 @@ from gear_llm.quality_benchmark import (
     generate_greedy_with_model,
 )
 from gear_llm.prompt_router import (
+    classify_prompt_router_ml_v1,
     classify_prompt_router_v1,
     classify_prompt_router_v2,
+    load_prompt_router_ml_model,
 )
 from gear_llm.report import save_csv
 from gear_llm.runtime_profiler import (
@@ -49,6 +51,7 @@ TASK_MODES = (
     "speculative_adaptive",
     "prompt_router_v1",
     "prompt_router_v2",
+    "prompt_router_ml_v1",
     "hybrid",
 )
 DIFFICULTIES = {"easy", "medium", "hard"}
@@ -1205,6 +1208,7 @@ def run_task_evaluation(
     difficulties: list[str] | str | None = None,
     modes: list[str] | str | None = None,
     profile_runtime: bool = False,
+    prompt_router_model: str | Path | None = None,
 ) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
     tasks = filter_eval_tasks(
         load_eval_tasks(dataset_path),
@@ -1214,6 +1218,14 @@ def run_task_evaluation(
     )
     selected_modes = resolve_task_modes(modes)
     selected_mode_set = set(selected_modes)
+    prompt_router_ml_model = None
+    if "prompt_router_ml_v1" in selected_mode_set:
+        if prompt_router_model is None:
+            raise ValueError(
+                "prompt_router_ml_v1 requires --prompt-router-model "
+                "pointing to a trained .joblib file."
+            )
+        prompt_router_ml_model = load_prompt_router_ml_model(prompt_router_model)
 
     if models is None:
         config = AdaptiveGenerationConfig(
@@ -1271,6 +1283,11 @@ def run_task_evaluation(
             "prompt_router_v1": classify_prompt_router_v1(prompt),
             "prompt_router_v2": classify_prompt_router_v2(prompt),
         }
+        if prompt_router_ml_model is not None:
+            prompt_router_infos["prompt_router_ml_v1"] = classify_prompt_router_ml_v1(
+                prompt,
+                prompt_router_ml_model,
+            )
         mode_summaries = {}
 
         def progress_prefix(mode: str) -> str:

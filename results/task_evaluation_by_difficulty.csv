@@ -1,5 +1,3 @@
 category,difficulty,mode,count,pass_rate,pass_rate_ci95_low,pass_rate_ci95_high,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls,cheap_model_name,expensive_model_name,device,cheap_device,expensive_device,torch_dtype,prompt_format
-code,medium,prompt_router_v1,3,0.0,0.0,0.5615060804490177,0.0,21.666666666666668,5.333333333333333,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
-code,medium,prompt_router_v2,3,0.0,0.0,0.5615060804490177,0.0,43.333333333333336,2.6666666666666665,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
-code,hard,prompt_router_v1,2,0.0,0.0,0.6576280471103807,0.0,32.5,4.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
-code,hard,prompt_router_v2,2,0.0,0.0,0.6576280471103807,0.0,65.0,0.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
+code,medium,prompt_router_ml_v1,3,0.0,0.0,0.5615060804490177,0.0,65.0,0.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
+code,hard,prompt_router_ml_v1,2,0.0,0.0,0.6576280471103807,0.0,65.0,0.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto

@@ -1,3 +1,5 @@
 torch
 transformers
 accelerate
+scikit-learn
+joblib

@@ -1,3 +1,2 @@
 category,mode,count,pass_rate,pass_rate_ci95_low,pass_rate_ci95_high,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls,cheap_model_name,expensive_model_name,device,cheap_device,expensive_device,torch_dtype,prompt_format
-code,prompt_router_v1,5,0.0,0.0,0.43449149475208104,0.0,26.0,4.8,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
-code,prompt_router_v2,5,0.0,0.0,0.43449149475208104,0.0,52.0,1.6,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
+code,prompt_router_ml_v1,5,0.0,0.0,0.43449149475208104,0.0,65.0,0.0,HuggingFaceTB/SmolLM2-135M-Instruct,HuggingFaceTB/SmolLM2-360M-Instruct,cuda,cuda,cuda,float16,auto
