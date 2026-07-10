@@ -2,7 +2,10 @@
 
 GEAR-LLM significa **Geometric-Entropy Adaptive Routing for LLM Inference**.
 
-Este projeto é um MVP experimental em Python, PyTorch e Hugging Face para estudar se todos os tokens de um prompt realmente precisam usar a mesma quantidade de computação durante inferência de LLMs.
+Este projeto é um MVP experimental em Python, PyTorch e Hugging Face para
+estudar quando uma requisição pode usar um modelo barato e quando precisa de um
+modelo caro. A pesquisa começou em nível de token e agora também avalia
+roteamento em nível de prompt.
 
 ## Hipótese
 
@@ -12,7 +15,10 @@ A hipótese central é simples: alguns tokens são fáceis, previsíveis ou redu
 - `medium`
 - `expensive`
 
-O projeto ainda não modifica os internals do modelo principal. Ele mede, simula, valida e compara políticas de roteamento.
+O projeto ainda não modifica os internals do modelo principal. Ele mede,
+simula, valida e compara políticas de roteamento. Os experimentos mais recentes
+mostram que roteamento token-level pode somar o custo dos dois modelos, enquanto
+prompt-level routing escolhe apenas um modelo antes da geração.
 
 ## Modos Implementados
 
@@ -22,8 +28,13 @@ O projeto ainda não modifica os internals do modelo principal. Ele mede, simula
 - **Compute simulation**: estima economia teórica usando custos diferentes por rota.
 - **adaptive_calibrated**: geração online usando um modelo barato e chamando o modelo caro quando entropia/margem indicam incerteza.
 - **adaptive_guarded_v3**: versão adaptativa com quality guards, budget cap e controle de repetição.
+- **adaptive_code_quality**: perfil token-level mais conservador para código.
 - **speculative_adaptive**: speculative decoding em blocos com modelo barato gerando drafts e modelo caro verificando.
-- **hybrid_router**: escolhe automaticamente entre `adaptive_calibrated`, `adaptive_guarded_v3` e `speculative_adaptive` com heurísticas simples por tipo de prompt.
+- **hybrid_router**: escolhe entre modos adaptativos por tipo de prompt; código usa `adaptive_code_quality` na política atual.
+- **prompt_router_v1/v2**: escolhem `cheap_only` ou `expensive_only` antes da geração usando heurísticas manuais.
+- **prompt_router_ml_v1**: roteador prompt-level com TF-IDF e Logistic Regression treinado a partir de labels de oracle.
+- **Task evaluation**: executa testes de código, verifica respostas matemáticas e classifica respostas lógicas.
+- **Runtime profiling**: separa tempo de cheap forward, expensive forward, decisão, guards, tokenização e avaliação.
 - **Latency benchmark**: mede tempo real de execução, tokens por segundo e memória de pico para comparar economia teórica com wall-clock time.
 
 ## Instalação
@@ -107,7 +118,23 @@ python benchmark.py --speculative-generate
 python benchmark.py --speculative-tuning
 python benchmark.py --hybrid-benchmark
 python benchmark.py --latency-benchmark --max-new-tokens 32
+python benchmark.py --task-evaluation
 ```
+
+Avaliar o prompt router ML com o modelo arquivado do Kaggle:
+
+```powershell
+python run_task_evaluation.py `
+  --dataset data/external_eval_tasks_90.jsonl `
+  --categories code `
+  --modes prompt_router_ml_v1 `
+  --prompt-router-model results/kaggle/prompt_router_ml_v1/seed123_train/model.joblib
+```
+
+Os artefatos canônicos dos experimentos Kaggle estão documentados em
+[results/kaggle/README.md](results/kaggle/README.md). Arquivos diretamente em
+`results/` são saídas mutáveis de comandos locais e podem ser sobrescritos por
+smoke tests.
 
 ## Exemplo de Uso
 
@@ -141,4 +168,8 @@ Este projeto consiste em uma pesquisa experimental sobre o roteamento de LLMs (d
 
 ## Aviso Experimental
 
-GEAR-LLM é um projeto de pesquisa e validação. Os números atuais são dependentes dos prompts, modelos, thresholds e hardware usados. A economia reportada é uma estimativa de custo teórico, não uma aceleração real garantida.
+GEAR-LLM é um projeto de pesquisa e validação. Os números atuais são dependentes
+dos prompts, modelos, thresholds e hardware usados. O projeto demonstrou
+speedup real em configurações específicas, mas ainda não demonstrou preservação
+robusta de qualidade nem generalização confiável do roteador para prompts
+inéditos.

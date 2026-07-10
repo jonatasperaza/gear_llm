@@ -1,0 +1,4 @@
+mode,count,pass_rate,pass_rate_ci95_low,pass_rate_ci95_high,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls,cheap_model_name,expensive_model_name,device,cheap_device,expensive_device,torch_dtype,prompt_format
+expensive_only,100,0.54,0.44264685393523856,0.6343935614666815,0.55,0.0,154.19,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto
+cheap_only,100,0.46,0.36560643853331865,0.5573531460647615,0.48333333333333334,65.0,0.0,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto
+prompt_router_ml_v1,100,0.49,0.39421830092386145,0.5865215952256586,0.51,60.45,7.72,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto

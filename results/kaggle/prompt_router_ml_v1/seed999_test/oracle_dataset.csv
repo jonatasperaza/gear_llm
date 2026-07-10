@@ -1,0 +1,301 @@
+task_id,category,difficulty,prompt,function_name,cheap_score,expensive_score,oracle_strict_label,oracle_score_label,oracle_best_score,cheap_pass,expensive_pass
+mbpp_000001,code,hard,"Write a Python function for the task below. The function must be named differ_At_One_Bit_Pos. Return only Python code.
+
+Task: Write a python function to check whether the two numbers differ at one bit position only or not.",differ_At_One_Bit_Pos,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000002,code,hard,"Write a Python function for the task below. The function must be named combinations_list. Return only Python code.
+
+Task: Write a function to find all possible combinations of the elements of a given list.",combinations_list,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000003,code,hard,"Write a Python function for the task below. The function must be named split. Return only Python code.
+
+Task: Write a python function to split a string into characters.",split,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000004,code,medium,"Write a Python function for the task below. The function must be named is_polite. Return only Python code.
+
+Task: Write a function to find nth polite number. geeksforgeeks.org/n-th-polite-number/",is_polite,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000005,code,medium,"Write a Python function for the task below. The function must be named prime_num. Return only Python code.
+
+Task: Write a function to check if the given integer is a prime number.",prime_num,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000006,code,hard,"Write a Python function for the task below. The function must be named square_nums. Return only Python code.
+
+Task: Write a function to find squares of individual elements in a list.",square_nums,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000007,code,medium,"Write a Python function for the task below. The function must be named extract_even. Return only Python code.
+
+Task: Write a function to remove uneven elements in the nested mixed tuple.",extract_even,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000008,code,medium,"Write a Python function for the task below. The function must be named sum. Return only Python code.
+
+Task: Write a python function to find the sum of common divisors of two given numbers.",sum,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000009,code,medium,"Write a Python function for the task below. The function must be named get_coordinates. Return only Python code.
+
+Task: Write a function to extract all the adjacent coordinates of the given coordinate tuple.",get_coordinates,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000010,code,hard,"Write a Python function for the task below. The function must be named add_dict_to_tuple. Return only Python code.
+
+Task: Write a function to add a dictionary to the tuple. The output should be a tuple.",add_dict_to_tuple,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000011,code,hard,"Write a Python function for the task below. The function must be named left_insertion. Return only Python code.
+
+Task: Write a function to locate the left insertion point for a specified value in sorted order. https://www.w3resource.com/python-exercises/data-structures-and-algorithms/python-data-structure-exercise-24.php",left_insertion,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000012,code,hard,"Write a Python function for the task below. The function must be named max_val. Return only Python code.
+
+Task: Write a function to find the maximum value in a given heterogeneous list.",max_val,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000013,code,hard,"Write a Python function for the task below. The function must be named text_match_wordz_middle. Return only Python code.
+
+Task: Write a function that checks if a strings contains 'z', except at the start and end of the word.",text_match_wordz_middle,0.6666666666666666,0.0,cheap_only,cheap_only,0.6666666666666666,False,False
+mbpp_000014,code,hard,"Write a Python function for the task below. The function must be named sort_sublists. Return only Python code.
+
+Task: Write a function to sort each sublist of strings in a given list of lists.",sort_sublists,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000015,code,medium,"Write a Python function for the task below. The function must be named lateralsurface_cone. Return only Python code.
+
+Task: Write a function to find the lateral surface area of a cone given radius r and the height h.",lateralsurface_cone,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000016,code,hard,"Write a Python function for the task below. The function must be named sum_negativenum. Return only Python code.
+
+Task: Write a function to calculate the sum of the negative numbers of a given list of numbers.",sum_negativenum,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000017,code,medium,"Write a Python function for the task below. The function must be named count_Set_Bits. Return only Python code.
+
+Task: Write a python function to count the number of set bits (binary digits with value 1) in a given number.",count_Set_Bits,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000018,code,medium,"Write a Python function for the task below. The function must be named babylonian_squareroot. Return only Python code.
+
+Task: Write a function for computing square roots using the babylonian method.",babylonian_squareroot,1.0,0.0,cheap_only,cheap_only,1.0,True,False
+mbpp_000019,code,medium,"Write a Python function for the task below. The function must be named removezero_ip. Return only Python code.
+
+Task: Write a function to remove leading zeroes from an ip address.",removezero_ip,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000020,code,hard,"Write a Python function for the task below. The function must be named max_sum_list. Return only Python code.
+
+Task: Write a function that returns the list in a list of lists whose sum of elements is the highest.",max_sum_list,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000021,code,medium,"Write a Python function for the task below. The function must be named expensive_items. Return only Python code.
+
+Task: Write a function to find the n most expensive items in a given dataset.",expensive_items,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000022,code,hard,"Write a Python function for the task below. The function must be named heap_queue_largest. Return only Python code.
+
+Task: Write a function to find the n largest integers from a given list of numbers, returned in descending order.",heap_queue_largest,1.0,0.0,cheap_only,cheap_only,1.0,True,False
+mbpp_000023,code,hard,"Write a Python function for the task below. The function must be named div_list. Return only Python code.
+
+Task: Write a function to divide two lists element wise.",div_list,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000024,code,hard,"Write a Python function for the task below. The function must be named text_lowercase_underscore. Return only Python code.
+
+Task: Write a function to that returns true if the input string contains sequences of lowercase letters joined with an underscore and false otherwise.",text_lowercase_underscore,0.3333333333333333,0.0,cheap_only,cheap_only,0.3333333333333333,False,False
+mbpp_000025,code,medium,"Write a Python function for the task below. The function must be named count_first_elements. Return only Python code.
+
+Task: Write a function to find the number of elements that occurs before the tuple element in the given tuple.",count_first_elements,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000026,code,medium,"Write a Python function for the task below. The function must be named filter_oddnumbers. Return only Python code.
+
+Task: Write a function to filter odd numbers.",filter_oddnumbers,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000027,code,hard,"Write a Python function for the task below. The function must be named empty_list. Return only Python code.
+
+Task: Write a function to create a list of N empty dictionaries.",empty_list,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000028,code,medium,"Write a Python function for the task below. The function must be named get_total_number_of_sequences. Return only Python code.
+
+Task: Write a function that takes in positive integers m and n and finds the number of possible sequences of length n, such that each element is a positive integer and is greater than or equal to twice the previous element but less than or equal to m.",get_total_number_of_sequences,0.3333333333333333,0.0,cheap_only,cheap_only,0.3333333333333333,False,False
+mbpp_000029,code,hard,"Write a Python function for the task below. The function must be named first_non_repeating_character. Return only Python code.
+
+Task: Write a python function to find the first non-repeated character in a given string.",first_non_repeating_character,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000030,code,medium,"Write a Python function for the task below. The function must be named area_polygon. Return only Python code.
+
+Task: Write a function to calculate the area of a regular polygon given the length and number of its sides.",area_polygon,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000031,code,hard,"Write a Python function for the task below. The function must be named get_pairs_count. Return only Python code.
+
+Task: Write a python function to count the number of pairs whose sum is equal to ‘sum’. The funtion gets as input a list of numbers and the sum,",get_pairs_count,1.0,0.0,cheap_only,cheap_only,1.0,True,False
+mbpp_000032,code,hard,"Write a Python function for the task below. The function must be named cube_nums. Return only Python code.
+
+Task: Write a function to find cubes of individual elements in a list.",cube_nums,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000033,code,hard,"Write a Python function for the task below. The function must be named Split. Return only Python code.
+
+Task: Write a python function which takes a list of integers and only returns the odd ones.",Split,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000034,code,hard,"Write a Python function for the task below. The function must be named replace_char. Return only Python code.
+
+Task: Write a function to replace characters in a string.",replace_char,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000035,code,hard,"Write a Python function for the task below. The function must be named Find_Min. Return only Python code.
+
+Task: Write a python function to find the sublist having minimum length.",Find_Min,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000036,code,medium,"Write a Python function for the task below. The function must be named zero_count. Return only Python code.
+
+Task: Write a function to find the ratio of zeroes to non-zeroes in an array of integers.",zero_count,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000037,code,hard,"Write a Python function for the task below. The function must be named flatten_list. Return only Python code.
+
+Task: Write a function to flatten a given nested list structure.",flatten_list,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000038,code,medium,"Write a Python function for the task below. The function must be named max_Abs_Diff. Return only Python code.
+
+Task: Write a python function to find the maximum difference between any two elements in a given array.",max_Abs_Diff,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000039,code,hard,"Write a Python function for the task below. The function must be named average_tuple. Return only Python code.
+
+Task: Write a function which takes a tuple of tuples and returns the average value for each tuple as a list.",average_tuple,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000040,code,hard,"Write a Python function for the task below. The function must be named count_reverse_pairs. Return only Python code.
+
+Task: Write a function to count the pairs of reverse strings in the given string list. https://www.geeksforgeeks.org/python-program-to-count-the-pairs-of-reverse-strings/",count_reverse_pairs,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000041,code,hard,"Write a Python function for the task below. The function must be named remove_parenthesis. Return only Python code.
+
+Task: Write a function to remove the parenthesis and what is inbetween them from a string.",remove_parenthesis,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000042,code,hard,"Write a Python function for the task below. The function must be named check_integer. Return only Python code.
+
+Task: Write a function to check if a string represents an integer or not.",check_integer,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000043,code,hard,"Write a Python function for the task below. The function must be named text_match_zero_one. Return only Python code.
+
+Task: Write a function that matches a string that has an 'a' followed by one or more 'b's. https://www.w3resource.com/python-exercises/re/python-re-exercise-3.php",text_match_zero_one,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000044,code,medium,"Write a Python function for the task below. The function must be named replace_specialchar. Return only Python code.
+
+Task: Write a function to replace all occurrences of spaces, commas, or dots with a colon.",replace_specialchar,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000045,code,hard,"Write a Python function for the task below. The function must be named merge_sorted_list. Return only Python code.
+
+Task: Write a function to merge three lists into a single sorted list.",merge_sorted_list,1.0,0.0,cheap_only,cheap_only,1.0,True,False
+mbpp_000046,code,hard,"Write a Python function for the task below. The function must be named sort_counter. Return only Python code.
+
+Task: Write a function to sort a dictionary by value.",sort_counter,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000047,code,hard,"Write a Python function for the task below. The function must be named max_of_nth. Return only Python code.
+
+Task: Write a function which given a matrix represented as a list of lists returns the max of the n'th column.",max_of_nth,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000048,code,hard,"Write a Python function for the task below. The function must be named find_tuples. Return only Python code.
+
+Task: Write a function to find tuples which have all elements divisible by k from the given list of tuples.",find_tuples,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000049,code,hard,"Write a Python function for the task below. The function must be named toggle_middle_bits. Return only Python code.
+
+Task: Write a python function to toggle bits of the number except the first and the last bit. https://www.geeksforgeeks.org/toggle-bits-number-expect-first-last-bits/",toggle_middle_bits,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000050,code,hard,"Write a Python function for the task below. The function must be named tuple_to_dict. Return only Python code.
+
+Task: Write a function to convert the given tuple to a key-value dictionary using adjacent elements. https://www.geeksforgeeks.org/python-convert-tuple-to-adjacent-pair-dictionary/",tuple_to_dict,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000051,code,hard,"Write a Python function for the task below. The function must be named jacobsthal_num. Return only Python code.
+
+Task: Write a function to find the nth jacobsthal number. https://www.geeksforgeeks.org/jacobsthal-and-jacobsthal-lucas-numbers/ 0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, ...",jacobsthal_num,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000052,code,medium,"Write a Python function for the task below. The function must be named is_num_decagonal. Return only Python code.
+
+Task: Write a function to find the nth decagonal number.",is_num_decagonal,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000053,code,medium,"Write a Python function for the task below. The function must be named check. Return only Python code.
+
+Task: Write a python function to check if a given number is one less than twice its reverse.",check,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000054,code,hard,"Write a Python function for the task below. The function must be named last. Return only Python code.
+
+Task: Write a python function to find the last position of an element in a sorted array.",last,1.0,0.0,cheap_only,cheap_only,1.0,True,False
+mbpp_000055,code,medium,"Write a Python function for the task below. The function must be named _sum. Return only Python code.
+
+Task: Write a python function to find the sum of an array.",_sum,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000056,code,hard,"Write a Python function for the task below. The function must be named multiply_elements. Return only Python code.
+
+Task: Write a function that takes as input a tuple of numbers (t_1,...,t_{N+1}) and returns a tuple of length N where the i-th element of the tuple is equal to t_i * t_{i+1}.",multiply_elements,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000057,code,medium,"Write a Python function for the task below. The function must be named polar_rect. Return only Python code.
+
+Task: Write a function to convert polar coordinates to rectangular coordinates.",polar_rect,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000058,code,medium,"Write a Python function for the task below. The function must be named even_bit_set_number. Return only Python code.
+
+Task: Write a python function to set all even bits of a given number.",even_bit_set_number,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000059,code,hard,"Write a Python function for the task below. The function must be named remove_nested. Return only Python code.
+
+Task: Write a function to remove tuples from the given tuple.",remove_nested,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000060,code,hard,"Write a Python function for the task below. The function must be named toggle_string. Return only Python code.
+
+Task: Write a function to toggle the case of all characters in a string.",toggle_string,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000061,code,hard,"Write a Python function for the task below. The function must be named mul_even_odd. Return only Python code.
+
+Task: Write a function to find the product of first even and odd number of a given list.",mul_even_odd,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000062,code,medium,"Write a Python function for the task below. The function must be named get_max_sum. Return only Python code.
+
+Task: Write a function to find the maximum sum possible by using the given equation f(n) = max( (f(n/2) + f(n/3) + f(n/4) + f(n/5)), n).",get_max_sum,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000063,code,hard,"Write a Python function for the task below. The function must be named union_elements. Return only Python code.
+
+Task: Write a function to find the union of the elements of two given tuples and output them in sorted order.",union_elements,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000064,code,hard,"Write a Python function for the task below. The function must be named nth_nums. Return only Python code.
+
+Task: Write a function to compute the n-th power of each number in a list.",nth_nums,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000065,code,hard,"Write a Python function for the task below. The function must be named two_unique_nums. Return only Python code.
+
+Task: Write a python function to remove duplicate numbers from a given number of lists.",two_unique_nums,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000066,code,hard,"Write a Python function for the task below. The function must be named count_Substrings. Return only Python code.
+
+Task: Write a python function to count the number of substrings with the sum of digits equal to their length.",count_Substrings,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000067,code,hard,"Write a Python function for the task below. The function must be named dict_depth. Return only Python code.
+
+Task: Write a function to find the depth of a dictionary.",dict_depth,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000068,code,hard,"Write a Python function for the task below. The function must be named test_duplicate. Return only Python code.
+
+Task: Write a function to find whether a given array of integers contains any duplicate element.",test_duplicate,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000069,code,hard,"Write a Python function for the task below. The function must be named add_tuple. Return only Python code.
+
+Task: Write a function to add the given tuple to the given list.",add_tuple,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000070,code,medium,"Write a Python function for the task below. The function must be named surfacearea_sphere. Return only Python code.
+
+Task: Write a function to find the surface area of a sphere.",surfacearea_sphere,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000071,code,hard,"Write a Python function for the task below. The function must be named find_substring. Return only Python code.
+
+Task: Write a function to check if a string is present as a substring in a given list of string values.",find_substring,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000072,code,medium,"Write a Python function for the task below. The function must be named find_Index. Return only Python code.
+
+Task: Write a python function to find the index of smallest triangular number with n digits. https://www.geeksforgeeks.org/index-of-smallest-triangular-number-with-n-digits/",find_Index,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000073,code,medium,"Write a Python function for the task below. The function must be named volume_cylinder. Return only Python code.
+
+Task: Write a function that takes in the radius and height of a cylinder and returns the the volume.",volume_cylinder,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000074,code,hard,"Write a Python function for the task below. The function must be named large_product. Return only Python code.
+
+Task: Write a function to find the specified number of largest products from two given lists, selecting one factor from each list.",large_product,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000075,code,hard,"Write a Python function for the task below. The function must be named find_lists. Return only Python code.
+
+Task: Write a function to find number of lists present in the given tuple.",find_lists,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000076,code,hard,"Write a Python function for the task below. The function must be named snake_to_camel. Return only Python code.
+
+Task: Write a function to convert the given snake case string to camel case string.",snake_to_camel,1.0,0.0,cheap_only,cheap_only,1.0,True,False
+mbpp_000077,code,medium,"Write a Python function for the task below. The function must be named count_bidirectional. Return only Python code.
+
+Task: Write a function to count bidirectional tuple pairs.",count_bidirectional,0.0,0.6666666666666666,cheap_only,expensive_only,0.6666666666666666,False,False
+mbpp_000078,code,medium,"Write a Python function for the task below. The function must be named sequential_search. Return only Python code.
+
+Task: Write a function that takes in an array and element and returns a tuple containing a boolean that indicates if the element is in the array and the index position of the element (or -1 if the element is not found).",sequential_search,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000079,code,hard,"Write a Python function for the task below. The function must be named sub_list. Return only Python code.
+
+Task: Write a function to subtract two lists element-wise.",sub_list,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000080,code,hard,"Write a Python function for the task below. The function must be named magic_square_test. Return only Python code.
+
+Task: Write a function to calculate whether the matrix is a magic square.",magic_square_test,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000081,code,hard,"Write a Python function for the task below. The function must be named find_even_pair. Return only Python code.
+
+Task: Write a function that counts the number of pairs of integers in a list that xor to an even number.",find_even_pair,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000082,code,hard,"Write a Python function for the task below. The function must be named common_element. Return only Python code.
+
+Task: Write a function that takes two lists and returns true if they have at least one common element.",common_element,0.3333333333333333,0.3333333333333333,cheap_only,cheap_only,0.3333333333333333,False,False
+mbpp_000083,code,hard,"Write a Python function for the task below. The function must be named extract_quotation. Return only Python code.
+
+Task: Write a function to extract values between quotation marks "" "" of the given string.",extract_quotation,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000084,code,medium,"Write a Python function for the task below. The function must be named median_trapezium. Return only Python code.
+
+Task: Write a function to find the median length of a trapezium.",median_trapezium,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000085,code,medium,"Write a Python function for the task below. The function must be named check_min_heap. Return only Python code.
+
+Task: Write a function to check if the given array represents min heap or not. https://www.geeksforgeeks.org/how-to-check-if-a-given-array-represents-a-binary-heap/",check_min_heap,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000086,code,hard,"Write a Python function for the task below. The function must be named sum_list. Return only Python code.
+
+Task: Write a function takes as input two lists [a_1,...,a_n], [b_1,...,b_n] and returns [a_1+b_1,...,a_n+b_n].",sum_list,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000087,code,medium,"Write a Python function for the task below. The function must be named find_dissimilar. Return only Python code.
+
+Task: Write a function to find the dissimilar elements in the given two tuples.",find_dissimilar,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000088,code,hard,"Write a Python function for the task below. The function must be named shell_sort. Return only Python code.
+
+Task: Write a function to sort the given array by using shell sort.",shell_sort,1.0,0.0,cheap_only,cheap_only,1.0,True,False
+mbpp_000089,code,hard,"Write a Python function for the task below. The function must be named reverse_string_list. Return only Python code.
+
+Task: Write a function to reverse each string in a given list of string values.",reverse_string_list,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000090,code,hard,"Write a Python function for the task below. The function must be named count_samepair. Return only Python code.
+
+Task: Write a function to count number items that are identical in the same position of three given lists.",count_samepair,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000091,code,hard,"Write a Python function for the task below. The function must be named set. Return only Python code.
+
+Task: Write a function that takes in a list and an integer n and returns a list containing the n largest items from the list.",set,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000092,code,hard,"Write a Python function for the task below. The function must be named max_aggregate. Return only Python code.
+
+Task: Write a function to calculate the maximum aggregate from the list of tuples.",max_aggregate,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000093,code,medium,"Write a Python function for the task below. The function must be named square_perimeter. Return only Python code.
+
+Task: Write a function that returns the perimeter of a square given its side length as input.",square_perimeter,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000094,code,medium,"Write a Python function for the task below. The function must be named perfect_squares. Return only Python code.
+
+Task: Write a function to find perfect squares between two given numbers.",perfect_squares,0.3333333333333333,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000095,code,hard,"Write a Python function for the task below. The function must be named replace_spaces. Return only Python code.
+
+Task: Write a function to replace whitespaces with an underscore and vice versa in a given string.",replace_spaces,0.3333333333333333,0.0,cheap_only,cheap_only,0.3333333333333333,False,False
+mbpp_000096,code,medium,"Write a Python function for the task below. The function must be named maximum. Return only Python code.
+
+Task: Write a python function to find the maximum of two numbers.",maximum,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000097,code,medium,"Write a Python function for the task below. The function must be named dog_age. Return only Python code.
+
+Task: Write a function to calculate a dog's age in dog's years.",dog_age,0.0,1.0,expensive_only,expensive_only,1.0,False,True
+mbpp_000098,code,medium,"Write a Python function for the task below. The function must be named positive_count. Return only Python code.
+
+Task: Write a function to find the ration of positive numbers in an array of integers.",positive_count,0.0,0.0,cheap_only,cheap_only,0.0,False,False
+mbpp_000099,code,hard,"Write a Python function for the task below. The function must be named neg_nos. Return only Python code.
+
+Task: Write a python function to return the negative numbers in a list.",neg_nos,1.0,1.0,cheap_only,cheap_only,1.0,True,True
+mbpp_000100,code,hard,"Write a Python function for the task below. The function must be named odd_Equivalent. Return only Python code.
+
+Task: Write a python function to find the number of numbers with an odd value when rotating a binary string the given number of times.",odd_Equivalent,0.0,0.0,cheap_only,cheap_only,0.0,False,False

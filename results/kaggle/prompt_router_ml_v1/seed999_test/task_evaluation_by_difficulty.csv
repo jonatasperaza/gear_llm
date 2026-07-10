@@ -1,0 +1,7 @@
+category,difficulty,mode,count,pass_rate,pass_rate_ci95_low,pass_rate_ci95_high,avg_score,avg_estimated_saved_percent,avg_expensive_model_calls,cheap_model_name,expensive_model_name,device,cheap_device,expensive_device,torch_dtype,prompt_format
+code,medium,expensive_only,36,0.5833333333333334,0.4219996966427768,0.7285966649491271,0.6018518518518519,0.0,139.36111111111111,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto
+code,medium,cheap_only,36,0.4444444444444444,0.2954102987654314,0.6041921268399659,0.462962962962963,65.0,0.0,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto
+code,medium,prompt_router_ml_v1,36,0.4722222222222222,0.31985792907209337,0.6299432837306054,0.48148148148148145,59.583333333333336,8.055555555555555,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto
+code,hard,expensive_only,64,0.515625,0.3958139224399903,0.6336665143421609,0.5208333333333334,0.0,162.53125,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto
+code,hard,cheap_only,64,0.46875,0.3517578764404486,0.5892812499952487,0.4947916666666667,65.0,0.0,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto
+code,hard,prompt_router_ml_v1,64,0.5,0.38101888493214947,0.6189811150678505,0.5260416666666666,60.9375,7.53125,Qwen/Qwen2.5-Coder-0.5B-Instruct,Qwen/Qwen2.5-Coder-3B-Instruct,split,cuda:0,cuda:1,float16,auto

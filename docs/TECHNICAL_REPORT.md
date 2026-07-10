@@ -4,7 +4,14 @@
 
 GEAR-LLM is an experimental Python, PyTorch, and Hugging Face project that investigates routing between a cheap language model and a more expensive language model. The goal is to reduce latency and theoretical compute cost without always relying on the expensive model for every token or every prompt.
 
-The current prototype includes offline token analysis, teacher calibration, policy replay, adaptive dual-model generation, guarded generation, speculative decoding, hybrid routing, latency benchmarking, and a quality-latency report. The strongest result so far is a CUDA benchmark using Qwen2.5-0.5B-Instruct as the cheap model and Qwen2.5-3B-Instruct as the expensive model with chat formatting enabled. In that setting, several routed modes produced large real wall-clock speedups over expensive-only generation.
+The current prototype includes offline token analysis, teacher calibration,
+adaptive dual-model generation, speculative decoding, prompt-level routing,
+task-specific correctness evaluation, latency benchmarking, and runtime
+profiling. The strongest latency result is a CUDA benchmark using
+Qwen2.5-0.5B-Instruct as the cheap model and Qwen2.5-3B-Instruct as the
+expensive model with chat formatting enabled. Prompt-level experiments also
+demonstrate model complementarity, but the learned router does not yet
+generalize reliably to unseen prompts.
 
 GEAR-LLM demonstrated large real wall-clock speedups in a specific GPU setting when the expensive model was sufficiently costly relative to the cheap model and hardware. Quality preservation is not yet proven robustly; current similarity/Jaccard metrics are weak proxies for semantic correctness.
 
@@ -25,11 +32,16 @@ GEAR-LLM is a research prototype for studying cheap/expensive model routing. It 
 - **Token analysis / rho:** an offline analysis phase that scores tokens using entropy, surprisal, novelty, curvature, and structural importance.
 - **adaptive_calibrated:** token-by-token generation that accepts the cheap model when calibrated entropy and margin thresholds indicate confidence.
 - **adaptive_guarded_v3:** an adaptive generator with repetition guards, periodic teacher checks, uncertainty gating, cooldowns, and a budget cap for optional fallbacks.
+- **adaptive_code_quality:** a conservative token-level profile for structured code generation.
 - **speculative_adaptive:** a block-based draft-and-verify generator where the cheap model drafts multiple tokens and the expensive model verifies the block.
-- **hybrid router:** a prompt-level heuristic router that chooses among adaptive_calibrated, adaptive_guarded_v3, and speculative_adaptive.
+- **hybrid router:** a heuristic router that chooses among token-level and speculative generation policies.
+- **prompt_router_v1/v2:** manual policies that choose cheap-only or expensive-only before generation.
+- **prompt_router_ml_v1:** TF-IDF plus Logistic Regression trained from cheap/expensive oracle labels.
 - **teacher calibration:** an offline procedure that compares cheap-model predictions against expensive-model predictions on the same context.
 - **mode oracle:** an offline benchmark that estimates which generation mode had the best quality-cost score for each prompt.
+- **task evaluation:** expected-answer checks for math, labels for logic, and local subprocess tests for generated Python code.
 - **latency benchmark:** a wall-clock benchmark that measures actual generation time, tokens per second, memory peaks, and speedup against expensive_only.
+- **runtime profiling:** separates cheap forward, expensive forward, routing, guard, prompt-formatting, decoding, and evaluation time.
 - **quality-latency report:** a combined report that joins latency winners with quality proxy metrics.
 
 The project is deliberately simple and didactic. It does not yet implement optimized KV-cache sharing, production serving, or fully optimized speculative decoding.
@@ -243,7 +255,49 @@ Interpretation:
 - This larger run is weaker than the 30-task MBPP result, where `hybrid` preserved 88.9% of the expensive-only pass rate.
 - The guarded hybrid policy strongly reduces expensive calls, but quality preservation is not robust enough yet on larger MBPP subsets.
 
-## 8. Key Findings
+## 8. Prompt-Level Routing and Generalization
+
+Runtime profiling exposed a structural cost in the current token-level
+prototype: cheap forwards run throughout generation, and an expensive fallback
+adds another model forward. Prompt-level routing instead chooses one model
+before generation.
+
+On the original 30-task MBPP sample, `prompt_router_v2` selected cheap for 21
+tasks and expensive for 9. It reached 70% pass rate and 0.7444 average score,
+matching the oracle, while averaging 5.107 seconds versus 13.234 seconds for
+`expensive_only`. Average real speedup was 39.32%.
+
+That result did not generalize to the seed123 100-task sample:
+
+| Mode | Pass rate | Avg score | Estimated saved | Route distribution |
+|---|---:|---:|---:|---|
+| expensive_only | 52.00% | 0.5475 | 0.00% | 100 expensive |
+| cheap_only | 47.00% | 0.4968 | 65.00% | 100 cheap |
+| prompt_router_v2 | 48.00% | 0.5068 | 64.35% | 99 cheap / 1 expensive |
+
+The strict oracle reached 61%, confirming complementarity: cheap failed while
+expensive passed on 14 tasks, while cheap passed and expensive failed on 9.
+The manual router captured only one of the 14 strict expensive-needed cases.
+
+`prompt_router_ml_v1` was then trained on seed123 using TF-IDF and Logistic
+Regression. It reproduced the 61% oracle pass rate in-sample, with 53.95%
+estimated savings, but this does not constitute held-out evidence.
+
+On seed999, the ML router reached 49%, compared with 54% for expensive and 46%
+for cheap. Twenty seed999 prompts overlap seed123. On the 80 unseen prompts,
+the ML router fell to the cheap baseline at 46.25% and missed all 13 oracle
+expensive cases. ROC-AUC was 0.5545 and Average Precision was 0.2047.
+
+A threshold of 0.40 simulated 53.75% pass rate and 38.19% estimated savings on
+the unseen subset, but that threshold was selected on the same data and is not
+a final generalization result.
+
+The current evidence supports model complementarity and the computational
+structure of prompt-level routing. It does not support TF-IDF as a reliable
+standalone routing representation. Canonical artifacts are archived under
+`results/kaggle/`.
+
+## 9. Key Findings
 
 - Estimated savings and real latency are not the same.
 - CPU and GPU behave differently.
@@ -252,30 +306,33 @@ Interpretation:
 - Prompt formatting matters for Instruct models.
 - Hybrid routing overhead is negligible; the selected generation mode dominates runtime.
 - Speculative decoding is promising but not robust globally in the current implementation.
+- Prompt-level routing avoids the cheap-plus-expensive forward cost within one generation.
+- The cheap and expensive code models are complementary, but manual rules and TF-IDF overfit small samples.
 - Quality evaluation remains the main unresolved issue.
 
-## 9. Limitations
+## 10. Limitations
 
 The known limitations are substantial:
 
 - **Switching cost:** loading and using two models can add latency, memory pressure, and scheduling overhead.
 - **Shared GPU memory:** the strongest Qwen2.5-0.5B -> 3B result likely involved Windows shared GPU memory because the peak exceeded dedicated VRAM.
-- **Small dataset:** the dataset is still small and manually constructed.
+- **Small and overlapping datasets:** the seed123/seed999 MBPP samples overlap by 20 prompts.
 - **Weak quality metrics:** difflib similarity, Jaccard similarity, and repeated n-gram rates are weak proxies for semantic correctness.
-- **No task-specific correctness evaluation yet:** code is not executed against tests, math is not checked symbolically, and logic prompts do not yet use labels.
+- **Limited task-specific correctness:** code has a local test harness, but math is not symbolic and logic still relies on keyword rules.
 - **No large-scale 7B -> 70B validation:** results have not been validated on production-scale model gaps.
 - **No optimized KV-cache implementation:** the current prototype does not share or optimize KV-cache state between models.
 - **Speculative implementation is not production optimized:** it is a first research version, not a high-performance speculative decoding engine.
 - **Possible router overfitting:** the hybrid router uses manually chosen heuristics that may overfit the current prompts.
+- **Weak learned-router representation:** TF-IDF missed every true expensive case among 80 unseen MBPP prompts.
 - **Windows laptop hardware limitations:** results depend on the RTX 3050 Laptop GPU, Windows memory behavior, and local runtime overhead.
 
 Quality preservation is not yet proven robustly; current similarity/Jaccard metrics are weak proxies for semantic correctness.
 
-## 10. External Critique Response
+## 11. External Critique Response
 
 An external critique identified five concerns that are important for interpreting the current results. The project response is below.
 
-### 10.1 Routing overhead may exceed benefits
+### 11.1 Routing overhead may exceed benefits
 
 **Critique summary:** Routing between a cheap and expensive model can add Python control-flow overhead, model-switching overhead, memory pressure, and scheduling cost. The overhead can exceed the saved computation.
 
@@ -292,7 +349,7 @@ An external critique identified five concerns that are important for interpretin
 - Benchmark on more hardware and model pairs.
 - Optimize runtime later, after validating the algorithmic trade-off.
 
-### 10.2 Local token-level signals do not capture global reasoning difficulty
+### 11.2 Local token-level signals do not capture global reasoning difficulty
 
 **Critique summary:** Entropy, margin, top-k agreement, and related confidence signals are local token-level measures. They can miss cases where the next token is easy to predict but the reasoning needed to reach the answer is hard.
 
@@ -306,10 +363,10 @@ An external critique identified five concerns that are important for interpretin
 **Planned mitigation:**
 
 - Add prompt-level and task-level risk features.
-- Train a learned router from oracle labels and task-evaluation data.
-- Include prompt features, cheap-model confidence, category, difficulty, pass/fail outcomes, and latency as router inputs.
+- Extend the learned router beyond TF-IDF with cheap-model confidence, prompt
+  structure, category, difficulty, pass/fail outcomes, and latency inputs.
 
-### 10.3 Lexical quality metrics are weak
+### 11.3 Lexical quality metrics are weak
 
 **Critique summary:** Similarity, Jaccard overlap, and repetition rates do not reliably measure semantic correctness.
 
@@ -327,23 +384,28 @@ An external critique identified five concerns that are important for interpretin
 - Expand the dataset.
 - Add LLM-judge or human review for open-ended text.
 
-### 10.4 Manual heuristics and thresholds may not generalize
+### 11.4 Manual heuristics and thresholds may not generalize
 
 **Critique summary:** Hand-written thresholds and prompt rules may not transfer across domains, model pairs, languages, or hardware.
 
-**Current status:** Open.
+**Current status:** Confirmed and investigating.
 
 **Evidence from current experiments:**
 
 - The hybrid router still uses hand-written rules.
-- Thresholds and guard settings are manually selected from small calibration and tuning runs.
+- `prompt_router_v2` matched the oracle on 30 observed MBPP prompts but reached
+  only 48% on a different 100-task sample.
+- The TF-IDF router missed all 13 oracle-expensive cases among 80 unseen
+  seed999 prompts.
 
 **Planned mitigation:**
 
-- Build a learned router using prompt features, cheap-model confidence, oracle labels, task pass/fail results, and latency measurements.
-- Start with interpretable models such as logistic regression or decision trees.
+- Use a fixed non-overlapping train/validation/test protocol.
+- Add cheap-model confidence and structural features beyond prompt TF-IDF.
+- Select class weight and routing threshold on validation, with explicit
+  expensive-recall reporting.
 
-### 10.5 Budget caps may trade away quality
+### 11.5 Budget caps may trade away quality
 
 **Critique summary:** Budget caps keep latency and cost controlled, but they may block optional expensive-model calls that would improve output quality.
 
@@ -364,23 +426,25 @@ The current value proposition should be stated as:
 
 > "On a constrained GPU setup with Qwen2.5-0.5B -> Qwen2.5-3B, GEAR-LLM showed preliminary evidence that routed modes can preserve most task-level correctness while reducing average wall-clock latency. This does not imply universal usefulness; the method is useful only under specific model-gap, hardware, and quality-tolerance conditions."
 
-## 11. Next Steps
+## 12. Next Steps
 
-The next phase should focus on quality evaluation and broader validation:
+The next phase should focus on prompt-router generalization and broader quality
+validation:
 
-- Add task-specific evaluation:
-  - Code: execute generated code against tests where possible.
-  - Math: compare against expected answers or symbolic checks.
-  - Logic: use labeled expected outcomes.
-  - Open text: use LLM-as-judge or human review.
-- Expand the dataset across categories and languages.
-- Recalibrate thresholds per model pair.
-- Add quality-aware and latency-aware router variants.
+- Create one persisted, non-overlapping split over all 427 MBPP tasks.
+- Fit on train, select representation/class weight/threshold on validation, and
+  evaluate the frozen policy once on final test.
+- Add cheap-model uncertainty and structural prompt features beyond TF-IDF.
+- Report expensive recall, PR-AUC, task score, route percentage, and real
+  latency together.
+- Improve task-specific evaluation: symbolic math, stronger logic labels, and
+  human or LLM review for open text.
+- Expand datasets across categories and languages.
 - Test Qwen2.5-1.5B -> Qwen2.5-3B if hardware permits.
 - Test on hardware with enough dedicated VRAM to avoid shared-memory effects.
 - Compare against stronger baselines and optimized speculative decoding implementations.
 
-## 12. Reproducibility
+## 13. Reproducibility
 
 Latency benchmark:
 
@@ -414,8 +478,27 @@ Quality-latency report:
 .\.venv-cuda\Scripts\python.exe run_quality_latency_report.py
 ```
 
-## 13. Conclusion
+Evaluate the archived prompt router model:
 
-GEAR-LLM demonstrated a real latency win in a specific, reproducible setting. The strongest evidence is Qwen2.5-0.5B -> Qwen2.5-3B on CUDA with chat formatting.
+```powershell
+.\.venv-cuda\Scripts\python.exe run_task_evaluation.py `
+  --dataset data/external_eval_tasks_90.jsonl `
+  --categories code `
+  --modes prompt_router_ml_v1 `
+  --prompt-router-model results/kaggle/prompt_router_ml_v1/seed123_train/model.joblib
+```
 
-This does not close the thesis. The latency result is promising, but quality preservation is not yet solved. The project should be treated as preliminary experimental research into cheap/expensive model routing, not as a production-ready inference engine.
+Canonical Kaggle CSVs and provenance notes are stored under
+`results/kaggle/`.
+
+## 14. Conclusion
+
+GEAR-LLM demonstrated a real latency win in a specific, reproducible setting.
+The strongest latency evidence is Qwen2.5-0.5B -> Qwen2.5-3B on CUDA with chat
+formatting. Prompt-level MBPP experiments also show real complementarity
+between Qwen2.5-Coder-0.5B and 3B.
+
+This does not close the thesis. Manual rules and a TF-IDF learned router failed
+to generalize reliably to unseen prompts. The project should be treated as
+preliminary experimental research into cheap/expensive model routing, not as a
+production-ready inference engine.

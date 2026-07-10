@@ -78,9 +78,9 @@ Leitura rápida:
 - `code`: speculative manteve economia alta.
 - `logic_negation` e `long_simple`: speculative foi pior em similaridade, motivando o hybrid router.
 
-## Hybrid Benchmark
+## Hybrid Benchmark (Historical Snapshot)
 
-O hybrid router escolhe:
+At this stage of the project, the hybrid router selected:
 
 ```text
 math          -> speculative_adaptive
@@ -105,14 +105,19 @@ Critério atingido:
 - mantém o ganho do speculative no prompt `math`;
 - mantém políticas simples e interpretáveis.
 
+This table is retained as historical context. The current policy routes code to
+`adaptive_code_quality`, logic to `adaptive_guarded_v3`, and defaults other
+prompts to `adaptive_calibrated`, with a limited short/direct speculative
+exception.
+
 ## Próximos Passos
 
-- ampliar o conjunto de prompts;
-- separar prompts por idioma e domínio;
-- medir latência real com KV cache;
-- comparar com speculative decoding mais fiel ao algoritmo clássico;
-- usar métricas de qualidade mais fortes que similaridade textual superficial;
-- investigar thresholds específicos por tipo de prompt.
+- criar um split MBPP fixo e sem sobreposição;
+- ajustar representação, class weight e threshold somente na validação;
+- medir recall de rotas expensive, PR-AUC, task score e latência real;
+- adicionar sinais do cheap model e estrutura do prompt além de TF-IDF;
+- melhorar avaliação simbólica de matemática e labels de lógica;
+- comparar com baselines KV-cache-aware e speculative decoding otimizado.
 
 ## CPU Latency Benchmark
 
@@ -381,3 +386,136 @@ Interpretation:
 - `hybrid` reduced average expensive-model calls from 145.66 to 10.30, about a 92.9% reduction.
 - This larger run is weaker than the 30-task MBPP result, where `hybrid` preserved 88.9% of the expensive-only pass rate.
 - The guarded hybrid policy strongly reduces expensive calls, but quality preservation is not robust enough yet on larger MBPP subsets.
+
+## Prompt-Level Router v2 — MBPP 30 with Latency
+
+Runtime profiling motivated a change from token-level to prompt-level routing.
+Instead of paying cheap forwards plus expensive fallbacks in the same
+generation, the prompt router selects one model before generation.
+
+Configuration:
+
+- Cheap model: `Qwen/Qwen2.5-Coder-0.5B-Instruct`.
+- Expensive model: `Qwen/Qwen2.5-Coder-3B-Instruct`.
+- Split GPU: `cuda:0` and `cuda:1`.
+- `float16`, `prompt_format=auto`, `max_new_tokens=256`.
+- 30 MBPP tasks, warmup 1, measured runs 3.
+
+| Mode | Pass rate | Avg score | Avg time | Avg speedup | Median speedup | Avg saved | Avg expensive calls |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| expensive_only | 60.00% | 0.6444 | 13.234s | 0.00% | 0.00% | 0.00% | 133.77 |
+| cheap_only | 46.67% | 0.4667 | 4.852s | 39.52% | 51.36% | 65.00% | 0.00 |
+| prompt_router_v2 | **70.00%** | **0.7444** | 5.107s | **39.32%** | **47.84%** | 45.50% | 20.97 |
+
+`prompt_router_v2` selected cheap for 21 prompts and expensive for 9. It
+matched both the strict oracle pass rate and the oracle best average score in
+this sample. All seven strict cases where cheap failed and expensive passed
+were routed to expensive.
+
+This was a strong result, but it was in-sample: the manual rules were designed
+after observing this task sample.
+
+Canonical files:
+`results/kaggle/prompt_router_v2/seed42_30_latency/`.
+
+## Prompt Router v2 Generalization — MBPP 100 Seed123
+
+On a different 100-task sample, the manual rules did not generalize.
+
+| Mode | Pass rate | Avg score | Avg saved | Avg expensive calls | Route distribution |
+|---|---:|---:|---:|---:|---|
+| expensive_only | 52.00% | 0.5475 | 0.00% | 142.42 | 100 expensive |
+| cheap_only | 47.00% | 0.4968 | 65.00% | 0.00 | 100 cheap |
+| prompt_router_v2 | 48.00% | 0.5068 | 64.35% | 0.88 | 99 cheap / 1 expensive |
+
+The strict oracle reached 61%, and the oracle best average score was 0.646833.
+Cheap failed while expensive passed on 14 tasks; cheap passed while expensive
+failed on 9. The v2 router captured only one of the 14 strict expensive-needed
+cases. Its expensive-route precision was high, but strict recall was 7.14%.
+
+Canonical files:
+`results/kaggle/prompt_router_v2/seed123_100_correctness/`.
+
+## Learned Prompt Router v1
+
+`prompt_router_ml_v1` uses prompt TF-IDF features and Logistic Regression with
+`oracle_score_label`. It always generates with only the predicted model.
+
+### Seed123 Training Sample
+
+The router dataset contains 83 cheap labels and 17 expensive labels. The
+internal 70/30 split reported:
+
+- Accuracy: 86.67%.
+- Macro F1: 0.7115.
+- Expensive precision: 66.67%.
+- Expensive recall: 40.00%.
+
+After evaluation, the archived model was fitted again on all 100 tasks. On that
+same training sample it reproduced the oracle:
+
+- Pass rate: 61.00%.
+- Average score: 0.646833.
+- Estimated saved: 53.95%.
+- Average expensive calls: 20.42.
+- Routes: 83 cheap / 17 expensive.
+
+This is an in-sample result and does not measure generalization.
+
+### Seed999 Evaluation
+
+| Mode | Pass rate | Avg score | Avg saved | Avg expensive calls |
+|---|---:|---:|---:|---:|
+| expensive_only | 54.00% | 0.5500 | 0.00% | 154.19 |
+| cheap_only | 46.00% | 0.4833 | 65.00% | 0.00 |
+| prompt_router_ml_v1 | 49.00% | 0.5100 | 60.45% | 7.72 |
+
+The seed999 oracle strict pass rate was 61%, with oracle best average score
+0.636667. Twenty prompts overlap with seed123, so the full 100-task result is
+not a clean held-out evaluation.
+
+On the 80 genuinely unseen prompts:
+
+- Cheap pass rate: 46.25%.
+- Expensive pass rate: 53.75%.
+- ML router pass rate: 46.25%.
+- Oracle strict pass rate: 61.25%.
+- Oracle best average score: 0.645833.
+- Oracle labels: 67 cheap / 13 expensive.
+- Predicted routes: 76 cheap / 4 expensive.
+- Confusion matrix, labels `[cheap, expensive]`: `[[63, 4], [13, 0]]`.
+
+The model identified none of the 13 unseen expensive cases. The apparent gain
+on the full seed999 set came from the 20 repeated prompts.
+
+Probability diagnostics on the unseen subset:
+
+- ROC-AUC: 0.554535.
+- Average Precision: 0.204673.
+- Expensive prevalence: 16.25%.
+- Mean expensive probability for oracle cheap: 0.392941.
+- Mean expensive probability for oracle expensive: 0.398808.
+
+| Threshold | Strict pass rate | Avg score | Expensive routes | Estimated saved | Expensive recall |
+|---|---:|---:|---:|---:|---:|
+| 0.40 | 53.75% | 0.5500 | 41.25% | 38.19% | 53.85% |
+| 0.43 | 51.25% | 0.5375 | 22.50% | 50.38% | 30.77% |
+
+These thresholds were selected on the same subset being reported and are not
+final generalization results.
+
+Canonical files are under
+`results/kaggle/prompt_router_ml_v1/seed123_train/` and
+`results/kaggle/prompt_router_ml_v1/seed999_test/`.
+
+## Current Prompt-Routing Conclusion
+
+Prompt-level routing is computationally cleaner than the current token-level
+prototype, and the oracle demonstrates real model complementarity. However,
+manual keywords and TF-IDF trained on 100 tasks do not predict expensive-needed
+prompts reliably out of sample.
+
+The next valid protocol should create one non-overlapping split over all 427
+MBPP tasks: roughly 257 train, 85 validation, and 85 final test. Representation,
+class weighting, and probability threshold must be selected only on validation;
+the final test must remain untouched until the policy is frozen.

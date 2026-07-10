@@ -147,7 +147,10 @@ def main():
     parser.add_argument(
         "--prompt-router-model",
         type=str,
-        default="results/prompt_router_ml_v1.joblib",
+        default=(
+            "results/kaggle/prompt_router_ml_v1/"
+            "seed123_train/model.joblib"
+        ),
         help="Trained .joblib model used by prompt_router_ml_v1.",
     )
 

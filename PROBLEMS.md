@@ -62,11 +62,14 @@ The documentation states that the project is experimental. The GPU latency bench
 
 ## 3. Manual Thresholds and Hard-Coded Routing
 
-**Status:** Partially mitigated
+**Status:** Investigating
 
 ### Problem
 
-The project uses manually selected thresholds and heuristics, such as `entropy_threshold`, `margin_threshold`, `teacher_check_interval`, `verify_top_k`, and hybrid routing rules.
+The project uses manually selected thresholds and heuristics, such as
+`entropy_threshold`, `margin_threshold`, `teacher_check_interval`,
+`verify_top_k`, hybrid rules, and the keyword patterns in
+`prompt_router_v1/v2`.
 
 ### Impact
 
@@ -74,13 +77,18 @@ Static rules may not adapt well across domains such as code, math, logic, summar
 
 ### Current Mitigation
 
-The project includes teacher calibration, policy replay, guard tuning, speculative tuning, and mode oracle benchmark.
+The project includes teacher calibration, policy replay, guard tuning,
+speculative tuning, mode oracle benchmark, and `prompt_router_ml_v1` using
+TF-IDF plus Logistic Regression. The learned router reproduced its seed123
+oracle in-sample but failed to identify any true expensive route among 80
+unseen seed999 prompts.
 
 ### Next Steps
 
-- Build a learned router using the oracle results as labels.
-- Start with simple interpretable models such as logistic regression or decision trees.
-- Use prompt features and cheap-model metrics as router inputs.
+- Replace random overlapping samples with one fixed train/validation/test split.
+- Add prompt structure, task metadata, and cheap-model confidence features.
+- Tune class weight and probability threshold on validation only.
+- Optimize for expensive-route recall and downstream task score, not accuracy alone.
 
 ## 4. Text Coherence When Mixing Models
 
@@ -204,7 +212,9 @@ The current goal is experimentation, not production serving. The latency benchma
 
 ### Problem
 
-The project now has a 60-prompt JSONL dataset, but this is still small and manually created.
+The project has a 60-prompt general dataset, 45 task-specific manual tasks, a
+90-task external set, and 100-task MBPP samples. These are still small relative
+to the problem, and independently sampled MBPP subsets can overlap.
 
 ### Impact
 
@@ -212,11 +222,15 @@ Results may overfit to the current prompts and categories.
 
 ### Current Mitigation
 
-Dataset benchmark and mode oracle now exist.
+Dataset benchmark, mode oracle, external task evaluation, Wilson confidence
+intervals, and MBPP oracle datasets now exist. A seed123/seed999 comparison
+revealed 20 repeated prompts, so the nominal 100-task test contained only 80
+genuinely unseen tasks.
 
 ### Next Steps
 
-- Expand to 100+ prompts per category.
+- Create one persisted split manifest over all 427 MBPP tasks.
+- Use approximately 257 train, 85 validation, and 85 untouched test tasks.
 - Add expected answers where possible.
 - Add adversarial prompts.
 - Add prompts in English and Portuguese.
@@ -266,13 +280,17 @@ A 32-token code generation may need 20-25 expensive tokens (operators, syntax, l
 
 ### Current Mitigation
 
-Hybrid router selects `adaptive_calibrated` for code, but the mode still applies the 40% budget cap.
+Hybrid router now selects `adaptive_code_quality` for code. This improves task
+pass rate in some MBPP runs, but its stricter fallbacks can remove most of the
+latency advantage.
 
 ### Next Steps
 
-- Set `max_expensive_call_ratio=0.70` or higher for code prompts
-- Or remove budget cap entirely for `adaptive_calibrated` (hybrid router already handles mode selection)
-- Add dynamic budget based on prompt type detection
+- Compare the conservative code profile against prompt-level routing before
+  increasing its budget further.
+- Add dynamic budget based on prompt type and measured task difficulty.
+- Prefer a single-model prompt route when confidence is sufficient, avoiding
+  the cheap-plus-expensive token-level cost entirely.
 
 ## 12. Code Detection Is Python-Centric and Language-Blind
 
@@ -307,6 +325,43 @@ None. The current word list covers Python and JavaScript well.
 - Detect code structure (braces `{}`, semicolons `;`, indentation patterns)
 - Consider regex patterns for common code structures
 - Add Portuguese equivalents (`classe`, `método`, `função`)
+
+## 13. Prompt Router Generalization and Split Leakage
+
+**Status:** Open
+
+### Problem
+
+Manual prompt-router rules matched the oracle on the original 30-task MBPP
+sample but selected expensive for only one of 100 tasks under seed123. The
+TF-IDF learned router then reproduced the seed123 oracle in-sample, but the
+seed999 sample overlapped seed123 by 20 prompts.
+
+On the 80 unseen prompts, the ML router missed all 13 oracle-expensive cases.
+ROC-AUC was 0.5545 and Average Precision was 0.2047, showing weak separation
+from prompt text alone.
+
+### Impact
+
+- In-sample router quality substantially overstates generalization.
+- Random seeds do not guarantee independent datasets.
+- Accuracy is dominated by the majority `cheap_only` class.
+- Threshold tuning on the reported test subset creates another optimistic bias.
+
+### Current Mitigation
+
+Kaggle artifacts are archived by seed under `results/kaggle/`, and reported
+unseen metrics explicitly exclude the 20 overlapping prompts. The model remains
+experimental and is not presented as a validated routing policy.
+
+### Next Steps
+
+- Persist one non-overlapping split manifest over all 427 MBPP tasks.
+- Select features, class weight, and threshold using validation only.
+- Freeze the policy before evaluating the final test set.
+- Report expensive recall, PR-AUC, task score, route percentage, and latency.
+- Evaluate richer features than TF-IDF, including cheap-model uncertainty and
+  prompt structure.
 
 ## External Critique Response
 
@@ -368,17 +423,24 @@ This section records five concerns raised by an external critique and the curren
 
 **Critique summary:** Hand-written thresholds and routing rules may work on the current prompts but fail across new domains, model families, languages, or hardware.
 
-**Current status:** Open.
+**Current status:** Confirmed and investigating.
 
 **Evidence from current experiments:**
 
 - The hybrid router still uses hand-written prompt rules.
-- Thresholds such as entropy, margin, budget caps, and guard parameters were selected through small calibration/tuning experiments, not learned globally.
+- `prompt_router_v2` matched the oracle on 30 observed MBPP tasks but reached
+  only 48% on a different 100-task sample.
+- `prompt_router_ml_v1` reproduced its training oracle but missed every true
+  expensive case among 80 unseen prompts.
 
 **Planned mitigation:**
 
-- Build a learned router using features from the prompt, cheap-model confidence, oracle labels, task pass/fail outcomes, and latency measurements.
-- Start with interpretable models before considering more complex routing policies.
+- Keep interpretable baselines, but evaluate them on a fixed non-overlapping
+  train/validation/test protocol.
+- Add cheap-model confidence, prompt structure, oracle labels, task outcomes,
+  and latency features.
+- Optimize threshold and class weight on validation, emphasizing
+  expensive-route recall.
 
 ### 5. Budget Caps May Trade Away Quality
 
@@ -406,14 +468,16 @@ The current value proposition should be stated as:
 
 ## Current Priority Order
 
-1. Validate the latest hybrid router changes.
-2. Run latency benchmarks with larger model gaps and configurable model pairs.
-3. Compare theoretical savings against real wall-clock speed on CPU and GPU.
-4. Add learned routing from oracle data.
-5. Improve quality evaluation beyond text similarity.
-6. Revisit speculative decoding with better acceptance criteria.
-7. Investigate KV cache and production-serving concerns.
-8. Fix budget cap limiting code generation quality.
+1. Create and persist a non-overlapping 427-task MBPP split.
+2. Train prompt routers on train and tune representation, class weight, and
+   threshold on validation only.
+3. Evaluate the frozen router once on the untouched test split.
+4. Measure task correctness and real latency for the learned prompt router.
+5. Add cheap-model uncertainty and structural prompt features beyond TF-IDF.
+6. Improve math, logic, and open-text quality evaluation.
+7. Revisit token-level/speculative decoding with optimized KV-cache-aware
+   baselines.
+8. Test additional model gaps and dedicated-VRAM hardware.
 
 ## Current Project Status
 

@@ -1,0 +1,4 @@
+metric,label_column,seed,test_size,total_count,train_count,test_count,accuracy,macro_f1,weighted_f1,true_expensive_percent,predicted_expensive_percent,trained_output_model_on_full_dataset,precision,recall,f1,support
+overall,oracle_score_label,42,0.3,100,70,30,0.8666666666666667,0.7115384615384616,0.8525641025641025,16.666666666666668,10.0,True,,,,
+label:cheap_only,oracle_score_label,42,0.3,100,70,30,,,,,,True,0.8888888888888888,0.96,0.9230769230769231,25
+label:expensive_only,oracle_score_label,42,0.3,100,70,30,,,,,,True,0.6666666666666666,0.4,0.5,5

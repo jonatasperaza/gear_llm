@@ -164,16 +164,21 @@ Política atual:
 
 ```text
 logic       -> adaptive_guarded_v3
-math        -> speculative_adaptive
-code        -> adaptive_calibrated
+math        -> adaptive_calibrated
+code        -> adaptive_code_quality
 long_simple -> adaptive_calibrated
 general     -> adaptive_calibrated
 ```
+
+Prompts curtos e diretos, fora de código e matemática, podem usar
+`speculative_adaptive`. Matemática não usa speculative por padrão porque o mode
+oracle anterior não encontrou evidência suficientemente forte para essa regra.
 
 O benchmark compara:
 
 - `adaptive_calibrated`
 - `adaptive_guarded_v3`
+- `adaptive_code_quality`
 - `speculative_adaptive`
 - `hybrid`
 
@@ -189,6 +194,7 @@ Modos medidos:
 - `expensive_only`
 - `adaptive_calibrated`
 - `adaptive_guarded_v3`
+- `adaptive_code_quality`
 - `speculative_adaptive`
 - `hybrid`
 
@@ -274,3 +280,41 @@ python scripts/build_external_eval_tasks.py `
   --logic-limit 2 `
   --seed 42
 ```
+
+## 10. Prompt-Level Routing
+
+Runtime profiling showed a structural limitation of token-level routing: the
+cheap model runs on nearly every token, and an expensive fallback adds another
+forward pass. Prompt-level routing avoids that sum by choosing `cheap_only` or
+`expensive_only` before generation.
+
+Implemented policies:
+
+- `prompt_router_v1`: conservative manual heuristics.
+- `prompt_router_v2`: cheap by default, with high-confidence expensive rules.
+- `prompt_router_ml_v1`: TF-IDF plus Logistic Regression trained from oracle
+  labels.
+
+The original 30-task MBPP sample made v2 look very strong: it matched the
+oracle at 70% pass rate while retaining about 39% real speedup. On a different
+100-task seed, however, it selected cheap for 99 prompts and reached only 48%,
+showing that the manual rules overfit the analysis sample.
+
+## 11. Learned Router Evaluation
+
+The ML router dataset joins `cheap_only` and `expensive_only` task scores. The
+current target is `oracle_score_label`: use expensive only when its score is
+higher than the cheap score.
+
+The seed123 model reproduced the oracle in-sample, but seed999 exposed 20
+overlapping prompts. On the remaining 80 unseen prompts, the default classifier
+predicted no true `expensive_only` case. ROC-AUC was 0.5545 and Average Precision
+was 0.2047, indicating weak ranking signal from TF-IDF alone.
+
+Threshold simulations at 0.40 and 0.43 are exploratory because they were tuned
+on the same unseen set being reported. The next valid protocol is one fixed,
+non-overlapping split over all 427 MBPP tasks: train for fitting, validation for
+feature/class-weight/threshold choices, and a final untouched test set.
+
+Canonical Kaggle artifacts are stored under `results/kaggle/`. See
+`results/kaggle/README.md` for seed and provenance details.

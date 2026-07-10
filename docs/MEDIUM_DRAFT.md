@@ -61,6 +61,39 @@ That does not mean the method is universally better. It means the routing idea b
 
 There is also an important hardware caveat. The RTX 3050 Laptop GPU has 6 GB of dedicated VRAM, while the benchmark showed memory peaks near 7 GB. On Windows, this likely involved shared GPU memory. So the result is valid for this constrained laptop setup, but it is not the same as a clean fully-dedicated-VRAM benchmark.
 
+## The third surprise
+
+Detailed profiling showed a deeper limitation in token-level routing. The cheap
+model still runs throughout generation, and whenever the router falls back, the
+expensive model adds another forward pass. Conservative routing can preserve
+more quality while losing most of the latency gain.
+
+That shifted the experiment to prompt-level routing: choose either the cheap or
+the expensive model before generation, then run only that model.
+
+On an initial 30-task MBPP code sample, a manual prompt router looked unusually
+strong:
+
+| Mode | Pass rate | Average time | Real speedup |
+|---|---:|---:|---:|
+| expensive_only | 60.00% | 13.234s | 0.00% |
+| cheap_only | 46.67% | 4.852s | 39.52% |
+| prompt_router_v2 | 70.00% | 5.107s | 39.32% |
+
+The router matched the oracle on that sample. But the rules had been designed
+after looking at those tasks. On a different 100-task seed, it selected the
+cheap model 99 times and reached only 48%, compared with 52% for the expensive
+model.
+
+I then trained a TF-IDF plus Logistic Regression router. It reproduced the
+training oracle, but a second 100-task sample contained 20 repeated prompts.
+On the 80 truly unseen prompts, the router missed all 13 cases where the oracle
+preferred the expensive model. ROC-AUC was 0.5545: only a weak ranking signal.
+
+This negative result is useful. The two models are genuinely complementary,
+but prompt wording alone, represented by TF-IDF and trained on 100 examples,
+is not enough to predict that complementarity reliably.
+
 ## What worked
 
 Adaptive routing worked best in the strongest run. In the Qwen2.5-0.5B -> Qwen2.5-3B benchmark, the best non-cheap mode was usually adaptive_guarded_v3 or adaptive_calibrated.
@@ -69,6 +102,10 @@ Hybrid routing overhead was small in this benchmark. The router itself was not t
 Prompt formatting mattered. For Qwen Instruct models, using the tokenizer chat template produced more coherent instruction-style outputs than raw prompting.
 
 Model gap mattered a lot. The small SmolLM2 gap did not produce GPU speedups, the Qwen 0.5B -> 1.5B gap produced partial wins, and the Qwen 0.5B -> 3B gap produced the strongest latency result.
+
+Prompt-level routing also worked architecturally: every routed output matched
+the output of the single selected baseline, with no hidden token-level model
+mixing. The remaining problem is prediction quality, not the execution model.
 
 The code prompt was the strongest quality-latency case in the current report:
 
@@ -100,6 +137,11 @@ The speedups are strong. The quality evidence is not strong enough yet.
 
 Shared memory may also influence the results. The best benchmark was run on a 6 GB laptop GPU, and memory peaks were near 7 GB. That makes the result practical and interesting, but also hardware-specific.
 
+Manual prompt rules did not generalize, and the first learned router overfit a
+small, partially overlapping dataset. A threshold of 0.40 produced an
+interesting quality-cost point on the unseen subset, but it was tuned on that
+same subset and therefore cannot be treated as a final result.
+
 ## The most honest conclusion
 
 This does not prove that the method is universally better. It proves that under the right model gap and hardware constraints, cheap/expensive routing can produce large real wall-clock speedups.
@@ -108,7 +150,12 @@ For now, I would describe GEAR-LLM as a preliminary research prototype. It has s
 
 ## What comes next
 
-The next step is better evaluation.
+The next step is a cleaner experimental split.
+
+The 427 MBPP tasks should be divided once into non-overlapping train,
+validation, and final test sets. Training fits the classifier; validation
+selects features, class weights, and the routing threshold; the test set stays
+untouched until the policy is frozen.
 
 For code, generated functions should be executed against tests.
 
@@ -118,7 +165,8 @@ For logic, prompts need labeled expected outcomes.
 
 For open-ended text, the project needs either human review or a carefully designed LLM-as-judge setup.
 
-After that, the router should become less hand-written. The current hybrid router uses heuristics. A better version could learn from the mode oracle results and use prompt features, cheap-model confidence signals, latency estimates, and quality-risk features.
+The learned router also needs richer inputs than TF-IDF: cheap-model confidence,
+prompt structure, task metadata, latency estimates, and quality-risk features.
 
 I also want to test more model pairs, especially Qwen2.5-1.5B -> Qwen2.5-3B and larger gaps on hardware with enough dedicated VRAM. That would help separate algorithmic effects from laptop memory behavior.
 
