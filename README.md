@@ -33,6 +33,7 @@ prompt-level routing escolhe apenas um modelo antes da geração.
 - **hybrid_router**: escolhe entre modos adaptativos por tipo de prompt; código usa `adaptive_code_quality` na política atual.
 - **prompt_router_v1/v2**: escolhem `cheap_only` ou `expensive_only` antes da geração usando heurísticas manuais.
 - **prompt_router_ml_v1**: roteador prompt-level com TF-IDF e Logistic Regression treinado a partir de labels de oracle.
+- **prompt_router_ml_v2**: roteador aprendido sobre split MBPP fixo, combinando TF-IDF, probing de incerteza/geometria/concordância e política classifier ou learning-to-defer. Ainda aguarda o dataset completo de 427 tarefas.
 - **Task evaluation**: executa testes de código, verifica respostas matemáticas e classifica respostas lógicas.
 - **Runtime profiling**: separa tempo de cheap forward, expensive forward, decisão, guards, tokenização e avaliação.
 - **Latency benchmark**: mede tempo real de execução, tokens por segundo e memória de pico para comparar economia teórica com wall-clock time.
@@ -44,6 +45,12 @@ python -m venv .venv
 .\.venv\Scripts\activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+```
+
+Para os testes CUDA locais deste repositório, use a venv dedicada:
+
+```powershell
+.\.venv-cuda\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 Modelo barato padrão:
@@ -130,6 +137,36 @@ python run_task_evaluation.py `
   --modes prompt_router_ml_v1 `
   --prompt-router-model results/kaggle/prompt_router_ml_v1/seed123_train/model.joblib
 ```
+
+Preparar e executar o protocolo fixo do `prompt_router_ml_v2`:
+
+```powershell
+.\.venv-cuda\Scripts\python.exe scripts/build_mbpp_split.py
+
+.\.venv-cuda\Scripts\python.exe scripts/build_router_dataset_v2.py `
+  --cheap-model Qwen/Qwen2.5-Coder-0.5B-Instruct `
+  --expensive-model Qwen/Qwen2.5-Coder-3B-Instruct `
+  --device cuda --torch-dtype float16 `
+  --max-new-tokens 256 `
+  --output-dir results/router_dataset_v2
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss l2d `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2
+
+.\.venv-cuda\Scripts\python.exe scripts/eval_router_v2.py `
+  --test-csv results/router_dataset_v2/test_features.csv `
+  --model results/router_v2/model.joblib `
+  --policy-meta results/router_v2/policy_meta.json
+```
+
+O builder é retomável por tarefa. A geração completa de 427 tarefas deve ser
+feita no Kaggle/Colab; o test split só deve ser avaliado depois que modelo e
+threshold estiverem congelados. As features de concordância fazem um prefill
+com ambos os modelos, portanto seu custo precisa ser incluído em benchmarks de
+latência e não deve ser confundido com roteamento prompt-level gratuito.
 
 Os artefatos canônicos dos experimentos Kaggle estão documentados em
 [results/kaggle/README.md](results/kaggle/README.md). Arquivos diretamente em

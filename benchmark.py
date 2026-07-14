@@ -670,7 +670,8 @@ def main():
         default=None,
         help=(
             "Modos separados por vírgula para --task-evaluation, incluindo "
-            "prompt_router_v1, prompt_router_v2 e prompt_router_ml_v1."
+            "prompt_router_v1, prompt_router_v2, prompt_router_ml_v1 e "
+            "prompt_router_ml_v2."
         ),
     )
     parser.add_argument(
@@ -681,6 +682,15 @@ def main():
             "seed123_train/model.joblib"
         ),
         help="Modelo .joblib usado por prompt_router_ml_v1.",
+    )
+    parser.add_argument(
+        "--prompt-router-v2-model",
+        type=str,
+        default="results/router_v2/model.joblib",
+        help=(
+            "Modelo usado por prompt_router_ml_v2; policy_meta.json deve "
+            "estar no mesmo diretório."
+        ),
     )
     parser.add_argument(
         "--dataset",
@@ -1289,6 +1299,7 @@ def main():
                 modes=args.modes,
                 profile_runtime=args.profile_runtime,
                 prompt_router_model=args.prompt_router_model,
+                prompt_router_v2_model=args.prompt_router_v2_model,
             )
             print_task_evaluation_report(task_summary_rows)
             print_task_evaluation_overall_report(task_overall_rows)
@@ -1915,6 +1926,7 @@ def main():
             modes=args.modes,
             profile_runtime=args.profile_runtime,
             prompt_router_model=args.prompt_router_model,
+            prompt_router_v2_model=args.prompt_router_v2_model,
         )
         print_task_evaluation_report(task_summary_rows)
         print_task_evaluation_overall_report(task_overall_rows)

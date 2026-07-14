@@ -141,7 +141,7 @@ def main():
             "Comma-separated modes: expensive_only,cheap_only,"
             "adaptive_calibrated,adaptive_guarded_v3,adaptive_code_quality,"
             "speculative_adaptive,prompt_router_v1,prompt_router_v2,"
-            "prompt_router_ml_v1,hybrid."
+            "prompt_router_ml_v1,prompt_router_ml_v2,hybrid."
         ),
     )
     parser.add_argument(
@@ -152,6 +152,15 @@ def main():
             "seed123_train/model.joblib"
         ),
         help="Trained .joblib model used by prompt_router_ml_v1.",
+    )
+    parser.add_argument(
+        "--prompt-router-v2-model",
+        type=str,
+        default="results/router_v2/model.joblib",
+        help=(
+            "Trained model.joblib used by prompt_router_ml_v2; "
+            "policy_meta.json must be in the same directory."
+        ),
     )
 
     args = parser.parse_args()
@@ -176,6 +185,7 @@ def main():
         modes=args.modes,
         profile_runtime=args.profile_runtime,
         prompt_router_model=args.prompt_router_model,
+        prompt_router_v2_model=args.prompt_router_v2_model,
     )
     print_task_evaluation_report(summary_rows)
     print_task_evaluation_overall_report(overall_rows)

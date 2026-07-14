@@ -37,6 +37,7 @@ GEAR-LLM is a research prototype for studying cheap/expensive model routing. It 
 - **hybrid router:** a heuristic router that chooses among token-level and speculative generation policies.
 - **prompt_router_v1/v2:** manual policies that choose cheap-only or expensive-only before generation.
 - **prompt_router_ml_v1:** TF-IDF plus Logistic Regression trained from cheap/expensive oracle labels.
+- **prompt_router_ml_v2:** fixed-split prompt router combining TF-IDF with prompt-prefill uncertainty, geometric, structural, and model-agreement features; it supports classifier and learning-to-defer policies but has not yet completed the 427-task run.
 - **teacher calibration:** an offline procedure that compares cheap-model predictions against expensive-model predictions on the same context.
 - **mode oracle:** an offline benchmark that estimates which generation mode had the best quality-cost score for each prompt.
 - **task evaluation:** expected-answer checks for math, labels for logic, and local subprocess tests for generated Python code.
@@ -428,13 +429,12 @@ The current value proposition should be stated as:
 
 ## 12. Next Steps
 
-The next phase should focus on prompt-router generalization and broader quality
-validation:
+The fixed split and router-v2 tooling are implemented. The next phase should
+execute the protocol and broaden quality validation:
 
-- Create one persisted, non-overlapping split over all 427 MBPP tasks.
-- Fit on train, select representation/class weight/threshold on validation, and
-  evaluate the frozen policy once on final test.
-- Add cheap-model uncertainty and structural prompt features beyond TF-IDF.
+- Generate cheap/expensive outcomes and probing features for all 427 fixed-split MBPP tasks.
+- Fit on train, select representation/class weight/threshold on validation, and evaluate the frozen policy once on final test.
+- Ablate cheap-only probing against expensive-agreement features, including their prefill latency.
 - Report expensive recall, PR-AUC, task score, route percentage, and real
   latency together.
 - Improve task-specific evaluation: symbolic math, stronger logic labels, and
@@ -486,6 +486,21 @@ Evaluate the archived prompt router model:
   --categories code `
   --modes prompt_router_ml_v1 `
   --prompt-router-model results/kaggle/prompt_router_ml_v1/seed123_train/model.joblib
+```
+
+Build and train the fixed-split router v2:
+
+```powershell
+.\.venv-cuda\Scripts\python.exe scripts/build_router_dataset_v2.py `
+  --cheap-model Qwen/Qwen2.5-Coder-0.5B-Instruct `
+  --expensive-model Qwen/Qwen2.5-Coder-3B-Instruct `
+  --device cuda --torch-dtype float16 `
+  --max-new-tokens 256
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss l2d `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv
 ```
 
 Canonical Kaggle CSVs and provenance notes are stored under

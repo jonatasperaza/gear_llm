@@ -519,3 +519,28 @@ The next valid protocol should create one non-overlapping split over all 427
 MBPP tasks: roughly 257 train, 85 validation, and 85 final test. Representation,
 class weighting, and probability threshold must be selected only on validation;
 the final test must remain untouched until the policy is frozen.
+
+## Prompt Router ML v2 — Implementation Status
+
+The fixed protocol described above is now implemented locally:
+
+- deterministic MBPP split: 257 train, 85 validation, 85 test;
+- 427 unique task IDs and zero pairwise overlap;
+- TF-IDF plus 26 prompt-probing features;
+- classifier and learning-to-defer training paths;
+- validation-only selection of regularization, class weight and threshold;
+- one-shot test report comparing cheap, expensive, historical v1 and v2;
+- task-evaluation/benchmark dispatch with device and runtime metadata;
+- deduplicated resumable checkpoints for Kaggle generation.
+
+Smoke tests used only six previously generated rows per split. They confirmed
+that both training paths serialize, load, predict and produce reports, but the
+sample is far too small for a quality claim. A one-task CUDA dispatch also
+confirmed that probing latency and its cheap/expensive forward counts are
+included in runtime profiling.
+
+There is no full v2 benchmark result yet. The next scientific result must come
+from generating all 427 fixed-split rows, selecting the policy only on the
+85-task validation split, freezing it, and evaluating the 85-task test split
+once. Agreement probing performs an expensive-model prompt prefill, so real
+latency must be reported alongside pass rate, PR-AUC and expensive recall.

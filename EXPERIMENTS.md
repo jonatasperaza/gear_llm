@@ -318,3 +318,50 @@ feature/class-weight/threshold choices, and a final untouched test set.
 
 Canonical Kaggle artifacts are stored under `results/kaggle/`. See
 `results/kaggle/README.md` for seed and provenance details.
+
+## 12. Fixed MBPP Split and Prompt Probing
+
+The next router protocol uses all 427 sanitized MBPP tasks with one persisted,
+non-overlapping split:
+
+- train: 257 tasks;
+- validation: 85 tasks;
+- test: 85 tasks.
+
+`scripts/build_mbpp_split.py` stratifies by the existing MBPP difficulty
+heuristic and writes `data/mbpp_split_manifest.jsonl`. The dataset builder
+validates every split JSONL against this manifest before generation.
+
+`gear_llm/probing_features.py` extracts prompt-level features from one cheap
+and one expensive prompt prefill: normalized entropy, margin, top-1
+probability, robust surprisal, geometric novelty/curvature, structural density,
+top-k agreement, approximate KL, rank, token count, and word count. Tensor
+comparisons are device-safe for `cuda:0`/`cuda:1`, while the full dual-GPU test
+remains to be run on Kaggle.
+
+The probing cost is real. Inference with agreement features touches the
+expensive model before route selection, so latency reports include this
+decision time and expose the probing forward counts separately.
+
+## 13. Learning-to-Defer Router v2
+
+`scripts/build_router_dataset_v2.py` generates cheap and expensive answers,
+evaluates both, derives oracle labels and writes probing features with
+incremental deduplicated checkpoints. Model/device/dtype and synchronized
+generation/probing times are recorded for reproducibility.
+
+`scripts/train_prompt_router_v2.py` supports two policies:
+
+- `classifier`: Logistic Regression or dense GBDT over TF-IDF plus probing;
+- `l2d`: Ridge regression over `delta_score`, followed by expected-cost
+  threshold calibration.
+
+Estimator regularization, class weight and route threshold are selected on
+validation. `scripts/eval_router_v2.py` then evaluates the frozen policy on the
+test CSV and optionally includes the archived TF-IDF v1 as a historical
+reference.
+
+Local smoke validation has passed with distinct train/validation files, model
+serialization, one-shot test reporting and task-evaluation dispatch. These
+smoke rows are not scientific results. The complete 427-task feature build and
+the untouched 85-task test evaluation remain pending on Kaggle.

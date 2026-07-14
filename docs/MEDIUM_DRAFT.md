@@ -150,12 +150,12 @@ For now, I would describe GEAR-LLM as a preliminary research prototype. It has s
 
 ## What comes next
 
-The next step is a cleaner experimental split.
-
-The 427 MBPP tasks should be divided once into non-overlapping train,
-validation, and final test sets. Training fits the classifier; validation
-selects features, class weights, and the routing threshold; the test set stays
-untouched until the policy is frozen.
+The 427 MBPP tasks are now assigned to one persisted, non-overlapping train,
+validation, and final test split. The tooling for richer prompt-prefill features
+and learning-to-defer is implemented, but the full Kaggle generation is still
+pending. Training will fit on train; validation will select features, class
+weights, and the routing threshold; the test set must stay untouched until the
+policy is frozen.
 
 For code, generated functions should be executed against tests.
 

@@ -29,10 +29,13 @@ from gear_llm.quality_benchmark import (
 )
 from gear_llm.prompt_router import (
     classify_prompt_router_ml_v1,
+    classify_prompt_router_ml_v2,
     classify_prompt_router_v1,
     classify_prompt_router_v2,
     load_prompt_router_ml_model,
+    load_prompt_router_ml_v2_artifacts,
 )
+from gear_llm.probing_features import compute_probing_features
 from gear_llm.report import save_csv
 from gear_llm.runtime_profiler import (
     COUNT_FIELDS,
@@ -52,7 +55,11 @@ TASK_MODES = (
     "prompt_router_v1",
     "prompt_router_v2",
     "prompt_router_ml_v1",
+    "prompt_router_ml_v2",
     "hybrid",
+)
+DEFAULT_TASK_MODES = tuple(
+    mode for mode in TASK_MODES if mode != "prompt_router_ml_v2"
 )
 DIFFICULTIES = {"easy", "medium", "hard"}
 MATH_ANSWER_TYPES = {"number", "expression", "boolean", "choice"}
@@ -171,7 +178,9 @@ def filter_eval_tasks(
 def resolve_task_modes(modes: list[str] | str | None = None) -> list[str]:
     requested = _parse_filter_values(modes)
     if requested is None:
-        return list(TASK_MODES)
+        # v2 needs a model trained on the fixed split, which is intentionally
+        # not checked into the repository yet.
+        return list(DEFAULT_TASK_MODES)
 
     invalid = [mode for mode in requested if mode not in TASK_MODES]
     if invalid:
@@ -911,6 +920,18 @@ def _build_row(
         "selected_mode": selected_mode,
         "prompt_router_reason": prompt_router_info.get("reason", ""),
         "prompt_router_matched_features": matched_features,
+        "prompt_router_decision_time_seconds": prompt_router_info.get(
+            "decision_time_seconds",
+            "",
+        ),
+        "prompt_router_probing_cheap_forwards": prompt_router_info.get(
+            "probing_cheap_forwards",
+            "",
+        ),
+        "prompt_router_probing_expensive_forwards": prompt_router_info.get(
+            "probing_expensive_forwards",
+            "",
+        ),
         "cheap_model_name": model_metadata["cheap_model_name"],
         "expensive_model_name": model_metadata["expensive_model_name"],
         "device": model_metadata["device"],
@@ -1045,6 +1066,28 @@ def _build_timing_stats(times: list[float], token_counts: list[int]) -> dict:
         "tokens_per_second_avg": _mean(tokens_per_second_values),
         "tokens_per_second_std": _std(tokens_per_second_values),
     }
+
+
+def _add_timing_overhead(
+    timing_stats: dict,
+    overhead_seconds: float,
+    generated_tokens: int,
+) -> dict:
+    """Add one cached prompt-routing measurement to generation latency."""
+    if not timing_stats or timing_stats.get("total_time_seconds_avg", "") == "":
+        return timing_stats
+    updated = dict(timing_stats)
+    for key in (
+        "total_time_seconds_avg",
+        "total_time_seconds_min",
+        "total_time_seconds_max",
+    ):
+        updated[key] = float(updated[key]) + overhead_seconds
+    total = updated["total_time_seconds_avg"]
+    updated["tokens_per_second_avg"] = (
+        generated_tokens / total if total > 0 else 0.0
+    )
+    return updated
 
 
 def _run_profiled_generation(generation_fn, runtime_profiler):
@@ -1209,6 +1252,7 @@ def run_task_evaluation(
     modes: list[str] | str | None = None,
     profile_runtime: bool = False,
     prompt_router_model: str | Path | None = None,
+    prompt_router_v2_model: str | Path | None = None,
 ) -> tuple[list[dict], list[dict], list[dict], list[dict]]:
     tasks = filter_eval_tasks(
         load_eval_tasks(dataset_path),
@@ -1219,6 +1263,8 @@ def run_task_evaluation(
     selected_modes = resolve_task_modes(modes)
     selected_mode_set = set(selected_modes)
     prompt_router_ml_model = None
+    prompt_router_ml_v2_model = None
+    prompt_router_ml_v2_meta = None
     if "prompt_router_ml_v1" in selected_mode_set:
         if prompt_router_model is None:
             raise ValueError(
@@ -1226,6 +1272,16 @@ def run_task_evaluation(
                 "pointing to a trained .joblib file."
             )
         prompt_router_ml_model = load_prompt_router_ml_model(prompt_router_model)
+    if "prompt_router_ml_v2" in selected_mode_set:
+        if prompt_router_v2_model is None:
+            raise ValueError(
+                "prompt_router_ml_v2 requires --prompt-router-v2-model "
+                "pointing to a trained model.joblib file."
+            )
+        (
+            prompt_router_ml_v2_model,
+            prompt_router_ml_v2_meta,
+        ) = load_prompt_router_ml_v2_artifacts(prompt_router_v2_model)
 
     if models is None:
         config = AdaptiveGenerationConfig(
@@ -1283,11 +1339,54 @@ def run_task_evaluation(
             "prompt_router_v1": classify_prompt_router_v1(prompt),
             "prompt_router_v2": classify_prompt_router_v2(prompt),
         }
+        prompt_router_profilers = {}
         if prompt_router_ml_model is not None:
             prompt_router_infos["prompt_router_ml_v1"] = classify_prompt_router_ml_v1(
                 prompt,
                 prompt_router_ml_model,
             )
+        if prompt_router_ml_v2_model is not None:
+            v2_profiler = maybe_profiler(profile_runtime)
+            _sync_if_cuda(
+                [cheap_runtime["device"], expensive_runtime["device"]]
+            )
+            decision_start = time.perf_counter()
+            probing_features = compute_probing_features(
+                prompt=prompt,
+                cheap_model=cheap_model,
+                expensive_model=expensive_model,
+                tokenizer=tokenizer,
+                device=cheap_runtime["device"],
+                prompt_format=prompt_format,
+                runtime_profiler=v2_profiler,
+            )
+            classifier_start = time.perf_counter()
+            v2_info = classify_prompt_router_ml_v2(
+                prompt,
+                prompt_router_ml_v2_model,
+                prompt_router_ml_v2_meta,
+                probing_features,
+            )
+            classifier_elapsed = time.perf_counter() - classifier_start
+            _sync_if_cuda(
+                [cheap_runtime["device"], expensive_runtime["device"]]
+            )
+            decision_elapsed = time.perf_counter() - decision_start
+            v2_info["decision_time_seconds"] = decision_elapsed
+            v2_info["probing_cheap_forwards"] = 1
+            v2_info["probing_expensive_forwards"] = 1
+            prompt_router_infos["prompt_router_ml_v2"] = v2_info
+            prompt_router_profilers["prompt_router_ml_v2"] = v2_profiler
+            if v2_profiler is not None:
+                v2_profiler.add_time(
+                    "router_decision_time_seconds",
+                    classifier_elapsed,
+                )
+                v2_profiler.increment("number_of_router_decisions")
+                v2_profiler.add_time(
+                    "total_generation_time_seconds",
+                    decision_elapsed,
+                )
         mode_summaries = {}
 
         def progress_prefix(mode: str) -> str:
@@ -1389,7 +1488,9 @@ def run_task_evaluation(
             if router_mode not in selected_mode_set:
                 continue
 
-            router_profiler = maybe_profiler(profile_runtime)
+            router_profiler = prompt_router_profilers.get(
+                router_mode,
+            ) or maybe_profiler(profile_runtime)
             (
                 router_text,
                 router_tokens,
@@ -1415,6 +1516,11 @@ def run_task_evaluation(
                 progress_prefix=progress_prefix(router_mode),
                 runtime_profiler=router_profiler,
                 measurement_device=device,
+            )
+            router_timing = _add_timing_overhead(
+                router_timing,
+                float(prompt_router_info.get("decision_time_seconds", 0.0)),
+                router_tokens,
             )
             evaluation = _evaluate_with_profile(
                 task,

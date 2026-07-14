@@ -165,3 +165,115 @@ def classify_prompt_router_ml_v1(prompt: str, model) -> dict:
         "reason": "ml_prediction",
         "matched_features": matched_features,
     }
+
+
+def load_prompt_router_ml_v2_artifacts(path: str | Path):
+    """Load a v2 model.joblib and its policy_meta.json from the same directory.
+
+    Returns (model, policy_meta_dict).
+    """
+    model_path = Path(path)
+    if not model_path.exists():
+        raise FileNotFoundError(
+            "prompt_router_ml_v2 requires a trained model file. "
+            f"Not found: {model_path}. Train one with "
+            "python scripts/train_prompt_router_v2.py "
+            "--train-csv results/router_dataset_v2/train_features.csv "
+            "--val-csv results/router_dataset_v2/val_features.csv"
+        )
+    meta_path = model_path.parent / "policy_meta.json"
+    if not meta_path.exists():
+        raise FileNotFoundError(
+            "prompt_router_ml_v2 requires policy_meta.json next to the model. "
+            f"Not found: {meta_path}"
+        )
+
+    try:
+        import joblib
+    except ImportError as exc:
+        raise ImportError(
+            "prompt_router_ml_v2 requires joblib/scikit-learn. "
+            "Install project requirements first: pip install -r requirements.txt"
+        ) from exc
+
+    model = joblib.load(model_path)
+    import json
+
+    with meta_path.open("r", encoding="utf-8") as file:
+        policy_meta = json.load(file)
+
+    return model, policy_meta
+
+
+def classify_prompt_router_ml_v2(
+    prompt: str,
+    model,
+    policy_meta: dict,
+    probing_features: dict | None = None,
+) -> dict:
+    """Route using the v2 pipeline (TF-IDF + probing features).
+
+    If *probing_features* is None, the model receives only the prompt text
+    (TF-IDF path). When probing features from a cheap-model forward pass are
+    available, they are injected as additional columns so the full feature set
+    is used, matching how the model was trained.
+
+    Returns the standard router info dict with selected_mode in
+    {"cheap_only", "expensive_only"}.
+    """
+    from gear_llm.probing_features import PROBING_FEATURE_KEYS
+    import pandas as pd
+
+    mode = policy_meta.get("mode", "l2d")
+    threshold = float(policy_meta.get("threshold", 0.5))
+    if mode not in {"l2d", "classifier"}:
+        raise ValueError(f"Unsupported prompt_router_ml_v2 mode: {mode}")
+    feature_keys = tuple(
+        policy_meta.get("feature_keys") or PROBING_FEATURE_KEYS
+    )
+
+    # Build a single-row DataFrame matching the training schema.
+    row = {"prompt": prompt}
+    if probing_features is not None:
+        for key in feature_keys:
+            row[key] = float(probing_features.get(key, 0.0))
+    else:
+        # No probing features available: fill with zeros so the ColumnTransformer
+        # can still consume the row.
+        for key in feature_keys:
+            row[key] = 0.0
+    df = pd.DataFrame([row])
+
+    if mode == "l2d":
+        delta_pred = float(model.predict(df)[0])
+        selected = "expensive_only" if delta_pred > threshold else "cheap_only"
+        return {
+            "selected_mode": selected,
+            "reason": "ml_v2_l2d",
+            "matched_features": [f"delta_pred={delta_pred:.4f}", f"threshold={threshold:.4f}"],
+        }
+    else:
+        # classifier mode.
+        if hasattr(model, "predict_proba"):
+            classes = list(model.classes_)
+            probs = model.predict_proba(df)[0]
+            if "expensive_only" in classes:
+                idx = classes.index("expensive_only")
+                score = float(probs[idx])
+            else:
+                score = 0.0
+            selected = "expensive_only" if score >= threshold else "cheap_only"
+            return {
+                "selected_mode": selected,
+                "reason": "ml_v2_classifier",
+                "matched_features": [f"expensive_prob={score:.4f}", f"threshold={threshold:.4f}"],
+            }
+        # Fallback: hard predict.
+        prediction = str(model.predict(df)[0])
+        if prediction not in {"cheap_only", "expensive_only"}:
+            prediction = "cheap_only"
+        return {
+            "selected_mode": prediction,
+            "reason": "ml_v2_classifier_hard",
+            "matched_features": [],
+        }

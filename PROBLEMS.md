@@ -10,7 +10,7 @@
 
 ## 1. Switching Cost Between Models
 
-**Status:** Investigating
+**Status:** Partially mitigated
 
 ### Problem
 
@@ -83,12 +83,16 @@ TF-IDF plus Logistic Regression. The learned router reproduced its seed123
 oracle in-sample but failed to identify any true expensive route among 80
 unseen seed999 prompts.
 
+`prompt_router_ml_v2` now provides a fixed train/validation/test protocol,
+probing features and validation-only selection for classifier or
+learning-to-defer policies. Its full 427-task dataset has not been generated,
+so generalization is not yet demonstrated.
+
 ### Next Steps
 
-- Replace random overlapping samples with one fixed train/validation/test split.
-- Add prompt structure, task metadata, and cheap-model confidence features.
-- Tune class weight and probability threshold on validation only.
-- Optimize for expensive-route recall and downstream task score, not accuracy alone.
+- Generate the complete fixed-split feature dataset on Kaggle.
+- Freeze the selected validation policy before touching test.
+- Compare classifier and L2D by expensive recall, PR-AUC, downstream score and real latency.
 
 ## 4. Text Coherence When Mixing Models
 
@@ -115,7 +119,7 @@ Adaptive Guard v3 reduces excessive optional fallbacks and adds budget/cooldown 
 
 ## 5. Local Confidence Is Not the Same as Reasoning Difficulty
 
-**Status:** Open
+**Status:** Partially mitigated
 
 ### Problem
 
@@ -127,18 +131,20 @@ The router may save compute in places where deeper reasoning was needed, especia
 
 ### Current Mitigation
 
-The project includes `rho` metrics such as surprisal, novelty, curvature, and structural importance in offline analysis.
+The project includes `rho` metrics and `prompt_router_ml_v2` now aggregates
+cheap-model entropy, margin, surprisal, novelty, curvature, structural density
+and prompt shape. Optional cheap-vs-expensive agreement features add stronger
+signals but require an expensive prompt prefill.
 
 ### Next Steps
 
-- Reintroduce geometric and structural features into online routing.
-- Track hidden-state curvature and novelty from the cheap model.
-- Add prompt-level risk features for math, code, and logic.
-- Validate routing decisions with task-specific correctness checks.
+- Measure whether the new features improve held-out PR-AUC and expensive recall.
+- Ablate expensive-agreement features against cheap-only probing to quantify their latency cost.
+- Add task-level risk features for math and logic after the MBPP protocol is frozen.
 
 ## 6. Weak Quality Metrics
 
-**Status:** Open
+**Status:** Partially mitigated
 
 ### Problem
 
@@ -354,11 +360,15 @@ Kaggle artifacts are archived by seed under `results/kaggle/`, and reported
 unseen metrics explicitly exclude the 20 overlapping prompts. The model remains
 experimental and is not presented as a validated routing policy.
 
+A persistent 427-task manifest and non-overlapping 257/85/85 JSONLs now exist.
+The builder rejects split/manifest mismatches, training selects settings on
+validation, and the final evaluator is separated from training. Only local
+smoke data has been generated so far.
+
 ### Next Steps
 
-- Persist one non-overlapping split manifest over all 427 MBPP tasks.
-- Select features, class weight, and threshold using validation only.
-- Freeze the policy before evaluating the final test set.
+- Generate all 427 cheap/expensive outcomes and probing features.
+- Freeze the policy selected on validation before evaluating final test once.
 - Report expensive recall, PR-AUC, task score, route percentage, and latency.
 - Evaluate richer features than TF-IDF, including cheap-model uncertainty and
   prompt structure.
@@ -468,12 +478,11 @@ The current value proposition should be stated as:
 
 ## Current Priority Order
 
-1. Create and persist a non-overlapping 427-task MBPP split.
-2. Train prompt routers on train and tune representation, class weight, and
-   threshold on validation only.
-3. Evaluate the frozen router once on the untouched test split.
-4. Measure task correctness and real latency for the learned prompt router.
-5. Add cheap-model uncertainty and structural prompt features beyond TF-IDF.
+1. Generate the full 427-task router-v2 dataset on Kaggle using the fixed manifest.
+2. Train classifier and L2D variants on train and select one policy on validation.
+3. Evaluate that frozen policy once on the untouched test split.
+4. Measure task correctness and real latency, including both probing prefills.
+5. Ablate cheap-only probing against cheap-plus-expensive agreement features.
 6. Improve math, logic, and open-text quality evaluation.
 7. Revisit token-level/speculative decoding with optimized KV-cache-aware
    baselines.

@@ -3,3 +3,4 @@ transformers
 accelerate
 scikit-learn==1.6.1
 joblib
+pandas>=2.2,<3
