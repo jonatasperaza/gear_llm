@@ -49,5 +49,13 @@ in-sample, but on the 80 unseen seed999 tasks its default threshold identified
 none of the 13 `expensive_only` oracle cases.
 
 These results support prompt-level model complementarity, not a solved routing
-policy. The next benchmark should use one fixed, non-overlapping train,
-validation, and test split over the full MBPP source.
+policy. They motivated the later fixed, non-overlapping train/validation/test
+protocol over the full MBPP source.
+
+That fixed-split protocol has since been completed. Its 427-task feature tables
+are stored in `results/router_dataset_v2/`, and the validation-frozen model plus
+one-shot held-out report are in
+`results/router_v2/frozen_validation_policy/`. The frozen v2 policy passed
+43/85 test tasks versus 42/85 for `expensive_only`, while selecting cheap for
+35 prompts. This is preliminary held-out evidence; real latency remains to be
+measured.

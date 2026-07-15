@@ -361,7 +361,17 @@ validation. `scripts/eval_router_v2.py` then evaluates the frozen policy on the
 test CSV and optionally includes the archived TF-IDF v1 as a historical
 reference.
 
-Local smoke validation has passed with distinct train/validation files, model
-serialization, one-shot test reporting and task-evaluation dispatch. These
-smoke rows are not scientific results. The complete 427-task feature build and
-the untouched 85-task test evaluation remain pending on Kaggle.
+The complete 427-task build has now been executed. Validation-only policy
+selection chose the TF-IDF-only classifier, not the probing or
+learning-to-defer variants. The frozen threshold was `0.0761947`.
+
+On the one-shot 85-task held-out test, `prompt_router_ml_v2` reached 50.59%
+pass rate and 0.5294 average score, versus 49.41% and 0.5098 for
+`expensive_only`. It selected the expensive model for 50 prompts and the cheap
+model for 35. Expensive-needed recall was 72.22%, precision was 26.00%,
+PR-AUC was 0.4486, and ROC-AUC was 0.6517. The simple route-mix estimate is
+26.76% savings, but real latency for the frozen no-probing policy remains to be
+measured.
+
+This test must not be reused for threshold or representation tuning. Future
+changes require a new external dataset or a newly declared split.

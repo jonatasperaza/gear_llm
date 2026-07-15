@@ -37,7 +37,7 @@ GEAR-LLM is a research prototype for studying cheap/expensive model routing. It 
 - **hybrid router:** a heuristic router that chooses among token-level and speculative generation policies.
 - **prompt_router_v1/v2:** manual policies that choose cheap-only or expensive-only before generation.
 - **prompt_router_ml_v1:** TF-IDF plus Logistic Regression trained from cheap/expensive oracle labels.
-- **prompt_router_ml_v2:** fixed-split prompt router combining TF-IDF with prompt-prefill uncertainty, geometric, structural, and model-agreement features; it supports classifier and learning-to-defer policies but has not yet completed the 427-task run.
+- **prompt_router_ml_v2:** fixed-split prompt router with classifier and learning-to-defer candidates over TF-IDF and prompt-probing features. The completed 427-task protocol selected the TF-IDF-only classifier on validation.
 - **teacher calibration:** an offline procedure that compares cheap-model predictions against expensive-model predictions on the same context.
 - **mode oracle:** an offline benchmark that estimates which generation mode had the best quality-cost score for each prompt.
 - **task evaluation:** expected-answer checks for math, labels for logic, and local subprocess tests for generated Python code.
@@ -293,10 +293,36 @@ A threshold of 0.40 simulated 53.75% pass rate and 38.19% estimated savings on
 the unseen subset, but that threshold was selected on the same data and is not
 a final generalization result.
 
+### 8.1 Fixed-Split Prompt Router ML v2
+
+To remove sample overlap and test-set threshold tuning, the next protocol used
+all 427 sanitized MBPP tasks in one persisted split: 257 train, 85 validation,
+and 85 held-out test tasks. Four candidates combined classifier or
+learning-to-defer objectives with TF-IDF-only or TF-IDF plus 26 probing
+features. The validation rule required at least 95% preservation of the
+expensive-only pass rate and average score, then minimized expensive routes.
+
+Validation selected the TF-IDF-only classifier at threshold `0.0761947`. The
+frozen policy was evaluated once on test:
+
+| Policy | Pass rate | Avg score | Expensive routes | PR-AUC | Expensive recall |
+|---|---:|---:|---:|---:|---:|
+| cheap_only | 41.18% | 0.4314 | 0/85 | - | - |
+| expensive_only | 49.41% | 0.5098 | 85/85 | - | - |
+| prompt_router_ml_v2 | **50.59%** | **0.5294** | 50/85 | 0.4486 | 72.22% |
+| oracle | 58.82% | 0.6118 | task-dependent | - | 100.00% |
+
+V2 passed 43 tasks, versus 42 for `expensive_only`, while choosing cheap for
+35 prompts. The route mix gives 26.76% theoretical savings; the artifact's
+token-count cost proxy improved by only 3.26%, and real wall-clock speedup has
+not yet been measured. Expensive precision was 26.00%. Probing was not selected
+on validation, so its current form did not improve the quality/cost trade-off.
+
 The current evidence supports model complementarity and the computational
-structure of prompt-level routing. It does not support TF-IDF as a reliable
-standalone routing representation. Canonical artifacts are archived under
-`results/kaggle/`.
+structure of prompt-level routing. The fixed-split result is preliminary
+held-out evidence, but one 85-task test is not enough to establish broad
+generalization. Canonical artifacts are stored under `results/router_dataset_v2/`
+and `results/router_v2/frozen_validation_policy/`.
 
 ## 9. Key Findings
 
@@ -308,7 +334,7 @@ standalone routing representation. Canonical artifacts are archived under
 - Hybrid routing overhead is negligible; the selected generation mode dominates runtime.
 - Speculative decoding is promising but not robust globally in the current implementation.
 - Prompt-level routing avoids the cheap-plus-expensive forward cost within one generation.
-- The cheap and expensive code models are complementary, but manual rules and TF-IDF overfit small samples.
+- The fixed-split TF-IDF router slightly exceeded `expensive_only` on one held-out MBPP test, but its expensive-route precision was low.
 - Quality evaluation remains the main unresolved issue.
 
 ## 10. Limitations
@@ -324,7 +350,7 @@ The known limitations are substantial:
 - **No optimized KV-cache implementation:** the current prototype does not share or optimize KV-cache state between models.
 - **Speculative implementation is not production optimized:** it is a first research version, not a high-performance speculative decoding engine.
 - **Possible router overfitting:** the hybrid router uses manually chosen heuristics that may overfit the current prompts.
-- **Weak learned-router representation:** TF-IDF missed every true expensive case among 80 unseen MBPP prompts.
+- **Weak learned-router representation:** v1 TF-IDF missed every true expensive case among 80 unseen MBPP prompts; fixed-split v2 improved recall to 72.22% but precision remained 26.00%.
 - **Windows laptop hardware limitations:** results depend on the RTX 3050 Laptop GPU, Windows memory behavior, and local runtime overhead.
 
 Quality preservation is not yet proven robustly; current similarity/Jaccard metrics are weak proxies for semantic correctness.
@@ -429,14 +455,25 @@ The current value proposition should be stated as:
 
 ## 12. Next Steps
 
-The fixed split and router-v2 tooling are implemented. The next phase should
-execute the protocol and broaden quality validation:
+The fixed split protocol has been completed. Train/validation/test contained
+257/85/85 non-overlapping tasks. Validation-only selection froze a TF-IDF-only
+classifier at threshold `0.0761947`; probing was therefore not used by the
+final policy.
 
-- Generate cheap/expensive outcomes and probing features for all 427 fixed-split MBPP tasks.
-- Fit on train, select representation/class weight/threshold on validation, and evaluate the frozen policy once on final test.
-- Ablate cheap-only probing against expensive-agreement features, including their prefill latency.
-- Report expensive recall, PR-AUC, task score, route percentage, and real
-  latency together.
+On the one-shot held-out test, v2 reached 50.59% pass rate and 0.5294 average
+score, compared with 49.41% and 0.5098 for `expensive_only`. It chose the cheap
+model for 35/85 prompts, reached 72.22% recall and 26.00% precision for the
+expensive-needed class, with PR-AUC 0.4486 and ROC-AUC 0.6517. The route mix
+implies 26.76% theoretical savings, while the token-count cost proxy improved
+only 3.26%. Real wall-clock latency has not yet been measured for this frozen
+policy.
+
+The next phase should broaden quality and systems validation:
+
+- Benchmark real latency of the frozen no-probing router.
+- Validate it on a new external code dataset without retuning on the consumed test split.
+- Revisit probing features only through a new validation protocol.
+- Report expensive recall, PR-AUC, task score, route percentage, and real latency together.
 - Improve task-specific evaluation: symbolic math, stronger logic labels, and
   human or LLM review for open text.
 - Expand datasets across categories and languages.
@@ -498,13 +535,38 @@ Build and train the fixed-split router v2:
   --max-new-tokens 256
 
 .\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss classifier `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2/classifier_probing
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss classifier --no-probing `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2/classifier_tfidf
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
   --loss l2d `
   --train-csv results/router_dataset_v2/train_features.csv `
-  --val-csv results/router_dataset_v2/val_features.csv
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2/l2d_probing
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss l2d --no-probing `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2/l2d_tfidf
+
+.\.venv-cuda\Scripts\python.exe scripts/select_router_v2_policy.py `
+  --validation-csv results/router_dataset_v2/val_features.csv `
+  --candidates-root results/router_v2 `
+  --output-dir results/router_v2/frozen_validation_policy
 ```
 
-Canonical Kaggle CSVs and provenance notes are stored under
-`results/kaggle/`.
+Earlier Kaggle CSVs and provenance notes are stored under `results/kaggle/`.
+The completed fixed-split artifacts are under `results/router_dataset_v2/` and
+`results/router_v2/frozen_validation_policy/`.
 
 ## 14. Conclusion
 
@@ -513,7 +575,8 @@ The strongest latency evidence is Qwen2.5-0.5B -> Qwen2.5-3B on CUDA with chat
 formatting. Prompt-level MBPP experiments also show real complementarity
 between Qwen2.5-Coder-0.5B and 3B.
 
-This does not close the thesis. Manual rules and a TF-IDF learned router failed
-to generalize reliably to unseen prompts. The project should be treated as
-preliminary experimental research into cheap/expensive model routing, not as a
-production-ready inference engine.
+This does not close the thesis. Manual rules and the first TF-IDF router failed
+to generalize reliably; fixed-split v2 produced a small held-out improvement,
+but still needs external replication and real latency measurement. The project
+should be treated as preliminary experimental research into cheap/expensive
+model routing, not as a production-ready inference engine.

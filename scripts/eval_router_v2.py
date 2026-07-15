@@ -360,23 +360,23 @@ def render_markdown_report(
         )
 
     lines.append("")
-    lines.append("## Interpretation checklist")
+    lines.append("## Interpretation")
     lines.append("")
     lines.append(
-        "1. **Quality preservation**: v2 pass_rate should be between cheap_only "
-        "and expensive_only, and as close to oracle as the router allows."
+        "1. **Quality**: compare v2 with both single-model baselines and the "
+        "oracle ceiling; a small difference on 85 tasks remains preliminary."
     )
     lines.append(
-        "2. **Cost reduction**: v2 realized_cost should be below expensive_only_cost "
-        "(the whole point of routing)."
+        "2. **Cost**: route-mix savings and token-count-derived realized cost "
+        "are proxies, not wall-clock speedup."
     )
     lines.append(
-        "3. **Generalization**: PR-AUC and exp-recall on this unseen test set are "
-        "the real signal. v1 had AP≈0.20 / ROC-AUC≈0.55 on its unseen subset."
+        "3. **Generalization**: PR-AUC, precision and expensive recall on this "
+        "held-out split describe routing quality, but require external replication."
     )
     lines.append(
-        "4. **If v2 ≈ v1 on every metric**: probing features added no signal on "
-        "MBPP. That is a valid negative result; report it honestly."
+        "4. **Probing**: if validation selects a no-probing candidate, report "
+        "the current probing representation as a negative result."
     )
     lines.append("")
     return "\n".join(lines)
@@ -404,6 +404,14 @@ def main():
         default="results/router_v2",
     )
     parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help=(
+            "Overwrite an existing held-out test report. Avoid this for the "
+            "official frozen-policy evaluation."
+        ),
+    )
+    parser.add_argument(
         "--v1-model",
         default=(
             "results/kaggle/prompt_router_ml_v1/"
@@ -412,6 +420,21 @@ def main():
         help="Optional frozen v1 model used as a reference baseline.",
     )
     args = parser.parse_args()
+
+    output_dir = Path(args.output_dir)
+    protected_outputs = (
+        output_dir / "test_metrics.csv",
+        output_dir / "test_predictions.csv",
+        output_dir / "test_report.md",
+    )
+    existing_outputs = [path for path in protected_outputs if path.exists()]
+    if existing_outputs and not args.overwrite:
+        existing = ", ".join(str(path) for path in existing_outputs)
+        raise FileExistsError(
+            "Held-out test outputs already exist. Refusing to re-run the "
+            f"one-shot evaluation: {existing}. Use --overwrite only for a "
+            "deliberate non-canonical rerun."
+        )
 
     try:
         import joblib
@@ -452,7 +475,6 @@ def main():
         all_metrics.append(v1_metrics)
     all_metrics.append(v2_metrics)
 
-    output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # CSV of all metrics.

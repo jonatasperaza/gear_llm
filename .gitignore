@@ -3,6 +3,8 @@
 __pycache__
 results/_*/
 results/*smoke*
+results/router_dataset_v2/*_checkpoint.jsonl
+/kaggle/
 __pycache__/
 .venv/
 *.

@@ -1,0 +1,15 @@
+metric,value
+f1_cheap,0.8993288590604027
+f1_expensive,0.2857142857142857
+n_total,85
+pr_auc_average_precision,0.26581406174846667
+precision_cheap,0.8375
+precision_expensive,0.6
+recall_cheap,0.9710144927536232
+recall_expensive,0.1875
+roc_auc,0.5407608695652175
+selected_class_weight,None
+selected_estimator_param,10.0
+support_cheap,69
+support_expensive,16
+threshold,0.30400000000000005

@@ -1,0 +1,49 @@
+{
+  "mode": "classifier",
+  "model_kind": "classifier",
+  "use_probing": false,
+  "threshold": 0.30400000000000005,
+  "classes": [
+    "cheap_only",
+    "expensive_only"
+  ],
+  "selected_class_weight": null,
+  "selected_estimator_param": 10.0,
+  "feature_keys": [
+    "cheap_entropy_mean",
+    "cheap_entropy_max",
+    "cheap_entropy_std",
+    "cheap_entropy_last",
+    "cheap_margin_mean",
+    "cheap_margin_min",
+    "cheap_top1_prob_mean",
+    "cheap_top1_prob_min",
+    "cheap_surprisal_mean",
+    "cheap_surprisal_max",
+    "agree_last_exact",
+    "agree_last_cheap_in_exp_topk",
+    "agree_last_cheap_rank_in_exp_topk",
+    "agree_last_exp_in_cheap_topk",
+    "agree_last_kl_exp_to_cheap",
+    "agree_last_kl_cheap_to_exp",
+    "agree_seq_exact_mean",
+    "agree_seq_topk_mean",
+    "agree_seq_kl_mean",
+    "novelty_mean",
+    "novelty_max",
+    "curvature_mean",
+    "curvature_max",
+    "frac_structural",
+    "n_tokens",
+    "n_words"
+  ],
+  "labels": [
+    "cheap_only",
+    "expensive_only"
+  ],
+  "train_csv": "results\\router_dataset_v2\\train_features.csv",
+  "val_csv": "results\\router_dataset_v2\\val_features.csv",
+  "train_rows": 257,
+  "val_rows": 85,
+  "scikit_learn_version": "1.6.1"
+}

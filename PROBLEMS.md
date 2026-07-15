@@ -442,6 +442,10 @@ This section records five concerns raised by an external critique and the curren
   only 48% on a different 100-task sample.
 - `prompt_router_ml_v1` reproduced its training oracle but missed every true
   expensive case among 80 unseen prompts.
+- On the fixed 427-task protocol, the frozen `prompt_router_ml_v2` improved
+  held-out pass rate from 49.41% (`expensive_only`) to 50.59%, but expensive
+  precision remained only 26.00% and the probing variants were rejected by
+  validation-only policy selection.
 
 **Planned mitigation:**
 
@@ -451,6 +455,8 @@ This section records five concerns raised by an external critique and the curren
   and latency features.
 - Optimize threshold and class weight on validation, emphasizing
   expensive-route recall.
+- Measure real latency of the frozen no-probing policy and validate the route
+  rule on a new external code dataset before further tuning.
 
 ### 5. Budget Caps May Trade Away Quality
 

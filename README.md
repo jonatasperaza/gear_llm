@@ -33,7 +33,7 @@ prompt-level routing escolhe apenas um modelo antes da geração.
 - **hybrid_router**: escolhe entre modos adaptativos por tipo de prompt; código usa `adaptive_code_quality` na política atual.
 - **prompt_router_v1/v2**: escolhem `cheap_only` ou `expensive_only` antes da geração usando heurísticas manuais.
 - **prompt_router_ml_v1**: roteador prompt-level com TF-IDF e Logistic Regression treinado a partir de labels de oracle.
-- **prompt_router_ml_v2**: roteador aprendido sobre split MBPP fixo, combinando TF-IDF, probing de incerteza/geometria/concordância e política classifier ou learning-to-defer. Ainda aguarda o dataset completo de 427 tarefas.
+- **prompt_router_ml_v2**: roteador aprendido sobre split MBPP fixo. O protocolo completo de 427 tarefas selecionou em validação um classifier TF-IDF sem probing; no teste held-out, ele passou 43/85 tarefas contra 42/85 do `expensive_only`, roteando 35 prompts para o modelo barato.
 - **Task evaluation**: executa testes de código, verifica respostas matemáticas e classifica respostas lógicas.
 - **Runtime profiling**: separa tempo de cheap forward, expensive forward, decisão, guards, tokenização e avaliação.
 - **Latency benchmark**: mede tempo real de execução, tokens por segundo e memória de pico para comparar economia teórica com wall-clock time.
@@ -151,27 +151,55 @@ Preparar e executar o protocolo fixo do `prompt_router_ml_v2`:
   --output-dir results/router_dataset_v2
 
 .\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss classifier `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2/classifier_probing
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss classifier `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2/classifier_tfidf `
+  --no-probing
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
   --loss l2d `
   --train-csv results/router_dataset_v2/train_features.csv `
   --val-csv results/router_dataset_v2/val_features.csv `
-  --output-dir results/router_v2
+  --output-dir results/router_v2/l2d_probing
+
+.\.venv-cuda\Scripts\python.exe scripts/train_prompt_router_v2.py `
+  --loss l2d `
+  --train-csv results/router_dataset_v2/train_features.csv `
+  --val-csv results/router_dataset_v2/val_features.csv `
+  --output-dir results/router_v2/l2d_tfidf `
+  --no-probing
+
+.\.venv-cuda\Scripts\python.exe scripts/select_router_v2_policy.py `
+  --validation-csv results/router_dataset_v2/val_features.csv `
+  --candidates-root results/router_v2 `
+  --output-dir results/router_v2/frozen_validation_policy
 
 .\.venv-cuda\Scripts\python.exe scripts/eval_router_v2.py `
   --test-csv results/router_dataset_v2/test_features.csv `
-  --model results/router_v2/model.joblib `
-  --policy-meta results/router_v2/policy_meta.json
+  --model results/router_v2/frozen_validation_policy/model.joblib `
+  --policy-meta results/router_v2/frozen_validation_policy/policy_meta.json `
+  --output-dir results/router_v2/frozen_validation_policy
 ```
 
-O builder é retomável por tarefa. A geração completa de 427 tarefas deve ser
-feita no Kaggle/Colab; o test split só deve ser avaliado depois que modelo e
-threshold estiverem congelados. As features de concordância fazem um prefill
-com ambos os modelos, portanto seu custo precisa ser incluído em benchmarks de
-latência e não deve ser confundido com roteamento prompt-level gratuito.
+O builder é retomável por tarefa. O protocolo completo foi executado com 257
+tarefas de treino, 85 de validação e 85 de teste, sem sobreposição. O teste
+oficial já foi consumido uma vez; `eval_router_v2.py` agora recusa sobrescrever
+esse relatório sem `--overwrite`. As features de concordância fazem um prefill
+com ambos os modelos, mas a política selecionada não usa probing e escolhe um
+único modelo a partir do prompt.
 
-Os artefatos canônicos dos experimentos Kaggle estão documentados em
-[results/kaggle/README.md](results/kaggle/README.md). Arquivos diretamente em
-`results/` são saídas mutáveis de comandos locais e podem ser sobrescritos por
-smoke tests.
+Os artefatos canônicos anteriores do Kaggle estão documentados em
+[results/kaggle/README.md](results/kaggle/README.md). O protocolo fixo mais
+recente está em `results/router_dataset_v2/` e
+`results/router_v2/frozen_validation_policy/`; esses diretórios não devem ser
+sobrescritos por smoke tests.
 
 ## Exemplo de Uso
 

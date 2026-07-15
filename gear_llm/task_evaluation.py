@@ -1347,19 +1347,27 @@ def run_task_evaluation(
             )
         if prompt_router_ml_v2_model is not None:
             v2_profiler = maybe_profiler(profile_runtime)
-            _sync_if_cuda(
+            use_v2_probing = bool(
+                prompt_router_ml_v2_meta.get("use_probing", True)
+            )
+            decision_devices = (
                 [cheap_runtime["device"], expensive_runtime["device"]]
+                if use_v2_probing
+                else []
             )
+            _sync_if_cuda(decision_devices)
             decision_start = time.perf_counter()
-            probing_features = compute_probing_features(
-                prompt=prompt,
-                cheap_model=cheap_model,
-                expensive_model=expensive_model,
-                tokenizer=tokenizer,
-                device=cheap_runtime["device"],
-                prompt_format=prompt_format,
-                runtime_profiler=v2_profiler,
-            )
+            probing_features = None
+            if use_v2_probing:
+                probing_features = compute_probing_features(
+                    prompt=prompt,
+                    cheap_model=cheap_model,
+                    expensive_model=expensive_model,
+                    tokenizer=tokenizer,
+                    device=cheap_runtime["device"],
+                    prompt_format=prompt_format,
+                    runtime_profiler=v2_profiler,
+                )
             classifier_start = time.perf_counter()
             v2_info = classify_prompt_router_ml_v2(
                 prompt,
@@ -1368,13 +1376,11 @@ def run_task_evaluation(
                 probing_features,
             )
             classifier_elapsed = time.perf_counter() - classifier_start
-            _sync_if_cuda(
-                [cheap_runtime["device"], expensive_runtime["device"]]
-            )
+            _sync_if_cuda(decision_devices)
             decision_elapsed = time.perf_counter() - decision_start
             v2_info["decision_time_seconds"] = decision_elapsed
-            v2_info["probing_cheap_forwards"] = 1
-            v2_info["probing_expensive_forwards"] = 1
+            v2_info["probing_cheap_forwards"] = int(use_v2_probing)
+            v2_info["probing_expensive_forwards"] = int(use_v2_probing)
             prompt_router_infos["prompt_router_ml_v2"] = v2_info
             prompt_router_profilers["prompt_router_ml_v2"] = v2_profiler
             if v2_profiler is not None:

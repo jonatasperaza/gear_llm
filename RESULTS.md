@@ -511,36 +511,54 @@ Canonical files are under
 ## Current Prompt-Routing Conclusion
 
 Prompt-level routing is computationally cleaner than the current token-level
-prototype, and the oracle demonstrates real model complementarity. However,
-manual keywords and TF-IDF trained on 100 tasks do not predict expensive-needed
-prompts reliably out of sample.
+prototype, and the oracle demonstrates real model complementarity. Manual
+keywords and TF-IDF trained on 100 overlapping samples did not generalize, so a
+fixed non-overlapping protocol over all 427 MBPP tasks was adopted. Its result
+is reported below; the test split was used only after representation, class
+weight and threshold were frozen on validation.
 
-The next valid protocol should create one non-overlapping split over all 427
-MBPP tasks: roughly 257 train, 85 validation, and 85 final test. Representation,
-class weighting, and probability threshold must be selected only on validation;
-the final test must remain untouched until the policy is frozen.
+## Prompt Router ML v2 — Fixed-Split Held-Out Result
 
-## Prompt Router ML v2 — Implementation Status
+The complete fixed protocol was executed over all 427 sanitized MBPP tasks:
 
-The fixed protocol described above is now implemented locally:
+- train: 257 tasks, labels 215 cheap / 42 expensive;
+- validation: 85 tasks, labels 69 cheap / 16 expensive;
+- held-out test: 85 tasks, labels 67 cheap / 18 expensive;
+- 427 unique task IDs and zero pairwise overlap.
 
-- deterministic MBPP split: 257 train, 85 validation, 85 test;
-- 427 unique task IDs and zero pairwise overlap;
-- TF-IDF plus 26 prompt-probing features;
-- classifier and learning-to-defer training paths;
-- validation-only selection of regularization, class weight and threshold;
-- one-shot test report comparing cheap, expensive, historical v1 and v2;
-- task-evaluation/benchmark dispatch with device and runtime metadata;
-- deduplicated resumable checkpoints for Kaggle generation.
+Four candidates were fit on train and compared on validation: classifier and
+learning-to-defer, each with TF-IDF-only and TF-IDF plus 26 probing features.
+The predeclared validation policy required at least 95% of the expensive-only
+pass rate and average score, then minimized expensive routes. It selected the
+TF-IDF-only classifier with threshold `0.0761947`; this policy uses no model
+probing at inference time.
 
-Smoke tests used only six previously generated rows per split. They confirmed
-that both training paths serialize, load, predict and produce reports, but the
-sample is far too small for a quality claim. A one-task CUDA dispatch also
-confirmed that probing latency and its cheap/expensive forward counts are
-included in runtime profiling.
+Validation selection result:
 
-There is no full v2 benchmark result yet. The next scientific result must come
-from generating all 427 fixed-split rows, selecting the policy only on the
-85-task validation split, freezing it, and evaluating the 85-task test split
-once. Agreement probing performs an expensive-model prompt prefill, so real
-latency must be reported alongside pass rate, PR-AUC and expensive recall.
+| Policy | Pass rate | Avg score | Expensive routes | Estimated saved |
+|---|---:|---:|---:|---:|
+| frozen classifier TF-IDF | 62.35% | 0.6353 | 58/85 | 20.65% |
+
+The frozen policy was then evaluated once on the untouched test split:
+
+| Policy | Pass rate | Avg score | Expensive routes | PR-AUC | ROC-AUC | Expensive recall |
+|---|---:|---:|---:|---:|---:|---:|
+| cheap_only | 41.18% | 0.4314 | 0/85 | - | - | - |
+| expensive_only | 49.41% | 0.5098 | 85/85 | - | - | - |
+| historical prompt_router_ml_v1 | 45.88% | 0.4824 | 8/85 | 0.5188 | 0.7056 | 27.78% |
+| frozen prompt_router_ml_v2 | **50.59%** | **0.5294** | 50/85 | 0.4486 | 0.6517 | 72.22% |
+| oracle | 58.82% | 0.6118 | task-dependent | - | - | 100.00% |
+
+The v2 router passed 43/85 tasks, one more than `expensive_only` at 42/85,
+while routing 35 prompts to `cheap_only`. Under the simple prompt-route cost
+model, that route mix corresponds to 26.76% theoretical savings. The
+token-count-derived cost proxy in the artifact was 2162.25 versus 2235.00 for
+`expensive_only`, a smaller 3.26% reduction. Neither number is wall-clock
+speedup; the frozen policy still requires a repeated latency benchmark.
+
+This is preliminary held-out evidence of useful cheap/expensive model
+complementarity, not a universal quality or speed claim. Expensive-route
+precision was only 26.00%, so the router over-routed many oracle-cheap prompts.
+The probing candidates were not selected on validation, which is a negative
+result for the current probing representation rather than evidence that such
+features can never help.

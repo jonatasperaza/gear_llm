@@ -1,0 +1,250 @@
+cheap_score,delta_score_pred,delta_score_true,expensive_score,mbpp_task_id,pred_label,prompt,route_cheap_cost,route_expensive_cost,task_id,true_label
+1.0,0.16996279924567476,0.0,1.0,743,expensive_only,"Write a Python function for the task below. The function must be named rotate_right. Return only Python code.
+
+Task: Wri",0.35,1.0,mbpp_task743,cheap_only
+1.0,0.3339477283142442,0.0,1.0,573,expensive_only,"Write a Python function for the task below. The function must be named unique_product. Return only Python code.
+
+Task: W",0.35,1.0,mbpp_task573,cheap_only
+1.0,0.23974565143404858,0.0,1.0,115,expensive_only,"Write a Python function for the task below. The function must be named empty_dit. Return only Python code.
+
+Task: Write ",0.35,1.0,mbpp_task115,cheap_only
+1.0,0.15618236276513647,0.0,1.0,628,expensive_only,"Write a Python function for the task below. The function must be named replace_spaces. Return only Python code.
+
+Task: W",0.35,1.0,mbpp_task628,cheap_only
+0.0,0.2639312416669218,1.0,1.0,726,expensive_only,"Write a Python function for the task below. The function must be named multiply_elements. Return only Python code.
+
+Task",50.35,1.0,mbpp_task726,expensive_only
+0.0,0.06611005323263755,1.0,1.0,168,expensive_only,"Write a Python function for the task below. The function must be named frequency. Return only Python code.
+
+Task: Write ",50.35,1.0,mbpp_task168,expensive_only
+0.0,0.0023257912141567277,1.0,1.0,166,expensive_only,"Write a Python function for the task below. The function must be named find_even_pair. Return only Python code.
+
+Task: W",50.35,1.0,mbpp_task166,expensive_only
+1.0,-0.19663906953401666,0.0,1.0,591,expensive_only,"Write a Python function for the task below. The function must be named swap_List. Return only Python code.
+
+Task: Write ",0.35,1.0,mbpp_task591,cheap_only
+0.0,-0.030712543769631534,1.0,1.0,457,expensive_only,"Write a Python function for the task below. The function must be named Find_Min. Return only Python code.
+
+Task: Write a",50.35,1.0,mbpp_task457,expensive_only
+1.0,-0.3885582838217766,0.0,1.0,277,cheap_only,"Write a Python function for the task below. The function must be named dict_filter. Return only Python code.
+
+Task: Writ",0.35,1.0,mbpp_task277,cheap_only
+1.0,-0.1270312304987925,0.0,1.0,554,expensive_only,"Write a Python function for the task below. The function must be named Split. Return only Python code.
+
+Task: Write a py",0.35,1.0,mbpp_task554,cheap_only
+1.0,0.3200197918594516,0.0,1.0,94,expensive_only,"Write a Python function for the task below. The function must be named index_minimum. Return only Python code.
+
+Task: Gi",0.35,1.0,mbpp_task94,cheap_only
+1.0,0.06823287933543672,0.0,1.0,460,expensive_only,"Write a Python function for the task below. The function must be named Extract. Return only Python code.
+
+Task: Write a ",0.35,1.0,mbpp_task460,cheap_only
+0.0,-0.015039701287650246,1.0,1.0,778,expensive_only,Write a Python function for the task below. The function must be named pack_consecutive_duplicates. Return only Python c,50.35,1.0,mbpp_task778,expensive_only
+1.0,0.22296120278218967,0.0,1.0,806,expensive_only,"Write a Python function for the task below. The function must be named max_run_uppercase. Return only Python code.
+
+Task",0.35,1.0,mbpp_task806,cheap_only
+0.0,0.0012906022380450854,1.0,1.0,478,expensive_only,"Write a Python function for the task below. The function must be named remove_lowercase. Return only Python code.
+
+Task:",50.35,1.0,mbpp_task478,expensive_only
+1.0,0.0003017295722549454,0.0,1.0,170,expensive_only,"Write a Python function for the task below. The function must be named sum_range_list. Return only Python code.
+
+Task: W",0.35,1.0,mbpp_task170,cheap_only
+1.0,0.2786467654440148,0.0,1.0,618,expensive_only,"Write a Python function for the task below. The function must be named div_list. Return only Python code.
+
+Task: Write a",0.35,1.0,mbpp_task618,cheap_only
+0.0,0.18575480945432027,0.0,0.0,255,expensive_only,"Write a Python function for the task below. The function must be named combinations_colors. Return only Python code.
+
+Ta",50.35,51.0,mbpp_task255,cheap_only
+0.0,0.42064718675902074,0.0,0.0,633,expensive_only,"Write a Python function for the task below. The function must be named pair_xor_Sum. Return only Python code.
+
+Task: Wri",50.35,51.0,mbpp_task633,cheap_only
+0.0,-0.06385468998405984,0.0,0.0,595,expensive_only,"Write a Python function for the task below. The function must be named min_Swaps. Return only Python code.
+
+Task: Write ",50.35,51.0,mbpp_task595,cheap_only
+0.0,0.4755452693347026,0.0,0.0,735,expensive_only,"Write a Python function for the task below. The function must be named toggle_middle_bits. Return only Python code.
+
+Tas",50.35,51.0,mbpp_task735,cheap_only
+1.0,-0.07692564365022153,0.0,1.0,118,expensive_only,"Write a Python function for the task below. The function must be named string_to_list. Return only Python code.
+
+Task: W",0.35,1.0,mbpp_task118,cheap_only
+0.0,0.5837571018482028,1.0,1.0,131,expensive_only,"Write a Python function for the task below. The function must be named reverse_vowels. Return only Python code.
+
+Task: W",50.35,1.0,mbpp_task131,expensive_only
+1.0,0.15788158217477566,0.0,1.0,578,expensive_only,"Write a Python function for the task below. The function must be named interleave_lists. Return only Python code.
+
+Task:",0.35,1.0,mbpp_task578,cheap_only
+0.0,0.40794855706979444,0.0,0.0,722,expensive_only,"Write a Python function for the task below. The function must be named filter_data. Return only Python code.
+
+Task: The ",50.35,51.0,mbpp_task722,cheap_only
+0.0,0.20484194604739342,0.0,0.0,619,expensive_only,"Write a Python function for the task below. The function must be named move_num. Return only Python code.
+
+Task: Write a",50.35,51.0,mbpp_task619,cheap_only
+0.0,-0.195571795486762,1.0,1.0,129,expensive_only,"Write a Python function for the task below. The function must be named magic_square_test. Return only Python code.
+
+Task",50.35,1.0,mbpp_task129,expensive_only
+1.0,0.013625310388308859,0.0,1.0,284,expensive_only,"Write a Python function for the task below. The function must be named check_element. Return only Python code.
+
+Task: Wr",0.35,1.0,mbpp_task284,cheap_only
+1.0,0.16826794278395596,0.0,1.0,804,expensive_only,"Write a Python function for the task below. The function must be named is_product_even. Return only Python code.
+
+Task: ",0.35,1.0,mbpp_task804,cheap_only
+0.0,-0.1951937905784371,1.0,1.0,413,expensive_only,"Write a Python function for the task below. The function must be named extract_nth_element. Return only Python code.
+
+Ta",50.35,1.0,mbpp_task413,expensive_only
+0.0,-0.639770404375706,0.0,0.0,141,cheap_only,"Write a Python function for the task below. The function must be named pancake_sort. Return only Python code.
+
+Task: Wri",50.35,51.0,mbpp_task141,cheap_only
+0.0,0.11159933988950044,0.0,0.0,785,expensive_only,"Write a Python function for the task below. The function must be named tuple_str_int. Return only Python code.
+
+Task: Wr",50.35,51.0,mbpp_task785,cheap_only
+1.0,0.19668887440280863,0.0,1.0,565,expensive_only,"Write a Python function for the task below. The function must be named split. Return only Python code.
+
+Task: Write a py",0.35,1.0,mbpp_task565,cheap_only
+0.6666666666666666,0.2630763108211092,0.0,0.6666666666666666,753,expensive_only,"Write a Python function for the task below. The function must be named min_k. Return only Python code.
+
+Task: Write a fu",50.35,51.0,mbpp_task753,cheap_only
+0.0,0.1220615224390784,0.0,0.0,737,expensive_only,"Write a Python function for the task below. The function must be named check_str. Return only Python code.
+
+Task: Write ",50.35,51.0,mbpp_task737,cheap_only
+0.0,0.282588039133901,0.0,0.0,437,expensive_only,"Write a Python function for the task below. The function must be named remove_odd. Return only Python code.
+
+Task: Write",50.35,51.0,mbpp_task437,cheap_only
+1.0,0.09098770704899653,0.0,1.0,766,expensive_only,"Write a Python function for the task below. The function must be named pair_wise. Return only Python code.
+
+Task: Write ",0.35,1.0,mbpp_task766,cheap_only
+1.0,0.26843911528587544,-1.0,0.0,419,expensive_only,"Write a Python function for the task below. The function must be named round_and_sum. Return only Python code.
+
+Task: Wr",0.35,51.0,mbpp_task419,cheap_only
+1.0,0.23495692031216658,-1.0,0.0,411,expensive_only,"Write a Python function for the task below. The function must be named snake_to_camel. Return only Python code.
+
+Task: W",0.35,51.0,mbpp_task411,cheap_only
+0.3333333333333333,-0.1100873579723405,0.6666666666666667,1.0,69,expensive_only,"Write a Python function for the task below. The function must be named is_sublist. Return only Python code.
+
+Task: Write",50.35,1.0,mbpp_task69,expensive_only
+0.0,0.012547416123545992,0.0,0.0,725,expensive_only,"Write a Python function for the task below. The function must be named extract_quotation. Return only Python code.
+
+Task",50.35,51.0,mbpp_task725,cheap_only
+1.0,-0.052688293949033585,0.0,1.0,425,expensive_only,"Write a Python function for the task below. The function must be named count_element_in_list. Return only Python code.
+
+",0.35,1.0,mbpp_task425,cheap_only
+0.0,0.0587646712514663,0.0,0.0,747,expensive_only,"Write a Python function for the task below. The function must be named lcs_of_three. Return only Python code.
+
+Task: Wri",50.35,51.0,mbpp_task747,cheap_only
+1.0,0.014002122248956,0.0,1.0,394,expensive_only,"Write a Python function for the task below. The function must be named check_distinct. Return only Python code.
+
+Task: W",0.35,1.0,mbpp_task394,cheap_only
+0.0,0.7980010934586126,0.0,0.0,721,expensive_only,"Write a Python function for the task below. The function must be named maxAverageOfPath. Return only Python code.
+
+Task:",50.35,51.0,mbpp_task721,cheap_only
+0.0,-0.046905023588259834,0.0,0.0,734,expensive_only,"Write a Python function for the task below. The function must be named sum_Of_Subarray_Prod. Return only Python code.
+
+T",50.35,51.0,mbpp_task734,cheap_only
+0.0,0.2754349133484073,0.0,0.0,410,expensive_only,"Write a Python function for the task below. The function must be named min_val. Return only Python code.
+
+Task: Write a ",50.35,51.0,mbpp_task410,cheap_only
+0.0,0.18254027473125778,1.0,1.0,724,expensive_only,"Write a Python function for the task below. The function must be named power_base_sum. Return only Python code.
+
+Task: W",50.35,1.0,mbpp_task724,expensive_only
+1.0,0.7303383172873987,0.0,1.0,555,expensive_only,"Write a Python function for the task below. The function must be named difference. Return only Python code.
+
+Task: Write",0.35,1.0,mbpp_task555,cheap_only
+1.0,-0.0010685459168764608,0.0,1.0,399,expensive_only,"Write a Python function for the task below. The function must be named bitwise_xor. Return only Python code.
+
+Task: Writ",0.35,1.0,mbpp_task399,cheap_only
+0.3333333333333333,0.4332794465270718,0.6666666666666667,1.0,589,expensive_only,"Write a Python function for the task below. The function must be named perfect_squares. Return only Python code.
+
+Task: ",50.35,1.0,mbpp_task589,expensive_only
+0.0,-0.08898146662477244,1.0,1.0,762,expensive_only,Write a Python function for the task below. The function must be named check_monthnumber_number. Return only Python code,50.35,1.0,mbpp_task762,expensive_only
+1.0,0.035302166832457564,0.0,1.0,17,expensive_only,"Write a Python function for the task below. The function must be named square_perimeter. Return only Python code.
+
+Task:",0.35,1.0,mbpp_task17,cheap_only
+0.0,0.27222934238558516,0.0,0.0,809,expensive_only,"Write a Python function for the task below. The function must be named check_smaller. Return only Python code.
+
+Task: Wr",50.35,51.0,mbpp_task809,cheap_only
+1.0,0.05893019899559074,0.0,1.0,741,expensive_only,"Write a Python function for the task below. The function must be named all_Characters_Same. Return only Python code.
+
+Ta",0.35,1.0,mbpp_task741,cheap_only
+1.0,-0.2947398022830165,0.0,1.0,605,cheap_only,"Write a Python function for the task below. The function must be named prime_num. Return only Python code.
+
+Task: Write ",0.35,1.0,mbpp_task605,cheap_only
+0.0,-0.11542050797702531,0.0,0.0,479,expensive_only,"Write a Python function for the task below. The function must be named first_Digit. Return only Python code.
+
+Task: Writ",50.35,51.0,mbpp_task479,cheap_only
+1.0,0.27206100385647075,0.0,1.0,171,expensive_only,"Write a Python function for the task below. The function must be named perimeter_pentagon. Return only Python code.
+
+Tas",0.35,1.0,mbpp_task171,cheap_only
+0.0,-0.42955122377710997,0.0,0.0,304,cheap_only,"Write a Python function for the task below. The function must be named find_Element. Return only Python code.
+
+Task: Wri",50.35,51.0,mbpp_task304,cheap_only
+0.0,-0.23072932919143202,0.0,0.0,637,cheap_only,"Write a Python function for the task below. The function must be named noprofit_noloss. Return only Python code.
+
+Task: ",50.35,51.0,mbpp_task637,cheap_only
+0.0,0.366348089270735,0.0,0.0,229,expensive_only,"Write a Python function for the task below. The function must be named re_arrange_array. Return only Python code.
+
+Task:",50.35,51.0,mbpp_task229,cheap_only
+0.0,0.27278231598005626,1.0,1.0,82,expensive_only,"Write a Python function for the task below. The function must be named volume_sphere. Return only Python code.
+
+Task: Wr",50.35,1.0,mbpp_task82,expensive_only
+0.3333333333333333,0.22282039952165617,-0.3333333333333333,0.0,239,expensive_only,Write a Python function for the task below. The function must be named get_total_number_of_sequences. Return only Python,50.35,51.0,mbpp_task239,cheap_only
+1.0,0.35021210839908995,0.0,1.0,606,expensive_only,"Write a Python function for the task below. The function must be named radian_degree. Return only Python code.
+
+Task: Wr",0.35,1.0,mbpp_task606,cheap_only
+1.0,0.08052550369991562,0.0,1.0,139,expensive_only,"Write a Python function for the task below. The function must be named circle_circumference. Return only Python code.
+
+T",0.35,1.0,mbpp_task139,cheap_only
+0.3333333333333333,-0.06690552169481659,-0.3333333333333333,0.0,608,expensive_only,"Write a Python function for the task below. The function must be named bell_Number. Return only Python code.
+
+Task: Writ",50.35,51.0,mbpp_task608,cheap_only
+1.0,-0.10919478320201915,0.0,1.0,600,expensive_only,"Write a Python function for the task below. The function must be named is_Even. Return only Python code.
+
+Task: Write a ",0.35,1.0,mbpp_task600,cheap_only
+0.0,0.13182002098855783,0.0,0.0,401,expensive_only,"Write a Python function for the task below. The function must be named add_nested_tuples. Return only Python code.
+
+Task",50.35,51.0,mbpp_task401,cheap_only
+1.0,0.09895381549003855,0.0,1.0,79,expensive_only,"Write a Python function for the task below. The function must be named word_len. Return only Python code.
+
+Task: Write a",0.35,1.0,mbpp_task79,cheap_only
+0.3333333333333333,0.3986578816931618,0.6666666666666667,1.0,558,expensive_only,"Write a Python function for the task below. The function must be named digit_distance_nums. Return only Python code.
+
+Ta",50.35,1.0,mbpp_task558,expensive_only
+0.0,0.5812639134644675,0.0,0.0,126,expensive_only,"Write a Python function for the task below. The function must be named sum. Return only Python code.
+
+Task: Write a pyth",50.35,51.0,mbpp_task126,cheap_only
+0.0,0.5653790068476507,1.0,1.0,266,expensive_only,"Write a Python function for the task below. The function must be named lateralsurface_cube. Return only Python code.
+
+Ta",50.35,1.0,mbpp_task266,expensive_only
+1.0,0.2790591594612181,0.0,1.0,257,expensive_only,"Write a Python function for the task below. The function must be named swap_numbers. Return only Python code.
+
+Task: Wri",0.35,1.0,mbpp_task257,cheap_only
+0.0,-0.1283127414650173,0.0,0.0,644,expensive_only,"Write a Python function for the task below. The function must be named reverse_Array_Upto_K. Return only Python code.
+
+T",50.35,51.0,mbpp_task644,cheap_only
+1.0,0.5973550466617359,0.0,1.0,273,expensive_only,"Write a Python function for the task below. The function must be named substract_elements. Return only Python code.
+
+Tas",0.35,1.0,mbpp_task273,cheap_only
+0.0,0.49372444982233377,0.0,0.0,630,expensive_only,"Write a Python function for the task below. The function must be named get_coordinates. Return only Python code.
+
+Task: ",50.35,51.0,mbpp_task630,cheap_only
+1.0,0.018837289289385478,0.0,1.0,101,expensive_only,"Write a Python function for the task below. The function must be named kth_element. Return only Python code.
+
+Task: Writ",0.35,1.0,mbpp_task101,cheap_only
+0.0,0.40000912995799937,0.0,0.0,279,expensive_only,"Write a Python function for the task below. The function must be named is_num_decagonal. Return only Python code.
+
+Task:",50.35,51.0,mbpp_task279,cheap_only
+1.0,0.009755329362240404,0.0,1.0,93,expensive_only,"Write a Python function for the task below. The function must be named power. Return only Python code.
+
+Task: Write a fu",0.35,1.0,mbpp_task93,cheap_only
+1.0,0.28925818840129036,0.0,1.0,744,expensive_only,"Write a Python function for the task below. The function must be named check_none. Return only Python code.
+
+Task: Write",0.35,1.0,mbpp_task744,cheap_only
+1.0,-0.40276782020365764,0.0,1.0,577,cheap_only,"Write a Python function for the task below. The function must be named last_Digit_Factorial. Return only Python code.
+
+T",0.35,1.0,mbpp_task577,cheap_only
+1.0,-0.030359797417555165,0.0,1.0,137,expensive_only,"Write a Python function for the task below. The function must be named zero_count. Return only Python code.
+
+Task: Write",0.35,1.0,mbpp_task137,cheap_only
+1.0,-0.0758586138192572,0.0,1.0,751,expensive_only,"Write a Python function for the task below. The function must be named check_min_heap. Return only Python code.
+
+Task: W",0.35,1.0,mbpp_task751,cheap_only
+1.0,0.18854057701648647,0.0,1.0,458,expensive_only,"Write a Python function for the task below. The function must be named rectangle_area. Return only Python code.
+
+Task: W",0.35,1.0,mbpp_task458,cheap_only
