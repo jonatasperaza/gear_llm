@@ -455,8 +455,8 @@ This section records five concerns raised by an external critique and the curren
   and latency features.
 - Optimize threshold and class weight on validation, emphasizing
   expensive-route recall.
-- Measure real latency of the frozen no-probing policy and validate the route
-  rule on a new external code dataset before further tuning.
+- Replicate the frozen no-probing latency run while preserving task-level CSVs,
+  then validate the route rule on a new external code dataset before tuning.
 
 ### 5. Budget Caps May Trade Away Quality
 

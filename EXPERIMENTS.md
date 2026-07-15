@@ -370,8 +370,11 @@ pass rate and 0.5294 average score, versus 49.41% and 0.5098 for
 `expensive_only`. It selected the expensive model for 50 prompts and the cheap
 model for 35. Expensive-needed recall was 72.22%, precision was 26.00%,
 PR-AUC was 0.4486, and ROC-AUC was 0.6517. The simple route-mix estimate is
-26.76% savings, but real latency for the frozen no-probing policy remains to be
-measured.
+26.76% savings. A later split-GPU run with one warmup and three measured runs
+reported 21.47% average per-task real speedup: 9.709s average generation time
+for v2 versus 15.438s for `expensive_only`. The detailed CSVs were lost, so
+only the aggregate terminal output is available and the result needs an
+artifact-preserving replication.
 
 This test must not be reused for threshold or representation tuning. Future
 changes require a new external dataset or a newly declared split.

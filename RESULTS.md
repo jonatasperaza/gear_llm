@@ -553,8 +553,8 @@ The v2 router passed 43/85 tasks, one more than `expensive_only` at 42/85,
 while routing 35 prompts to `cheap_only`. Under the simple prompt-route cost
 model, that route mix corresponds to 26.76% theoretical savings. The
 token-count-derived cost proxy in the artifact was 2162.25 versus 2235.00 for
-`expensive_only`, a smaller 3.26% reduction. Neither number is wall-clock
-speedup; the frozen policy still requires a repeated latency benchmark.
+`expensive_only`, a smaller 3.26% reduction. A later repeated latency run is
+reported below.
 
 This is preliminary held-out evidence of useful cheap/expensive model
 complementarity, not a universal quality or speed claim. Expensive-route
@@ -562,3 +562,27 @@ precision was only 26.00%, so the router over-routed many oracle-cheap prompts.
 The probing candidates were not selected on validation, which is a negative
 result for the current probing representation rather than evidence that such
 features can never help.
+
+### Repeated Latency Follow-up — Recovered Console Result
+
+The frozen no-probing policy was benchmarked on the same 85 held-out tasks with
+one warmup and three measured runs. The generated CSV files were lost, so the
+following aggregate result was recovered from the printed Kaggle output. No
+task-level latency rows are available for independent auditing.
+
+| Mode | Pass rate | Avg score | Avg real speedup | Avg estimated saved | Avg expensive calls | Avg time | Std time |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| expensive_only | 49.41% | 0.510 | 0.00% | 0.00% | 150.96 | 15.438s | 10.324s |
+| prompt_router_ml_v2 | **50.59%** | **0.529** | **21.47%** | 26.76% | 76.52 | **9.709s** | 7.657s |
+
+This is the first real-latency result for the validation-frozen prompt router.
+It preserves the held-out correctness result while reporting 21.47% average
+per-task speedup. The average number of expensive forwards fell from 150.96 to
+76.52. This is preliminary evidence, not a production claim: standard
+deviations are high, the detailed CSVs were not preserved, and the measurement
+comes from one split-GPU Kaggle environment.
+
+The 21.47% value is the benchmark's mean of per-task speedups. It should not be
+recomputed as the ratio of aggregate mean times, because those aggregations
+weight tasks differently. The recovered aggregate is stored in
+`results/router_v2_latency/recovered_console_summary.csv`.

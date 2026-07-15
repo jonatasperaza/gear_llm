@@ -314,9 +314,26 @@ frozen policy was evaluated once on test:
 
 V2 passed 43 tasks, versus 42 for `expensive_only`, while choosing cheap for
 35 prompts. The route mix gives 26.76% theoretical savings; the artifact's
-token-count cost proxy improved by only 3.26%, and real wall-clock speedup has
-not yet been measured. Expensive precision was 26.00%. Probing was not selected
-on validation, so its current form did not improve the quality/cost trade-off.
+token-count cost proxy improved by only 3.26%. Expensive precision was 26.00%.
+Probing was not selected on validation, so its current form did not improve the
+quality/cost trade-off.
+
+### 8.2 Frozen-Policy Latency Follow-up
+
+The frozen no-probing policy was subsequently timed on the same 85 tasks with
+one warmup and three measured runs in the split-GPU Kaggle setup. The detailed
+CSVs were lost; these aggregates were recovered from terminal output:
+
+| Mode | Pass rate | Avg real speedup | Avg calls | Avg time | Std time |
+|---|---:|---:|---:|---:|---:|
+| expensive_only | 49.41% | 0.00% | 150.96 | 15.438s | 10.324s |
+| prompt_router_ml_v2 | **50.59%** | **21.47%** | 76.52 | **9.709s** | 7.657s |
+
+The result is preliminary evidence that the prompt-level policy can avoid the
+double-forward overhead of token-level routing and produce a real latency gain.
+The 21.47% figure is the mean of per-task speedups, not the ratio of aggregate
+mean times. High variance and missing task-level artifacts require a clean
+replication before stronger claims.
 
 The current evidence supports model complementarity and the computational
 structure of prompt-level routing. The fixed-split result is preliminary
@@ -465,12 +482,12 @@ score, compared with 49.41% and 0.5098 for `expensive_only`. It chose the cheap
 model for 35/85 prompts, reached 72.22% recall and 26.00% precision for the
 expensive-needed class, with PR-AUC 0.4486 and ROC-AUC 0.6517. The route mix
 implies 26.76% theoretical savings, while the token-count cost proxy improved
-only 3.26%. Real wall-clock latency has not yet been measured for this frozen
-policy.
+only 3.26%. The later recovered Kaggle timing reported 21.47% average per-task
+real speedup, but its detailed CSV artifacts were not preserved.
 
 The next phase should broaden quality and systems validation:
 
-- Benchmark real latency of the frozen no-probing router.
+- Repeat the frozen-policy latency benchmark and preserve all task-level artifacts.
 - Validate it on a new external code dataset without retuning on the consumed test split.
 - Revisit probing features only through a new validation protocol.
 - Report expensive recall, PR-AUC, task score, route percentage, and real latency together.
@@ -577,6 +594,6 @@ between Qwen2.5-Coder-0.5B and 3B.
 
 This does not close the thesis. Manual rules and the first TF-IDF router failed
 to generalize reliably; fixed-split v2 produced a small held-out improvement,
-but still needs external replication and real latency measurement. The project
+but still needs external and artifact-preserving latency replication. The project
 should be treated as preliminary experimental research into cheap/expensive
 model routing, not as a production-ready inference engine.
